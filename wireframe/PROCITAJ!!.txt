@@ -1,0 +1,2 @@
+wireframe smo u velikoj meri organizovali kao "tutorial" kako bismo sto bolje objasnili kako smo zamislili aplikaciju
+zato je vazno da se PREZENTACIJA POKRENE OD PRVOG WIREFRAME-A (KOJI SE ZOVE "Main Page")
