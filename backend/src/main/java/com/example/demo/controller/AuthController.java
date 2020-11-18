@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.ProfileDTO;
+import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.model.User;
 import com.example.demo.security.TokenUtils;
 import com.example.demo.service.UserService;
@@ -36,6 +37,11 @@ public class AuthController {
 		String accessToken = this.tokenUtils.generateToken(loginDTO.getEmail());
 		User user = (User) this.userService.loadUserByUsername(loginDTO.getEmail());
 		return new ResponseEntity<>(new ProfileDTO(user, accessToken), HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/has_email")
+	public ResponseEntity<Boolean> hasEmail(@RequestBody UniqueCheckDTO param) {
+		return new ResponseEntity<>(this.userService.hasEmail(param), HttpStatus.OK);
 	}
 	
 }
