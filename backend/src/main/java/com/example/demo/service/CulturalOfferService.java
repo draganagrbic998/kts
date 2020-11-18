@@ -36,6 +36,7 @@ public class CulturalOfferService {
 
 	@Transactional(readOnly = true)
 	public Page<CulturalOffer> filter(FilterParamsDTO filterParams, Pageable pageable){
+		System.out.println(this.culturalOfferRepository.count());
 		return this.culturalOfferRepository.filter(filterParams.getName(), filterParams.getLocation(), filterParams.getType(), pageable);
 	}
 

@@ -26,8 +26,9 @@ export class MapComponent implements OnInit {
   }
 
   markOnMap(culturalOffer: CulturalOffer): void{
-    this.balloon = true;
+    this.balloon = false;
     this.center = culturalOffer;
+    this.balloon = true;
   }
 
   showDetails(culturalOffer: CulturalOffer): void{
@@ -67,6 +68,7 @@ export class MapComponent implements OnInit {
   }
 
   openBalloon(event): void{
+    console.log(event.instance.balloon.open);
     event.instance.balloon.open();
   }
 

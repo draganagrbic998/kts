@@ -31,7 +31,7 @@
 
         <div *ngIf="guest" class="tabs">
             <mat-tab-group headerPosition="below" animationDuration="0ms"
-            (selectedIndexChange)="selectedTag=$event">
+            (selectedIndexChange)="changeTab($event)">
                 <mat-tab [label]="title[0]">
                 </mat-tab>
                 <mat-tab [label]="title[1]">
