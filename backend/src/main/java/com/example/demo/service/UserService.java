@@ -12,8 +12,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.constants.Constants;
 import com.example.demo.dto.UniqueCheckDTO;
+import com.example.demo.model.CulturalOffer;
 import com.example.demo.model.User;
+import com.example.demo.repository.UserFollowingRepository;
 import com.example.demo.repository.UserRepository;
 
 @Component
@@ -22,6 +25,9 @@ public class UserService implements UserDetailsService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private UserFollowingRepository userFollowingRepository;
 	
 	@Autowired
 	private ImageService imageService;
@@ -55,5 +61,23 @@ public class UserService implements UserDetailsService {
 		}
 		return true;
 	}
+	
+	@Transactional(readOnly = true)
+	public boolean userIsFollowing(CulturalOffer culturalOffer) {
+		User user = this.getCurrentUser();
+		if (user == null) {
+			return false;
+		}
+		if (user.getAuthority().getName() == Constants.ADMIN_AUTHORITY) {
+			return false;
+		}
+		for (CulturalOffer co: this.userFollowingRepository.findCulturalOfferByUserId(user.getId())) {
+			if (co.getId().equals(culturalOffer.getId())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 		
 }

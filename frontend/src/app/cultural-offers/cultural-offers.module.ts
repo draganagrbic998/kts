@@ -9,6 +9,9 @@ import { CulturalListComponent } from './cultural-list/cultural-list.component';
   declarations: [CulturalDetailsComponent, CulturalListComponent],
   imports: [
     LayoutModule
+  ], 
+  exports: [
+    CulturalListComponent
   ]
 })
 export class CulturalOffersModule { }

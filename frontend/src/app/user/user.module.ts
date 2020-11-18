@@ -13,6 +13,9 @@ import { ProfileDetailsComponent } from './components/profile-details/profile-de
   imports: [
     UserRoutingModule,
     LayoutModule
+  ], 
+  exports: [
+    ProfileDetailsComponent
   ]
 })
 export class UserModule { }

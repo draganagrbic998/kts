@@ -25,6 +25,11 @@ export class MapComponent implements OnInit {
     return DEFAULT_MAP_CENTER;
   }
 
+  markOnMap(culturalOffer: CulturalOffer): void{
+    this.balloon = true;
+    this.center = culturalOffer;
+  }
+
   showDetails(culturalOffer: CulturalOffer): void{
   }
 
