@@ -47,6 +47,13 @@ export class HomeComponent implements OnInit {
     return this.authService.getUser()?.role === GUEST_ROLE;
   }
 
+  changeTab(index: number): void{
+    this.selectedTag = index;
+    if (this.fetchPending[this.selectedTag]){
+      this.fetchData();
+    }
+  }
+
   changePage(amount: number): void{
     this.pageNumber[this.selectedTag] += amount;
     this.fetchData();
