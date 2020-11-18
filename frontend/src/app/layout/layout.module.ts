@@ -5,6 +5,11 @@ import { SpinnerButtonComponent } from './spinner-button/spinner-button.componen
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { ImageInputComponent } from './image-input/image-input.component';
+import { SpacerContainerComponent } from './spacer-container/spacer-container.component';
+import { BoldTextComponent } from './bold-text/bold-text.component';
+import { PreloaderComponent } from './preloader/preloader.component';
+
 import { MatCardModule } from '@angular/material/card'
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,10 +20,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
-import { ImageInputComponent } from './image-input/image-input.component';
-import { SpacerContainerComponent } from './spacer-container/spacer-container.component';
-import { BoldTextComponent } from './bold-text/bold-text.component';
-import { PreloaderComponent } from './preloader/preloader.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+
 
 @NgModule({
   declarations: [
@@ -55,7 +59,10 @@ import { PreloaderComponent } from './preloader/preloader.component';
     MatTooltipModule,
     MatIconModule,
     MatMenuModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule,
+    MatExpansionModule,
+    MatAutocompleteModule
   ]
 })
 export class LayoutModule { }

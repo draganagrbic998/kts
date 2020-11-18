@@ -1,12 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CulturalDetailsComponent } from './cultural-details/cultural-details.component';
+import { LayoutModule } from '../layout/layout.module';
+import { CulturalListComponent } from './cultural-list/cultural-list.component';
 
 
 
 @NgModule({
-  declarations: [],
+  declarations: [CulturalDetailsComponent, CulturalListComponent],
   imports: [
-    CommonModule
+    LayoutModule
   ]
 })
 export class CulturalOffersModule { }

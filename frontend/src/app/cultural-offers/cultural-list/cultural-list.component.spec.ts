@@ -1,22 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
-import { MapComponent } from './map.component';
+import { CulturalListComponent } from './cultural-list.component';
 
-describe('MapComponent', () => {
-  let component: MapComponent;
-  let fixture: ComponentFixture<MapComponent>;
+describe('CulturalListComponent', () => {
+  let component: CulturalListComponent;
+  let fixture: ComponentFixture<CulturalListComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MapComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      declarations: [ CulturalListComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MapComponent);
+    fixture = TestBed.createComponent(CulturalListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

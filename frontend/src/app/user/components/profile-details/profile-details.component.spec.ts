@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LayoutModule } from 'src/app/layout/layout.module';
 import { AuthService } from 'src/app/utils/services/auth.service';
@@ -21,8 +20,7 @@ describe('ProfileDetailsComponent', () => {
       declarations: [ ProfileDetailsComponent ],
       imports: [
         RouterTestingModule,
-        LayoutModule,
-        BrowserAnimationsModule
+        LayoutModule
       ],
       providers: [
         {provide: AuthService, useValue: authServiceMock},

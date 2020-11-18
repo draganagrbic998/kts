@@ -1,0 +1,43 @@
+<div class="header mat-elevation-z8">
+
+    <div class="paginator-container">
+        <app-spacer-container>
+            <span>
+                <button 
+                *ngIf="!fetchPending && hasPrevious"
+                mat-icon-button 
+                (click)="onChangePage.emit(-1)">
+                    <mat-icon color="accent" class="big-icon" matTooltip="previous page">navigate_before</mat-icon>
+                </button>
+            </span>
+    
+            <span class="title">
+                {{title}}
+            </span>
+    
+            <span>
+                <button 
+                *ngIf="!fetchPending && hasNext"
+                mat-icon-button 
+                (click)="onChangePage.emit(1)">
+                    <mat-icon color="accent" class="big-icon" matTooltip="next page" >navigate_next</mat-icon>
+                </button>
+            </span>
+        </app-spacer-container>
+    
+    </div>
+    
+</div>
+
+<div class="block"></div>
+
+<app-preloader *ngIf="fetchPending && !panelOpenState"></app-preloader>
+
+<div *ngIf="!fetchPending && !culturalOffers?.length" class="empty-container">
+    NO CULTURAL OFFERS
+</div>
+
+<app-cultural-details *ngFor="let culturalOffer of culturalOffers"
+    [culturalOffer]="culturalOffer"
+    (onMarkOnMap)="onMarkOnMap.emit(culturalOffer)"
+></app-cultural-details>
