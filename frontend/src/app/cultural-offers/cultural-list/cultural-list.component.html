@@ -33,11 +33,92 @@
 
 <app-preloader *ngIf="fetchPending && !panelOpenState"></app-preloader>
 
-<div *ngIf="!fetchPending && !culturalOffers?.length" class="empty-container">
-    NO CULTURAL OFFERS
+<div class="filter-container">
+    <mat-expansion-panel hideToggle 
+    (opened)="panelOpenState=true" (closed)="panelOpenState=false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <span></span>
+                <span class="center-container">
+                    <mat-icon color="accent">search</mat-icon>
+                    <span class="filter-button">Filter</span>
+                </span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <form [formGroup]="filterForm" [class.disabled]="fetchPending">
+            <mat-form-field appearance="outline"> 
+                <input 
+                matInput 
+                autocomplete="off" 
+                formControlName="name"
+                placeholder="Filter by name..."
+                [matAutocomplete]="namesAuto"
+                (input)="fetchNames()">  
+                <mat-autocomplete #namesAuto="matAutocomplete">
+                    <mat-option *ngFor="let name of names | async" [value]="name">
+                      {{name}}
+                    </mat-option>
+                </mat-autocomplete>      
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="outline"> 
+                <input 
+                matInput 
+                autocomplete="off" 
+                formControlName="location"
+                placeholder="Filter by location..."
+                [matAutocomplete]="citiesAuto"
+                (input)="fetchLocations()">  
+                <mat-autocomplete #citiesAuto="matAutocomplete">
+                    <mat-option *ngFor="let location of locations | async" [value]="location">
+                      {{location}}
+                    </mat-option>
+                </mat-autocomplete>      
+            </mat-form-field>
+
+            <br>
+
+            <mat-form-field appearance="outline"> 
+                <input 
+                matInput 
+                autocomplete="off" 
+                formControlName="type"
+                placeholder="Filter by type..."
+                [matAutocomplete]="typesAuto"
+                (input)="fetchTypes()">  
+                <mat-autocomplete #typesAuto="matAutocomplete">
+                    <mat-option *ngFor="let type of types | async" [value]="type">
+                      {{type}}
+                    </mat-option>
+                </mat-autocomplete>      
+            </mat-form-field>
+        </form>
+        
+        <br>
+
+        <app-spacer-container>
+            <span></span>
+            <span>
+                <button 
+                *ngIf="!fetchPending"
+                mat-raised-button 
+                color="accent"               
+                (click)="onFilterData.emit()">Filter</button>
+                <app-spinner-button *ngIf="fetchPending"></app-spinner-button>    
+            </span>
+        </app-spacer-container>
+
+    </mat-expansion-panel>
 </div>
 
 <app-cultural-details *ngFor="let culturalOffer of culturalOffers"
     [culturalOffer]="culturalOffer"
     (onMarkOnMap)="onMarkOnMap.emit(culturalOffer)"
 ></app-cultural-details>
+
+<div *ngIf="!fetchPending && !culturalOffers?.length" class="empty-container">
+    NO CULTURAL OFFERS
+</div>

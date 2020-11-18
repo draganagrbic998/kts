@@ -22,6 +22,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 @NgModule({
@@ -62,7 +65,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatInputModule,
     MatCardModule,
     MatExpansionModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatSidenavModule,
+    MatTabsModule,
+    MatDialogModule
   ]
 })
 export class LayoutModule { }

@@ -1,0 +1,43 @@
+<mat-drawer-container>
+
+    <div>
+        <app-toolbar 
+        (onToggle)="drawer.toggle()"
+        (onAddOnMap)="refreshData($event); map.markOnMap($event)">
+        </app-toolbar>
+        <app-map 
+        #map
+        [culturalOffers]="culturalOffers[selectedTag]"
+        [fetchPending]="fetchPending[selectedTag]"
+        (onRefreshData)="refreshData($event)"
+        ></app-map>
+    </div>
+
+    <mat-drawer 
+    [class.crop]="fetchPending[selectedTag] || !culturalOffers[selectedTag]?.length" 
+    class="mat-elevation-z24" #drawer mode="side">
+        
+        <app-cultural-list
+        [title]="title[selectedTag]"
+        [culturalOffers]="culturalOffers[selectedTag]"
+        [fetchPending]="fetchPending[selectedTag]"
+        [hasPrevious]="!startOfPages[selectedTag]"
+        [hasNext]="!endOfPages[selectedTag]"
+        [filterForm]="filterForm[selectedTag]"
+        (onChangePage)="changePage($event)"
+        (onFilterData)="filterData()"
+        (onMarkOnMap)="map.markOnMap($event)"
+        ></app-cultural-list>    
+
+        <div *ngIf="guest" class="tabs">
+            <mat-tab-group headerPosition="below" animationDuration="0ms"
+            (selectedIndexChange)="selectedTag=$event">
+                <mat-tab [label]="title[0]">
+                </mat-tab>
+                <mat-tab [label]="title[1]">
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+
+    </mat-drawer>
+</mat-drawer-container>
