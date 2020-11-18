@@ -57,6 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().authenticationEntryPoint(new AuthEntryPoint()).and()
 			.authorizeRequests()
 			.antMatchers("/h2/**").permitAll()
+			.antMatchers("/auth/**").permitAll()
 			//dodaj kasnije ostale putanje kojima mogu svi pristupiti
 			.anyRequest().authenticated().and().cors().and()
 			.addFilterBefore(new AuthFilter(this.userService, this.tokenUtils), BasicAuthenticationFilter.class);
