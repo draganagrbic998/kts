@@ -1,0 +1,29 @@
+<div class="block"></div>
+
+<app-preloader [transparent]="true" *ngIf="mapPending || fetchPending"></app-preloader>
+    
+<ya-map
+
+  [state]="{controls: []}" 
+  [zoom]="3" 
+  [center]="[mapCenter[0], mapCenter[1]]" 
+  (load)="mapPending=false">
+
+  <ya-placemark
+  *ngIf="balloon"
+  (load)="openBalloon($event)"
+  (baloon)="closeBalloon($event)"
+  [geometry]="mapCenter"
+  [properties]="balloonProperties()">
+  </ya-placemark>
+
+  <ya-placemark 
+  *ngFor="let culturalOffer of culturalOffers"
+  [geometry]="[culturalOffer.lat, culturalOffer.lng]"
+  [properties]="placemarkProperties(culturalOffer)"
+  [options]="placemarkOptions(culturalOffer)"
+  (yaclick)="showDetails(culturalOffer)">
+  </ya-placemark>  
+
+</ya-map>
+  
