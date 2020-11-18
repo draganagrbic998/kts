@@ -34,6 +34,7 @@ import { BoldTextComponent } from './bold-text/bold-text.component';
     MatButtonModule
   ],
   exports: [
+    CommonModule,
     FormContainerComponent,
     SpinnerButtonComponent,
     ReactiveFormsModule,
