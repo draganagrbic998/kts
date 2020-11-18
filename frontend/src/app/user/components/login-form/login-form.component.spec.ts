@@ -2,6 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LayoutModule } from 'src/app/layout/layout.module';
 import { AuthService } from 'src/app/utils/services/auth.service';
 import { UserService } from '../../services/user.service';
 
@@ -18,7 +20,9 @@ describe('LoginFormComponent', () => {
       declarations: [ LoginFormComponent ],
       imports: [
         MatSnackBarModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        LayoutModule,
+        BrowserAnimationsModule
       ],
       providers: [
         {provide: AuthService, useValue: authServiceMock},

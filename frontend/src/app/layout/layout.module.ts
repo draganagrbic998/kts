@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ImageInputComponent } from './image-input/image-input.component';
 import { SpacerContainerComponent } from './spacer-container/spacer-container.component';
 import { BoldTextComponent } from './bold-text/bold-text.component';
+import { PreloaderComponent } from './preloader/preloader.component';
 
 @NgModule({
   declarations: [
@@ -25,15 +26,18 @@ import { BoldTextComponent } from './bold-text/bold-text.component';
     SpinnerButtonComponent,
     ImageInputComponent,
     SpacerContainerComponent,
-    BoldTextComponent
+    BoldTextComponent,
+    PreloaderComponent
   ],
   imports: [
     CommonModule,
     MatCardModule,
     MatProgressSpinnerModule,
-    MatButtonModule
+    MatButtonModule,
+    MatProgressSpinnerModule
   ],
   exports: [
+    CommonModule,
     FormContainerComponent,
     SpinnerButtonComponent,
     ReactiveFormsModule,
@@ -42,6 +46,7 @@ import { BoldTextComponent } from './bold-text/bold-text.component';
     ImageInputComponent,
     SpacerContainerComponent,
     BoldTextComponent,
+    PreloaderComponent,
 
     MatSnackBarModule,
     MatFormFieldModule,

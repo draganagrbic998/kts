@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,17 +33,10 @@ public class UserController {
 	
 	@Autowired
 	private TokenUtils tokenUtils;
-	
-	@Autowired
-	private AuthenticationManager authManager;
-	
+		
 	@PostMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<ProfileDTO> update(@ModelAttribute ProfileUploadDTO profileDTO) throws FileNotFoundException, IOException {
-		User user = this.userService.getCurrentUser();
-		if (profileDTO.getNewPassword() != null) {
-			this.authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), profileDTO.getOldPassword()));			
-		}
-		user = this.userService.save(this.userMapper.map(profileDTO), profileDTO.getImage());
+		User user = this.userService.save(this.userMapper.map(profileDTO), profileDTO.getImage());
 		String accessToken = this.tokenUtils.generateToken(user.getUsername());
 		return new ResponseEntity<>(new ProfileDTO(user, accessToken), HttpStatus.OK);
 	}

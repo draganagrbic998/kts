@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { UserRoutingModule } from './user-routing.module';
 import { LoginFormComponent } from './components/login-form/login-form.component';
@@ -12,7 +11,6 @@ import { ProfileDetailsComponent } from './components/profile-details/profile-de
 @NgModule({
   declarations: [LoginFormComponent, UserComponent, ProfileFormComponent, ProfileDetailsComponent],
   imports: [
-    CommonModule,
     UserRoutingModule,
     LayoutModule
   ]
