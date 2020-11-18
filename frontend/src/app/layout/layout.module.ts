@@ -15,16 +15,21 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
+import { ImageInputComponent } from './image-input/image-input.component';
+import { SpacerContainerComponent } from './spacer-container/spacer-container.component';
 
 @NgModule({
   declarations: [
     FormContainerComponent,
-    SpinnerButtonComponent
+    SpinnerButtonComponent,
+    ImageInputComponent,
+    SpacerContainerComponent
   ],
   imports: [
     CommonModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatButtonModule
   ],
   exports: [
     FormContainerComponent,
@@ -32,6 +37,8 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     FormsModule,
     RouterModule,
+    ImageInputComponent,
+    SpacerContainerComponent,
     
     MatSnackBarModule,
     MatFormFieldModule,
