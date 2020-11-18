@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Login } from '../utils/login';
 import { User } from 'src/app/utils/user';
-import { API_LOGIN } from '../utils/api';
+import { API_HAS_EMAIL, API_LOGIN, API_UPDATE_PROFILE } from '../utils/api';
+import { UniqueCheck } from 'src/app/utils/unique-check';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,12 @@ export class UserService {
     return this.http.post<User>(API_LOGIN, login);
   }
 
-  
+  hasEmail(param: UniqueCheck): Observable<boolean>{
+    return this.http.post<boolean>(API_HAS_EMAIL, param);
+  }
+
+  update(data: FormData): Observable<User>{
+    return this.http.post<User>(API_UPDATE_PROFILE, data);
+  }
 
 }
