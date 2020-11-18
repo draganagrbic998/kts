@@ -55,7 +55,8 @@ import { PreloaderComponent } from './preloader/preloader.component';
     MatTooltipModule,
     MatIconModule,
     MatMenuModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule
   ]
 })
 export class LayoutModule { }
