@@ -17,13 +17,15 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatInputModule } from '@angular/material/input';
 import { ImageInputComponent } from './image-input/image-input.component';
 import { SpacerContainerComponent } from './spacer-container/spacer-container.component';
+import { BoldTextComponent } from './bold-text/bold-text.component';
 
 @NgModule({
   declarations: [
     FormContainerComponent,
     SpinnerButtonComponent,
     ImageInputComponent,
-    SpacerContainerComponent
+    SpacerContainerComponent,
+    BoldTextComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +41,8 @@ import { SpacerContainerComponent } from './spacer-container/spacer-container.co
     RouterModule,
     ImageInputComponent,
     SpacerContainerComponent,
-    
+    BoldTextComponent,
+
     MatSnackBarModule,
     MatFormFieldModule,
     MatButtonModule,
