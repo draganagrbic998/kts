@@ -39,12 +39,6 @@ public class UserFollowing {
 	public UserFollowing() {
 		super();
 	}
-	
-	public UserFollowing(User user, CulturalOffer culturalOffer) {
-		super();
-		this.user = user;
-		this.culturalOffer = culturalOffer;
-	}
 
 	public Long getId() {
 		return id;
