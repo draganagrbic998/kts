@@ -5,6 +5,7 @@ import { CulturalService } from 'src/app/cultural-offers/services/cultural.servi
 import { CulturalOffer } from 'src/app/cultural-offers/utils/cultural-offer';
 import { AuthService } from 'src/app/utils/services/auth.service';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER, GUEST_ROLE } from 'src/app/utils/constants';
+import { UserFollowingService } from 'src/app/cultural-offers/services/user-following.service';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,8 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private authService: AuthService, 
-    private culturalService: CulturalService
+    private culturalService: CulturalService, 
+    private userFollowingService: UserFollowingService
   ) { }
 
   selectedTag: number = 0;
@@ -56,6 +58,7 @@ export class HomeComponent implements OnInit {
   }
 
   refreshData(response: CulturalOffer | number): void{
+    //zapampti, ovo ces koristiti samo kad dodas/obrises jednu ponudu, ne kad oces sve ponovo da ucitas
     if (this.guest && this.selectedTag === 0){
       return;
     }
@@ -73,11 +76,7 @@ export class HomeComponent implements OnInit {
 
     this.fetchPending[this.selectedTag] = true;
     this.culturalOffers[this.selectedTag] = [];
-    const selectedService = this.selectedTag ? null : this.culturalService;
-    if (selectedService === null){
-      return;
-    }
-
+    const selectedService = this.selectedTag ? this.userFollowingService : this.culturalService;
     selectedService.filter(this.filterForm[this.selectedTag].value, this.pageNumber[this.selectedTag]).subscribe(
       (data: HttpResponse<CulturalOffer[]>) => {
         this.fetchPending[this.selectedTag] = false;
