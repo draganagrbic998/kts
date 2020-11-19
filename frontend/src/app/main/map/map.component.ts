@@ -20,7 +20,7 @@ export class MapComponent implements OnInit {
 
   mapPending: boolean = true;
   center: CulturalOffer;
-  balloon: boolean = false;
+  ymaps;
 
   get mapCenter(): number[]{
     if (this.center){
@@ -30,9 +30,9 @@ export class MapComponent implements OnInit {
   }
 
   markOnMap(culturalOffer: CulturalOffer): void{
-    this.balloon = false;
+    console.log(this.ymaps);
     this.center = culturalOffer;
-    this.balloon = true;
+    this.ymaps.instance.balloon.open(this.mapCenter, "<div style='text-align: center; font-weight: bold;'>found!</div>");
   }
 
   showDetails(culturalOffer: CulturalOffer): void{
@@ -69,19 +69,8 @@ export class MapComponent implements OnInit {
 
   balloonProperties(){
     return {
-      balloonContentHeader: `<div style='text-align: center'>${this.center.type} found!</div>`,
-      balloonContentBody: `<div style='text-align: center'>${this.center.name} is placed here!</div>`
-    }
-  }
-
-  openBalloon(event): void{
-    console.log(event.instance.balloon.open);
-    event.instance.balloon.open();
-  }
-
-  closeBalloon(event): void{
-    if (event.type === "balloonclose"){
-      this.balloon = false;
+      balloonContentHeader: `<div style='text-align: center'>found!</div>`,
+      balloonContentBody: `<div style='text-align: center'>is placed here!</div>`
     }
   }
 

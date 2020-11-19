@@ -4,18 +4,10 @@
     
 <ya-map
 
-  [state]="{controls: []}" 
+  [state]="{controls: [] }" 
   [zoom]="3" 
   [center]="[mapCenter[0], mapCenter[1]]" 
-  (load)="mapPending=false">
-
-  <ya-placemark
-  *ngIf="balloon"
-  (load)="openBalloon($event)"
-  (baloon)="closeBalloon($event)"
-  [geometry]="mapCenter"
-  [properties]="balloonProperties()">
-  </ya-placemark>
+  (load)="mapPending=false; ymaps=$event">
 
   <ya-placemark 
   *ngFor="let culturalOffer of culturalOffers"
