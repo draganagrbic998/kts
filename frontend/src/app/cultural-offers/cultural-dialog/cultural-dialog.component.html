@@ -1,0 +1,80 @@
+<mat-drawer-container cdkFocusInitial>
+
+    <div class="root-container">
+
+        <app-close-button 
+        [fixed]="true"
+        (onClose)="dialogRef.close()"
+        ></app-close-button>
+
+        <div class="image-container mat-elevation-z8">
+            <img [src]="culturalOffer.image ? culturalOffer.image : '../../../assets/noimage.png'"
+            (error)="culturalOffer.image=null" >    
+        </div>
+        
+        <div class="details-container">
+            <div>
+                <app-bold-text>{{culturalOffer.name}}</app-bold-text>
+            </div>
+            <br>
+            <div>
+                <app-bold-text>Type: </app-bold-text>{{culturalOffer.type}}, {{culturalOffer.category}}
+            </div>
+            <div>
+                <app-bold-text>Location: </app-bold-text>{{culturalOffer.location}}
+            </div>
+            <div *ngIf="culturalOffer.description">
+                <app-bold-text>Description: </app-bold-text>{{culturalOffer.description}}
+            </div>
+            <div>
+                <app-bold-text>Total rate: </app-bold-text>{{ culturalOffer.totalRate | number:'1.2-2' }}/5
+            </div>
+        </div>
+    
+        <app-spacer-container>
+            <span>
+                <button 
+                *ngIf="role==='admin'" 
+                mat-button 
+                color="primary"
+                (click)="edit()">
+                    <mat-icon>edit</mat-icon>Edit
+                </button>
+                <button 
+                *ngIf="role==='admin'" 
+                mat-button 
+                color="warn"
+                (click)="delete()">
+                    <mat-icon>delete</mat-icon>Delete
+                </button>
+            </span>
+            <span>
+                <button 
+                *ngIf="role!=='admin'" 
+                mat-button 
+                color="primary"
+                (click)="drawer.toggle()">
+                    <mat-icon> rate_review</mat-icon>
+                    Rates & News
+                </button>
+            </span>
+        </app-spacer-container>
+    
+    </div>
+    
+    <mat-drawer class="mat-elevation-z24" #drawer position="end" mode="side">
+        <mat-tab-group animationDuration="0ms">
+            <mat-tab #commentsTab [label]="'Reviews'">
+                KOMENTARI
+            </mat-tab>
+            <mat-tab [label]="'News'">
+                NOVOSTI
+            </mat-tab>
+        </mat-tab-group>
+
+    </mat-drawer>
+
+</mat-drawer-container>
+
+    
+
