@@ -25,6 +25,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CloseButtonComponent } from './close-button/close-button.component';
 
 
 @NgModule({
@@ -34,14 +35,16 @@ import { MatDialogModule } from '@angular/material/dialog';
     ImageInputComponent,
     SpacerContainerComponent,
     BoldTextComponent,
-    PreloaderComponent
+    PreloaderComponent,
+    CloseButtonComponent
   ],
   imports: [
     CommonModule,
     MatCardModule,
     MatProgressSpinnerModule,
     MatButtonModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatIconModule
   ],
   exports: [
     CommonModule,
@@ -54,6 +57,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     SpacerContainerComponent,
     BoldTextComponent,
     PreloaderComponent,
+    CloseButtonComponent,
 
     MatSnackBarModule,
     MatFormFieldModule,
