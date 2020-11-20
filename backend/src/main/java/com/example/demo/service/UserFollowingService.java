@@ -35,7 +35,8 @@ public class UserFollowingService {
 		User user = userService.getCurrentUser();
 		
 		for (UserFollowing userFollowing: this.userFollowingRepository.findAll()) {
-			if (userFollowing.getCulturalOffer().getId().equals(id)) {
+			if (userFollowing.getCulturalOffer().getId().equals(id)
+					&& userFollowing.getUser().getId().equals(user.getId())) {
 				userFollowingRepository.deleteById(userFollowing.getId());
 				return;
 			}
