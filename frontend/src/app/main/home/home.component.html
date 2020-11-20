@@ -10,6 +10,7 @@
         [culturalOffers]="culturalOffers[selectedTag]"
         [fetchPending]="fetchPending[selectedTag]"
         (onRefreshData)="refreshData($event)"
+        (onToggleSubscription)="refreshDataSubUnsub($event)"
         ></app-map>
     </div>
 

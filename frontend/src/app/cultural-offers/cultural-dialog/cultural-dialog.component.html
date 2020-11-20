@@ -50,6 +50,25 @@
             </span>
             <span>
                 <button 
+                *ngIf="role!=='admin' && !isSubscribedTo" 
+                mat-button 
+                color="primary"
+                (click)="toggleSubscription()">
+                    <mat-icon>email</mat-icon>Subscribe
+                </button>
+                <button 
+                *ngIf="role!=='admin' && isSubscribedTo" 
+                mat-button 
+                color="warn"
+                (click)="toggleSubscription()">
+                    <mat-icon>unsubscribe</mat-icon>Unsubscribe
+                </button>
+            </span>
+            <span>
+                <app-spinner-button *ngIf="toggleSubPending"></app-spinner-button>
+            </span>
+            <span>
+                <button 
                 *ngIf="role!=='admin'" 
                 mat-button 
                 color="primary"

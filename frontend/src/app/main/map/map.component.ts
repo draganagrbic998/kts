@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CulturalDialogComponent } from 'src/app/cultural-offers/cultural-dialog/cultural-dialog.component';
 import { CulturalOffer } from 'src/app/cultural-offers/utils/cultural-offer';
@@ -17,6 +17,7 @@ export class MapComponent implements OnInit {
 
   @Input() fetchPending: boolean;
   @Input() culturalOffers: CulturalOffer[];
+  @Output() onToggleSubscription: EventEmitter<CulturalOffer | number> = new EventEmitter();
 
   mapPending: boolean = true;
   center: CulturalOffer;
@@ -38,7 +39,12 @@ export class MapComponent implements OnInit {
   showDetails(culturalOffer: CulturalOffer): void{
     const dialog: MatDialogRef<CulturalDialogComponent> = this.dialog.open(CulturalDialogComponent, 
       {disableClose: true, panelClass: "no-padding", data: culturalOffer});
-
+      const sub = dialog.componentInstance.onToggleSubscription.subscribe((response: CulturalOffer | number) => {
+        this.onToggleSubscription.emit(response);
+      });
+      dialog.afterClosed().subscribe(() => {
+        // unsubscribe onAdd
+      });
   }
 
   placemarkOptions(culturalOffer: CulturalOffer){
