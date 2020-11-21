@@ -26,6 +26,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CloseButtonComponent } from './close-button/close-button.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { CloseButtonComponent } from './close-button/close-button.component';
     SpacerContainerComponent,
     BoldTextComponent,
     PreloaderComponent,
-    CloseButtonComponent
+    CloseButtonComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     CommonModule,

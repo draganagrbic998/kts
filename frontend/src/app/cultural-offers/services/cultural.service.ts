@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LARGE_PAGE_SIZE } from 'src/app/utils/constants';
-import { API_FILTER_LOCATIONS, API_FILTER_NAMES, API_FILTER_TYPES, API_FILTER } from '../utils/api';
+import { API_FILTER_LOCATIONS, API_FILTER_NAMES, API_FILTER_TYPES, API_FILTER, API_DELETE_OFFER } from '../utils/api';
 import { CulturalOffer } from '../utils/cultural-offer';
 import { FilterParams } from '../utils/filter-params';
 
@@ -40,4 +40,7 @@ export class CulturalService {
     );
   }
 
+  delete(id: number): Observable<CulturalOffer>{
+    return this.http.delete<CulturalOffer>(`${API_DELETE_OFFER}/${id}`);
+  }
 }
