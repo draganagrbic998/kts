@@ -31,21 +31,17 @@ public class UserFollowingService {
 	}
 
 	@Transactional(readOnly = false)
-	public void toggleSubscription(long id) {
+	public void toggleSubscription(long culturalOfferId) {
 		User user = userService.getCurrentUser();
 		
-		for (UserFollowing userFollowing: this.userFollowingRepository.findAll()) {
-			if (userFollowing.getCulturalOffer().getId().equals(id)
-					&& userFollowing.getUser().getId().equals(user.getId())) {
-				userFollowingRepository.deleteById(userFollowing.getId());
-				return;
-			}
-		}
+		UserFollowing userFollowing = this.userFollowingRepository.findCulturalOfferByUserIdAndCulturalOfferId(user.getId(), culturalOfferId);
 		
-		UserFollowing uf = new UserFollowing();
-		uf.setUser(user);
-		uf.setCulturalOffer(culturalOfferService.findOne(id));
-		userFollowingRepository.save(uf);		
+		if (userFollowing != null)
+			userFollowingRepository.deleteById(userFollowing.getId());
+		else {
+			UserFollowing uf = new UserFollowing(user, culturalOfferService.findOne(culturalOfferId));
+			userFollowingRepository.save(uf);		
+		}
 	}
 
 }

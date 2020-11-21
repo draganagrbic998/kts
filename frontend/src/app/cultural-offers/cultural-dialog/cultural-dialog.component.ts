@@ -24,7 +24,7 @@ export class CulturalDialogComponent implements OnInit {
   ) { }
 
   toggleSubPending: boolean = false;
-  onToggleSubscription: EventEmitter<CulturalOffer | number> = new EventEmitter();
+  onRefreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
 
   get role(): string{
     return this.authService.getUser()?.role;
@@ -43,11 +43,11 @@ export class CulturalDialogComponent implements OnInit {
 
         if(!this.culturalOffer.followed) {
           this.culturalOffer.followed = true;
-          this.onToggleSubscription.emit(this.culturalOffer);
+          this.onRefreshData.emit(this.culturalOffer);
         }
         else {
           this.culturalOffer.followed = false;
-          this.onToggleSubscription.emit(this.culturalOffer.id);
+          this.onRefreshData.emit(this.culturalOffer.id);
         }
 
         if (this.culturalOffer)

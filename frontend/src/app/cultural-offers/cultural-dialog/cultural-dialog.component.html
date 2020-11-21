@@ -47,24 +47,20 @@
                 (click)="delete()">
                     <mat-icon>delete</mat-icon>Delete
                 </button>
-            </span>
-            <span>
                 <button 
-                *ngIf="role!=='admin' && !isSubscribedTo" 
+                *ngIf="role!=='admin' && !isSubscribedTo && !toggleSubPending" 
                 mat-button 
                 color="primary"
                 (click)="toggleSubscription()">
                     <mat-icon>email</mat-icon>Subscribe
                 </button>
                 <button 
-                *ngIf="role!=='admin' && isSubscribedTo" 
+                *ngIf="role!=='admin' && isSubscribedTo && !toggleSubPending" 
                 mat-button 
                 color="warn"
                 (click)="toggleSubscription()">
                     <mat-icon>unsubscribe</mat-icon>Unsubscribe
                 </button>
-            </span>
-            <span>
                 <app-spinner-button *ngIf="toggleSubPending"></app-spinner-button>
             </span>
             <span>

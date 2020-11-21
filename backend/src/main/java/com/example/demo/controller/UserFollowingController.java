@@ -46,9 +46,9 @@ public class UserFollowingController {
 		return new ResponseEntity<>(this.culturalOfferMapper.map(culturalOffers.toList()), HttpStatus.OK);
 	}
 	
-	@GetMapping(value = "/toggle_subscription/{id}")
-	public ResponseEntity<List<CulturalOfferDTO>> filter(@PathVariable long id, HttpServletResponse response){
-		this.userFollowingService.toggleSubscription(id);
+	@GetMapping(value = "/toggle_subscription/{culturalOfferId}")
+	public ResponseEntity<HttpStatus> toggleSubscription(@PathVariable long culturalOfferId){
+		this.userFollowingService.toggleSubscription(culturalOfferId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

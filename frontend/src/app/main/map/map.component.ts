@@ -17,7 +17,7 @@ export class MapComponent implements OnInit {
 
   @Input() fetchPending: boolean;
   @Input() culturalOffers: CulturalOffer[];
-  @Output() onToggleSubscription: EventEmitter<CulturalOffer | number> = new EventEmitter();
+  @Output() onRefreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
 
   mapPending: boolean = true;
   center: CulturalOffer;
@@ -39,11 +39,8 @@ export class MapComponent implements OnInit {
   showDetails(culturalOffer: CulturalOffer): void{
     const dialog: MatDialogRef<CulturalDialogComponent> = this.dialog.open(CulturalDialogComponent, 
       {disableClose: true, panelClass: "no-padding", data: culturalOffer});
-      const sub = dialog.componentInstance.onToggleSubscription.subscribe((response: CulturalOffer | number) => {
-        this.onToggleSubscription.emit(response);
-      });
-      dialog.afterClosed().subscribe(() => {
-        // unsubscribe onAdd
+      dialog.componentInstance.onRefreshData.subscribe((response: CulturalOffer | number) => {
+        this.onRefreshData.emit(response);
       });
   }
 
