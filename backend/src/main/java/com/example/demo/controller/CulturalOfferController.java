@@ -61,7 +61,7 @@ public class CulturalOfferController {
 		return new ResponseEntity<>(this.culturalOfferMapper.map(culturalOffers.toList()), HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/delete/{culturalOfferId}")
+	@DeleteMapping(value = "/{culturalOfferId}")
 	public ResponseEntity<HttpStatus> delete(@PathVariable long culturalOfferId) {
 		this.culturalOfferService.delete(culturalOfferId);
 		return new ResponseEntity<>(HttpStatus.OK);

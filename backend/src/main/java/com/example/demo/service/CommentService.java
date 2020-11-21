@@ -12,9 +12,4 @@ public class CommentService {
 	
 	@Autowired
 	private CommentRepository commentRepository;
-	
-	@Transactional(readOnly = false)
-	public void deleteByCulturalOfferId(long culturalOfferId) {
-		this.commentRepository.deleteByCulturalOfferId(culturalOfferId);
-	}
 }

@@ -19,9 +19,4 @@ public class NewsService {
 	public List<News> findNewsByCulturalOfferId(long culturalOfferId) {
 		return null;
 	}
-	
-	@Transactional(readOnly = false)
-	public void deleteByCulturalOfferId(long culturalOfferId) {
-		this.newsRepository.deleteByCulturalOfferId(culturalOfferId);
-	}
 }

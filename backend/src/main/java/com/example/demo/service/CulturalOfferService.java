@@ -18,12 +18,6 @@ public class CulturalOfferService {
 	
 	@Autowired
 	private CulturalOfferRepository culturalOfferRepository;
-		
-	@Autowired
-	private NewsService newsService;
-	
-	@Autowired
-	private CommentService commentService;
 	
 	@Transactional(readOnly = true)
 	public List<String> filterNames(String filterParam){
@@ -53,8 +47,6 @@ public class CulturalOfferService {
 
 	@Transactional(readOnly = false)
 	public void delete(long culturalOfferId) {
-		this.newsService.deleteByCulturalOfferId(culturalOfferId);
-		this.commentService.deleteByCulturalOfferId(culturalOfferId);
 		this.culturalOfferRepository.deleteById(culturalOfferId);
 	}
 
