@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +44,12 @@ public class UserFollowingController {
 		response.setHeader(Constants.FIRST_PAGE_HEADER, culturalOffers.isFirst() + "");
 		response.setHeader(Constants.LAST_PAGE_HEADER, culturalOffers.isLast() + "");
 		return new ResponseEntity<>(this.culturalOfferMapper.map(culturalOffers.toList()), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/toggle_subscription/{culturalOfferId}")
+	public ResponseEntity<HttpStatus> toggleSubscription(@PathVariable long culturalOfferId){
+		this.userFollowingService.toggleSubscription(culturalOfferId);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

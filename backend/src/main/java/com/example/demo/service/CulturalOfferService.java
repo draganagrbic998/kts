@@ -40,4 +40,8 @@ public class CulturalOfferService {
 		return this.culturalOfferRepository.filter(filterParams.getName(), filterParams.getLocation(), filterParams.getType(), pageable);
 	}
 
+	public CulturalOffer findOne(long id) {
+		return this.culturalOfferRepository.findById(id).get();
+	}
+
 }

@@ -66,16 +66,30 @@ export class HomeComponent implements OnInit {
 
   refreshData(response: CulturalOffer | number): void{
     //zapampti, ovo ces koristiti samo kad dodas/obrises jednu ponudu, ne kad oces sve ponovo da ucitas
+    let selectedTag = this.selectedTag;
     if (this.guest && this.selectedTag === 0){
-      return;
+      selectedTag = 1;
     }
     if (typeof response !== "number"){
-      const temp: number[] = this.culturalOffers[this.selectedTag].map(co => co.id);
+      const temp: number[] = this.culturalOffers[selectedTag].map(co => co.id);
       const index: number = temp.indexOf(response.id);
-      this.culturalOffers[this.selectedTag].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
+      this.culturalOffers[selectedTag].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
+      
     }
     else{
-      this.culturalOffers[this.selectedTag] = this.culturalOffers[this.selectedTag].filter(co => co.id !== response);
+      this.culturalOffers[selectedTag] = this.culturalOffers[selectedTag].filter(co => co.id !== response);
+    }
+  }
+
+  refreshDataSubUnsub(response: CulturalOffer | number): void{
+    //nije radilo ako mi nije selectovan tab followed ponudama pa sam napravio ovu metodu za moje potrebe
+    if (typeof response !== "number"){
+      const temp: number[] = this.culturalOffers[1].map(co => co.id);
+      const index: number = temp.indexOf(response.id);
+      this.culturalOffers[1].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
+    }
+    else{
+      this.culturalOffers[1] = this.culturalOffers[1].filter(co => co.id !== response);
     }
   }
 
