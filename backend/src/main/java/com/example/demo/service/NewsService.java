@@ -1,10 +1,22 @@
 package com.example.demo.service;
 
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.example.demo.model.News;
+import com.example.demo.repository.NewsRepository;
 
 @Component
 @Transactional(readOnly = true)
 public class NewsService {
-
+	
+	@Autowired
+	private NewsRepository newsRepository;
+	
+	@Transactional(readOnly = true)
+	public List<News> findNewsByCulturalOfferId(long culturalOfferId) {
+		return null;
+	}
 }

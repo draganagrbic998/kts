@@ -1,11 +1,12 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService } from 'src/app/utils/services/auth.service';
 import { CulturalOffer } from '../utils/cultural-offer';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserFollowingService } from '../services/user-following.service';
-import { HttpResponse } from '@angular/common/http';
+import { CulturalService } from '../services/cultural.service';
 import { ERROR_SNACKBAR_OPTIONS, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
+import { ConfirmationDialogComponent } from 'src/app/layout/confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -19,11 +20,15 @@ export class CulturalDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public culturalOffer: CulturalOffer, 
     private authService: AuthService,
     private userFollowingService: UserFollowingService,
+    private culturalService: CulturalService,
     public dialogRef: MatDialogRef<CulturalDialogComponent>,
     private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) { }
 
   toggleSubPending: boolean = false;
+  toggleDelPending: boolean = false;
+
   onRefreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
 
   get role(): string{
@@ -68,11 +73,34 @@ export class CulturalDialogComponent implements OnInit {
   }
 
   delete(): void{
+    const dialog: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, 
+      {disableClose: true, panelClass: "no-padding", data: "Delete this offer?"});
+
+      dialog.afterClosed().subscribe((result) => {
+        if (result) {
+          this.toggleDelPending = true;
     
+          this.culturalService.delete(this.culturalOffer.id).subscribe(
+            () => {
+              this.toggleDelPending = false;
+
+              this.onRefreshData.emit(this.culturalOffer.id);
+        
+              this.snackBar.open("You have successfully deleted this cultural offer!", "Close", SUCCESS_SNACKBAR_OPTIONS);
+
+              this.dialogRef.close();
+            }, 
+            () => {
+              this.toggleDelPending = false;
+              this.snackBar.open("An error occured! Try again.", 
+              "Close", ERROR_SNACKBAR_OPTIONS);
+            }
+          )
+        }
+      });
   }
   
   ngOnInit(): void {
   }
-
 
 }

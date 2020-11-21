@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,5 +61,9 @@ public class CulturalOfferController {
 		return new ResponseEntity<>(this.culturalOfferMapper.map(culturalOffers.toList()), HttpStatus.OK);
 	}
 
-
+	@DeleteMapping(value = "/{culturalOfferId}")
+	public ResponseEntity<HttpStatus> delete(@PathVariable long culturalOfferId) {
+		this.culturalOfferService.delete(culturalOfferId);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
 }

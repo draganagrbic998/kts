@@ -18,7 +18,7 @@ public class CulturalOfferService {
 	
 	@Autowired
 	private CulturalOfferRepository culturalOfferRepository;
-		
+	
 	@Transactional(readOnly = true)
 	public List<String> filterNames(String filterParam){
 		return this.culturalOfferRepository.filterNames(filterParam);
@@ -40,8 +40,14 @@ public class CulturalOfferService {
 		return this.culturalOfferRepository.filter(filterParams.getName(), filterParams.getLocation(), filterParams.getType(), pageable);
 	}
 
+	@Transactional(readOnly = true)
 	public CulturalOffer findOne(long id) {
 		return this.culturalOfferRepository.findById(id).get();
+	}
+
+	@Transactional(readOnly = false)
+	public void delete(long culturalOfferId) {
+		this.culturalOfferRepository.deleteById(culturalOfferId);
 	}
 
 }

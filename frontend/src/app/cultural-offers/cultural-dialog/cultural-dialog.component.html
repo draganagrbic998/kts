@@ -33,6 +33,7 @@
     
         <app-spacer-container>
             <span>
+                <app-spacer-container>
                 <button 
                 *ngIf="role==='admin'" 
                 mat-button 
@@ -41,12 +42,13 @@
                     <mat-icon>edit</mat-icon>Edit
                 </button>
                 <button 
-                *ngIf="role==='admin'" 
+                *ngIf="role==='admin' && !toggleDelPending" 
                 mat-button 
                 color="warn"
                 (click)="delete()">
                     <mat-icon>delete</mat-icon>Delete
                 </button>
+                <app-spinner-button *ngIf="toggleDelPending"></app-spinner-button>
                 <button 
                 *ngIf="role!=='admin' && !isSubscribedTo && !toggleSubPending" 
                 mat-button 
@@ -62,6 +64,7 @@
                     <mat-icon>unsubscribe</mat-icon>Unsubscribe
                 </button>
                 <app-spinner-button *ngIf="toggleSubPending"></app-spinner-button>
+                </app-spacer-container>
             </span>
             <span>
                 <button 
