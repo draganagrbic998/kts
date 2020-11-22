@@ -5,6 +5,7 @@ import { Login } from '../utils/login';
 import { User } from 'src/app/utils/user';
 import { API_HAS_EMAIL, API_LOGIN, API_UPDATE_PROFILE } from '../utils/api';
 import { UniqueCheck } from 'src/app/utils/unique-check';
+import { Registration } from '../utils/registration';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,10 @@ export class UserService {
 
   hasEmail(param: UniqueCheck): Observable<boolean>{
     return this.http.post<boolean>(API_HAS_EMAIL, param);
+  }
+
+  register(registration: Registration): Observable<null>{
+    return this.http.post<null>(API_UPDATE_PROFILE, registration);
   }
 
   update(data: FormData): Observable<User>{

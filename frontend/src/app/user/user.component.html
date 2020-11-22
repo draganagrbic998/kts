@@ -9,7 +9,7 @@
     <span>
         <button 
         *ngIf="!profile"
-        mat-button [routerLink]="login ? './registration' : './login'">
+        mat-button [routerLink]="login ? './register' : './login'">
             <mat-icon>{{login ? 'person_add' : 'login'}}</mat-icon>
             {{login ? 'Registration' : 'Login'}}
         </button>   

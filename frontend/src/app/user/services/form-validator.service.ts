@@ -14,6 +14,14 @@ export class FormValidatorService {
     private userService: UserService
   ) { }
 
+  passwordConfirm(): ValidatorFn {
+    return (control: AbstractControl): null | ValidationError => {
+      if ((control.value === control.parent.get('password').value)){
+        return {passwordError: true};
+      }
+      return null;
+    }
+  }
   newPasswordConfirmed(): ValidatorFn {
     return (control: AbstractControl): null | ValidationError => {
       if ((control.get('newPassword').value || control.get('newPasswordConfirmed').value) && !control.get('oldPassword').value){

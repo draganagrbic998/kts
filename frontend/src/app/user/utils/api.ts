@@ -3,3 +3,4 @@ const API_BASE = `${BASE_URL}/auth`;
 export const API_LOGIN: string = `${API_BASE}/login`;
 export const API_HAS_EMAIL: string = `${API_BASE}/has_email`;
 export const API_UPDATE_PROFILE: string = `${BASE_URL}/api/user`;
+export const API_REGISTER: string = `${API_BASE}/registration`;
