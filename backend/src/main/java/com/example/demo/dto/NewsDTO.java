@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.demo.model.Image;
 import com.example.demo.model.News;
 
 public class NewsDTO {

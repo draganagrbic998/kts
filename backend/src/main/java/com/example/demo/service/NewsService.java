@@ -26,4 +26,9 @@ public class NewsService {
 	public Page<News> getPage(long culturalOfferId, Pageable pageable) {
 		return this.newsRepository.getPage(culturalOfferId, pageable);
 	}
+
+	@Transactional(readOnly = false)
+	public void delete(long newsId) {
+		this.newsRepository.deleteById(newsId);
+	}
 }

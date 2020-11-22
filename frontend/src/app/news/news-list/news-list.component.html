@@ -34,7 +34,8 @@
 
 <app-news-details *ngFor="let n of news"
     [currentNews]="n"
-></app-news-details>
+    (onRefreshData)="refreshData($event)">
+</app-news-details>
 
 <div *ngIf="!fetchPending && !news?.length" class="empty-container">
     NO NEWS
