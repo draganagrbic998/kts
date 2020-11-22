@@ -33,7 +33,7 @@ public class NewsController {
 	@Autowired
 	private NewsMapper newsMapper;
 	
-	@PostMapping(value = "")
+	@PostMapping(value = "/list")
 	public ResponseEntity<List<NewsDTO>> getNews(@RequestBody long culturalOfferId, @RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
 		Page<News> newsList = this.newsService.getPage(culturalOfferId, pageable);

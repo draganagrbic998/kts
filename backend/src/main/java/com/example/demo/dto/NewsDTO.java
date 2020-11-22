@@ -3,6 +3,7 @@ package com.example.demo.dto;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.example.demo.model.Image;
 import com.example.demo.model.News;
@@ -24,8 +25,9 @@ public class NewsDTO {
 		this.setCreatedAt(news.getCreatedAt());
 		this.images = new ArrayList<>();
 
-		for (Image img: news.getImages())
-			this.images.add(img.getPath());
+		this.images = news.getImages().stream().map(image -> {
+			return image.getPath();
+		}).collect(Collectors.toList());
 	}
 
 	public long getId() {

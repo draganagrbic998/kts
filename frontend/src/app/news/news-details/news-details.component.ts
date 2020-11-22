@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/utils/services/auth.service';
 import { News } from '../utils/news';
 
 @Component({
@@ -8,13 +9,19 @@ import { News } from '../utils/news';
 })
 export class NewsDetailsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService: AuthService
+  ) { }
 
   @Input() currentNews: News;
 
   hasPreviousImage: boolean = false;;
   hasNextImage: boolean;
   currentImageIndex: number = 0;
+
+  get role(): string{
+    return this.authService.getUser()?.role;
+  }
 
   previousImage(): void {
     this.currentImageIndex--;

@@ -115,17 +115,6 @@ export class CulturalDialogComponent implements OnInit {
     this.fetchData();
   }
 
-  refreshData(response: News | number): void{
-    if (typeof response !== "number"){
-      const temp: number[] = this.news.map(n => n.id);
-      const index: number = temp.indexOf(response.id);
-      this.news.splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
-    }
-    else{
-      this.news = this.news.filter(n => n.id !== response);
-    }
-  }
-
   fetchData(): void{
     this.fetchPending = true;
     this.news = [];
