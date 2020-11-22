@@ -68,11 +68,12 @@
                             <app-spacer-container>
                                 <button 
                                 mat-button 
-                                *ngIf="role === 'admin'"
+                                *ngIf="role === 'admin' && !delPending"
                                 color="warn"
                                 (click)="delete()">
                                     <mat-icon>delete</mat-icon>Delete
                                 </button>
+                                <app-spinner-button *ngIf="delPending"></app-spinner-button>
                             </app-spacer-container>
                         </span>
                     </app-spacer-container>

@@ -20,8 +20,13 @@ export class NewsListComponent implements OnInit {
   @Input() hasPrevious: boolean;
   @Input() hasNext: boolean;
   @Output() onChangePage: EventEmitter<number> = new EventEmitter();
+  @Output() onRefreshData: EventEmitter<News | number> = new EventEmitter();
 
   panelOpenState: boolean = false;
+
+  refreshData(response: News | number): void{
+    this.onRefreshData.emit(response);
+  }
 
   ngOnInit(): void {
   }
