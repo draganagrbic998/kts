@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Login } from '../utils/login';
 import { User } from 'src/app/utils/user';
-import { API_HAS_EMAIL, API_LOGIN, API_REGISTER, API_UPDATE_PROFILE } from '../utils/api';
+import { API_HAS_EMAIL, API_LOGIN, API_REGISTER, API_UPDATE_PROFILE, API_ACTIVATION } from '../utils/api';
 import { UniqueCheck } from 'src/app/utils/unique-check';
 import { Registration } from '../utils/registration';
 
@@ -26,6 +26,10 @@ export class UserService {
 
   register(registration: Registration): Observable<null>{
     return this.http.post<null>(API_REGISTER, registration);
+  }
+
+  activation(code: string): Observable<null>{
+    return this.http.get<null>(`${API_ACTIVATION}/${code}`);
   }
 
   update(data: FormData): Observable<User>{

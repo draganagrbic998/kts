@@ -4,3 +4,4 @@ export const API_LOGIN: string = `${API_BASE}/login`;
 export const API_HAS_EMAIL: string = `${API_BASE}/has_email`;
 export const API_UPDATE_PROFILE: string = `${BASE_URL}/api/user`;
 export const API_REGISTER: string = `${API_BASE}/register`;
+export const API_ACTIVATION: string = `${API_BASE}/activation`;

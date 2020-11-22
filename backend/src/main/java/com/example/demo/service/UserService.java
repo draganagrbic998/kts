@@ -77,6 +77,16 @@ public class UserService implements UserDetailsService {
 		return true;
 	}
 	
+	@Transactional(readOnly = false)
+	public void activate(String code) {
+		AccountActivation ac =  this.accountRepository.findByValue(code);
+		User u = ac.getUser();
+		u.setEnabled(true);
+		this.userRepository.save(u);
+		
+		
+	}
+	
 	@Transactional(readOnly = true)
 	public boolean userIsFollowing(CulturalOffer culturalOffer) {
 		User user = this.getCurrentUser();
