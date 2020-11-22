@@ -1,0 +1,41 @@
+<div class="header mat-elevation-z8">
+
+    <div class="paginator-container">
+        <app-spacer-container>
+            <span>
+                <button 
+                *ngIf="!fetchPending && hasPrevious"
+                mat-icon-button 
+                (click)="onChangePage.emit(-1)">
+                    <mat-icon color="accent" class="big-icon" matTooltip="previous page">navigate_before</mat-icon>
+                </button>
+            </span>
+            <span>Page: {{page + 1}}</span>
+            <span>
+                <button 
+                *ngIf="!fetchPending && hasNext"
+                mat-icon-button 
+                (click)="onChangePage.emit(1)">
+                    <mat-icon color="accent" class="big-icon" matTooltip="next page" >navigate_next</mat-icon>
+                </button>
+            </span>
+        </app-spacer-container>
+    </div>
+
+</div>
+
+<br>
+
+<div class="filter-container">
+    <!--Ovde ce da ide sort/filter kad ga budem radio.-->
+</div>
+
+<app-preloader *ngIf="fetchPending && !panelOpenState"></app-preloader>
+
+<app-news-details *ngFor="let n of news"
+    [currentNews]="n"
+></app-news-details>
+
+<div *ngIf="!fetchPending && !news?.length" class="empty-container">
+    NO NEWS
+</div>

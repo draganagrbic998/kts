@@ -5,8 +5,11 @@ import { CulturalOffer } from '../utils/cultural-offer';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserFollowingService } from '../services/user-following.service';
 import { CulturalService } from '../services/cultural.service';
-import { ERROR_SNACKBAR_OPTIONS, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
+import { ERROR_SNACKBAR_OPTIONS, FIRST_PAGE_HEADER, LAST_PAGE_HEADER, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { ConfirmationDialogComponent } from 'src/app/layout/confirmation-dialog/confirmation-dialog.component';
+import { News } from 'src/app/news/utils/news';
+import { NewsService } from 'src/app/news/services/news.service';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
 
 @Component({
@@ -21,6 +24,7 @@ export class CulturalDialogComponent implements OnInit {
     private authService: AuthService,
     private userFollowingService: UserFollowingService,
     private culturalService: CulturalService,
+    private newsService: NewsService,
     public dialogRef: MatDialogRef<CulturalDialogComponent>,
     private snackBar: MatSnackBar,
     public dialog: MatDialog
@@ -30,6 +34,12 @@ export class CulturalDialogComponent implements OnInit {
   toggleDelPending: boolean = false;
 
   onRefreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
+
+  news: News[] = undefined;
+  fetchPending: boolean = true;
+  pageNumber: number = 0;
+  endOfPages: boolean = true;
+  startOfPages: boolean = true;
 
   get role(): string{
     return this.authService.getUser()?.role;
@@ -100,7 +110,46 @@ export class CulturalDialogComponent implements OnInit {
       });
   }
   
+  changePage(amount: number): void{
+    this.pageNumber += amount;
+    this.fetchData();
+  }
+
+  refreshData(response: News | number): void{
+    if (typeof response !== "number"){
+      const temp: number[] = this.news.map(n => n.id);
+      const index: number = temp.indexOf(response.id);
+      this.news.splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
+    }
+    else{
+      this.news = this.news.filter(n => n.id !== response);
+    }
+  }
+
+  fetchData(): void{
+    this.fetchPending = true;
+    this.news = [];
+
+    this.newsService.fetch(this.culturalOffer.id, this.pageNumber).subscribe(
+      (data: HttpResponse<News[]>) => {
+        this.fetchPending = false;
+        if (data){
+          this.news = data.body;
+          const headers: HttpHeaders = data.headers;
+          this.endOfPages = headers.get(LAST_PAGE_HEADER) === "true" ? true : false;
+          this.startOfPages = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
+        }
+        else{
+          this.news = [];
+          this.endOfPages = true;
+          this.startOfPages = true;
+        }
+      }
+    );
+  }
+
   ngOnInit(): void {
+    this.fetchData();
   }
 
 }

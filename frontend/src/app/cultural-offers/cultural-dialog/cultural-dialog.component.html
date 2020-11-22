@@ -81,12 +81,20 @@
     </div>
     
     <mat-drawer class="mat-elevation-z24" #drawer position="end" mode="side">
+
         <mat-tab-group animationDuration="0ms">
             <mat-tab #commentsTab [label]="'Reviews'">
                 KOMENTARI
             </mat-tab>
             <mat-tab [label]="'News'">
-                NOVOSTI
+                <app-news-list
+                [page]="pageNumber"
+                [news]="news"
+                [fetchPending]="fetchPending"
+                [hasPrevious]="!startOfPages"
+                [hasNext]="!endOfPages"
+                (onChangePage)="changePage($event)">
+                </app-news-list>
             </mat-tab>
         </mat-tab-group>
 

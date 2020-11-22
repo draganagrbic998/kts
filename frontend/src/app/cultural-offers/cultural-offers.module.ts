@@ -3,13 +3,14 @@ import { CulturalDetailsComponent } from './cultural-details/cultural-details.co
 import { LayoutModule } from '../layout/layout.module';
 import { CulturalListComponent } from './cultural-list/cultural-list.component';
 import { CulturalDialogComponent } from './cultural-dialog/cultural-dialog.component';
-
+import { NewsModule } from '../news/news.module';
 
 
 @NgModule({
   declarations: [CulturalDetailsComponent, CulturalListComponent, CulturalDialogComponent],
   imports: [
-    LayoutModule
+    LayoutModule,
+    NewsModule
   ], 
   exports: [
     CulturalListComponent,
