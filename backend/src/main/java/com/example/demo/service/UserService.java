@@ -14,8 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.constants.Constants;
 import com.example.demo.dto.UniqueCheckDTO;
+import com.example.demo.model.AccountActivation;
 import com.example.demo.model.CulturalOffer;
 import com.example.demo.model.User;
+import com.example.demo.repository.AccountActivationRepository;
 import com.example.demo.repository.UserFollowingRepository;
 import com.example.demo.repository.UserRepository;
 
@@ -27,10 +29,15 @@ public class UserService implements UserDetailsService {
 	private UserRepository userRepository;
 	
 	@Autowired
+	private AccountActivationRepository accountRepository;
+	
+	@Autowired
 	private UserFollowingRepository userFollowingRepository;
 	
 	@Autowired
 	private ImageService imageService;
+	@Autowired
+	private EmailService emailService;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -53,6 +60,14 @@ public class UserService implements UserDetailsService {
 		return this.userRepository.save(user);
 	}
 	
+	@Transactional(readOnly = false)
+	public User register(User user)  {
+		AccountActivation ac = new AccountActivation(user);
+		accountRepository.save(ac);
+		String link = Constants.FRONTEND_URL +"/user/account-activation/" + ac.getValue();
+		this.emailService.sendMessage(new Email(user.getEmail(),"Register","Click on this link: "  + link));
+		return this.userRepository.save(user);
+	}
 	@Transactional(readOnly = true)
 	public boolean hasEmail(UniqueCheckDTO param) {
 		User user = this.userRepository.hasEmail(param.getId(), param.getName());
@@ -60,6 +75,16 @@ public class UserService implements UserDetailsService {
 			return false;
 		}
 		return true;
+	}
+	
+	@Transactional(readOnly = false)
+	public void activate(String code) {
+		AccountActivation ac =  this.accountRepository.findByValue(code);
+		User u = ac.getUser();
+		u.setEnabled(true);
+		this.userRepository.save(u);
+		
+		
 	}
 	
 	@Transactional(readOnly = true)

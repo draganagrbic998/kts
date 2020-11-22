@@ -6,6 +6,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.ProfileDTO;
+import com.example.demo.dto.RegisterDTO;
 import com.example.demo.dto.UniqueCheckDTO;
+import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.User;
 import com.example.demo.security.TokenUtils;
 import com.example.demo.service.UserService;
@@ -29,6 +33,9 @@ public class AuthController {
 	private TokenUtils tokenUtils;
 	
 	@Autowired
+	private UserMapper userMapper;
+	
+	@Autowired
 	private AuthenticationManager authManager;
 	
 	@PostMapping(value = "/login")
@@ -39,9 +46,22 @@ public class AuthController {
 		return new ResponseEntity<>(new ProfileDTO(user, accessToken), HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/register")
+	public ResponseEntity<HttpStatus> register(@RequestBody RegisterDTO registerDTO){
+		User user = userMapper.map(registerDTO);
+		this.userService.register(user);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/has_email")
 	public ResponseEntity<Boolean> hasEmail(@RequestBody UniqueCheckDTO param) {
 		return new ResponseEntity<>(this.userService.hasEmail(param), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/activation/{code}")
+	public ResponseEntity<HttpStatus> activation(@PathVariable String code){
+		this.userService.activate(code);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }
