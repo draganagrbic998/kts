@@ -1,0 +1,51 @@
+@import "../../../styles/constants"
+    
+.header
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    height: $news_header-height
+    width: 100% 
+    background-color: white
+    position: absolute
+    z-index: $z-index-2
+
+.title
+    font-weight: 500
+    line-height: 1.2
+    font-size: 1.25rem
+
+.paginator-container
+    width: 80% 
+
+.block
+    height: $toolbar-height
+                
+.empty-container
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    margin-top: 50px
+
+.filter-container
+    margin: $padding-30
+    margin-left: $padding-10
+    margin-right: $padding-10
+    
+.center-container
+    display: flex
+    flex-direction: row
+    justify-content: center
+    align-items: center
+
+.big-icon 
+    width: 2rem
+    height: 2rem
+    font-size: 2rem
+    margin-top: 0.5rem
+
+.disabled
+    pointer-events: none
+    opacity: $disabled-opacity

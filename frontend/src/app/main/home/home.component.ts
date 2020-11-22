@@ -81,18 +81,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  refreshDataSubUnsub(response: CulturalOffer | number): void{
-    //nije radilo ako mi nije selectovan tab followed ponudama pa sam napravio ovu metodu za moje potrebe
-    if (typeof response !== "number"){
-      const temp: number[] = this.culturalOffers[1].map(co => co.id);
-      const index: number = temp.indexOf(response.id);
-      this.culturalOffers[1].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
-    }
-    else{
-      this.culturalOffers[1] = this.culturalOffers[1].filter(co => co.id !== response);
-    }
-  }
-
   fetchData(): void{
 
     this.fetchPending[this.selectedTag] = true;
