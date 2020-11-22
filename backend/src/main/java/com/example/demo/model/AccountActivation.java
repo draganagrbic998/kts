@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,6 +35,11 @@ public class AccountActivation {
 
 	public AccountActivation() {
 		super();
+	}
+
+	public AccountActivation(User user2) {
+		this.user = user2;
+		this.value = UUID.randomUUID().toString();
 	}
 
 	public Long getId() {
