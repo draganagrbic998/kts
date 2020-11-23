@@ -8,6 +8,11 @@
             [categories]="categories"
             ></app-categories-list>  
 
+            <app-add-category *ngIf = "selectedTag === 0"
+            [title]="title[0]"
+            (onRefreshData)="fetchData()"
+            ></app-add-category>  
+
             <div  class="tabs">
                 <mat-tab-group headerPosition="below" animationDuration="0ms"
                 (selectedIndexChange)="changeTab($event)">
