@@ -1,0 +1,22 @@
+<mat-drawer-container>
+    <div>
+        <h3>Categories</h3>
+        <div >
+            <app-categories-list *ngIf = "selectedTag === 1"
+            [title]="title[1]"
+            [fetchPending]= "fetchPending"
+            [categories]="categories"
+            ></app-categories-list>  
+
+            <div  class="tabs">
+                <mat-tab-group headerPosition="below" animationDuration="0ms"
+                (selectedIndexChange)="changeTab($event)">
+                    <mat-tab [label]="title[0]">
+                    </mat-tab>
+                    <mat-tab [label]="title[1]">
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</mat-drawer-container>

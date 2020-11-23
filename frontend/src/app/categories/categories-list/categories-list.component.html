@@ -1,0 +1,13 @@
+<br>
+
+<app-preloader *ngIf="fetchPending"></app-preloader>
+
+<div *ngFor="let c of categories">
+    <mat-card>
+        {{c.name}}
+    </mat-card>
+</div>
+
+<div *ngIf="!fetchPending && !categories?.length" class="empty-container">
+    NO CATEGORIES
+</div>
