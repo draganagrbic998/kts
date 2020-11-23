@@ -7,6 +7,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { YANDEX_MAP_CONFIG } from './utils/yandex';
 import { CulturalOffersModule } from '../cultural-offers/cultural-offers.module';
 import { UserModule } from '../user/user.module';
+import { CategoriesModule } from '../categories/categories.module';
 
 @NgModule({
   declarations: [MapComponent, HomeComponent, ToolbarComponent],
@@ -14,6 +15,7 @@ import { UserModule } from '../user/user.module';
     LayoutModule,
     AngularYandexMapsModule.forRoot(YANDEX_MAP_CONFIG),
     CulturalOffersModule, 
+    CategoriesModule,
     UserModule
   ],
   exports: [

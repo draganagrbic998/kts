@@ -5,6 +5,7 @@ import { CulturalOffer } from 'src/app/cultural-offers/utils/cultural-offer';
 import { ProfileDetailsComponent } from 'src/app/user/components/profile-details/profile-details.component';
 import { AuthService } from 'src/app/utils/services/auth.service';
 import { USER_PATH } from 'src/app/utils/router';
+import { CategoriesDialogComponent } from 'src/app/categories/categories-dialog/categories-dialog.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -28,6 +29,17 @@ export class ToolbarComponent implements OnInit {
 
   signIn(): void{
     this.router.navigate([USER_PATH]);
+  }
+
+  categories(): void{
+    this.dialog.open(CategoriesDialogComponent, {
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      panelClass: "no-padding", 
+      position: {
+          top: '30px', 
+          right: '30px'
+      }
+  });
   }
 
   signOut(): void{
