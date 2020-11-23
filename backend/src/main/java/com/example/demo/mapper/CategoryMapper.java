@@ -1,7 +1,7 @@
 package com.example.demo.mapper;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -11,12 +11,16 @@ import com.example.demo.model.Category;
 @Component
 public class CategoryMapper {
 	public List<CategoryDTO> map(List<Category> cats) {
-		List<CategoryDTO> ret = new ArrayList<CategoryDTO>();
-		for(Category c: cats) {
-			CategoryDTO cdto = new CategoryDTO(c.getId(),c.getName());
-			ret.add(cdto);
-		}
-		return ret;
+		return cats.stream().map(cat -> {
+			CategoryDTO catDTO = new CategoryDTO(cat.getId(),cat.getName());
+			return catDTO;
+		}).collect(Collectors.toList());
+	}
+
+	public Category map(CategoryDTO catDTO) {
+		Category c = new Category();
+		c.setName(catDTO.getName());
+		return c;
 	}
 	
 	
