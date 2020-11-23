@@ -16,6 +16,12 @@ public class CategoryMapper {
 			return catDTO;
 		}).collect(Collectors.toList());
 	}
+
+	public Category map(CategoryDTO catDTO) {
+		Category c = new Category();
+		c.setName(catDTO.getName());
+		return c;
+	}
 	
 	
 }

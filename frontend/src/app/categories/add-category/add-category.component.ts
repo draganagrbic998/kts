@@ -1,5 +1,9 @@
 import { Component, OnInit,Input, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ERROR_SNACKBAR_OPTIONS, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
+import { CategoryService} from '../services/categories.service'
+
 
 @Component({
   selector: 'app-add-category',
@@ -8,7 +12,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class AddCategoryComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private categoryService: CategoryService,
+    private snackBar: MatSnackBar) { }
+
   @Input() title: string;
   @Output() onRefreshData: EventEmitter<string> = new EventEmitter();
 
@@ -21,6 +28,26 @@ export class AddCategoryComponent implements OnInit {
 
   refreshData(): void{
     this.onRefreshData.emit("dodata nova kategorija");
+  }
+
+  add(): void{
+    if (this.addForm.invalid){
+      return;
+    }
+
+    this.addPending = true;
+    this.categoryService.addCategory(this.addForm.value).subscribe(
+      () => {
+        this.addPending = false;
+        this.refreshData();
+        this.snackBar.open("Category successfully added!", "Close", SUCCESS_SNACKBAR_OPTIONS);
+      }, 
+      () => {
+        this.addPending = false;
+        this.snackBar.open("Category already exists! Try again.", 
+        "Close", ERROR_SNACKBAR_OPTIONS);
+      }
+    )
   }
 
 }
