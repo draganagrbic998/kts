@@ -25,7 +25,7 @@ public class CategoryController {
 	@Autowired
 	private CategoryMapper categoriesMapper;
 	
-	@GetMapping(value = "/list")
+	@GetMapping(value = "")
 	public ResponseEntity<List<CategoryDTO>> getCategories(){
 		List<Category> sveKategorije = (List<Category>) categoriesService.findAll();
 		List<CategoryDTO> sveKategorijeDTO = categoriesMapper.map(sveKategorije); 
