@@ -33,12 +33,10 @@ export class ToolbarComponent implements OnInit {
 
   categories(): void{
     this.dialog.open(CategoriesDialogComponent, {
+      height:'500px',
+      width: '500px',
       backdropClass: 'cdk-overlay-transparent-backdrop',
-      panelClass: "no-padding", 
-      position: {
-          top: '30px', 
-          right: '30px'
-      }
+      panelClass: "no-padding",
   });
   }
 
