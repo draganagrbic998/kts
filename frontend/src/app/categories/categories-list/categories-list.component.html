@@ -1,13 +1,17 @@
+<div class="lista">
 <br>
 
 <app-preloader *ngIf="fetchPending"></app-preloader>
+    <app-category-details *ngFor="let c of categories"
+    [currentCategory]="c"
+    (onRefreshData)="refreshData()">
+</app-category-details>
 
-<div *ngFor="let c of categories">
-    <mat-card>
-        {{c.name}}
-    </mat-card>
-</div>
+
+
 
 <div *ngIf="!fetchPending && !categories?.length" class="empty-container">
     NO CATEGORIES
 </div>
+</div>
+

@@ -3,6 +3,7 @@ import { Category } from '../utils/category';
 import { CategoryService} from '../services/categories.service'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ERROR_SNACKBAR_OPTIONS, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-categories-dialog',
@@ -13,7 +14,9 @@ export class CategoriesDialogComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public dialogRef: MatDialogRef<CategoriesDialogComponent>,
+
   ) { }
   selectedTag: number = 0;
   fetchPending: boolean = true;

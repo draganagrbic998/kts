@@ -21,4 +21,10 @@ public class CategoryService {
 		return categoryRepository.findAll();
 	}
 
+	@Transactional(readOnly = false)
+	public void delete(long id) {
+		this.categoryRepository.deleteById(id);
+		
+	}
+
 }

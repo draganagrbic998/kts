@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { UniqueCheck } from 'src/app/utils/unique-check';
 import { Category } from '../utils/category';
-import { API_ADD, API_LIST } from '../utils/api';
+import { API_ADD, API_DELETE_CATEGORIES, API_LIST } from '../utils/api';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +21,10 @@ export class CategoryService {
 
   addCategory(cat: Category): Observable<null>{
     return this.http.post<null>(API_ADD,cat);
+  }
+
+  delete(id: number): Observable<null>{
+    return this.http.delete<null>(`${API_DELETE_CATEGORIES}${id}`);
   }
 
   
