@@ -44,7 +44,7 @@ export class CategoryDetailsComponent implements OnInit {
             }, 
             () => {
               this.delPending = false;
-              this.snackBar.open("Can't delete this category because there are cultural offers that have this category! Try again.", 
+              this.snackBar.open("Can't delete this category because there are cultural offers that have this category!", 
               "Close", ERROR_SNACKBAR_OPTIONS);
             }
           )

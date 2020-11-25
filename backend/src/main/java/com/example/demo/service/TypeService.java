@@ -18,5 +18,11 @@ public class TypeService {
 	public Collection<Type> findAll() {
 		return typeRepository.findAll();
 	}
+	
+	@Transactional(readOnly = false)
+	public void delete(long id) {
+		this.typeRepository.deleteById(id);
+		
+	}
 
 }
