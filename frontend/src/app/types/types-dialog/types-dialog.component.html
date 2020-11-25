@@ -1,0 +1,28 @@
+<mat-drawer-container cdkFocusInitial>
+    
+    <div>
+        <h3>Types</h3>
+        <app-close-button 
+        [fixed]="true"
+        (onClose)="dialogRef.close()"
+        ></app-close-button>
+        <div >
+
+                <mat-tab-group  animationDuration="0ms"
+                (selectedIndexChange)="changeTab($event)">
+                    <mat-tab [label]="title[0]"> 
+                    </mat-tab>
+                    <mat-tab [label]="title[1]">
+                        <app-types-list
+                        [fetchPending]= "fetchPending"
+                        [types]="types"
+                        (onRefreshData)="fetchData()">
+
+                        </app-types-list>  
+                        
+                    </mat-tab>
+                </mat-tab-group>
+        </div>
+    </div>
+</mat-drawer-container>
+

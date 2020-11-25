@@ -1,0 +1,16 @@
+<div class="lista">
+    <br>
+    
+    <app-preloader *ngIf="fetchPending"></app-preloader>
+        <app-type-details *ngFor="let t of types"
+        [currentType]="t"
+        (onRefreshData)="refreshData()">
+    </app-type-details>
+    
+    
+    
+    
+    <div *ngIf="!fetchPending && !types?.length" class="empty-container">
+        NO TYPES
+    </div>
+</div>
