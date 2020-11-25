@@ -6,6 +6,7 @@ import { ProfileDetailsComponent } from 'src/app/user/components/profile-details
 import { AuthService } from 'src/app/utils/services/auth.service';
 import { USER_PATH } from 'src/app/utils/router';
 import { CategoriesDialogComponent } from 'src/app/categories/categories-dialog/categories-dialog.component';
+import { TypesDialogComponent } from 'src/app/types/types-dialog/types-dialog.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -33,6 +34,15 @@ export class ToolbarComponent implements OnInit {
 
   categories(): void{
     this.dialog.open(CategoriesDialogComponent, {
+      height:'500px',
+      width: '500px',
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      panelClass: "no-padding",
+  });
+  }
+  
+  types(): void{
+    this.dialog.open(TypesDialogComponent, {
       height:'500px',
       width: '500px',
       backdropClass: 'cdk-overlay-transparent-backdrop',
