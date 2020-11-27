@@ -76,7 +76,8 @@
 
         <mat-tab-group animationDuration="0ms">
             <mat-tab [label]="'Reviews'">
-                KOMENTARI
+                <app-comment-list [culturalOfferId]="culturalOffer.id">
+                </app-comment-list>
             </mat-tab>
             <mat-tab [label]="'News'">
                 <app-news-list [culturalOfferId]="culturalOffer.id">

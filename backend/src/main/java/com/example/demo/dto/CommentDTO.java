@@ -4,24 +4,29 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.example.demo.model.News;
+import com.example.demo.model.Comment;
 
-public class NewsDTO {
-	
+public class CommentDTO {
+
 	private long id;
 	private Date createdAt;
+	private int rate;
 	private String text;
 	private List<String> images;
-
-	public NewsDTO() {
+	private String user;
+	
+	public CommentDTO() {
 		super();
 	}
-	
-	public NewsDTO(News news) {
-		this.id = news.getId();
-		this.createdAt = news.getCreatedAt();
-		this.text = news.getText();
-		this.images = news.getImages().stream().map(image -> image.getPath()).collect(Collectors.toList());
+
+	public CommentDTO(Comment comment) {
+		super();
+		this.id = comment.getId();
+		this.createdAt = comment.getCreatedAt();
+		this.rate = comment.getRate();
+		this.text = comment.getText();
+		this.images = comment.getImages().stream().map(image -> image.getPath()).collect(Collectors.toList());
+		this.user = comment.getUser().getEmail();
 	}
 
 	public long getId() {
@@ -40,6 +45,14 @@ public class NewsDTO {
 		this.createdAt = createdAt;
 	}
 
+	public int getRate() {
+		return rate;
+	}
+
+	public void setRate(int rate) {
+		this.rate = rate;
+	}
+
 	public String getText() {
 		return text;
 	}
@@ -56,4 +69,12 @@ public class NewsDTO {
 		this.images = images;
 	}
 
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+	
 }
