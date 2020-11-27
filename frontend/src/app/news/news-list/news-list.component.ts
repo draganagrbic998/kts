@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
+import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/utils/constants';
 import { NewsService } from '../services/news.service';
 import { News } from '../utils/news';
 
@@ -10,25 +12,42 @@ import { News } from '../utils/news';
 export class NewsListComponent implements OnInit {
 
   constructor(
-    private newsService: NewsService
+    private newsService: NewsService 
   ) { }
 
-  @Input() page: number;
-  @Input() title: string;
-  @Input() news: News[];
-  @Input() fetchPending: boolean;
-  @Input() hasPrevious: boolean;
-  @Input() hasNext: boolean;
-  @Output() onChangePage: EventEmitter<number> = new EventEmitter();
-  @Output() onRefreshData: EventEmitter<News | number> = new EventEmitter();
+  @Input() culturalOfferId: number;
+  news: News[];
+  fetchPending: boolean = true;
+  pageNumber: number = 0;
+  startOfPages: boolean = true;
+  endOfPages: boolean = true;
 
-  panelOpenState: boolean = false;
+  changePage(value: number): void{
+    this.pageNumber += value;
+    this.fetchNews();
+  }
 
-  refreshData(response: News | number): void{
-    this.onRefreshData.emit(response);
+  fetchNews(): void{
+    this.fetchPending = true;
+    this.newsService.list(this.culturalOfferId, this.pageNumber).subscribe(
+      (data: HttpResponse<News[]>) => {
+        this.fetchPending = false;
+        if (data){
+          this.news = data.body;
+          const headers: HttpHeaders = data.headers;
+          this.endOfPages = headers.get(LAST_PAGE_HEADER) === "true" ? true : false;
+          this.startOfPages = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
+        }
+        else{
+          this.endOfPages = true;
+          this.startOfPages = true;
+        }
+      }
+    );
   }
 
   ngOnInit(): void {
+    this.fetchNews();
   }
 
 }

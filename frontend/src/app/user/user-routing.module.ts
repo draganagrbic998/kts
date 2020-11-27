@@ -1,39 +1,37 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { HOME_PATH } from '../utils/router';
 import { AccountActivationComponent } from './account-activation/account-activation.component';
-import { LoginFormComponent } from './components/login-form/login-form.component';
-import { ProfileFormComponent } from './components/profile-form/profile-form.component';
-import { RegistrationFormComponent } from './registration-form/registration-form.component';
+import { GuestGuard } from './guard/guest.guard';
+import { LoginFormComponent } from './login-form/login-form.component';
+import { ProfileFormComponent } from './profile-form/profile-form.component';
+import { RegisterFormComponent } from './register-form/register-form.component';
 import { UserComponent } from './user.component';
-import { LOGIN_PATH, PROFILE_PATH, REGISTER_PATH, ACTIVATION_PATH } from './utils/router';
+import { LOGIN_PATH, PROFILE_PATH, REGISTER_PATH, ACTIVATE_PATH } from './utils/router';
 
 const routes: Routes = [
   {
+    path: HOME_PATH,
     component: UserComponent,
-    path: "",
     children: [
       {
         path: LOGIN_PATH,
         component: LoginFormComponent
       }, 
       {
-        path: PROFILE_PATH,
-        component: ProfileFormComponent
-      },
-      {
         path: REGISTER_PATH,
-        component: RegistrationFormComponent
+        component: RegisterFormComponent
       },
       {
-        path: ACTIVATION_PATH,
-        component: AccountActivationComponent
-      },/*
-      {
-        path: "**", 
-        pathMatch: 'full',
-        redirectTo: LOGIN_PATH 
-      }*/
+        path: PROFILE_PATH,
+        component: ProfileFormComponent, 
+        canActivate: [GuestGuard]
+      }
     ]
+  }, 
+  {
+    path: ACTIVATE_PATH,
+    component: AccountActivationComponent
   }
 ];
 

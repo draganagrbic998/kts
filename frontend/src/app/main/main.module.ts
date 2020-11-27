@@ -4,21 +4,25 @@ import { LayoutModule } from '../layout/layout.module';
 import { AngularYandexMapsModule, YA_MAP_CONFIG } from 'angular8-yandex-maps';
 import { HomeComponent } from './home/home.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { YANDEX_MAP_CONFIG } from './utils/yandex';
+import { YANDEX_MAP_CONFIG } from './utils/constants';
 import { CulturalOffersModule } from '../cultural-offers/cultural-offers.module';
-import { UserModule } from '../user/user.module';
 import { CategoriesModule } from '../categories/categories.module';
 import { TypesModule } from '../types/types.module';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
-  declarations: [MapComponent, HomeComponent, ToolbarComponent],
+  declarations: [
+    ToolbarComponent,
+    MapComponent, 
+    ProfileComponent,
+    HomeComponent, 
+  ],
   imports: [
-    LayoutModule,
     AngularYandexMapsModule.forRoot(YANDEX_MAP_CONFIG),
+    LayoutModule,
     CulturalOffersModule, 
     CategoriesModule,
-    TypesModule,
-    UserModule
+    TypesModule
   ],
   exports: [
     HomeComponent

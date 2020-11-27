@@ -10,11 +10,9 @@ import com.example.demo.model.Type;
 
 @Component
 public class TypeMapper {
-	public List<TypeDTO> map(List<Type> sviTipovi) {
-		return sviTipovi.stream().map(t -> {
-			TypeDTO typeDTO = new TypeDTO(t.getId(),t.getName(),t.getCategory().getName(),t.getPlacemarkIcon());
-			return typeDTO;
-		}).collect(Collectors.toList());
+	
+	public List<TypeDTO> map(List<Type> types) {
+		return types.stream().map(type -> new TypeDTO(type)).collect(Collectors.toList());
 	}
 
 }

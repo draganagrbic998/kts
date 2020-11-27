@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CulturalDialogComponent } from 'src/app/cultural-offers/cultural-dialog/cultural-dialog.component';
 import { CulturalOffer } from 'src/app/cultural-offers/utils/cultural-offer';
-import { DEFAULT_MAP_CENTER } from '../utils/yandex';
+import { DIALOG_OPTIONS } from 'src/app/utils/constants';
+import { DEFAULT_MAP_CENTER } from '../utils/constants';
 
 @Component({
   selector: 'app-map',
@@ -15,8 +16,8 @@ export class MapComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
-  @Input() fetchPending: boolean;
   @Input() culturalOffers: CulturalOffer[];
+  @Input() fetchPending: boolean;
   @Output() onRefreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
 
   mapPending: boolean = true;
@@ -31,17 +32,19 @@ export class MapComponent implements OnInit {
   }
 
   markOnMap(culturalOffer: CulturalOffer): void{
-    console.log(this.ymaps);
     this.center = culturalOffer;
-    this.ymaps.instance.balloon.open(this.mapCenter, "<div style='text-align: center; font-weight: bold;'>found!</div>");
+    this.ymaps.instance.balloon.open(this.mapCenter, 
+      `<div style='text-align: center; font-weight: bold;'>${culturalOffer.name} is placed here!</div>`);
   }
 
   showDetails(culturalOffer: CulturalOffer): void{
-    const dialog: MatDialogRef<CulturalDialogComponent> = this.dialog.open(CulturalDialogComponent, 
-      {disableClose: true, panelClass: "no-padding", data: culturalOffer});
-      dialog.componentInstance.onRefreshData.subscribe((response: CulturalOffer | number) => {
+    const options = {...DIALOG_OPTIONS, ...{data: culturalOffer}}
+    const dialog: MatDialogRef<CulturalDialogComponent> = this.dialog.open(CulturalDialogComponent, options);
+    dialog.componentInstance.onRefreshData.subscribe(
+      (response: CulturalOffer | number) => {
         this.onRefreshData.emit(response);
-      });
+      }
+    );
   }
 
   placemarkOptions(culturalOffer: CulturalOffer){
@@ -57,7 +60,7 @@ export class MapComponent implements OnInit {
       hintContent: `
         <div style="text-align: center;">
           <div>
-            <img src='${culturalOffer.image}' alt='no image' height="100" width="100">
+            <img src='${culturalOffer.image}' height="100" width="100" alt='no image'>
           </div>
           <div style="font-weight: bold">
           ${culturalOffer.name}
@@ -67,13 +70,6 @@ export class MapComponent implements OnInit {
           </div>
         </div>
       `
-    }
-  }
-
-  balloonProperties(){
-    return {
-      balloonContentHeader: `<div style='text-align: center'>found!</div>`,
-      balloonContentBody: `<div style='text-align: center'>is placed here!</div>`
     }
   }
 

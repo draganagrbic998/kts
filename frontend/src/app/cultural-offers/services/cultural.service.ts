@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LARGE_PAGE_SIZE } from 'src/app/utils/constants';
-import { API_FILTER_LOCATIONS, API_FILTER_NAMES, API_FILTER_TYPES, API_FILTER, API_DELETE_OFFER } from '../utils/api';
+import { API_FILTER_LOCATIONS, API_FILTER_NAMES, API_FILTER_TYPES, API_FILTER, API_BASE } from '../utils/api';
 import { CulturalOffer } from '../utils/cultural-offer';
 import { FilterParams } from '../utils/filter-params';
 
@@ -16,31 +16,32 @@ export class CulturalService {
     private http: HttpClient
   ) { }
 
-  filterNames(filterParam: string): Observable<string[]>{
-    return this.http.post<string[]>(API_FILTER_NAMES, filterParam).pipe(
+  filterNames(filter: string): Observable<string[]>{
+    return this.http.post<string[]>(API_FILTER_NAMES, filter).pipe(
       catchError(() => of([]))
     );
   }
 
-  filterLocations(filterParam: string): Observable<string[]>{
-    return this.http.post<string[]>(API_FILTER_LOCATIONS, filterParam).pipe(
+  filterLocations(filter: string): Observable<string[]>{
+    return this.http.post<string[]>(API_FILTER_LOCATIONS, filter).pipe(
       catchError(() => of([]))
     );
   }
 
-  filterTypes(filterParam: string): Observable<string[]>{
-    return this.http.post<string[]>(API_FILTER_TYPES, filterParam).pipe(
+  filterTypes(filter: string): Observable<string[]>{
+    return this.http.post<string[]>(API_FILTER_TYPES, filter).pipe(
       catchError(() => of([]))
     );
   }
 
-  filter(filterParams: FilterParams, pageNumber: number): Observable<HttpResponse<CulturalOffer[]>>{
-    return this.http.post<CulturalOffer[]>(`${API_FILTER}?page=${pageNumber}&size=${LARGE_PAGE_SIZE}`, filterParams, { observe: 'response' }).pipe(
+  filter(filters: FilterParams, page: number): Observable<HttpResponse<CulturalOffer[]>>{
+    return this.http.post<CulturalOffer[]>(`${API_FILTER}?page=${page}&size=${LARGE_PAGE_SIZE}`, 
+    filters, { observe: 'response' }).pipe(
       catchError(() => of(null))
     );
   }
 
   delete(id: number): Observable<CulturalOffer>{
-    return this.http.delete<CulturalOffer>(`${API_DELETE_OFFER}/${id}`);
+    return this.http.delete<CulturalOffer>(`${API_BASE}/${id}`);
   }
 }

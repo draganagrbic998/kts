@@ -36,20 +36,39 @@ public class UserService implements UserDetailsService {
 	
 	@Autowired
 	private ImageService imageService;
+	
 	@Autowired
 	private EmailService emailService;
 
 	@Override
+	@Transactional(readOnly = true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return this.userRepository.findByEmail(username);	//ovu klasu cemo koristiti i za security
+		return this.userRepository.findByEmail(username);	
 	}
 	
-	public User getCurrentUser() {
+	public User currentUser() {
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (obj instanceof User) {
 			return (User) obj;			
 		}
 		return null;
+	}
+		
+	@Transactional(readOnly = false)
+	public User register(User user)  {
+		AccountActivation accountActivation = new AccountActivation(user);
+		this.accountRepository.save(new AccountActivation(user));
+		String link = Constants.FRONTEND_URL + "/user/activate/" + accountActivation.getCode();
+		String message = "You have been successfully registered! Click on link " + link + " to activate your account.";
+		this.emailService.sendMessage(new Email(user.getEmail(), "Account Activation", message));
+		return this.userRepository.save(user);
+	}
+	
+	@Transactional(readOnly = false)
+	public void activate(String code) {
+		User user =  this.accountRepository.findByCode(code).getUser();
+		user.setEnabled(true);
+		this.userRepository.save(user);
 	}
 	
 	@Transactional(readOnly = false)
@@ -60,14 +79,6 @@ public class UserService implements UserDetailsService {
 		return this.userRepository.save(user);
 	}
 	
-	@Transactional(readOnly = false)
-	public User register(User user)  {
-		AccountActivation ac = new AccountActivation(user);
-		accountRepository.save(ac);
-		String link = Constants.FRONTEND_URL +"/user/account-activation/" + ac.getValue();
-		this.emailService.sendMessage(new Email(user.getEmail(),"Register","Click on this link: "  + link));
-		return this.userRepository.save(user);
-	}
 	@Transactional(readOnly = true)
 	public boolean hasEmail(UniqueCheckDTO param) {
 		User user = this.userRepository.hasEmail(param.getId(), param.getName());
@@ -76,33 +87,17 @@ public class UserService implements UserDetailsService {
 		}
 		return true;
 	}
-	
-	@Transactional(readOnly = false)
-	public void activate(String code) {
-		AccountActivation ac =  this.accountRepository.findByValue(code);
-		User u = ac.getUser();
-		u.setEnabled(true);
-		this.userRepository.save(u);
 		
-		
-	}
-	
 	@Transactional(readOnly = true)
 	public boolean userIsFollowing(CulturalOffer culturalOffer) {
-		User user = this.getCurrentUser();
+		User user = this.currentUser();
 		if (user == null) {
 			return false;
 		}
 		if (user.getAuthority().getName() == Constants.ADMIN_AUTHORITY) {
 			return false;
 		}
-		for (CulturalOffer co: this.userFollowingRepository.findCulturalOfferByUserId(user.getId())) {
-			if (co.getId().equals(culturalOffer.getId())) {
-				return true;
-			}
-		}
-		return false;
+		return this.userFollowingRepository.list(user.getId()).stream().anyMatch(co -> co.getId().equals(culturalOffer.getId()));
 	}
 
-		
 }

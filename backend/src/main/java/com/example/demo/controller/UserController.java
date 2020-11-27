@@ -34,7 +34,7 @@ public class UserController {
 	@Autowired
 	private TokenUtils tokenUtils;
 		
-	@PostMapping(value="", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<ProfileDTO> update(@ModelAttribute ProfileUploadDTO profileDTO) throws FileNotFoundException, IOException {
 		User user = this.userService.save(this.userMapper.map(profileDTO), profileDTO.getImage());
 		String accessToken = this.tokenUtils.generateToken(user.getUsername());

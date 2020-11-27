@@ -1,6 +1,5 @@
 package com.example.demo.dto;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,13 +19,9 @@ public class NewsDTO {
 	
 	public NewsDTO(News news) {
 		this.id = news.getId();
-		this.setText(news.getText());
-		this.setCreatedAt(news.getCreatedAt());
-		this.images = new ArrayList<>();
-
-		this.images = news.getImages().stream().map(image -> {
-			return image.getPath();
-		}).collect(Collectors.toList());
+		this.text = news.getText();
+		this.createdAt = news.getCreatedAt();
+		this.images = news.getImages().stream().map(image -> image.getPath()).collect(Collectors.toList());
 	}
 
 	public long getId() {

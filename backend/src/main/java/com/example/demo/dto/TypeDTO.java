@@ -1,46 +1,56 @@
 package com.example.demo.dto;
 
+import com.example.demo.model.Type;
+
 public class TypeDTO {
-	private Long id;
+	
+	private long id;
 	private String name;
 	private String category;
-	private String placemark;
-	
+	private String placemarkIcon;
 
 	public TypeDTO() {
 		super();
 	}
 	
-	public TypeDTO(Long id, String name, String category, String placemark) {
+	public TypeDTO(Type type) {
 		super();
-		this.id = id;
-		this.name = name;
-		this.category = category;
-		this.placemark = placemark;
+		this.id = type.getId();
+		this.name = type.getName();
+		this.category = type.getCategory().getName();
+		this.placemarkIcon = type.getPlacemarkIcon();
 	}
-	public Long getId() {
+
+	public long getId() {
 		return id;
 	}
-	public void setId(Long id) {
+
+	public void setId(long id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getCategory() {
 		return category;
 	}
+
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public String getPlacemark() {
-		return placemark;
+
+	public String getPlacemarkIcon() {
+		return placemarkIcon;
 	}
-	public void setPlacemark(String placemark) {
-		this.placemark = placemark;
+
+	public void setPlacemarkIcon(String placemarkIcon) {
+		this.placemarkIcon = placemarkIcon;
 	}
 	
 }

@@ -1,5 +1,5 @@
+export const HOME_PATH: string = "";
 export const LOGIN_PATH: string = "login";
-export const PROFILE_PATH: string = "profile";
 export const REGISTER_PATH: string = "register";
-export const ACTIVATION_PATH: string = "account-activation/:code";
-
+export const PROFILE_PATH: string = "profile";
+export const ACTIVATE_PATH: string = "activate/:code";

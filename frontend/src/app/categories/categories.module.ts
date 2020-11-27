@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { LayoutModule } from '../layout/layout.module';
-import { CategoriesListComponent } from './categories-list/categories-list.component';
-import { CategoriesDialogComponent } from './categories-dialog/categories-dialog.component';
-import { AddCategoryComponent } from './add-category/add-category.component';
 import { CategoryDetailsComponent } from './category-details/category-details.component';
-
-
+import { CategoryDialogComponent } from './category-dialog/category-dialog.component';
+import { CategoryFormComponent } from './category-form/category-form.component';
+import { CategoryListComponent } from './category-list/category-list.component';
 
 @NgModule({
-  declarations: [CategoriesListComponent, CategoriesDialogComponent, AddCategoryComponent, CategoryDetailsComponent],
+  declarations: [
+    CategoryDetailsComponent,
+    CategoryListComponent, 
+    CategoryFormComponent,
+    CategoryDialogComponent
+  ],
   imports: [
-    LayoutModule,
-    CommonModule
-    ],
+    LayoutModule
+  ],
   exports: [
-    CategoriesDialogComponent
+    CategoryDialogComponent
   ]
 })
 export class CategoriesModule { }

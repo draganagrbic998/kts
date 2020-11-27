@@ -25,8 +25,8 @@ public class AccountActivation {
 	private Long id;
 	
 	@NotBlank
-	@Column(name = "value", unique = true)
-	private String value;
+	@Column(name = "code", unique = true)
+	private String code;
 	
 	@NotNull
 	@OneToOne(fetch = FetchType.EAGER)
@@ -37,9 +37,9 @@ public class AccountActivation {
 		super();
 	}
 
-	public AccountActivation(User user2) {
-		this.user = user2;
-		this.value = UUID.randomUUID().toString();
+	public AccountActivation(User user) {
+		this.user = user;
+		this.code = UUID.randomUUID().toString();
 	}
 
 	public Long getId() {
@@ -50,12 +50,12 @@ public class AccountActivation {
 		this.id = id;
 	}
 
-	public String getValue() {
-		return value;
+	public String getCode() {
+		return code;
 	}
 
-	public void setValue(String value) {
-		this.value = value;
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	public User getUser() {

@@ -11,10 +11,10 @@ describe('MapComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ MapComponent ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
       imports: [
         LayoutModule
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   });

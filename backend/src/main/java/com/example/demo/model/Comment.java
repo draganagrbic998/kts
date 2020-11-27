@@ -35,24 +35,9 @@ public class Comment {
 	private Date createdAt;
 	
 	@NotNull
-	@Column(name = "rate")
-	private int rate;
-		
-	@NotBlank
-	@Column(name = "text")
-	private String text;
-	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-		name = "comment_image", 
-		joinColumns = @JoinColumn(referencedColumnName = "id", name = "comment_id", 
-		foreignKey = @ForeignKey(
-	            foreignKeyDefinition = "FOREIGN KEY (comment_id) REFERENCES comment_table(id) ON DELETE CASCADE"
-	        )
-		), 
-		inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "image_id")
-	)
-	private Set<Image> images = new HashSet<>();
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "user_id")
+	private User user;
 	
 	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -64,10 +49,21 @@ public class Comment {
 	private CulturalOffer culturalOffer;
 	
 	@NotNull
-	@OneToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
-	private User user;
-
+	@Column(name = "rate")
+	private int rate;
+		
+	@NotBlank
+	@Column(name = "text")
+	private String text;
+	
+	@OneToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+		name = "comment_image", 
+		joinColumns = @JoinColumn(referencedColumnName = "id", name = "comment_id"), 
+		inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "image_id")
+	)
+	private Set<Image> images = new HashSet<>();
+		
 	public Comment() {
 		super();
 		this.createdAt = new Date();
@@ -87,6 +83,22 @@ public class Comment {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public CulturalOffer getCulturalOffer() {
+		return culturalOffer;
+	}
+
+	public void setCulturalOffer(CulturalOffer culturalOffer) {
+		this.culturalOffer = culturalOffer;
 	}
 
 	public int getRate() {
@@ -111,22 +123,6 @@ public class Comment {
 
 	public void setImages(Set<Image> images) {
 		this.images = images;
-	}
-
-	public CulturalOffer getCulturalOffer() {
-		return culturalOffer;
-	}
-
-	public void setCulturalOffer(CulturalOffer culturalOffer) {
-		this.culturalOffer = culturalOffer;
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
 	}
 
 }

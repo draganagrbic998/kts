@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ import com.example.demo.service.CulturalOfferService;
 
 @RestController
 @RequestMapping(value = "/api/cultural_offers", produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("permitAll()")
 public class CulturalOfferController {
 	
 	@Autowired
@@ -37,33 +39,35 @@ public class CulturalOfferController {
 	private CulturalOfferMapper culturalOfferMapper;
 	
 	@PostMapping(value = "/filter_names")
-	public ResponseEntity<List<String>> filterNames(@RequestBody String filterParam){
-		return new ResponseEntity<>(this.culturalOfferService.filterNames(filterParam), HttpStatus.OK);
+	public ResponseEntity<List<String>> filterNames(@RequestBody String filter){
+		return new ResponseEntity<>(this.culturalOfferService.filterNames(filter), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/filter_locations")
-	public ResponseEntity<List<String>> locations(@RequestBody String filterParam){
-		return new ResponseEntity<>(this.culturalOfferService.filterLocations(filterParam), HttpStatus.OK);
+	public ResponseEntity<List<String>> filterLocations(@RequestBody String filter){
+		return new ResponseEntity<>(this.culturalOfferService.filterLocations(filter), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/filter_types")
-	public ResponseEntity<List<String>> filterTypes(@RequestBody String filterParam){
-		return new ResponseEntity<>(this.culturalOfferService.filterTypes(filterParam), HttpStatus.OK);
+	public ResponseEntity<List<String>> filterTypes(@RequestBody String filter){
+		return new ResponseEntity<>(this.culturalOfferService.filterTypes(filter), HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/filter")
-	public ResponseEntity<List<CulturalOfferDTO>> filter(@RequestBody FilterParamsDTO filterParams, @RequestParam int page, @RequestParam int size, HttpServletResponse response){
+	public ResponseEntity<List<CulturalOfferDTO>> filter(@RequestParam int page, @RequestParam int size, @RequestBody FilterParamsDTO filters, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
-		Page<CulturalOffer> culturalOffers = this.culturalOfferService.filter(filterParams, pageable);
+		Page<CulturalOffer> culturalOffers = this.culturalOfferService.filter(filters, pageable);
 		response.setHeader(Constants.ENABLE_HEADER, Constants.FIRST_PAGE_HEADER + ", " + Constants.LAST_PAGE_HEADER);
 		response.setHeader(Constants.FIRST_PAGE_HEADER, culturalOffers.isFirst() + "");
 		response.setHeader(Constants.LAST_PAGE_HEADER, culturalOffers.isLast() + "");
 		return new ResponseEntity<>(this.culturalOfferMapper.map(culturalOffers.toList()), HttpStatus.OK);
 	}
 
-	@DeleteMapping(value = "/{culturalOfferId}")
-	public ResponseEntity<HttpStatus> delete(@PathVariable long culturalOfferId) {
-		this.culturalOfferService.delete(culturalOfferId);
+	@PreAuthorize("hasAuthority('admin')")
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
+		this.culturalOfferService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
 }

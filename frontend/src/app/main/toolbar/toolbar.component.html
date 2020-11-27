@@ -3,13 +3,12 @@
         <button 
         mat-icon-button 
         (click)="onToggle.emit()">
-            <mat-icon matTooltip="menu">menu</mat-icon>
+            <mat-icon matTooltip="toggle sidebar">menu</mat-icon>
         </button>
         <button 
         *ngIf="role==='admin'" 
-        mat-icon-button 
-        (click)="addOffer()">
-            <mat-icon matTooltip="add new cultural offer">add</mat-icon>
+        mat-icon-button>
+            <mat-icon matTooltip="new cultural offer">add</mat-icon>
         </button>
     </span>
     <span>
@@ -29,12 +28,12 @@
                 <mat-icon>login</mat-icon>
                 <span>Sign in</span>
             </button>
-            <button *ngIf="role==='admin'" mat-menu-item [matMenuTriggerFor]="categoryType">
-                <mat-icon>add_circle_outline</mat-icon>
-                Categories/types
+            <button *ngIf="role==='admin'" mat-menu-item [matMenuTriggerFor]="categories_types">
+                <mat-icon>category</mat-icon>
+                Categories/Types
             </button>
         </mat-menu>
-        <mat-menu #categoryType="matMenu">
+        <mat-menu #categories_types="matMenu">
             <button mat-menu-item (click)="categories()">
                 Categories
             </button>

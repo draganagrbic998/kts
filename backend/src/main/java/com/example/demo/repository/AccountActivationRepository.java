@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.demo.model.AccountActivation;
 
 public interface AccountActivationRepository extends JpaRepository<AccountActivation, Long> {
-	public AccountActivation findByValue(String value);
+	
+	public AccountActivation findByCode(String code);
 	
 }

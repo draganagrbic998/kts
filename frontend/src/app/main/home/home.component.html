@@ -2,28 +2,27 @@
 
     <div>
         <app-toolbar 
-        (onToggle)="drawer.toggle()"
-        (onAddOnMap)="refreshData($event); map.markOnMap($event)">
+        (onToggle)="drawer.toggle()">
         </app-toolbar>
         <app-map 
         #map
-        [culturalOffers]="culturalOffers[selectedTag]"
-        [fetchPending]="fetchPending[selectedTag]"
+        [culturalOffers]="culturalOffers[selectedTab]"
+        [fetchPending]="fetchPending[selectedTab]"
         (onRefreshData)="refreshData($event)"
         ></app-map>
     </div>
 
     <mat-drawer 
-    [class.crop]="fetchPending[selectedTag] || !culturalOffers[selectedTag]?.length" 
+    [class.crop]="fetchPending[selectedTab] || !culturalOffers[selectedTab]?.length" 
     class="mat-elevation-z24" #drawer mode="side">
         
         <app-cultural-list
-        [title]="title[selectedTag]"
-        [culturalOffers]="culturalOffers[selectedTag]"
-        [fetchPending]="fetchPending[selectedTag]"
-        [hasPrevious]="!startOfPages[selectedTag]"
-        [hasNext]="!endOfPages[selectedTag]"
-        [filterForm]="filterForm[selectedTag]"
+        [title]="selectedTab ? 'Followed Cultural Offers' : 'All Cultural Offers'"
+        [culturalOffers]="culturalOffers[selectedTab]"
+        [fetchPending]="fetchPending[selectedTab]"
+        [hasPrevious]="!startOfPages[selectedTab]"
+        [hasNext]="!endOfPages[selectedTab]"
+        [filterForm]="filterForm[selectedTab]"
         (onChangePage)="changePage($event)"
         (onFilterData)="filterData()"
         (onMarkOnMap)="map.markOnMap($event)"
@@ -32,9 +31,9 @@
         <div *ngIf="guest" class="tabs">
             <mat-tab-group headerPosition="below" animationDuration="0ms"
             (selectedIndexChange)="changeTab($event)">
-                <mat-tab [label]="title[0]">
+                <mat-tab [label]="'All Cultural Offers'">
                 </mat-tab>
-                <mat-tab [label]="title[1]">
+                <mat-tab [label]="'Followed Cultural Offers'">
                 </mat-tab>
             </mat-tab-group>
         </div>

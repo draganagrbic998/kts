@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,17 +25,18 @@ import com.example.demo.service.UserService;
 
 @RestController
 @RequestMapping(value = "/auth", produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("permitAll()")
 public class AuthController {
 
 	@Autowired
 	private UserService userService;
-			
-	@Autowired
-	private TokenUtils tokenUtils;
 	
 	@Autowired
 	private UserMapper userMapper;
-	
+
+	@Autowired
+	private TokenUtils tokenUtils;
+		
 	@Autowired
 	private AuthenticationManager authManager;
 	
@@ -48,20 +50,19 @@ public class AuthController {
 	
 	@PostMapping(value = "/register")
 	public ResponseEntity<HttpStatus> register(@RequestBody RegisterDTO registerDTO){
-		User user = userMapper.map(registerDTO);
-		this.userService.register(user);
+		this.userService.register(this.userMapper.map(registerDTO));
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/activate/{code}")
+	public ResponseEntity<HttpStatus> activate(@PathVariable String code){
+		this.userService.activate(code);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/has_email")
 	public ResponseEntity<Boolean> hasEmail(@RequestBody UniqueCheckDTO param) {
 		return new ResponseEntity<>(this.userService.hasEmail(param), HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/activation/{code}")
-	public ResponseEntity<HttpStatus> activation(@PathVariable String code){
-		this.userService.activate(code);
-		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }

@@ -1,20 +1,16 @@
 import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { FormValidatorService } from './form-validator.service';
-import { AuthService } from 'src/app/utils/services/auth.service';
+import { UserService } from './user.service';
 
 describe('FormValidatorService', () => {
   let service: FormValidatorService;
 
   beforeEach(() => {
-    const authServiceMock = {};
+    const userServiceMock = {};
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule
-      ],
       providers: [
-        {provide: AuthService, useValue: authServiceMock},
+        {provide: UserService, useValue: userServiceMock}
       ]
     });
     service = TestBed.inject(FormValidatorService);

@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -36,6 +37,7 @@ public class User implements UserDetails {
     private Set<Authority> authorities;
 	
 	@NotBlank
+	@Email
 	@Column(name = "email", unique = true)
 	private String email;
 	
@@ -99,10 +101,6 @@ public class User implements UserDetails {
 	
 	public Authority getAuthority() {
 		return this.authorities.iterator().next();	
-	}
-	
-	public void addAuthority(Authority authority) {
-		this.authorities.add(authority);
 	}
 
 	public Long getId() {

@@ -11,11 +11,8 @@ import com.example.demo.model.News;
 @Component
 public class NewsMapper {
 	
-	public List<NewsDTO> map(List<News> newsList){
-		return newsList.stream().map(news -> {
-			NewsDTO newsDTO = new NewsDTO(news);
-			return newsDTO;
-		}).collect(Collectors.toList());
+	public List<NewsDTO> map(List<News> news){
+		return news.stream().map(newsItem -> new NewsDTO(newsItem)).collect(Collectors.toList());
 	}
 
 }

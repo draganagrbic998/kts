@@ -16,15 +16,19 @@ public class CategoryService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
-	public Collection<Category> findAll() {
-		// TODO Auto-generated method stub
+	@Transactional(readOnly = true)
+	public Collection<Category> list() {
 		return categoryRepository.findAll();
+	}
+	
+	@Transactional(readOnly = false)
+	public void save(Category category) {
+		this.categoryRepository.save(category);
 	}
 
 	@Transactional(readOnly = false)
 	public void delete(long id) {
 		this.categoryRepository.deleteById(id);
-		
 	}
 
 }

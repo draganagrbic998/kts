@@ -11,6 +11,11 @@ const routes: Routes = [
   {
     path: USER_PATH,
     loadChildren: () => import('./user/user.module').then(m => m.UserModule)
+  }, 
+  {
+    path: "**", 
+    pathMatch: 'full',
+    redirectTo: HOME_PATH 
   }
 ];
 

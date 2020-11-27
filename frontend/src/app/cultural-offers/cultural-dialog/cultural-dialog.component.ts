@@ -1,16 +1,15 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AuthService } from 'src/app/utils/services/auth.service';
 import { CulturalOffer } from '../utils/cultural-offer';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserFollowingService } from '../services/user-following.service';
+import { DIALOG_OPTIONS, ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/utils/constants';
+import { AuthService } from 'src/app/services/auth.service';
 import { CulturalService } from '../services/cultural.service';
-import { ERROR_SNACKBAR_OPTIONS, FIRST_PAGE_HEADER, LAST_PAGE_HEADER, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
-import { ConfirmationDialogComponent } from 'src/app/layout/confirmation-dialog/confirmation-dialog.component';
-import { News } from 'src/app/news/utils/news';
-import { NewsService } from 'src/app/news/services/news.service';
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
-
+import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
+import { Router } from '@angular/router';
+import { LOGIN_PATH } from 'src/app/user/utils/router';
+import { USER_PATH } from 'src/app/utils/router';
 
 @Component({
   selector: 'app-cultural-dialog',
@@ -22,123 +21,58 @@ export class CulturalDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public culturalOffer: CulturalOffer, 
     private authService: AuthService,
-    private userFollowingService: UserFollowingService,
     private culturalService: CulturalService,
-    private newsService: NewsService,
-    public dialogRef: MatDialogRef<CulturalDialogComponent>,
-    private snackBar: MatSnackBar,
-    public dialog: MatDialog
+    private userFollowingService: UserFollowingService,
+    private router: Router,
+    private dialog: MatDialog,
+    public dialogRef:MatDialogRef<CulturalDialogComponent>, 
+    private snackBar: MatSnackBar
   ) { }
 
   toggleSubPending: boolean = false;
-  toggleDelPending: boolean = false;
-
   onRefreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
-
-  news: News[] = undefined;
-  fetchPending: boolean = true;
-  pageNumber: number = 0;
-  endOfPages: boolean = true;
-  startOfPages: boolean = true;
 
   get role(): string{
     return this.authService.getUser()?.role;
   }
 
-  get isSubscribedTo(): boolean{
-    return this.culturalOffer?.followed;
-  }
-
-  toggleSubscription(): void{
-    this.toggleSubPending = true;
-    
-    this.userFollowingService.toggleSubscription(this.culturalOffer.id).subscribe(
-      () => {
-        this.toggleSubPending = false;
-
-        if(!this.culturalOffer.followed) {
-          this.culturalOffer.followed = true;
-          this.onRefreshData.emit(this.culturalOffer);
-        }
-        else {
-          this.culturalOffer.followed = false;
-          this.onRefreshData.emit(this.culturalOffer.id);
-        }
-
-        if (this.culturalOffer)
-          this.snackBar.open("You have successfully subscribed!", "Close", SUCCESS_SNACKBAR_OPTIONS);
-        else
-          this.snackBar.open("You have successfully unsubscribed!", "Close", SUCCESS_SNACKBAR_OPTIONS);
-      }, 
-      () => {
-        this.toggleSubPending = false;
-        this.snackBar.open("An error occured! Try again.", 
-        "Close", ERROR_SNACKBAR_OPTIONS);
-      }
-    )
-  }
-
   edit(): void{
-
+    
   }
 
   delete(): void{
-    const dialog: MatDialogRef<ConfirmationDialogComponent> = this.dialog.open(ConfirmationDialogComponent, 
-      {disableClose: true, panelClass: "no-padding", data: "Delete this offer?"});
+    const options = {...DIALOG_OPTIONS, ...{data: () => this.culturalService.delete(this.culturalOffer.id)}};
+    const dialog: MatDialogRef<DeleteConfirmationComponent> = this.dialog.open(DeleteConfirmationComponent, options);
+    dialog.componentInstance.onDeleted.subscribe(
+      () => {
+        this.dialogRef.close();
+        this.onRefreshData.emit(this.culturalOffer.id);
+      }
+    );  
+  }
 
-      dialog.afterClosed().subscribe((result) => {
-        if (result) {
-          this.toggleDelPending = true;
+  toggleSubscription(): void{
+    if (!this.authService.getUser()){
+      this.dialogRef.close();
+      this.router.navigate([`${USER_PATH}/${LOGIN_PATH}`]);
+      return;
+    }
     
-          this.culturalService.delete(this.culturalOffer.id).subscribe(
-            () => {
-              this.toggleDelPending = false;
-
-              this.onRefreshData.emit(this.culturalOffer.id);
-        
-              this.snackBar.open("You have successfully deleted this cultural offer!", "Close", SUCCESS_SNACKBAR_OPTIONS);
-
-              this.dialogRef.close();
-            }, 
-            () => {
-              this.toggleDelPending = false;
-              this.snackBar.open("An error occured! Try again.", 
-              "Close", ERROR_SNACKBAR_OPTIONS);
-            }
-          )
-        }
-      });
-  }
-  
-  changePage(amount: number): void{
-    this.pageNumber += amount;
-    this.fetchData();
-  }
-
-  fetchData(): void{
-    this.fetchPending = true;
-    this.news = [];
-
-    this.newsService.fetch(this.culturalOffer.id, this.pageNumber).subscribe(
-      (data: HttpResponse<News[]>) => {
-        this.fetchPending = false;
-        if (data){
-          this.news = data.body;
-          const headers: HttpHeaders = data.headers;
-          this.endOfPages = headers.get(LAST_PAGE_HEADER) === "true" ? true : false;
-          this.startOfPages = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
-        }
-        else{
-          this.news = [];
-          this.endOfPages = true;
-          this.startOfPages = true;
-        }
+    this.toggleSubPending = true;
+    this.userFollowingService.toggleSubscription(this.culturalOffer.id).subscribe(
+      () => {
+        this.toggleSubPending = false;
+        this.culturalOffer.followed = !this.culturalOffer.followed;
+        this.onRefreshData.emit(this.culturalOffer.followed ? this.culturalOffer : this.culturalOffer.id);
+      }, 
+      () => {
+        this.toggleSubPending = false;
+        this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
       }
     );
   }
 
   ngOnInit(): void {
-    this.fetchData();
   }
 
 }

@@ -7,20 +7,23 @@ import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.constants.Constants;
 import com.example.demo.repository.ImageRepository;
 
 @Component
+@Transactional(readOnly = true)
 public class ImageService {
 	
 	@Autowired
 	private ImageRepository imageRepository;
 	
+	@Transactional(readOnly = true)
 	public String store(MultipartFile data) throws FileNotFoundException, IOException {
 		long counter = this.imageRepository.count() + 1;
-		String fileName = "image" + counter + "." + data.getOriginalFilename().split("\\.")[1];
+		String fileName = "image" + counter;
 		String path = "src" + File.separatorChar
 				+ "main" + File.separatorChar
 				+ "resources" + File.separatorChar

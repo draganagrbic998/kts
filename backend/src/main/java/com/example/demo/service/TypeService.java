@@ -12,17 +12,17 @@ import com.example.demo.repository.TypeRepository;
 @Component
 @Transactional(readOnly = true)
 public class TypeService {
+	
 	@Autowired
 	private TypeRepository typeRepository;
 
-	public Collection<Type> findAll() {
+	public Collection<Type> list() {
 		return typeRepository.findAll();
 	}
 	
 	@Transactional(readOnly = false)
 	public void delete(long id) {
 		this.typeRepository.deleteById(id);
-		
 	}
 
 }

@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { of } from 'rxjs';
 import { LayoutModule } from 'src/app/layout/layout.module';
 import { NewsService } from '../services/news.service';
 
@@ -10,16 +11,18 @@ describe('NewsListComponent', () => {
   let fixture: ComponentFixture<NewsListComponent>;
 
   beforeEach(async () => {
-    const newsServiceMock = {};
+    const newsServiceMock = {
+      list: jasmine.createSpy('list').and.returnValue(of(null))
+    };
     await TestBed.configureTestingModule({
       declarations: [ NewsListComponent ],
       imports: [
-        LayoutModule,
+        LayoutModule
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: NewsService, useValue: newsServiceMock}
-      ], 
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      ]
     })
     .compileComponents();
   });

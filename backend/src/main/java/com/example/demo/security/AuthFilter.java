@@ -29,7 +29,7 @@ public class AuthFilter extends OncePerRequestFilter {
 		
 		String token = this.tokenUtils.getToken(request);
 		if (token != null) {
-			String username = this.tokenUtils.getUsernameFromToken(token);
+			String username = this.tokenUtils.getUsername(token);
 			if (username != null) {
 				UserDetails user = this.userService.loadUserByUsername(username);
 				if (user != null) {

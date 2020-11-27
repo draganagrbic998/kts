@@ -10,6 +10,7 @@ import com.example.demo.dto.FilterParamsDTO;
 import com.example.demo.model.CulturalOffer;
 import com.example.demo.model.User;
 import com.example.demo.model.UserFollowing;
+import com.example.demo.repository.CulturalOfferRepository;
 import com.example.demo.repository.UserFollowingRepository;
 
 @Component
@@ -18,29 +19,27 @@ public class UserFollowingService {
 	
 	@Autowired
 	private UserFollowingRepository userFollowingRepository;
+			
+	@Autowired
+	private CulturalOfferRepository culturalOfferRepository;
 	
 	@Autowired
 	private UserService userService;
-	
-	@Autowired
-	private CulturalOfferService culturalOfferService;
-	
+
 	@Transactional(readOnly = true)
-	public Page<CulturalOffer> filter(FilterParamsDTO filterParams, Pageable pageable){
-		return this.userFollowingRepository.filterCulturalOffers(this.userService.getCurrentUser().getId(), filterParams.getName(), filterParams.getLocation(), filterParams.getType(), pageable);
+	public Page<CulturalOffer> filter(FilterParamsDTO filters, Pageable pageable){
+		return this.userFollowingRepository.filter(this.userService.currentUser().getId(), filters.getName(), filters.getLocation(), filters.getType(), pageable);
 	}
 
 	@Transactional(readOnly = false)
 	public void toggleSubscription(long culturalOfferId) {
-		User user = userService.getCurrentUser();
-		
-		UserFollowing userFollowing = this.userFollowingRepository.findCulturalOfferByUserIdAndCulturalOfferId(user.getId(), culturalOfferId);
-		
-		if (userFollowing != null)
-			userFollowingRepository.deleteById(userFollowing.getId());
+		User user = this.userService.currentUser();
+		UserFollowing userFollowing = this.userFollowingRepository.findByUserIdAndCulturalOfferId(user.getId(), culturalOfferId);
+		if (userFollowing == null) {
+			this.userFollowingRepository.save(new UserFollowing(user, this.culturalOfferRepository.findById(culturalOfferId).get()));		
+		}
 		else {
-			UserFollowing uf = new UserFollowing(user, culturalOfferService.findOne(culturalOfferId));
-			userFollowingRepository.save(uf);		
+			this.userFollowingRepository.deleteById(userFollowing.getId());
 		}
 	}
 

@@ -1,0 +1,21 @@
+<div *ngIf="fetchPending" class="empty-container">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!fetchPending && !categories?.length" class="empty-container">
+    NO CATEGORIES
+</div>
+
+<div class="header-container" *ngIf="!fetchPending && categories?.length">
+    <app-paginator
+    [fetchPending]="fetchPending"
+    [hasPrevious]="true"
+    [hasNext]="true"
+    ></app-paginator>
+</div>
+
+<app-category-details 
+*ngFor="let category of categories"
+[category]="category">
+</app-category-details>
+
