@@ -1,9 +1,8 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/utils/constants';
 import { NewsService } from '../services/news.service';
-import { FilterParamsNews } from '../utils/filter-params';
 import { News } from '../utils/news';
 
 @Component({
@@ -14,8 +13,7 @@ import { News } from '../utils/news';
 export class NewsListComponent implements OnInit {
 
   constructor(
-    private newsService: NewsService,
-    private fb: FormBuilder,
+    private newsService: NewsService
   ) { }
 
   @Input() culturalOfferId: number;
