@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { LayoutModule } from 'src/app/layout/layout.module';
 import { NewsService } from '../services/news.service';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NewsListComponent } from './news-list.component';
 
@@ -12,12 +13,13 @@ describe('NewsListComponent', () => {
 
   beforeEach(async () => {
     const newsServiceMock = {
-      list: jasmine.createSpy('list').and.returnValue(of(null))
+      filter: jasmine.createSpy('filter').and.returnValue(of(null))
     };
     await TestBed.configureTestingModule({
       declarations: [ NewsListComponent ],
       imports: [
-        LayoutModule
+        LayoutModule,
+        BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [

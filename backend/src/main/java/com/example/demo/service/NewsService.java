@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.FilterParamsNewsDTO;
 import com.example.demo.model.News;
 import com.example.demo.repository.NewsRepository;
 
@@ -17,8 +18,8 @@ public class NewsService {
 	private NewsRepository newsRepository;
 
 	@Transactional(readOnly = true)
-	public Page<News> list(long culturalOfferId, Pageable pageable) {
-		return this.newsRepository.findByCulturalOfferIdOrderByCreatedAtDesc(culturalOfferId, pageable);
+	public Page<News> filter(long culturalOfferId, FilterParamsNewsDTO filters, Pageable pageable) {
+		return this.newsRepository.filter(filters.getStartDate(), filters.getEndDate(), culturalOfferId, pageable);
 	}
 
 	@Transactional(readOnly = false)
