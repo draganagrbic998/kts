@@ -13,13 +13,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.constants.Constants;
+import com.example.demo.dto.FilterParamsNewsDTO;
 import com.example.demo.dto.NewsDTO;
 import com.example.demo.mapper.NewsMapper;
 import com.example.demo.model.News;
@@ -36,10 +38,10 @@ public class NewsController {
 	@Autowired
 	private NewsMapper newsMapper;
 	
-	@GetMapping(value = "/api/cultural_offers/{culturalOfferId}/news")
-	public ResponseEntity<List<NewsDTO>> list(@PathVariable long culturalOfferId, @RequestParam int page, @RequestParam int size, HttpServletResponse response){
+	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/news/filter")
+	public ResponseEntity<List<NewsDTO>> list(@PathVariable long culturalOfferId, @RequestParam int page, @RequestParam int size, @RequestBody FilterParamsNewsDTO filters, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
-		Page<News> news = this.newsService.list(culturalOfferId, pageable);
+		Page<News> news = this.newsService.filter(culturalOfferId, filters, pageable);
 		response.setHeader(Constants.ENABLE_HEADER, Constants.FIRST_PAGE_HEADER + ", " + Constants.LAST_PAGE_HEADER);
 		response.setHeader(Constants.FIRST_PAGE_HEADER, news.isFirst() + "");
 		response.setHeader(Constants.LAST_PAGE_HEADER, news.isLast() + "");

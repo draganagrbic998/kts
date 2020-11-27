@@ -1,9 +1,3 @@
-<app-preloader *ngIf="fetchPending"></app-preloader>
-
-<div class="empty-container" *ngIf="!fetchPending && !news?.length">
-    NO NEWS
-</div>
-
 <div class="header-container">
     <app-paginator
     [fetchPending]="fetchPending"
@@ -13,8 +7,59 @@
     ></app-paginator>    
 </div>
 
+<div class="block"></div>
+
+<app-preloader *ngIf="fetchPending && !panelOpenState"></app-preloader>
+
+<div class="filter-container">
+
+    <mat-expansion-panel hideToggle (opened)="panelOpenState=true" (closed)="panelOpenState=false">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <span></span>
+                <span class="center-container">
+                    <mat-icon color="accent">search</mat-icon>
+                    <span class="filter-button">Filter By Date</span>
+                </span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <form [formGroup]="filterForm" [class.disabled]="fetchPending">
+            <mat-form-field appearance="outline"> 
+                <input matInput formControlName="startDate" [matDatepicker]="startPicker" placeholder="Start date...">
+                <mat-datepicker-toggle  matSuffix [for]="startPicker"></mat-datepicker-toggle>
+                <mat-datepicker #startPicker></mat-datepicker>
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline"> 
+                <input matInput formControlName="endDate" [matDatepicker]="endPicker" placeholder="End date...">
+                <mat-datepicker-toggle  matSuffix [for]="endPicker"></mat-datepicker-toggle>
+                <mat-datepicker #endPicker></mat-datepicker>
+            </mat-form-field>
+        </form>
+        
+        <br>
+
+        <app-spacer-container>
+            <span></span>
+            <span>
+                <button 
+                *ngIf="!fetchPending"
+                mat-raised-button 
+                color="accent"               
+                (click)="filterNews()">Filter</button>
+                <app-spinner-button *ngIf="fetchPending"></app-spinner-button>    
+            </span>
+        </app-spacer-container>
+
+    </mat-expansion-panel>
+</div>
+
 <app-news-details 
 *ngFor="let newsItem of news"
 [news]="newsItem">
 </app-news-details>    
 
+<div class="empty-container" *ngIf="!fetchPending && !news?.length">
+    NO NEWS
+</div>

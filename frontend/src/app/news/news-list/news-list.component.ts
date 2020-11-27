@@ -1,7 +1,9 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/utils/constants';
 import { NewsService } from '../services/news.service';
+import { FilterParamsNews } from '../utils/filter-params';
 import { News } from '../utils/news';
 
 @Component({
@@ -12,24 +14,36 @@ import { News } from '../utils/news';
 export class NewsListComponent implements OnInit {
 
   constructor(
-    private newsService: NewsService 
+    private newsService: NewsService,
+    private fb: FormBuilder,
   ) { }
 
   @Input() culturalOfferId: number;
+
   news: News[];
   fetchPending: boolean = true;
+  panelOpenState: boolean = false;
   pageNumber: number = 0;
   startOfPages: boolean = true;
   endOfPages: boolean = true;
+  filterForm: FormGroup = new FormGroup({
+    startDate: new FormControl(null), 
+    endDate: new FormControl(null)
+  });
 
   changePage(value: number): void{
     this.pageNumber += value;
     this.fetchNews();
   }
 
+  filterNews(): void{
+    this.pageNumber = 0;
+    this.fetchNews();
+  }
+
   fetchNews(): void{
     this.fetchPending = true;
-    this.newsService.list(this.culturalOfferId, this.pageNumber).subscribe(
+    this.newsService.filter(this.filterForm.value, this.culturalOfferId, this.pageNumber).subscribe(
       (data: HttpResponse<News[]>) => {
         this.fetchPending = false;
         if (data){
