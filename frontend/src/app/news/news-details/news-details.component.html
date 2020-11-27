@@ -1,85 +1,45 @@
 <div class="root-container mat-elevation-z24">
-
     <mat-card>
         <mat-card-content>
-            <div class="item-container">
 
-                <div class="details-container">
-                    <app-bold-text>Details: </app-bold-text>
-                    <div class="text-container">
-                        {{currentNews.text}}
-                    </div>
-
-                    <div class="date-container">
-                        <app-bold-text>Published On: </app-bold-text>{{currentNews.createdAt | date: "dd MMM yyyy"}}
-                    </div>
-
-                </div>
-
-                <br>
-
-                <div
-                class="image-container"
-                *ngIf="currentNews.images">
-                    <app-spacer-container>
-                        <span>
-                            <app-spacer-container>
-                                <button
-                                *ngIf="hasPreviousImage"
-                                mat-icon-button 
-                                (click)="previousImage()">
-                                    <mat-icon color="accent" class="big-icon" matTooltip="previous image">navigate_before</mat-icon>
-                                </button>
-                            </app-spacer-container>
-                        </span>
-                        <span>
-                            <div *ngIf="currentNews.images.length !== 0">
-                            <img [src]="currentNews.images[currentImageIndex]? currentNews.images[currentImageIndex] : '../../../assets/noimage.png'"
-                            (error)="currentNews.images[currentImageIndex]=null">
-                            </div>
-                        </span>
-                        <span>
-                            <app-spacer-container>
-                                <button
-                                *ngIf="hasNextImage"
-                                mat-icon-button 
-                                (click)="nextImage()">
-                                    <mat-icon color="accent" class="big-icon" matTooltip="next image">navigate_next</mat-icon>
-                                </button>
-                            </app-spacer-container>
-                        </span>
-                    </app-spacer-container>
-                </div>
-
-                <div>
-                    <app-spacer-container>
-                        <span>
-                            <app-spacer-container>
-                                <button 
-                                mat-button 
-                                *ngIf="role === 'admin'"
-                                color="primary"
-                                (click)="edit()">
-                                    <mat-icon>edit</mat-icon>Edit
-                                </button>
-                            </app-spacer-container>
-                        </span>
-                        <span>
-                            <app-spacer-container>
-                                <button 
-                                mat-button 
-                                *ngIf="role === 'admin' && !delPending"
-                                color="warn"
-                                (click)="delete()">
-                                    <mat-icon>delete</mat-icon>Delete
-                                </button>
-                                <app-spinner-button *ngIf="delPending"></app-spinner-button>
-                            </app-spacer-container>
-                        </span>
-                    </app-spacer-container>
-                </div>
-                
+            <div>
+                <app-bold-text>Details: </app-bold-text>
             </div>
+            <div class="text-container">
+                {{news.text}}
+            </div>
+            <div>
+                <app-bold-text>Published On: </app-bold-text>{{news.createdAt | date: "dd MMM yyyy"}}
+            </div>
+
+            <br>
+
+            <mdb-carousel class="carousel-fade" [animation]="'fade'">
+                <mdb-carousel-item *ngFor="let img of news.images; let i = index">
+                    <img [src]="img ? img : '../../../assets/noimage.png'" 
+                    (error)="news.images[i]=null" >
+                </mdb-carousel-item>
+            </mdb-carousel>            
+
+            <br>
+
+            <app-spacer-container>
+                <button 
+                *ngIf="admin"
+                mat-button 
+                color="primary"
+                (click)="edit()">
+                    <mat-icon>edit</mat-icon>Edit
+                </button>
+                <button 
+                *ngIf="admin"
+                mat-button 
+                color="warn"
+                (click)="delete()">
+                    <mat-icon>delete</mat-icon>Delete
+                </button>
+            </app-spacer-container>
+            
         </mat-card-content>
     </mat-card>
 </div>

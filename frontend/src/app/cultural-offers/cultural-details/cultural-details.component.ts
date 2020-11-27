@@ -12,7 +12,6 @@ export class CulturalDetailsComponent implements OnInit {
 
   @Input() culturalOffer: CulturalOffer;
   @Output() onMarkOnMap: EventEmitter<CulturalOffer> = new EventEmitter();
-  transparent: boolean = false;
 
   ngOnInit(): void {
   }

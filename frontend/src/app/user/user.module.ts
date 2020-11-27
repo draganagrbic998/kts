@@ -1,23 +1,24 @@
 import { NgModule } from '@angular/core';
 
 import { UserRoutingModule } from './user-routing.module';
-import { LoginFormComponent } from './components/login-form/login-form.component';
 import { LayoutModule } from '../layout/layout.module';
 import { UserComponent } from './user.component';
-import { ProfileFormComponent } from './components/profile-form/profile-form.component';
-import { ProfileDetailsComponent } from './components/profile-details/profile-details.component';
-import { RegistrationFormComponent } from './registration-form/registration-form.component';
 import { AccountActivationComponent } from './account-activation/account-activation.component';
-
+import { LoginFormComponent } from './login-form/login-form.component';
+import { RegisterFormComponent } from './register-form/register-form.component';
+import { ProfileFormComponent } from './profile-form/profile-form.component';
 
 @NgModule({
-  declarations: [LoginFormComponent, UserComponent, ProfileFormComponent, ProfileDetailsComponent, RegistrationFormComponent, AccountActivationComponent],
+  declarations: [
+    UserComponent, 
+    LoginFormComponent, 
+    RegisterFormComponent, 
+    ProfileFormComponent, 
+    AccountActivationComponent
+  ],
   imports: [
     UserRoutingModule,
     LayoutModule
-  ], 
-  exports: [
-    ProfileDetailsComponent
   ]
 })
 export class UserModule { }

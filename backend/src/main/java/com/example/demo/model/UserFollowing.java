@@ -46,7 +46,6 @@ public class UserFollowing {
 		this.culturalOffer = culturalOffer;
 	}
 
-	
 	public Long getId() {
 		return id;
 	}

@@ -10,18 +10,16 @@ import com.example.demo.model.Category;
 
 @Component
 public class CategoryMapper {
-	public List<CategoryDTO> map(List<Category> cats) {
-		return cats.stream().map(cat -> {
-			CategoryDTO catDTO = new CategoryDTO(cat.getId(),cat.getName());
-			return catDTO;
-		}).collect(Collectors.toList());
-	}
-
-	public Category map(CategoryDTO catDTO) {
+	
+	public Category map(CategoryDTO categoryDTO) {
 		Category c = new Category();
-		c.setName(catDTO.getName());
+		c.setId(categoryDTO.getId());
+		c.setName(categoryDTO.getName());
 		return c;
 	}
 	
+	public List<CategoryDTO> map(List<Category> categories) {
+		return categories.stream().map(category -> new CategoryDTO(category)).collect(Collectors.toList());
+	}
 	
 }

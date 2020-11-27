@@ -57,19 +57,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.exceptionHandling().authenticationEntryPoint(new AuthEntryPoint()).and()
 			.authorizeRequests()
 			.antMatchers("/h2/**").permitAll()
-			.antMatchers("/auth/**").permitAll()
-			.antMatchers("/api/cultural_offers/filter**").permitAll()
 			.antMatchers("/image**").permitAll()
-			//dodaj kasnije ostale putanje kojima mogu svi pristupiti
-			.anyRequest().authenticated().and().cors().and()
+			.and().cors().and()
 			.addFilterBefore(new AuthFilter(this.userService, this.tokenUtils), BasicAuthenticationFilter.class);
 		http.csrf().disable();
-		http.headers().frameOptions().disable();	//ne mogu da vidim h2 bazu ako ovo ne uradim
+		http.headers().frameOptions().disable();
 	}
 	
 	@Bean
 	public CorsFilter corsFilter() {
-		//msm da je ona na vezbama imala neki kraci kod za ovo, al ovo sam uspela da izguglam
 		CorsConfiguration config = new CorsConfiguration();
 		config.addAllowedOrigin(Constants.FRONTEND_URL);
 		config.addAllowedHeader("*");

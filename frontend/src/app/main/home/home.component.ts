@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
 import { CulturalOffer } from 'src/app/cultural-offers/utils/cultural-offer';
-import { AuthService } from 'src/app/utils/services/auth.service';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER, GUEST_ROLE } from 'src/app/utils/constants';
 import { UserFollowingService } from 'src/app/cultural-offers/services/user-following.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -20,16 +20,12 @@ export class HomeComponent implements OnInit {
     private userFollowingService: UserFollowingService
   ) { }
 
-  selectedTag: number = 0;
+  selectedTab: number = 0;
   culturalOffers: CulturalOffer[][] = [undefined, undefined];
   fetchPending: boolean[] = [true, true];
   pageNumber: number[] = [0, 0];
-  endOfPages: boolean[] = [true, true];
   startOfPages: boolean[] = [true, true];
-  title: string[] = [
-    "All Cultural Offers", 
-    "Followed Cultural Offers"
-  ];
+  endOfPages: boolean[] = [true, true];
   filterForm: FormGroup[] = [
     new FormGroup({
       name: new FormControl(''), 
@@ -48,57 +44,51 @@ export class HomeComponent implements OnInit {
   }
 
   changeTab(index: number): void{
-    this.selectedTag = index;
-    if (this.fetchPending[this.selectedTag]){
+    this.selectedTab = index;
+    if (this.fetchPending[this.selectedTab]){
       this.fetchData();
     }
   }
 
   changePage(amount: number): void{
-    this.pageNumber[this.selectedTag] += amount;
+    this.pageNumber[this.selectedTab] += amount;
     this.fetchData();
   }
 
   filterData(): void{
-    this.pageNumber[this.selectedTag] = 0;
+    this.pageNumber[this.selectedTab] = 0;
     this.fetchData();
   }
 
   refreshData(response: CulturalOffer | number): void{
-    //zapampti, ovo ces koristiti samo kad dodas/obrises jednu ponudu, ne kad oces sve ponovo da ucitas
-    let selectedTag = this.selectedTag;
-    if (this.guest && this.selectedTag === 0){
-      selectedTag = 1;
-    }
-    if (typeof response !== "number"){
-      const temp: number[] = this.culturalOffers[selectedTag].map(co => co.id);
-      const index: number = temp.indexOf(response.id);
-      this.culturalOffers[selectedTag].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
-      
+    const selectedTab = this.guest ? 1 : 0;
+    if (typeof response === "number"){
+      this.culturalOffers[selectedTab] = this.culturalOffers[selectedTab].filter(co => co.id !== response);
     }
     else{
-      this.culturalOffers[selectedTag] = this.culturalOffers[selectedTag].filter(co => co.id !== response);
+      const temp: number[] = this.culturalOffers[selectedTab].map(co => co.id);
+      const index: number = temp.indexOf(response.id);
+      this.culturalOffers[selectedTab].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
     }
   }
 
   fetchData(): void{
 
-    this.fetchPending[this.selectedTag] = true;
-    this.culturalOffers[this.selectedTag] = [];
-    const selectedService = this.selectedTag ? this.userFollowingService : this.culturalService;
-    selectedService.filter(this.filterForm[this.selectedTag].value, this.pageNumber[this.selectedTag]).subscribe(
+    this.fetchPending[this.selectedTab] = true;
+    this.culturalOffers[this.selectedTab] = [];
+    const selectedService = this.selectedTab ? this.userFollowingService : this.culturalService;
+    selectedService.filter(this.filterForm[this.selectedTab].value, this.pageNumber[this.selectedTab]).subscribe(
       (data: HttpResponse<CulturalOffer[]>) => {
-        this.fetchPending[this.selectedTag] = false;
+        this.fetchPending[this.selectedTab] = false;
         if (data){
-          this.culturalOffers[this.selectedTag] = data.body;
+          this.culturalOffers[this.selectedTab] = data.body;
           const headers: HttpHeaders = data.headers;
-          this.endOfPages[this.selectedTag] = headers.get(LAST_PAGE_HEADER) === "true" ? true : false;
-          this.startOfPages[this.selectedTag] = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
+          this.endOfPages[this.selectedTab] = headers.get(LAST_PAGE_HEADER) === "true" ? true : false;
+          this.startOfPages[this.selectedTab] = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
         }
         else{
-          this.culturalOffers[this.selectedTag] = [];
-          this.endOfPages[this.selectedTag] = true;
-          this.startOfPages[this.selectedTag] = true;
+          this.endOfPages[this.selectedTab] = true;
+          this.startOfPages[this.selectedTab] = true;
         }
       }
     );

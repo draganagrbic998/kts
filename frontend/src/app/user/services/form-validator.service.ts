@@ -14,14 +14,14 @@ export class FormValidatorService {
     private userService: UserService
   ) { }
 
-  passwordConfirm(): ValidatorFn {
+  passwordConfirmed(): ValidatorFn{
     return (control: AbstractControl): null | ValidationError => {
-      if ((control.value === control.parent.get('password').value)){
-        return {passwordError: true};
-      }
-      return null;
+      const passwordConfirmed: boolean = control.parent ? 
+      control.value === control.parent.get('password').value : true;
+      return passwordConfirmed ? null : {passwordError: true};
     }
   }
+  
   newPasswordConfirmed(): ValidatorFn {
     return (control: AbstractControl): null | ValidationError => {
       if ((control.get('newPassword').value || control.get('newPasswordConfirmed').value) && !control.get('oldPassword').value){
@@ -33,7 +33,7 @@ export class FormValidatorService {
       return null;
     }
   }
-  
+
   hasEmail(id: number): AsyncValidatorFn {
     return (control: AbstractControl): Observable<null | ValidationError> => {
       return this.userService.hasEmail({id: id, name: control.value}).pipe(

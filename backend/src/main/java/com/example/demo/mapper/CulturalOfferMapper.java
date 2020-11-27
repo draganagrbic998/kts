@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.CulturalOfferDTO;
 import com.example.demo.model.CulturalOffer;
@@ -20,13 +21,14 @@ public class CulturalOfferMapper {
 	@Autowired
 	private UserService userService;
 	
+	@Transactional(readOnly = true)
 	public List<CulturalOfferDTO> map(List<CulturalOffer> culturalOffers){
 		return culturalOffers.stream().map(culturalOffer -> {
 			CulturalOfferDTO culturalOfferDTO = new CulturalOfferDTO(culturalOffer);
 			culturalOfferDTO.setFollowed(this.userService.userIsFollowing(culturalOffer));
 			double totalRate = 0.0;
 			int counter = 0;
-			for (int rate: this.commentRepository.getRates(culturalOffer.getId())) {
+			for (int rate: this.commentRepository.rates(culturalOffer.getId())) {
 				totalRate += rate;
 				counter += 1;
 			}
@@ -36,5 +38,4 @@ public class CulturalOfferMapper {
 		}).collect(Collectors.toList());
 	}
 
-	
 }

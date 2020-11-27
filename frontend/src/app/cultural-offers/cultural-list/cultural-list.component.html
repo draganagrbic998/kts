@@ -1,32 +1,13 @@
-<div class="header mat-elevation-z8">
+<div class="header-container mat-elevation-z8">
 
-    <div class="paginator-container">
-        <app-spacer-container>
-            <span>
-                <button 
-                *ngIf="!fetchPending && hasPrevious"
-                mat-icon-button 
-                (click)="onChangePage.emit(-1)">
-                    <mat-icon color="accent" class="big-icon" matTooltip="previous page">navigate_before</mat-icon>
-                </button>
-            </span>
-    
-            <span class="title">
-                {{title}}
-            </span>
-    
-            <span>
-                <button 
-                *ngIf="!fetchPending && hasNext"
-                mat-icon-button 
-                (click)="onChangePage.emit(1)">
-                    <mat-icon color="accent" class="big-icon" matTooltip="next page" >navigate_next</mat-icon>
-                </button>
-            </span>
-        </app-spacer-container>
-    
-    </div>
-    
+    <app-paginator
+    [fetchPending]="fetchPending"
+    [hasPrevious]="hasPrevious"
+    [hasNext]="hasNext"
+    [title]="title"
+    (onChangePage)="onChangePage.emit($event)"
+    ></app-paginator>
+
 </div>
 
 <div class="block"></div>
@@ -34,8 +15,8 @@
 <app-preloader *ngIf="fetchPending && !panelOpenState"></app-preloader>
 
 <div class="filter-container">
-    <mat-expansion-panel hideToggle 
-    (opened)="panelOpenState=true" (closed)="panelOpenState=false">
+
+    <mat-expansion-panel hideToggle (opened)="panelOpenState=true" (closed)="panelOpenState=false">
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <span></span>
@@ -53,9 +34,9 @@
                 autocomplete="off" 
                 formControlName="name"
                 placeholder="Filter by name..."
-                [matAutocomplete]="namesAuto"
+                [matAutocomplete]="names_auto"
                 (input)="fetchNames()">  
-                <mat-autocomplete #namesAuto="matAutocomplete">
+                <mat-autocomplete #names_auto="matAutocomplete">
                     <mat-option *ngFor="let name of names | async" [value]="name">
                       {{name}}
                     </mat-option>
@@ -70,9 +51,9 @@
                 autocomplete="off" 
                 formControlName="location"
                 placeholder="Filter by location..."
-                [matAutocomplete]="citiesAuto"
+                [matAutocomplete]="location_auto"
                 (input)="fetchLocations()">  
-                <mat-autocomplete #citiesAuto="matAutocomplete">
+                <mat-autocomplete #location_auto="matAutocomplete">
                     <mat-option *ngFor="let location of locations | async" [value]="location">
                       {{location}}
                     </mat-option>
@@ -87,9 +68,9 @@
                 autocomplete="off" 
                 formControlName="type"
                 placeholder="Filter by type..."
-                [matAutocomplete]="typesAuto"
+                [matAutocomplete]="types_auto"
                 (input)="fetchTypes()">  
-                <mat-autocomplete #typesAuto="matAutocomplete">
+                <mat-autocomplete #types_auto="matAutocomplete">
                     <mat-option *ngFor="let type of types | async" [value]="type">
                       {{type}}
                     </mat-option>
@@ -119,6 +100,3 @@
     (onMarkOnMap)="onMarkOnMap.emit(culturalOffer)"
 ></app-cultural-details>
 
-<div *ngIf="!fetchPending && !culturalOffers?.length" class="empty-container">
-    NO CULTURAL OFFERS
-</div>

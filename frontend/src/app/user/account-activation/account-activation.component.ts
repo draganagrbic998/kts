@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ERROR_SNACKBAR_OPTIONS, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
+import { SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
+import { USER_PATH } from 'src/app/utils/router';
 import { UserService } from '../services/user.service';
 import { LOGIN_PATH } from '../utils/router';
 
@@ -12,30 +13,28 @@ import { LOGIN_PATH } from '../utils/router';
 })
 export class AccountActivationComponent implements OnInit {
 
-  constructor(private router: Router,private route: ActivatedRoute,private userService: UserService,private snackBar: MatSnackBar
-    ) { }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar
+  ) { }
 
   activatePending: boolean = true;
 
   ngOnInit(): void {
-    const id:string = this.route.snapshot.paramMap.get('code');
-    console.log(id);
-    this.userService.activation(id).subscribe(
+    const code: string = this.route.snapshot.params.code;
+    this.userService.activate(code).subscribe(
       () => {
         this.activatePending = false;
-        this.router.navigate([LOGIN_PATH]);
-        this.snackBar.open("Successfully registered!", 
-        "Close", SUCCESS_SNACKBAR_OPTIONS);
+        this.router.navigate([`${USER_PATH}/${LOGIN_PATH}`]);
+        this.snackBar.open("Your account has been activated! You can login now.", 
+        SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
       },
       () =>{
         this.activatePending = false;
-        this.snackBar.open("An error occured! Try again.", 
-        "Close", ERROR_SNACKBAR_OPTIONS);
       }
-
     );
   }
-
-  
 
 }

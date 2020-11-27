@@ -2,11 +2,13 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CulturalOffer } from 'src/app/cultural-offers/utils/cultural-offer';
-import { ProfileDetailsComponent } from 'src/app/user/components/profile-details/profile-details.component';
-import { AuthService } from 'src/app/utils/services/auth.service';
 import { USER_PATH } from 'src/app/utils/router';
-import { CategoriesDialogComponent } from 'src/app/categories/categories-dialog/categories-dialog.component';
-import { TypesDialogComponent } from 'src/app/types/types-dialog/types-dialog.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { ProfileComponent } from '../profile/profile.component';
+import { LOGIN_PATH } from 'src/app/user/utils/router';
+import { CategoryDialogComponent } from 'src/app/categories/category-dialog/category-dialog.component';
+import { TypeDialogComponent } from 'src/app/types/type-dialog/type-dialog.component';
+import { DIALOG_OPTIONS } from 'src/app/utils/constants';
 
 @Component({
   selector: 'app-toolbar',
@@ -29,36 +31,18 @@ export class ToolbarComponent implements OnInit {
   }
 
   signIn(): void{
-    this.router.navigate([USER_PATH]);
-  }
-
-  categories(): void{
-    this.dialog.open(CategoriesDialogComponent, {
-      height:'500px',
-      width: '500px',
-      backdropClass: 'cdk-overlay-transparent-backdrop',
-      panelClass: "no-padding",
-  });
-  }
-  
-  types(): void{
-    this.dialog.open(TypesDialogComponent, {
-      height:'500px',
-      width: '500px',
-      backdropClass: 'cdk-overlay-transparent-backdrop',
-      panelClass: "no-padding",
-  });
+    this.router.navigate([`${USER_PATH}/${LOGIN_PATH}`]);
   }
 
   signOut(): void{
     this.authService.deleteUser();
-    this.router.navigate([USER_PATH]);
+    this.router.navigate([`${USER_PATH}/${LOGIN_PATH}`]);
   }
 
   profile(): void{
-    this.dialog.open(ProfileDetailsComponent, {
-        backdropClass: 'cdk-overlay-transparent-backdrop',
+    this.dialog.open(ProfileComponent, {
         panelClass: "no-padding", 
+        backdropClass: 'cdk-overlay-transparent-backdrop',
         position: {
             top: '30px', 
             right: '30px'
@@ -66,8 +50,14 @@ export class ToolbarComponent implements OnInit {
     });
   }
 
-  addOffer(): void{
-
+  categories(): void{
+    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}}
+    this.dialog.open(CategoryDialogComponent, options);
+  }
+  
+  types(): void{
+    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}}
+    this.dialog.open(TypeDialogComponent, options);
   }
   
   ngOnInit(): void {

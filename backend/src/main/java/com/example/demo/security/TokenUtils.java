@@ -27,7 +27,7 @@ public class TokenUtils {
 	@Value("Authorization")
 	private String AUTH_HEADER;
 	
-	@Value("900000000")
+	@Value("1000000000")
 	private long EXPIRES_IN;
 	
 	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
@@ -43,7 +43,7 @@ public class TokenUtils {
 	}
 	
 	public boolean validateToken(String token, UserDetails user) {
-		String username = this.getUsernameFromToken(token);
+		String username = this.getUsername(token);
 		return username != null && username.equals(user.getUsername());
 	}
 	
@@ -51,30 +51,25 @@ public class TokenUtils {
 		return request.getHeader(this.AUTH_HEADER);
 	}
 	
-	public String getUsernameFromToken(String token) {
-		String username;
+	public String getUsername(String token) {
 		try {
-			Claims claims = this.getClaimsFromToken(token);
-			username = claims.getSubject();
+			return this.getClaims(token).getSubject();
 		}
 		catch(Exception e) {
-			username = null;
+			return null;
 		}
-		return username;
 	}
 	
-	private Claims getClaimsFromToken(String token) {
-		Claims claims;
+	private Claims getClaims(String token) {
 		try {
-			claims = Jwts.parser()
+			return Jwts.parser()
 					.setSigningKey(this.APP_SECRET)
 					.parseClaimsJws(token)
 					.getBody();
 		}
 		catch(Exception e) {
-			claims = null;
+			return null;
 		}
-		return claims;
 	}
 
 	public long getExpiresIn() {

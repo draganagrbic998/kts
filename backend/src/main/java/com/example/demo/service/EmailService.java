@@ -8,18 +8,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EmailService {
+	
 	@Autowired
 	private JavaMailSenderImpl sender;
 
 	@Async
-	public void sendMessage(Email poruka) {
-		
+	public void sendMessage(Email email) {
 		SimpleMailMessage message = new SimpleMailMessage();
-		message.setFrom("KTS-NVT");
-		message.setTo(poruka.getTo());
-		message.setSubject(poruka.getTitle());
-		message.setText(poruka.getText());
+		message.setTo(email.getTo());
+		message.setSubject(email.getTitle());
+		message.setText(email.getText());
 		this.sender.send(message);
-		
 	}
 }

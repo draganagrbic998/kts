@@ -11,10 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +26,8 @@ import com.example.demo.model.News;
 import com.example.demo.service.NewsService;
 
 @RestController
-@RequestMapping(value = "/api/news", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+@PreAuthorize("permitAll()")
 public class NewsController {
 	
 	@Autowired
@@ -35,19 +36,21 @@ public class NewsController {
 	@Autowired
 	private NewsMapper newsMapper;
 	
-	@PostMapping(value = "/list")
-	public ResponseEntity<List<NewsDTO>> getNews(@RequestBody long culturalOfferId, @RequestParam int page, @RequestParam int size, HttpServletResponse response){
+	@GetMapping(value = "/api/cultural_offers/{culturalOfferId}/news")
+	public ResponseEntity<List<NewsDTO>> list(@PathVariable long culturalOfferId, @RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
-		Page<News> newsList = this.newsService.getPage(culturalOfferId, pageable);
+		Page<News> news = this.newsService.list(culturalOfferId, pageable);
 		response.setHeader(Constants.ENABLE_HEADER, Constants.FIRST_PAGE_HEADER + ", " + Constants.LAST_PAGE_HEADER);
-		response.setHeader(Constants.FIRST_PAGE_HEADER, newsList.isFirst() + "");
-		response.setHeader(Constants.LAST_PAGE_HEADER, newsList.isLast() + "");
-		return new ResponseEntity<>(this.newsMapper.map(newsList.toList()), HttpStatus.OK);
+		response.setHeader(Constants.FIRST_PAGE_HEADER, news.isFirst() + "");
+		response.setHeader(Constants.LAST_PAGE_HEADER, news.isLast() + "");
+		return new ResponseEntity<>(this.newsMapper.map(news.toList()), HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "/{newsId}")
-	public ResponseEntity<HttpStatus> delete(@PathVariable long newsId) {
-		this.newsService.delete(newsId);
+	@PreAuthorize("hasAuthority('admin')")
+	@DeleteMapping(value = "api/news/{id}")
+	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
+		this.newsService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
+	
 }

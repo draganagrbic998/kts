@@ -1,4 +1,10 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
+import { LayoutModule } from 'src/app/layout/layout.module';
+import { UserService } from '../services/user.service';
 
 import { AccountActivationComponent } from './account-activation.component';
 
@@ -7,8 +13,27 @@ describe('AccountActivationComponent', () => {
   let fixture: ComponentFixture<AccountActivationComponent>;
 
   beforeEach(async () => {
+    const userServiceMock = {
+      activate: jasmine.createSpy('activate').and.returnValue(of(null))
+    };
+    const routeMock = {
+      snapshot: {
+        params: {
+          code: null
+        }
+      }
+    }
     await TestBed.configureTestingModule({
-      declarations: [ AccountActivationComponent ]
+      declarations: [ AccountActivationComponent ],
+      imports: [
+        LayoutModule, 
+        RouterTestingModule
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      providers: [
+        {provide: UserService, useValue: userServiceMock}, 
+        {provide: ActivatedRoute, useValue: routeMock}
+      ]
     })
     .compileComponents();
   });

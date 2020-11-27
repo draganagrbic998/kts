@@ -13,8 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -32,22 +32,6 @@ public class News {
 	@NotNull
 	@Column(name = "created_at")
 	private Date createdAt;
-			
-	@NotBlank
-	@Column(name = "text")
-	private String text;
-	
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinTable(
-		name = "news_image", 
-		joinColumns = @JoinColumn(referencedColumnName = "id", name = "news_id", 
-		foreignKey = @ForeignKey(
-	            foreignKeyDefinition = "FOREIGN KEY (news_id) REFERENCES news_table(id) ON DELETE CASCADE"
-	        )
-		), 
-		inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "image_id")
-	)
-	private Set<Image> images = new HashSet<>();
 	
 	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -57,7 +41,19 @@ public class News {
         )
 	)
 	private CulturalOffer culturalOffer;
-
+			
+	@NotBlank
+	@Column(name = "text")
+	private String text;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+		name = "news_image", 
+		joinColumns = @JoinColumn(referencedColumnName = "id", name = "news_id"), 
+		inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "image_id")
+	)
+	private Set<Image> images = new HashSet<>();
+	
 	public News() {
 		super();
 		this.createdAt = new Date();
@@ -79,6 +75,14 @@ public class News {
 		this.createdAt = createdAt;
 	}
 
+	public CulturalOffer getCulturalOffer() {
+		return culturalOffer;
+	}
+
+	public void setCulturalOffer(CulturalOffer culturalOffer) {
+		this.culturalOffer = culturalOffer;
+	}
+
 	public String getText() {
 		return text;
 	}
@@ -93,14 +97,6 @@ public class News {
 
 	public void setImages(Set<Image> images) {
 		this.images = images;
-	}
-
-	public CulturalOffer getCulturalOffer() {
-		return culturalOffer;
-	}
-
-	public void setCulturalOffer(CulturalOffer culturalOffer) {
-		this.culturalOffer = culturalOffer;
 	}
 	
 }

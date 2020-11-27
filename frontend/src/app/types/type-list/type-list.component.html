@@ -1,0 +1,21 @@
+<div *ngIf="fetchPending" class="empty-container">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!fetchPending && !types?.length" class="empty-container">
+    NO TYPES
+</div>
+
+<div class="header-container" *ngIf="!fetchPending && types?.length">
+    <app-paginator
+    [fetchPending]="fetchPending"
+    [hasPrevious]="true"
+    [hasNext]="true"
+    ></app-paginator>
+</div>
+
+<app-type-details
+*ngFor="let type of types"
+[type]="type">
+</app-type-details>
+

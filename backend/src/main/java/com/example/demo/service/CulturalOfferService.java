@@ -20,34 +20,28 @@ public class CulturalOfferService {
 	private CulturalOfferRepository culturalOfferRepository;
 	
 	@Transactional(readOnly = true)
-	public List<String> filterNames(String filterParam){
-		return this.culturalOfferRepository.filterNames(filterParam);
+	public List<String> filterNames(String filter){
+		return this.culturalOfferRepository.filterNames(filter);
 	}
 	
 	@Transactional(readOnly = true)
-	public List<String> filterLocations(String filterParam){
-		return this.culturalOfferRepository.filterLocations(filterParam);
+	public List<String> filterLocations(String filter){
+		return this.culturalOfferRepository.filterLocations(filter);
 	}	
 	
 	@Transactional(readOnly = true)
-	public List<String> filterTypes(String filterParam){
-		return this.culturalOfferRepository.filterTypes(filterParam);
+	public List<String> filterTypes(String filter){
+		return this.culturalOfferRepository.filterTypes(filter);
 	}	
 
 	@Transactional(readOnly = true)
-	public Page<CulturalOffer> filter(FilterParamsDTO filterParams, Pageable pageable){
-		System.out.println(this.culturalOfferRepository.count());
-		return this.culturalOfferRepository.filter(filterParams.getName(), filterParams.getLocation(), filterParams.getType(), pageable);
-	}
-
-	@Transactional(readOnly = true)
-	public CulturalOffer findOne(long id) {
-		return this.culturalOfferRepository.findById(id).get();
+	public Page<CulturalOffer> filter(FilterParamsDTO filters, Pageable pageable){
+		return this.culturalOfferRepository.filter(filters.getName(), filters.getLocation(), filters.getType(), pageable);
 	}
 
 	@Transactional(readOnly = false)
-	public void delete(long culturalOfferId) {
-		this.culturalOfferRepository.deleteById(culturalOfferId);
+	public void delete(long id) {
+		this.culturalOfferRepository.deleteById(id);
 	}
 
 }

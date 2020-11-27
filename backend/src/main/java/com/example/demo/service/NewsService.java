@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,19 +15,14 @@ public class NewsService {
 	
 	@Autowired
 	private NewsRepository newsRepository;
-	
-	@Transactional(readOnly = true)
-	public List<News> findNewsByCulturalOfferId(long culturalOfferId) {
-		return null;
-	}
 
 	@Transactional(readOnly = true)
-	public Page<News> getPage(long culturalOfferId, Pageable pageable) {
-		return this.newsRepository.getPage(culturalOfferId, pageable);
+	public Page<News> list(long culturalOfferId, Pageable pageable) {
+		return this.newsRepository.findByCulturalOfferIdOrderByCreatedAtDesc(culturalOfferId, pageable);
 	}
 
 	@Transactional(readOnly = false)
-	public void delete(long newsId) {
-		this.newsRepository.deleteById(newsId);
+	public void delete(long id) {
+		this.newsRepository.deleteById(id);
 	}
 }

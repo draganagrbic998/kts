@@ -1,10 +1,10 @@
-<div class="block"></div>
+<div></div>
 
-<app-preloader [transparent]="true" *ngIf="mapPending || fetchPending"></app-preloader>
+<app-preloader *ngIf="mapPending || fetchPending" [transparent]="true"></app-preloader>
     
 <ya-map
 
-  [state]="{controls: [] }" 
+  [state]="{controls: []}" 
   [zoom]="3" 
   [center]="[mapCenter[0], mapCenter[1]]" 
   (load)="mapPending=false; ymaps=$event">
@@ -12,8 +12,8 @@
   <ya-placemark 
   *ngFor="let culturalOffer of culturalOffers"
   [geometry]="[culturalOffer.lat, culturalOffer.lng]"
-  [properties]="placemarkProperties(culturalOffer)"
   [options]="placemarkOptions(culturalOffer)"
+  [properties]="placemarkProperties(culturalOffer)"
   (yaclick)="showDetails(culturalOffer)">
   </ya-placemark>  
 

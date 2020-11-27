@@ -1,9 +1,5 @@
-<div class="root-container mat-elevation-z24" 
-(mouseenter)=" transparent=true" 
-(mouseleave)="transparent=false"
-(click)="onMarkOnMap.emit()">
-
-    <mat-card [class.transparent]="transparent">
+<div class="root-container mat-elevation-z24" (click)="onMarkOnMap.emit()">
+    <mat-card>
         <mat-card-content>
 
             <div class="item-container">
@@ -27,7 +23,7 @@
                         <app-bold-text>Description: </app-bold-text>{{culturalOffer.description}}
                     </div>
                     <div>
-                        <app-bold-text>Total rate: </app-bold-text>{{ culturalOffer.totalRate | number:'1.2-2' }}
+                        <app-bold-text>Total rate: </app-bold-text>{{ culturalOffer.totalRate | number:'1.2' }}/5
                     </div>
                 </div>
             </div>

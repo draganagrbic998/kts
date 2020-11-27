@@ -12,7 +12,7 @@ export class ImageInputComponent implements OnInit {
   @Input() image: string;
   @Input() smallImage: boolean;
   @Input() profile: boolean;
-  @Output() onAddImage: EventEmitter<any> = new EventEmitter();
+  @Output() onAddImage: EventEmitter<Blob> = new EventEmitter();
   @Output() onRemoveImage: EventEmitter<null> = new EventEmitter();
 
   ngOnInit(): void {

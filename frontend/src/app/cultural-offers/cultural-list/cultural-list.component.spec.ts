@@ -16,13 +16,13 @@ describe('CulturalListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CulturalListComponent ], 
       imports: [
-        LayoutModule,
+        LayoutModule, 
         BrowserAnimationsModule
-      ],
-      providers: [
-        {provide: CulturalService, useValue: culturalServiceMock}
       ], 
-      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      providers: [
+        {provide: CulturalService, useValue: culturalServiceMock},
+      ]
     })
     .compileComponents();
   });
@@ -31,10 +31,10 @@ describe('CulturalListComponent', () => {
     fixture = TestBed.createComponent(CulturalListComponent);
     component = fixture.componentInstance;
     component.filterForm = new FormGroup({
-      name: new FormControl(''),
-      location: new FormControl(''),
+      name: new FormControl(''), 
+      location: new FormControl(''), 
       type: new FormControl('')
-    })
+    });
     fixture.detectChanges();
   });
 

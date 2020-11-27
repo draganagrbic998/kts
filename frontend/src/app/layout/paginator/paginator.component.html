@@ -1,0 +1,23 @@
+<app-spacer-container>
+    <span>
+        <button 
+        *ngIf="!fetchPending && hasPrevious"
+        mat-icon-button 
+        (click)="onChangePage.emit(-1)">
+            <mat-icon color="accent" class="big-icon" matTooltip="previous page">navigate_before</mat-icon>
+        </button>
+    </span>
+
+    <span class="title">
+        {{title}}
+    </span>
+
+    <span>
+        <button 
+        *ngIf="!fetchPending && hasNext"
+        mat-icon-button 
+        (click)="onChangePage.emit(1)">
+            <mat-icon color="accent" class="big-icon" matTooltip="next page">navigate_next</mat-icon>
+        </button>
+    </span>
+</app-spacer-container>
