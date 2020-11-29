@@ -23,8 +23,8 @@ export class TypeService {
   }
 
 
-  save(type: Type): Observable<null>{
-    return this.http.post<null>(API_BASE, type);
+  save(data: FormData): Observable<null>{
+    return this.http.post<null>(API_BASE, data);
   }
 
   delete(id: number): Observable<null>{

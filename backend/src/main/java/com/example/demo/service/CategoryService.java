@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +37,12 @@ public class CategoryService {
 	@Transactional(readOnly = false)
 	public void delete(long id) {
 		this.categoryRepository.deleteById(id);
+	}
+	
+	@Transactional(readOnly = true)
+	public Category getCategory(String name) {
+		return  this.categoryRepository.findByName(name);
+		
 	}
 	@Transactional(readOnly = true)
 	public boolean hasName(UniqueCheckDTO param) {

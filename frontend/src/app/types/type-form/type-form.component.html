@@ -9,6 +9,7 @@
         <div  [class.disabled]="savePending">
 
             <app-image-input
+            [smallImage] = "true"
             [image]="image.path" 
             [profile]="false"
             (onAddImage)="addImage($event)" 
@@ -30,7 +31,7 @@
                 </mat-error>    
             </mat-form-field>
 
-            <mat-form-field appearance="fill">
+            <mat-form-field >
                 <mat-label>Category</mat-label>
                 <mat-select  formControlName="category">
                     <mat-option *ngFor="let c of categories" [value]="c.name">

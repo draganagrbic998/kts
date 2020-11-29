@@ -28,7 +28,7 @@ export class TypeFormComponent implements OnInit {
   categories: Category[] = [];
   savePending: boolean = false;
   typeForm: FormGroup = new FormGroup({
-    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.formValidator.hasName()]),
+    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.formValidator.hasNameType()]),
     category: new FormControl("",[Validators.required, Validators.pattern(new RegExp("\\S"))])
   });
 
@@ -61,9 +61,21 @@ export class TypeFormComponent implements OnInit {
   save(): void{
     if (this.typeForm.invalid){
       return;
+
     }
+    const formData: FormData = new FormData();
+
+    for (const i in this.typeForm.controls){
+      formData.append(i, this.typeForm.get(i).value);
+    }
+
+    if (this.image.upload){
+      formData.append("image", this.image.upload);
+    }  
+
+    
     this.savePending = true;
-    this.typeService.save(this.typeForm.value).subscribe(
+    this.typeService.save(formData).subscribe(
       () => {
         this.savePending = false;
         this.onAdded.emit();
