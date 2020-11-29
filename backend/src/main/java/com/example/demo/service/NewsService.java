@@ -37,7 +37,7 @@ public class NewsService {
 	}
 
 	@Transactional(readOnly = false)
-	public void save(News news, List<MultipartFile> uploads) throws FileNotFoundException, IOException {
+	public News save(News news, List<MultipartFile> uploads) throws FileNotFoundException, IOException {
 		if (uploads != null) {
 			for (MultipartFile mpf : uploads) {
 				Image image = new Image(this.imageService.store(mpf));
@@ -45,6 +45,6 @@ public class NewsService {
 				this.imageService.save(image);
 			}
 		}
-		this.newsRepository.save(news);
+		return this.newsRepository.save(news);
 	}
 }

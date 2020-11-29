@@ -29,7 +29,10 @@ import com.example.demo.dto.NewsDTO;
 import com.example.demo.dto.NewsUploadDTO;
 import com.example.demo.mapper.NewsMapper;
 import com.example.demo.model.News;
+import com.example.demo.service.Email;
+import com.example.demo.service.EmailService;
 import com.example.demo.service.NewsService;
+import com.example.demo.service.UserFollowingService;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,6 +45,12 @@ public class NewsController {
 	@Autowired
 	private NewsMapper newsMapper;
 
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private UserFollowingService userFollowingService;
+	
 	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/news/filter")
 	public ResponseEntity<List<NewsDTO>> list(@PathVariable long culturalOfferId, @RequestParam int page,
 			@RequestParam int size, @RequestBody FilterParamsNewsDTO filters, HttpServletResponse response) {
@@ -57,7 +66,12 @@ public class NewsController {
 	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/news")
 	public ResponseEntity<HttpStatus> save(@PathVariable long culturalOfferId, @ModelAttribute NewsUploadDTO newsDTO)
 			throws FileNotFoundException, IOException {
-		this.newsService.save(this.newsMapper.map(culturalOfferId, newsDTO), newsDTO.getImages());
+		News newNews = this.newsService.save(this.newsMapper.map(culturalOfferId, newsDTO), newsDTO.getImages());
+		
+		for (String userEmail : userFollowingService.getSubscribedUsersEmails(culturalOfferId)) {
+			this.emailService.sendMessage(new Email(userEmail, "News about '" + newNews.getCulturalOffer().getName() + "'", newsDTO.getText()));
+		}
+		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

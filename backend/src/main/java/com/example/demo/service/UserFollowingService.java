@@ -1,5 +1,7 @@
 package com.example.demo.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,11 @@ public class UserFollowingService {
 		return this.userFollowingRepository.filter(this.userService.currentUser().getId(), filters.getName(), filters.getLocation(), filters.getType(), pageable);
 	}
 
+	@Transactional(readOnly = true)
+	public List<String> getSubscribedUsersEmails(long culturalOfferId){
+		return this.userFollowingRepository.getSubscribedUsersEmails(culturalOfferId);
+	}
+	
 	@Transactional(readOnly = false)
 	public void toggleSubscription(long culturalOfferId) {
 		User user = this.userService.currentUser();
