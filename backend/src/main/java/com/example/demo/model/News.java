@@ -98,5 +98,9 @@ public class News {
 	public void setImages(Set<Image> images) {
 		this.images = images;
 	}
+
+	public void addImage(Image image) {
+		this.images.add(image);
+	}
 	
 }
