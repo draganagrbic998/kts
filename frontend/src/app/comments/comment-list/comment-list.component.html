@@ -16,5 +16,6 @@
 <app-comment-details 
 *ngFor="let comment of comments"
 [comment]="comment"
-(onSaved)="fetchComments()">
+(onSaved)="fetchComments()"
+(onDeleted)="fetchComments()">
 </app-comment-details>    

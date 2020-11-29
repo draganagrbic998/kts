@@ -20,5 +20,9 @@ public class CommentService {
 	public Page<Comment> list(long culturalOfferId, Pageable pageable) {
 		return this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(culturalOfferId, pageable);
 	}
+	@Transactional(readOnly = false)
+	public void delete(long id) {
+		this.commentRepository.deleteById(id);
+	}
 	
 }

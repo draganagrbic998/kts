@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,12 @@ public class CommentController {
 		response.setHeader(Constants.FIRST_PAGE_HEADER, comments.isFirst() + "");
 		response.setHeader(Constants.LAST_PAGE_HEADER, comments.isLast() + "");
 		return new ResponseEntity<>(this.commentMapper.map(comments.toList()), HttpStatus.OK);
+	}
+	//@PreAuthorize("hasAuthority('guest')")
+	@DeleteMapping(value = "/api/comments/{id}")
+	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
+		this.commentService.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 }
