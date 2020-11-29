@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { DIALOG_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
+import { CommentFormComponent } from '../comment-form/comment-form.component';
 import { CommentService } from '../services/comment.service';
 import { Comment } from '../utils/comment';
 
@@ -21,8 +22,9 @@ export class CommentDetailsComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
+  @Input() culturalOfferId: number;
   @Input() comment: Comment;
-  @Output() onDeleted: EventEmitter<null> = new EventEmitter();
+  @Output() onRefreshData: EventEmitter<null> = new EventEmitter();
   panelOpenState: boolean = false;
 
   get email(): string{
@@ -30,7 +32,15 @@ export class CommentDetailsComponent implements OnInit {
   }
 
   edit(): void{
-    
+
+    const comment = {...this.comment, ...{culturalOfferId: this.culturalOfferId}};
+    const options = {...DIALOG_OPTIONS, ...{data: comment}};
+    const dialog: MatDialogRef<CommentFormComponent> = this.dialog.open(CommentFormComponent, options);
+      dialog.componentInstance.onSaved.subscribe(
+        () => {
+          this.onRefreshData.emit();
+        }
+    );
   }
 
   delete(): void{
@@ -38,7 +48,7 @@ export class CommentDetailsComponent implements OnInit {
     const dialog: MatDialogRef<DeleteConfirmationComponent> = this.dialog.open(DeleteConfirmationComponent, options);
     dialog.componentInstance.onDeleted.subscribe(
       () => {
-        this.onDeleted.emit();
+        this.onRefreshData.emit();
         this.snackBar.open("Comment successfully deleted!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
       }
     );

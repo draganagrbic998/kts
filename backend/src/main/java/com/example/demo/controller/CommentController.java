@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -14,13 +16,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.constants.Constants;
 import com.example.demo.dto.CommentDTO;
+import com.example.demo.dto.CommentUploadDTO;
 import com.example.demo.mapper.CommentMapper;
 import com.example.demo.model.Comment;
 import com.example.demo.service.CommentService;
@@ -50,6 +55,13 @@ public class CommentController {
 	@DeleteMapping(value = "/api/comments/{id}")
 	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
 		this.commentService.delete(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('guest')")
+	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/comment")
+	public ResponseEntity<HttpStatus> save(@PathVariable long culturalOfferId, @ModelAttribute CommentUploadDTO commentDTO) throws FileNotFoundException, IOException {
+		this.commentService.save(this.commentMapper.map(culturalOfferId, commentDTO), commentDTO.getImages());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

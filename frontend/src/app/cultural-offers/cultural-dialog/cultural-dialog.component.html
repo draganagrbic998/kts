@@ -75,8 +75,8 @@
     <mat-drawer class="mat-elevation-z24" #drawer position="end" mode="side">
 
         <mat-tab-group animationDuration="0ms">
-            <mat-tab #comments [label]="'Reviews'">
-                <app-comment-list [culturalOfferId]="culturalOffer.id">
+            <mat-tab #commentsTab [label]="'Reviews'">
+                <app-comment-list #comments [culturalOfferId]="culturalOffer.id">
                 </app-comment-list>
             </mat-tab>
             <mat-tab [label]="'News'">
@@ -86,7 +86,7 @@
         </mat-tab-group>
 
         <button 
-        *ngIf="comments.isActive"
+        *ngIf="commentsTab.isActive"
         mat-icon-button
         class="comment-button"
         (click)="comment(comments)">

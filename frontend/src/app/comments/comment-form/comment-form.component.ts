@@ -23,8 +23,8 @@ export class CommentFormComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
-  rate: number = this.comment.rate;
-  text: FormControl = new FormControl(this.comment.text, [Validators.required, Validators.pattern(new RegExp("\\S"))])
+  rate: number = this.comment.rate || 0;
+  text: FormControl = new FormControl(this.comment.text || '', [Validators.required, Validators.pattern(new RegExp("\\S"))])
   images: Image[] = this.comment.images ? this.comment.images.map(img => {return {path: img, upload: null}}) : [];
   savePending: boolean = false;
   onSaved: EventEmitter<null> = new EventEmitter();

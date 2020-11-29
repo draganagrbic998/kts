@@ -6,4 +6,7 @@ import com.example.demo.model.Image;
 
 public interface ImageRepository extends JpaRepository<Image, Long> {
 
+	public Image findByPath(String path);
+	
 }
+
