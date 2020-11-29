@@ -38,7 +38,7 @@ public class TypeController {
 	
 	
 	@GetMapping(value = "")
-	public ResponseEntity<List<TypeDTO>> filter(@RequestParam int page, @RequestParam int size, HttpServletResponse response){
+	public ResponseEntity<List<TypeDTO>> list(@RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Type> types = this.typeService.getPage(pageable);
 		response.setHeader(Constants.ENABLE_HEADER, Constants.FIRST_PAGE_HEADER + ", " + Constants.LAST_PAGE_HEADER);

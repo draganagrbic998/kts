@@ -41,7 +41,7 @@ public class CategoryController {
 	
 	
 	@GetMapping(value = "")
-	public ResponseEntity<List<CategoryDTO>> filter(@RequestParam int page, @RequestParam int size, HttpServletResponse response){
+	public ResponseEntity<List<CategoryDTO>> list(@RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Category> categories = this.categoryService.getPage(pageable);
 		response.setHeader(Constants.ENABLE_HEADER, Constants.FIRST_PAGE_HEADER + ", " + Constants.LAST_PAGE_HEADER);
