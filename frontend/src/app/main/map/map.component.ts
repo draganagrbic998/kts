@@ -49,8 +49,7 @@ export class MapComponent implements OnInit {
 
   placemarkOptions(culturalOffer: CulturalOffer){
     return {
-      iconLayout: 'default#image',
-      iconImageHref: culturalOffer.placemarkIcon
+    
     }
   }
 
