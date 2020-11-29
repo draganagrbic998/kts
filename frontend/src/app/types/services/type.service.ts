@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Type } from '../utils/type';
-import { API_BASE } from '../utils/api';
+import { API_BASE, API_HAS_NAME } from '../utils/api';
 import { MEDIUM_PAGE_SIZE } from 'src/app/utils/constants';
+import { UniqueCheck } from 'src/app/utils/unique-check';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,7 @@ export class TypeService {
     );
   }
 
+
   save(type: Type): Observable<null>{
     return this.http.post<null>(API_BASE, type);
   }
@@ -28,5 +30,10 @@ export class TypeService {
   delete(id: number): Observable<null>{
     return this.http.delete<null>(`${API_BASE}/${id}`);
   }
+  
+  hasName(param: UniqueCheck): Observable<boolean>{
+    return this.http.post<boolean>(API_HAS_NAME, param);
+  }
+
   
 }

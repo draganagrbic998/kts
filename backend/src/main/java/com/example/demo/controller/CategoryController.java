@@ -39,6 +39,12 @@ public class CategoryController {
 	@Autowired
 	private CategoryMapper categoryMapper;
 	
+	@GetMapping(value = "/all")
+	public ResponseEntity<List<CategoryDTO>> getCategories(){
+		List<Category> sveKategorije = (List<Category>) categoryService.list();
+		List<CategoryDTO> sveKategorijeDTO = categoryMapper.map(sveKategorije); 
+		return new ResponseEntity<List<CategoryDTO>>(sveKategorijeDTO,HttpStatus.OK);
+	}
 	
 	@GetMapping(value = "")
 	public ResponseEntity<List<CategoryDTO>> list(@RequestParam int page, @RequestParam int size, HttpServletResponse response){
