@@ -16,6 +16,7 @@
 <app-comment-details 
 *ngFor="let comment of comments"
 [comment]="comment"
+[culturalOfferId]="culturalOfferId"
 (onSaved)="fetchComments()"
-(onDeleted)="fetchComments()">
+(onRefreshData)="fetchComments()">
 </app-comment-details>    

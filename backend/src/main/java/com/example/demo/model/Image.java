@@ -24,6 +24,11 @@ public class Image {
 	public Image() {
 		super();
 	}
+	
+	public Image(String path) {
+		super();
+		this.path = path;
+	}
 
 	public Long getId() {
 		return id;

@@ -3,18 +3,21 @@ import { LayoutModule } from '../layout/layout.module';
 import { CommentDetailsComponent } from './comment-details/comment-details.component';
 import { StarRatingComponent } from './star-rating/star-rating.component';
 import { CommentListComponent } from './comment-list/comment-list.component';
+import { CommentFormComponent } from './comment-form/comment-form.component';
 
 @NgModule({
   declarations: [
     CommentDetailsComponent, 
     CommentListComponent,
-    StarRatingComponent
+    StarRatingComponent,
+    CommentFormComponent
   ],
   imports: [
     LayoutModule
   ], 
   exports: [
-    CommentListComponent
+    CommentListComponent, 
+    CommentFormComponent
   ]
 })
 export class CommentsModule { }

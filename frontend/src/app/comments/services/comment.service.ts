@@ -2,9 +2,8 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { API_BASE } from 'src/app/cultural-offers/utils/api';
 import { MEDIUM_PAGE_SIZE } from 'src/app/utils/constants';
-import { API_LIST,API_BASE_COMMENTS } from '../utils/api';
+import { API_LIST, API_BASE } from '../utils/api';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,11 @@ export class CommentService {
     );
   }
   delete(id: number): Observable<null>{
-    return this.http.delete<null>(`${API_BASE_COMMENTS}/${id}`);
+    return this.http.delete<null>(`${API_BASE}/${id}`);
+  }
+
+  save(culturalOfferId: number, data: FormData): Observable<null>{
+    return this.http.post<null>( `${API_LIST}/${culturalOfferId}/comment`, data);
   }
 
 }

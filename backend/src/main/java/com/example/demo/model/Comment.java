@@ -68,6 +68,10 @@ public class Comment {
 		super();
 		this.createdAt = new Date();
 	}
+	
+	public void addImage(Image image) {
+		this.images.add(image);
+	}
 
 	public Long getId() {
 		return id;

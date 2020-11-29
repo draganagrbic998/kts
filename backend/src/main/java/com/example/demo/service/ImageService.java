@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.constants.Constants;
+import com.example.demo.model.Image;
 import com.example.demo.repository.ImageRepository;
 
 @Component
@@ -23,7 +24,9 @@ public class ImageService {
 	@Transactional(readOnly = true)
 	public String store(MultipartFile data) throws FileNotFoundException, IOException {
 		long counter = this.imageRepository.count() + 1;
-		String fileName = "image" + counter;
+		String[] array = data.getOriginalFilename().split("\\.");
+		String extension = array[array.length - 1];
+		String fileName = "image" + counter + "." + extension;
 		String path = "src" + File.separatorChar
 				+ "main" + File.separatorChar
 				+ "resources" + File.separatorChar
@@ -34,6 +37,11 @@ public class ImageService {
 		fout.write(data.getBytes());
 		fout.close();
 		return Constants.BACKEND_URL + "/" + fileName;
+	}
+	
+	@Transactional(readOnly = false)
+	public void save(Image image) {
+		this.imageRepository.save(image);
 	}
 
 }
