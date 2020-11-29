@@ -21,6 +21,10 @@ export class CategoryService {
     );
   }
 
+  getAllCategories(){
+    return this.http.get<Category[]>(`${API_BASE}/all`);
+  }
+
   save(category: Category): Observable<null>{
     return this.http.post<null>(API_BASE, category);
   }

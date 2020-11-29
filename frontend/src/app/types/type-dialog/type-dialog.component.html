@@ -4,9 +4,10 @@
     ></app-close-button>
     <mat-tab-group animationDuration="0ms">
         <mat-tab [label]="'Types List'">
-            <app-type-list></app-type-list>  
+            <app-type-list #list></app-type-list>  
         </mat-tab>
         <mat-tab [label]="'New Type'">
+            <app-type-form (onAdded) = "list.fetchData()"></app-type-form>
         </mat-tab>
     </mat-tab-group>
 </div>

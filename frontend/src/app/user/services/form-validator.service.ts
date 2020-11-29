@@ -5,6 +5,7 @@ import { ValidationError } from 'src/app/utils/validation-error';
 import { UserService } from './user.service';
 import { catchError, map } from 'rxjs/operators';
 import { CategoryService } from 'src/app/categories/services/category.service';
+import { TypeService } from 'src/app/types/services/type.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class FormValidatorService {
 
   constructor(
     private userService: UserService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private typeService: TypeService
   ) { }
 
   passwordConfirmed(): ValidatorFn{
@@ -48,6 +50,14 @@ export class FormValidatorService {
   hasName(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<null | ValidationError> => {
       return this.categoryService.hasName({id: null, name: control.value}).pipe(
+        map((response: boolean) => !response ? null : {nameError: true}),
+        catchError(() => of(null))
+      );
+    }
+  }
+  hasNameType(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<null | ValidationError> => {
+      return this.typeService.hasName({id: null, name: control.value}).pipe(
         map((response: boolean) => !response ? null : {nameError: true}),
         catchError(() => of(null))
       );

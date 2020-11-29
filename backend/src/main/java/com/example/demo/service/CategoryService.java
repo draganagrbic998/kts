@@ -38,6 +38,12 @@ public class CategoryService {
 	public void delete(long id) {
 		this.categoryRepository.deleteById(id);
 	}
+	
+	@Transactional(readOnly = true)
+	public Category getCategory(String name) {
+		return  this.categoryRepository.findByName(name);
+		
+	}
 	@Transactional(readOnly = true)
 	public boolean hasName(UniqueCheckDTO param) {
 		Category cat = this.categoryRepository.findByName(param.getName());
@@ -46,5 +52,7 @@ public class CategoryService {
 		}
 		return true;
 	}
+
+	
 
 }
