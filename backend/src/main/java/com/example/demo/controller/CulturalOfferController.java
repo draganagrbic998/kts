@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.constants.Constants;
 import com.example.demo.dto.CulturalOfferDTO;
 import com.example.demo.dto.FilterParamsDTO;
+import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.mapper.CulturalOfferMapper;
 import com.example.demo.model.CulturalOffer;
 import com.example.demo.service.CulturalOfferService;
@@ -68,6 +69,11 @@ public class CulturalOfferController {
 	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
 		this.culturalOfferService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/has_name")
+	public ResponseEntity<Boolean> hasName(@RequestBody UniqueCheckDTO param) {
+		return new ResponseEntity<>(this.culturalOfferService.hasName(param), HttpStatus.OK);
 	}
 	
 }

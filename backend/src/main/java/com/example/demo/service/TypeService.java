@@ -3,6 +3,7 @@ package com.example.demo.service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -56,6 +57,9 @@ public class TypeService {
 		return true;
 	}
 
-	
+	@Transactional(readOnly = true)
+	public List<String> filterNames(String filter){
+		return this.typeRepository.filterNames(filter);
+	}
 
 }

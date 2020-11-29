@@ -74,4 +74,9 @@ public class TypeController {
 		return new ResponseEntity<>(this.typeService.hasName(param), HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/filter_names")
+	public ResponseEntity<List<String>> filterNames(@RequestBody String filter){
+		return new ResponseEntity<>(this.typeService.filterNames(filter), HttpStatus.OK);
+	}
+	
 }

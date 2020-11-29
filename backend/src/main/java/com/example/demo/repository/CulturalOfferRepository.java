@@ -23,4 +23,7 @@ public interface CulturalOfferRepository extends JpaRepository<CulturalOffer, Lo
 	@Query("select co from CulturalOffer co where (lower(co.name) like lower(concat('%', :name, '%')) or :name='') and (lower(co.location) like lower(concat('%', :location, '%')) or :location='') and (lower(co.type.name) like lower(concat('%', :type, '%')) or :type='')")
     public Page<CulturalOffer> filter(String name, String location, String type, Pageable pageable);
 
+	@Query("select co from CulturalOffer co where (co.id != :id or :id is null) and co.name=:name")
+	public CulturalOffer hasName(Long id, String name);
+	
 }

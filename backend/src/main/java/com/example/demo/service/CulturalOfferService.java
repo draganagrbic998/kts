@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.FilterParamsDTO;
+import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.model.CulturalOffer;
 import com.example.demo.repository.CulturalOfferRepository;
 
@@ -43,5 +44,14 @@ public class CulturalOfferService {
 	public void delete(long id) {
 		this.culturalOfferRepository.deleteById(id);
 	}
+	
+	@Transactional(readOnly = true) 
+	public boolean hasName(UniqueCheckDTO param) {
+		CulturalOffer culturalOffer = this.culturalOfferRepository.hasName(param.getId(), param.getName());
+		if (culturalOffer == null) {
+			return false;
+		}
+		return true;
+	}	
 
 }
