@@ -4,9 +4,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryService } from 'src/app/categories/services/category.service';
 import { Category } from 'src/app/categories/utils/category';
 import { ImageService } from 'src/app/services/image.service';
-import { FormValidatorService } from 'src/app/user/services/form-validator.service';
 import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { Image } from 'src/app/utils/image';
+import { FormValidatorService } from '../services/form-validator.service';
 import { TypeService } from '../services/type.service';
 
 @Component({
@@ -28,7 +28,7 @@ export class TypeFormComponent implements OnInit {
   categories: Category[] = [];
   savePending: boolean = false;
   typeForm: FormGroup = new FormGroup({
-    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.formValidator.hasNameType()]),
+    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.formValidator.hasName(true)]),
     category: new FormControl("",[Validators.required, Validators.pattern(new RegExp("\\S"))])
   });
 

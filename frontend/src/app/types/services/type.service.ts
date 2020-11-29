@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Type } from '../utils/type';
-import { API_BASE, API_HAS_NAME } from '../utils/api';
+import { API_BASE, API_FILTER_NAMES, API_HAS_NAME } from '../utils/api';
 import { MEDIUM_PAGE_SIZE } from 'src/app/utils/constants';
 import { UniqueCheck } from 'src/app/utils/unique-check';
 
@@ -22,6 +22,9 @@ export class TypeService {
     );
   }
 
+  filterNames(filter: string): Observable<string[]>{
+    return this.http.post<string[]>(API_FILTER_NAMES, filter);
+  }
 
   save(data: FormData): Observable<null>{
     return this.http.post<null>(API_BASE, data);

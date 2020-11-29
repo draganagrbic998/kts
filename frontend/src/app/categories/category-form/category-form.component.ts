@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormValidatorService } from 'src/app/user/services/form-validator.service';
 import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { CategoryService } from '../services/category.service';
+import { FormValidatorService } from '../services/form-validator.service';
 
 @Component({
   selector: 'app-category-form',

@@ -26,6 +26,7 @@
     "angular8-yandex-maps": "^10.4.1",
     "bootstrap": "^4.5.0",
     "ng-uikit-pro-standard": "^1.0.0",
+    "places.js": "^1.19.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.2"
@@ -36,7 +37,7 @@
     "@angular/compiler-cli": "~10.1.2",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.11.1",
+    "@types/node": "^12.19.7",
     "codelyzer": "^6.0.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",

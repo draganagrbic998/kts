@@ -1,0 +1,107 @@
+<form [formGroup]="culturalForm" cdkFocusInitial>
+    <div class="root-container" [class.disabled]="savePending">
+    
+        <app-image-input
+        [image]="image.path" 
+        (onAddImage)="addImage($event)" 
+        (onRemoveImage)="removeImage()">
+        </app-image-input>
+    
+        <div class="form-container">
+    
+            <mat-form-field *ngIf="!culturalOffer.id">
+                <mat-label>Type</mat-label>
+                <input 
+                matInput 
+                autocomplete="off"
+                formControlName="type" 
+                placeholder="Enter type"
+                [matAutocomplete]="auto"
+                (input)="fetchTypes()">
+                <mat-error *ngIf="!culturalForm.get('type').hasError('nameError')">
+                    Type is required!
+                </mat-error>
+                <mat-error *ngIf="culturalForm.get('type').hasError('nameError')">
+                    Type not found!
+                </mat-error>
+                <mat-hint *ngIf="culturalForm.get('type').pending">
+                    Searching types...
+                </mat-hint>                  
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let type of types | async" [value]="type">
+                    {{type}}
+                  </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+    
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input 
+                matInput 
+                autocomplete="off"
+                formControlName="name" 
+                placeholder="Enter name">
+                <mat-error *ngIf="!culturalForm.get('name').hasError('nameError')">
+                    Name is required!
+                </mat-error>
+                <mat-error *ngIf="culturalForm.get('name').hasError('nameError')">
+                    Name already exists!
+                </mat-error>
+                <mat-hint *ngIf="culturalForm.pending">
+                    Checking uniqueness of the name...
+                </mat-hint>                  
+            </mat-form-field>
+    
+            <mat-form-field>
+                <mat-label>Location</mat-label>
+                <input 
+                #locationInput
+                matInput 
+                autocomplete="off"
+                formControlName="location" 
+                placeholder="Country, city, street">
+                <mat-error *ngIf="!culturalForm.get('location').hasError('locationError')">
+                    Location is required!
+                </mat-error>
+                <mat-error *ngIf="culturalForm.get('location').hasError('locationError')">
+                    Location must be valid!
+                </mat-error>
+            </mat-form-field>           
+    
+            <br>
+                    
+            <mat-form-field appearance="outline">
+                <textarea 
+                matInput 
+                autocomplete="off"
+                formControlName="description" 
+                placeholder="Enter description"
+                rows="4"></textarea>
+            </mat-form-field>
+    
+        </div>
+    </div>
+    
+    <div class="button-container">
+        <app-spacer-container>
+            <span>
+            </span>
+            <span>
+                <button 
+                *ngIf="!savePending"
+                mat-raised-button 
+                color="primary"      
+                (click)="dialogRef.close()">Cancel</button>
+                <button 
+                *ngIf="!savePending"
+                mat-raised-button 
+                color="accent"       
+                class="save-button"        
+                (click)="save()">Save</button>
+                <app-spinner-button *ngIf="savePending"></app-spinner-button>
+            </span>
+        </app-spacer-container>     
+        
+    </div>
+    
+</form>

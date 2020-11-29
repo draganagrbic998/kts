@@ -12,6 +12,7 @@ import { LOGIN_PATH } from 'src/app/user/utils/router';
 import { USER_PATH } from 'src/app/utils/router';
 import { CommentListComponent } from 'src/app/comments/comment-list/comment-list.component';
 import { CommentFormComponent } from 'src/app/comments/comment-form/comment-form.component';
+import { CulturalFormComponent } from '../cultural-form/cultural-form.component';
 
 @Component({
   selector: 'app-cultural-dialog',
@@ -39,7 +40,14 @@ export class CulturalDialogComponent implements OnInit {
   }
 
   edit(): void{
-    
+    const options = {...DIALOG_OPTIONS, ...{data: this.culturalOffer}};
+    const dialog: MatDialogRef<CulturalFormComponent> = this.dialog.open(CulturalFormComponent, options);
+    dialog.componentInstance.onSaved.subscribe(
+      (culturalOffer: CulturalOffer) => {
+        this.dialogRef.close();
+        this.onRefreshData.emit(culturalOffer);
+      }
+    );
   }
 
   delete(): void{

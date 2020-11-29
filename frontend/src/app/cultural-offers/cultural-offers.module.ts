@@ -5,12 +5,14 @@ import { CulturalListComponent } from './cultural-list/cultural-list.component';
 import { CulturalDialogComponent } from './cultural-dialog/cultural-dialog.component';
 import { NewsModule } from '../news/news.module';
 import { CommentsModule } from '../comments/comments.module';
+import { CulturalFormComponent } from './cultural-form/cultural-form.component';
 
 @NgModule({
   declarations: [
     CulturalDetailsComponent, 
     CulturalListComponent, 
-    CulturalDialogComponent
+    CulturalDialogComponent, 
+    CulturalFormComponent
   ],
   imports: [
     LayoutModule,
@@ -19,7 +21,8 @@ import { CommentsModule } from '../comments/comments.module';
   ], 
   exports: [
     CulturalListComponent,
-    CulturalDialogComponent
+    CulturalDialogComponent, 
+    CulturalFormComponent
   ]
 })
 export class CulturalOffersModule { }

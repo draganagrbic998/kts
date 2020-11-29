@@ -2,7 +2,8 @@
 
     <div>
         <app-toolbar 
-        (onToggle)="drawer.toggle()">
+        (onToggle)="drawer.toggle()"
+        (onRefreshData)="map.markOnMap($event); refreshData($event)">
         </app-toolbar>
         <app-map 
         #map

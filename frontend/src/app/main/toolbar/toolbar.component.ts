@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CulturalOffer } from 'src/app/cultural-offers/utils/cultural-offer';
 import { USER_PATH } from 'src/app/utils/router';
@@ -9,6 +9,7 @@ import { LOGIN_PATH } from 'src/app/user/utils/router';
 import { CategoryDialogComponent } from 'src/app/categories/category-dialog/category-dialog.component';
 import { TypeDialogComponent } from 'src/app/types/type-dialog/type-dialog.component';
 import { DIALOG_OPTIONS } from 'src/app/utils/constants';
+import { CulturalFormComponent } from 'src/app/cultural-offers/cultural-form/cultural-form.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -24,7 +25,7 @@ export class ToolbarComponent implements OnInit {
   ) { }
 
   @Output() onToggle: EventEmitter<null> = new EventEmitter();
-  @Output() onAddOnMap: EventEmitter<CulturalOffer> = new EventEmitter();
+  @Output() onRefreshData: EventEmitter<CulturalOffer> = new EventEmitter();
   
   get role(): string{
     return this.authService.getUser()?.role;
@@ -58,6 +59,16 @@ export class ToolbarComponent implements OnInit {
   types(): void{
     const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}}
     this.dialog.open(TypeDialogComponent, options);
+  }
+
+  addOffer(): void{
+    const options = {...DIALOG_OPTIONS, ...{data: {}}}
+    const dialog: MatDialogRef<CulturalFormComponent> = this.dialog.open(CulturalFormComponent, options);
+    dialog.componentInstance.onSaved.subscribe(
+      (culturalOffer: CulturalOffer) => {
+        this.onRefreshData.emit(culturalOffer);
+      }
+    );
   }
   
   ngOnInit(): void {
