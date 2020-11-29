@@ -5,4 +5,5 @@ export interface Comment{
     text: string;
     images: string[];
     user: string;
+    culturalOfferId?: number;
 }

@@ -29,6 +29,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { CarouselModule } from 'ng-uikit-pro-standard';
 import { PaginatorComponent } from './paginator/paginator.component';
+import { ImageComponent } from './image/image.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { PaginatorComponent } from './paginator/paginator.component';
     PreloaderComponent,
     SpacerContainerComponent,
     SpinnerButtonComponent,
-    PaginatorComponent
+    PaginatorComponent,
+    ImageComponent
   ],
   imports: [
     CommonModule,
@@ -65,6 +67,7 @@ import { PaginatorComponent } from './paginator/paginator.component';
     SpacerContainerComponent,
     SpinnerButtonComponent,
     PaginatorComponent,
+    ImageComponent,
 
     MatFormFieldModule,
     MatInputModule,

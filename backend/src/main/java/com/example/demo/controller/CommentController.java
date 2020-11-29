@@ -45,7 +45,8 @@ public class CommentController {
 		response.setHeader(Constants.LAST_PAGE_HEADER, comments.isLast() + "");
 		return new ResponseEntity<>(this.commentMapper.map(comments.toList()), HttpStatus.OK);
 	}
-	//@PreAuthorize("hasAuthority('guest')")
+	
+	@PreAuthorize("hasAuthority('guest')")
 	@DeleteMapping(value = "/api/comments/{id}")
 	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
 		this.commentService.delete(id);
