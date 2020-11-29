@@ -15,8 +15,11 @@
                 autocomplete="off"
                 formControlName="name" 
                 placeholder="Enter category name">
-                <mat-error>
+                <mat-error *ngIf="!categoryForm.get('name').hasError('nameError')">
                     Name is required!
+                </mat-error>
+                <mat-error *ngIf="categoryForm.get('name').hasError('nameError')">
+                    Name already exists!
                 </mat-error>    
             </mat-form-field>
         </div>

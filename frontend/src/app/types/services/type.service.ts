@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Type } from '../utils/type';
 import { API_BASE } from '../utils/api';
+import { MEDIUM_PAGE_SIZE } from 'src/app/utils/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,12 @@ export class TypeService {
   constructor(private http: HttpClient
     ) { }
 
-  list(): Observable<Type[]>{
-    return this.http.get<Type[]>(API_BASE);
+ 
+
+  list(page: number): Observable<HttpResponse<Type[]>>{
+    return this.http.get<Type[]>(`${API_BASE}?page=${page}&size=${MEDIUM_PAGE_SIZE}`, 
+     { observe: 'response' }
+    );
   }
 
   save(type: Type): Observable<null>{
@@ -21,7 +26,7 @@ export class TypeService {
   }
 
   delete(id: number): Observable<null>{
-    return this.http.delete<null>(`${API_BASE}${id}`);
+    return this.http.delete<null>(`${API_BASE}/${id}`);
   }
   
 }
