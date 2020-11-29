@@ -5,10 +5,10 @@
 
     <mat-tab-group animationDuration="0ms">
         <mat-tab [label]="'Categories List'">
-            <app-category-list></app-category-list>
+            <app-category-list  #list></app-category-list>
         </mat-tab>
         <mat-tab [label]="'New Category'">
-            <app-category-form></app-category-form>
+            <app-category-form (onAdded) = "list.fetchData()"></app-category-form>
         </mat-tab>
     </mat-tab-group>
 </div>

@@ -9,13 +9,15 @@
 <div class="header-container" *ngIf="!fetchPending && types?.length">
     <app-paginator
     [fetchPending]="fetchPending"
-    [hasPrevious]="true"
-    [hasNext]="true"
+    [hasPrevious]="!startOfPages"
+    [hasNext]="!endOfPages"
+    (onChangePage)="changePage($event)"
     ></app-paginator>
 </div>
 
 <app-type-details
 *ngFor="let type of types"
-[type]="type">
+[type]="type"
+(onDeleted) = "fetchData()">
 </app-type-details>
 

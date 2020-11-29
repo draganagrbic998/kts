@@ -12,7 +12,9 @@ export class CategoryDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CategoryDialogComponent>
   ) { }
 
+
   ngOnInit(): void {
   }
+
 
 }

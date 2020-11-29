@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
@@ -20,12 +20,15 @@ export class CategoryDetailsComponent implements OnInit {
   ) { }
 
   @Input() category: Category;
+  @Output() onDeleted: EventEmitter<number> = new EventEmitter();
+
   
   delete(): void {
     const options = {...DIALOG_OPTIONS, ...{data: () => this.categoryService.delete(this.category.id)}}
     const dialog: MatDialogRef<DeleteConfirmationComponent> = this.dialog.open(DeleteConfirmationComponent, options);
     dialog.componentInstance.onDeleted.subscribe(
       () => {
+        this.onDeleted.emit(this.category.id);
         this.snackBar.open("Category successfully deleted!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
       }
     );

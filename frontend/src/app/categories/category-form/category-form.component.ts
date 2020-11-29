@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormValidatorService } from 'src/app/user/services/form-validator.service';
 import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { CategoryService } from '../services/category.service';
 
@@ -13,12 +14,14 @@ export class CategoryFormComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
+    private formValidator: FormValidatorService,
     private snackBar: MatSnackBar
   ) { }
-
+  
+  @Output() onAdded: EventEmitter<null> = new EventEmitter();
   savePending: boolean = false;
   categoryForm: FormGroup = new FormGroup({
-    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))])
+    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.formValidator.hasName()])
   });
 
   save(): void{
@@ -29,6 +32,7 @@ export class CategoryFormComponent implements OnInit {
     this.categoryService.save(this.categoryForm.value).subscribe(
       () => {
         this.savePending = false;
+        this.onAdded.emit();
         this.snackBar.open("Category successfully added!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
       }, 
       () => {
