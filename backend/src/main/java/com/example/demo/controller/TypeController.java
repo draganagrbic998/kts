@@ -29,9 +29,7 @@ import com.example.demo.dto.TypeDTO;
 import com.example.demo.dto.TypeUploadDTO;
 import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.mapper.TypeMapper;
-import com.example.demo.model.Category;
 import com.example.demo.model.Type;
-import com.example.demo.service.CategoryService;
 import com.example.demo.service.TypeService;
 
 @RestController
@@ -42,8 +40,7 @@ public class TypeController {
 	@Autowired
 	private TypeService typeService;
 	
-	@Autowired
-	private CategoryService categoryService;
+	
 		
 	@Autowired
 	private TypeMapper typeMapper;
@@ -73,7 +70,7 @@ public class TypeController {
 	}
 	
 	@PostMapping(value = "/has_name")
-	public ResponseEntity<Boolean> hasEmail(@RequestBody UniqueCheckDTO param) {
+	public ResponseEntity<Boolean> hasName(@RequestBody UniqueCheckDTO param) {
 		return new ResponseEntity<>(this.typeService.hasName(param), HttpStatus.OK);
 	}
 	
