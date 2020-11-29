@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -13,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.constants.Constants;
 import com.example.demo.dto.CulturalOfferDTO;
+import com.example.demo.dto.CulturalOfferUploadDTO;
 import com.example.demo.dto.FilterParamsDTO;
 import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.mapper.CulturalOfferMapper;
@@ -38,6 +42,12 @@ public class CulturalOfferController {
 	
 	@Autowired
 	private CulturalOfferMapper culturalOfferMapper;
+	
+	@PreAuthorize("hasAuthority('admin')")
+	@PostMapping(value = "")
+	public ResponseEntity<CulturalOfferDTO> save(@ModelAttribute CulturalOfferUploadDTO culturalOfferDTO) throws FileNotFoundException, IOException {
+		return new ResponseEntity<>(new CulturalOfferDTO(this.culturalOfferService.save(this.culturalOfferMapper.map(culturalOfferDTO), culturalOfferDTO.getImage())), HttpStatus.OK);
+	}
 	
 	@PostMapping(value = "/filter_names")
 	public ResponseEntity<List<String>> filterNames(@RequestBody String filter){

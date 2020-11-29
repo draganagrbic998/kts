@@ -128,6 +128,7 @@ export class CulturalFormComponent implements AfterViewInit {
     this.locationAutocomplete.on("change", event => {
       this.geolocation.lat = event.suggestion.latlng["lat"];
       this.geolocation.lng = event.suggestion.latlng["lng"];
+      this.culturalForm.get('location').setValue(event.suggestion.value);
       this.culturalForm.get('location').updateValueAndValidity();
     });
     
