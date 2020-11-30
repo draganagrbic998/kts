@@ -3,17 +3,17 @@ package com.example.demo.service;
 public class Email {
 	
 	private String to;
-	private String title;
+	private String subject;
 	private String text;
 	
 	public Email() {
 		super();
 	}
 	
-	public Email(String to, String title, String text) {
+	public Email(String to, String subject, String text) {
 		super();
 		this.to = to;
-		this.title = title;
+		this.subject = subject;
 		this.text = text;
 	}
 
@@ -25,12 +25,12 @@ public class Email {
 		this.to = to;
 	}
 
-	public String getTitle() {
-		return title;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
 
 	public String getText() {

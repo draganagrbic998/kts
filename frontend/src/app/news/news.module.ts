@@ -5,7 +5,6 @@ import { NewsDetailsComponent } from './news-details/news-details.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { NewsFormComponent } from './news-form/news-form.component';
-import { HttpClient } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +16,6 @@ import { HttpClient } from '@angular/common/http';
     MatDatepickerModule,
     MatNativeDateModule,
     LayoutModule,
-    HttpClient
   ],
   exports: [
     NewsListComponent

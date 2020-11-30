@@ -29,7 +29,6 @@ import com.example.demo.dto.NewsDTO;
 import com.example.demo.dto.NewsUploadDTO;
 import com.example.demo.mapper.NewsMapper;
 import com.example.demo.model.News;
-import com.example.demo.service.Email;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.NewsService;
 import com.example.demo.service.UserFollowingService;
@@ -69,7 +68,7 @@ public class NewsController {
 		News newNews = this.newsService.save(this.newsMapper.map(culturalOfferId, newsDTO), newsDTO.getImages());
 		
 		for (String userEmail : userFollowingService.getSubscribedUsersEmails(culturalOfferId)) {
-			this.emailService.sendMessage(new Email(userEmail, "News about '" + newNews.getCulturalOffer().getName() + "'", newsDTO.getText()));
+			this.emailService.sendMessageWithAttachments(userEmail, "News about '" + newNews.getCulturalOffer().getName() + "'", newNews.getText(), newNews.getImages());
 		}
 		
 		return new ResponseEntity<>(HttpStatus.OK);
