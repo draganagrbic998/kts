@@ -21,7 +21,8 @@ export class TypeListComponent implements OnInit {
   endOfPages: boolean = true;
   startOfPages: boolean = true;
 
-  ngOnInit(): void {
+  changePage(amount: number): void{
+    this.pageNumber += amount;
     this.fetchData();
   }
 
@@ -38,7 +39,7 @@ export class TypeListComponent implements OnInit {
           this.startOfPages = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
         }
         else{
-          console.log("nema");
+          this.types = [];
           this.endOfPages = true;
           this.startOfPages = true;
         }
@@ -46,8 +47,7 @@ export class TypeListComponent implements OnInit {
     );
   }
 
-  changePage(amount: number): void{
-    this.pageNumber += amount;
+  ngOnInit(): void {
     this.fetchData();
   }
 

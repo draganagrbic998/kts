@@ -16,9 +16,9 @@ export class UserFollowingService {
     private http: HttpClient
   ) { }
 
-  filter(filterParams: FilterParams, pageNumber: number): Observable<HttpResponse<CulturalOffer[]>>{
+  filter(filters: FilterParams, pageNumber: number): Observable<HttpResponse<CulturalOffer[]>>{
     return this.http.post<CulturalOffer[]>(`${API_FILTER_FOLLOWINGS}?page=${pageNumber}&size=${LARGE_PAGE_SIZE}`, 
-    filterParams, {observe: "response"}).pipe(
+    filters, {observe: "response"}).pipe(
       catchError(() => of(null))
     );
   }

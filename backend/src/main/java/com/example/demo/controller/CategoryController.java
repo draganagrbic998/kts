@@ -38,18 +38,11 @@ public class CategoryController {
 		
 	@Autowired
 	private CategoryMapper categoryMapper;
-	
-	@GetMapping(value = "/all")
-	public ResponseEntity<List<CategoryDTO>> getCategories(){
-		List<Category> sveKategorije = (List<Category>) categoryService.list();
-		List<CategoryDTO> sveKategorijeDTO = categoryMapper.map(sveKategorije); 
-		return new ResponseEntity<List<CategoryDTO>>(sveKategorijeDTO,HttpStatus.OK);
-	}
-	
+		
 	@GetMapping(value = "")
 	public ResponseEntity<List<CategoryDTO>> list(@RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
-		Page<Category> categories = this.categoryService.getPage(pageable);
+		Page<Category> categories = this.categoryService.list(pageable);
 		response.setHeader(Constants.ENABLE_HEADER, Constants.FIRST_PAGE_HEADER + ", " + Constants.LAST_PAGE_HEADER);
 		response.setHeader(Constants.FIRST_PAGE_HEADER, categories.isFirst() + "");
 		response.setHeader(Constants.LAST_PAGE_HEADER, categories.isLast() + "");
@@ -69,8 +62,13 @@ public class CategoryController {
 	}
 	
 	@PostMapping(value = "/has_name")
-	public ResponseEntity<Boolean> hasEmail(@RequestBody UniqueCheckDTO param) {
+	public ResponseEntity<Boolean> hasName(@RequestBody UniqueCheckDTO param) {
 		return new ResponseEntity<>(this.categoryService.hasName(param), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/all")
+	public ResponseEntity<List<CategoryDTO>> all(){
+		return new ResponseEntity<List<CategoryDTO>>(this.categoryMapper.map((List<Category>) this.categoryService.all()),HttpStatus.OK);
 	}
 	
 }

@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
-import { FormValidatorService } from './form-validator.service';
+import { UserValidatorService } from './user-validator.service';
 import { UserService } from './user.service';
 
-describe('FormValidatorService', () => {
-  let service: FormValidatorService;
+describe('UserValidatorService', () => {
+  let service: UserValidatorService;
 
   beforeEach(() => {
     const userServiceMock = {};
@@ -13,7 +13,7 @@ describe('FormValidatorService', () => {
         {provide: UserService, useValue: userServiceMock}
       ]
     });
-    service = TestBed.inject(FormValidatorService);
+    service = TestBed.inject(UserValidatorService);
   });
 
   it('should be created', () => {

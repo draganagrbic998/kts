@@ -51,6 +51,7 @@ export class NewsListComponent implements OnInit {
           this.startOfPages = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
         }
         else{
+          this.news = [];
           this.endOfPages = true;
           this.startOfPages = true;
         }

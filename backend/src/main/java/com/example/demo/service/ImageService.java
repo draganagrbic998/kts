@@ -23,10 +23,9 @@ public class ImageService {
 	
 	@Transactional(readOnly = true)
 	public String store(MultipartFile data) throws FileNotFoundException, IOException {
-		long counter = this.imageRepository.count() + 1;
 		String[] array = data.getOriginalFilename().split("\\.");
 		String extension = array[array.length - 1];
-		String fileName = "image" + counter + "." + extension;
+		String fileName = "image" + this.imageRepository.count() + "." + extension;
 		String path = "src" + File.separatorChar
 				+ "main" + File.separatorChar
 				+ "resources" + File.separatorChar

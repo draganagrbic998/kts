@@ -40,16 +40,13 @@ public class TypeController {
 	@Autowired
 	private TypeService typeService;
 	
-	
-		
 	@Autowired
 	private TypeMapper typeMapper;
-	
 	
 	@GetMapping(value = "")
 	public ResponseEntity<List<TypeDTO>> list(@RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
-		Page<Type> types = this.typeService.getPage(pageable);
+		Page<Type> types = this.typeService.list(pageable);
 		response.setHeader(Constants.ENABLE_HEADER, Constants.FIRST_PAGE_HEADER + ", " + Constants.LAST_PAGE_HEADER);
 		response.setHeader(Constants.FIRST_PAGE_HEADER, types.isFirst() + "");
 		response.setHeader(Constants.LAST_PAGE_HEADER, types.isLast() + "");

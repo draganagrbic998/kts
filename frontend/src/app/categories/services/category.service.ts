@@ -1,7 +1,8 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { MEDIUM_PAGE_SIZE } from 'src/app/utils/constants';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { SMALL_PAGE_SIZE } from 'src/app/utils/constants';
 import { UniqueCheck } from 'src/app/utils/unique-check';
 import { API_BASE, API_HAS_NAME } from '../utils/api';
 import { Category } from '../utils/category';
@@ -16,13 +17,11 @@ export class CategoryService {
   ) { }
 
   list(page: number): Observable<HttpResponse<Category[]>>{
-    return this.http.get<Category[]>(`${API_BASE}?page=${page}&size=${MEDIUM_PAGE_SIZE}`, 
+    return this.http.get<Category[]>(`${API_BASE}?page=${page}&size=${SMALL_PAGE_SIZE}`, 
      { observe: 'response' }
-    );
-  }
-
-  getAllCategories(){
-    return this.http.get<Category[]>(`${API_BASE}/all`);
+    ).pipe(
+      catchError(() => of(null))
+    )
   }
 
   save(category: Category): Observable<null>{
@@ -35,6 +34,10 @@ export class CategoryService {
 
   hasName(param: UniqueCheck): Observable<boolean>{
     return this.http.post<boolean>(API_HAS_NAME, param);
+  }
+
+  all(){
+    return this.http.get<Category[]>(`${API_BASE}/all`);
   }
 
 }

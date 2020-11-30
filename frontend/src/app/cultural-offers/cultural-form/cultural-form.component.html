@@ -1,4 +1,5 @@
 <form [formGroup]="culturalForm" cdkFocusInitial>
+    
     <div class="root-container" [class.disabled]="savePending">
     
         <app-image-input
@@ -59,7 +60,7 @@
                 matInput 
                 autocomplete="off"
                 formControlName="location" 
-                placeholder="Country, city, street">
+                placeholder="Country, city, street...">
                 <mat-error *ngIf="!culturalForm.get('location').hasError('locationError')">
                     Location is required!
                 </mat-error>

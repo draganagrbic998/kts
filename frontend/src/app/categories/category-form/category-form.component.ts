@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { CategoryService } from '../services/category.service';
-import { FormValidatorService } from '../services/form-validator.service';
+import { CategoryValidatorService } from '../services/category-validator.service';
 
 @Component({
   selector: 'app-category-form',
@@ -14,14 +14,14 @@ export class CategoryFormComponent implements OnInit {
 
   constructor(
     private categoryService: CategoryService,
-    private formValidator: FormValidatorService,
+    private categoryValidator: CategoryValidatorService,
     private snackBar: MatSnackBar
   ) { }
   
   @Output() onAdded: EventEmitter<null> = new EventEmitter();
   savePending: boolean = false;
   categoryForm: FormGroup = new FormGroup({
-    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.formValidator.hasName()])
+    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.categoryValidator.hasName()])
   });
 
   save(): void{

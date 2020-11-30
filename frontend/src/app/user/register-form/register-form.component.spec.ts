@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { FormValidatorService } from '../services/form-validator.service';
+import { UserValidatorService } from '../services/user-validator.service';
 import { UserService } from '../services/user.service';
 
 import { RegisterFormComponent } from './register-form.component';
@@ -27,7 +27,7 @@ describe('RegisterFormComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: UserService, useValue: userServiceMock}, 
-        {provide: FormValidatorService, useValue: formValidatorMock}
+        {provide: UserValidatorService, useValue: formValidatorMock}
       ]
     })
     .compileComponents();

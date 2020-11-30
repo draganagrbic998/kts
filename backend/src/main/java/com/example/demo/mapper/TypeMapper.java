@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.TypeDTO;
 import com.example.demo.dto.TypeUploadDTO;
@@ -13,6 +14,7 @@ import com.example.demo.repository.CategoryRepository;
 
 @Component
 public class TypeMapper {
+	
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
@@ -20,10 +22,11 @@ public class TypeMapper {
 		return types.stream().map(type -> new TypeDTO(type)).collect(Collectors.toList());
 	}
 
+	@Transactional(readOnly = true)
 	public Type map(TypeUploadDTO typeDTO) {
 		Type type = new Type();
 		type.setName(typeDTO.getName());
-		type.setCategory(categoryRepository.findByName(typeDTO.getCategory()));
+		type.setCategory(this.categoryRepository.findByName(typeDTO.getCategory()));
 		return type;
 	}
 

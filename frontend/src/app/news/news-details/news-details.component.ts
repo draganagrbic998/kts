@@ -25,6 +25,7 @@ export class NewsDetailsComponent implements OnInit {
   @Input() culturalOfferId: number;
   @Output() onRefreshData: EventEmitter<null> = new EventEmitter();
   @Input() news: News;
+  @Output() onRefreshData: EventEmitter<null> = new EventEmitter();
 
   get admin(): boolean{
     return this.authService.getUser()?.role === ADMIN_ROLE;
@@ -47,7 +48,6 @@ export class NewsDetailsComponent implements OnInit {
     dialog.componentInstance.onDeleted.subscribe(
       () => {
         this.onRefreshData.emit();
-        this.snackBar.open("News successfully deleted!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
       }
     );
   }

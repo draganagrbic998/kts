@@ -1,9 +1,5 @@
 <app-preloader *ngIf="fetchPending"></app-preloader>
 
-<div *ngIf="!fetchPending && !comments?.length" class="empty-container">
-    NO COMMENTS
-</div>
-
 <div class="header-container">
     <app-paginator
     [fetchPending]="fetchPending"
@@ -13,10 +9,13 @@
     ></app-paginator>  
 </div>
 
+<div *ngIf="!fetchPending && !comments?.length" class="empty-container">
+    NO COMMENTS
+</div>
+
 <app-comment-details 
 *ngFor="let comment of comments"
 [comment]="comment"
 [culturalOfferId]="culturalOfferId"
-(onSaved)="fetchComments()"
 (onRefreshData)="fetchComments()">
 </app-comment-details>    

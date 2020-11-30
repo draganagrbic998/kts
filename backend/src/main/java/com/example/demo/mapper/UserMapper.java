@@ -48,13 +48,13 @@ public class UserMapper {
 	
 	public User map(ProfileUploadDTO userDTO) {
 		User user = this.userService.currentUser();
-		user.setEmail(userDTO.getEmail());
-		user.setFirstName(userDTO.getFirstName());
-		user.setLastName(userDTO.getLastName());
 		if (userDTO.getNewPassword() != null) {
 			this.authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), userDTO.getOldPassword()));			
 			user.setPassword(this.passwordEncoder.encode(userDTO.getNewPassword()));
 		}
+		user.setEmail(userDTO.getEmail());
+		user.setFirstName(userDTO.getFirstName());
+		user.setLastName(userDTO.getLastName());
 		user.setImage(userDTO.getImagePath());
 		return user;
 	}

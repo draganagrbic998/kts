@@ -9,7 +9,7 @@ public class Email {
 	public Email() {
 		super();
 	}
-	
+
 	public Email(String to, String subject, String text) {
 		super();
 		this.to = to;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
-import { FormValidatorService } from '../services/form-validator.service';
+import { UserValidatorService } from '../services/user-validator.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -14,7 +14,7 @@ export class RegisterFormComponent implements OnInit {
 
   constructor(
     private userService: UserService, 
-    private formValidator: FormValidatorService,
+    private formValidator: UserValidatorService,
     private snackBar: MatSnackBar
     ) { }
 

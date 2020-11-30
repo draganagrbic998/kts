@@ -29,21 +29,5 @@ public class AuthToken extends AbstractAuthenticationToken{
 	public boolean isAuthenticated() {
 		return true;
 	}
-
-	public UserDetails getUser() {
-		return user;
-	}
-
-	public void setUser(UserDetails user) {
-		this.user = user;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
 	
 }

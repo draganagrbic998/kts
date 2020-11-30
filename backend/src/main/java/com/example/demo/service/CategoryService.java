@@ -18,14 +18,9 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+		
 	@Transactional(readOnly = true)
-	public Collection<Category> list() {
-		return categoryRepository.findAll();
-	}
-	
-	@Transactional(readOnly = true)
-	public Page<Category> getPage(Pageable pageable){
+	public Page<Category> list(Pageable pageable){
 		return this.categoryRepository.findAll(pageable);
 	}
 	
@@ -40,11 +35,6 @@ public class CategoryService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Category getCategory(String name) {
-		return  this.categoryRepository.findByName(name);
-		
-	}
-	@Transactional(readOnly = true)
 	public boolean hasName(UniqueCheckDTO param) {
 		Category cat = this.categoryRepository.findByName(param.getName());
 		if (cat == null) {
@@ -53,6 +43,9 @@ public class CategoryService {
 		return true;
 	}
 
-	
+	@Transactional(readOnly = true)
+	public Collection<Category> all() {
+		return categoryRepository.findAll();
+	}
 
 }

@@ -1,14 +1,13 @@
-<div class="root-container" cdkFocusInitial>
-    <app-close-button 
-    (onClose)="dialogRef.close()"
-    ></app-close-button>
+<app-close-button 
+(onClose)="dialogRef.close()"
+[class.hidden]="form.savePending"
+></app-close-button>
 
-    <mat-tab-group animationDuration="0ms">
-        <mat-tab [label]="'Categories List'">
-            <app-category-list  #list></app-category-list>
-        </mat-tab>
-        <mat-tab [label]="'New Category'">
-            <app-category-form (onAdded) = "list.fetchData()"></app-category-form>
-        </mat-tab>
-    </mat-tab-group>
-</div>
+<mat-tab-group animationDuration="0ms" cdkFocusInitial>
+    <mat-tab [label]="'Categories List'">
+        <app-category-list  #list></app-category-list>
+    </mat-tab>
+    <mat-tab [label]="'New Category'">
+        <app-category-form #form (onAdded)="list.fetchData()"></app-category-form>
+    </mat-tab>
+</mat-tab-group>

@@ -9,8 +9,8 @@ import { CommentFormComponent } from './comment-form/comment-form.component';
   declarations: [
     CommentDetailsComponent, 
     CommentListComponent,
-    StarRatingComponent,
-    CommentFormComponent
+    CommentFormComponent,
+    StarRatingComponent
   ],
   imports: [
     LayoutModule

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LARGE_PAGE_SIZE } from 'src/app/utils/constants';
 import { UniqueCheck } from 'src/app/utils/unique-check';
-import { API_FILTER_LOCATIONS, API_FILTER_NAMES, API_FILTER_TYPES, API_FILTER, API_BASE, API_HAS_NANE } from '../utils/api';
+import { API_FILTER_LOCATIONS, API_FILTER_NAMES, API_FILTER_TYPES, API_FILTER, API_BASE, API_HAS_NAME } from '../utils/api';
 import { CulturalOffer } from '../utils/cultural-offer';
 import { FilterParams } from '../utils/filter-params';
 
@@ -42,15 +42,16 @@ export class CulturalService {
     );
   }
 
-  delete(id: number): Observable<CulturalOffer>{
-    return this.http.delete<CulturalOffer>(`${API_BASE}/${id}`);
-  }
-
   save(data: FormData): Observable<CulturalOffer>{
     return this.http.post<CulturalOffer>(API_BASE, data);
   }
 
-  hasName(param: UniqueCheck): Observable<boolean>{
-    return this.http.post<boolean>(API_HAS_NANE, param);
+  delete(id: number): Observable<CulturalOffer>{
+    return this.http.delete<CulturalOffer>(`${API_BASE}/${id}`);
   }
+
+  hasName(param: UniqueCheck): Observable<boolean>{
+    return this.http.post<boolean>(API_HAS_NAME, param);
+  }
+  
 }

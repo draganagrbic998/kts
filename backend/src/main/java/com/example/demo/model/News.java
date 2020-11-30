@@ -49,7 +49,11 @@ public class News {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "news_image", 
-		joinColumns = @JoinColumn(referencedColumnName = "id", name = "news_id"), 
+		joinColumns = @JoinColumn(referencedColumnName = "id", name = "news_id", 
+			foreignKey = @ForeignKey(
+		            foreignKeyDefinition = "FOREIGN KEY (news_id) REFERENCES news_table(id) ON DELETE CASCADE"
+	        )
+		), 
 		inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "image_id")
 	)
 	private Set<Image> images = new HashSet<>();

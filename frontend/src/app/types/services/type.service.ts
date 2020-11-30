@@ -1,29 +1,27 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Type } from '../utils/type';
 import { API_BASE, API_FILTER_NAMES, API_HAS_NAME } from '../utils/api';
-import { MEDIUM_PAGE_SIZE } from 'src/app/utils/constants';
+import { SMALL_PAGE_SIZE } from 'src/app/utils/constants';
 import { UniqueCheck } from 'src/app/utils/unique-check';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TypeService {
 
-  constructor(private http: HttpClient
-    ) { }
-
- 
-
+  constructor(
+    private http: HttpClient
+  ) { }
+    
   list(page: number): Observable<HttpResponse<Type[]>>{
-    return this.http.get<Type[]>(`${API_BASE}?page=${page}&size=${MEDIUM_PAGE_SIZE}`, 
+    return this.http.get<Type[]>(`${API_BASE}?page=${page}&size=${SMALL_PAGE_SIZE}`, 
      { observe: 'response' }
+    ).pipe(
+      catchError(() => of(null))
     );
-  }
-
-  filterNames(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(API_FILTER_NAMES, filter);
   }
 
   save(data: FormData): Observable<null>{
@@ -37,6 +35,9 @@ export class TypeService {
   hasName(param: UniqueCheck): Observable<boolean>{
     return this.http.post<boolean>(API_HAS_NAME, param);
   }
-
   
+  filterNames(filter: string): Observable<string[]>{
+    return this.http.post<string[]>(API_FILTER_NAMES, filter);
+  }
+
 }
