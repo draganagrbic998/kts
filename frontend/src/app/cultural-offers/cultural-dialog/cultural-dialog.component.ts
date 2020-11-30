@@ -12,6 +12,8 @@ import { LOGIN_PATH } from 'src/app/user/utils/router';
 import { USER_PATH } from 'src/app/utils/router';
 import { CommentListComponent } from 'src/app/comments/comment-list/comment-list.component';
 import { CommentFormComponent } from 'src/app/comments/comment-form/comment-form.component';
+import { NewsListComponent } from 'src/app/news/news-list/news-list.component';
+import { NewsFormComponent } from 'src/app/news/news-form/news-form.component';
 import { CulturalFormComponent } from '../cultural-form/cultural-form.component';
 
 @Component({
@@ -94,6 +96,22 @@ export class CulturalDialogComponent implements OnInit {
     dialog.componentInstance.onSaved.subscribe(
       () => {
         comments.changePage(0);
+      }
+    );
+  }
+
+  publishNews(news: NewsListComponent): void{
+    if (!this.authService.getUser()){
+      this.dialogRef.close();
+      this.router.navigate([`${USER_PATH}/${LOGIN_PATH}`]);
+      return;
+    }
+
+    const options = {...DIALOG_OPTIONS, ...{data: {culturalOfferId: this.culturalOffer.id}}};
+    const dialog: MatDialogRef<NewsFormComponent> = this.dialog.open(NewsFormComponent, options);
+    dialog.componentInstance.onSaved.subscribe(
+      () => {
+        news.changePage(0);
       }
     );
   }

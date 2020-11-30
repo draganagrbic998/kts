@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class NewsUploadDTO {
 
-	private long id;
+	private Long id;
 	private Date createdAt;
 	private String text;
 	private List<MultipartFile> images;
@@ -17,11 +17,11 @@ public class NewsUploadDTO {
 		super();
 	}
 
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

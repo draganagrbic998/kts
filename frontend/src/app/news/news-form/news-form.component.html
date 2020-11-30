@@ -1,0 +1,59 @@
+<div class="root-container" cdkFocusInitial>
+
+    <div [class.disabled]="savePending">
+        <app-close-button
+        (onClose)="dialogRef.close()"
+        ></app-close-button>
+    
+        <h3>Publish News</h3>
+        
+        <br><br>
+    
+        <mat-form-field appearance="outline">
+            <textarea 
+            matInput 
+            autocomplete="off"
+            [formControl]="text"
+            placeholder="Enter news..." 
+            autosize 
+            rows="4"></textarea>
+        </mat-form-field>    
+        
+        <div *ngIf="images.length" class="img-container">
+            <app-image 
+            *ngFor="let img of images; let index = i"
+            [image]="img.path"
+            (onDeleted)="images.splice(index, 1)">
+            </app-image>       
+        </div>   
+        
+        <input 
+        #fileInput
+        type="file" 
+        accept="image/*" 
+        (change)="addImage(fileInput.files[0]); fileInput.value=null">    
+
+        <br>
+
+    </div>
+        
+    <app-spacer-container>
+        <span>
+            <button 
+            *ngIf="!savePending"
+            mat-raised-button 
+            color="primary" 
+            (click)="fileInput.click()">Add image</button>
+        </span>
+        <span>
+            <button 
+            *ngIf="!savePending"
+            mat-raised-button 
+            color="accent" 
+            [disabled]="text.invalid" 
+            (click)="save()">Save news</button>  
+            <app-spinner-button *ngIf="savePending"></app-spinner-button>      
+        </span>
+    </app-spacer-container>         
+    
+</div>

@@ -17,7 +17,6 @@ export class NewsListComponent implements OnInit {
   ) { }
 
   @Input() culturalOfferId: number;
-
   news: News[];
   fetchPending: boolean = true;
   panelOpenState: boolean = false;

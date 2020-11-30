@@ -5,17 +5,17 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LayoutModule } from 'src/app/layout/layout.module';
 
-import { CulturalFormComponent } from './cultural-form.component';
+import { NewsFormComponent } from './news-form.component';
 
-describe('CulturalFormComponent', () => {
-  let component: CulturalFormComponent;
-  let fixture: ComponentFixture<CulturalFormComponent>;
+describe('NewsFormComponent', () => {
+  let component: NewsFormComponent;
+  let fixture: ComponentFixture<NewsFormComponent>;
 
   beforeEach(async () => {
-    const culturalOfferMock = {};
+    const newsMock = {};
     const dialogRefMock = {};
     await TestBed.configureTestingModule({
-      declarations: [ CulturalFormComponent ],
+      declarations: [ NewsFormComponent ],
       imports: [
         HttpClientTestingModule,
         LayoutModule,
@@ -23,7 +23,7 @@ describe('CulturalFormComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {provide: MAT_DIALOG_DATA, useValue: culturalOfferMock}, 
+        {provide: MAT_DIALOG_DATA, useValue: newsMock}, 
         {provide: MatDialogRef, useValue: dialogRefMock}
       ]
     })
@@ -31,7 +31,7 @@ describe('CulturalFormComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CulturalFormComponent);
+    fixture = TestBed.createComponent(NewsFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

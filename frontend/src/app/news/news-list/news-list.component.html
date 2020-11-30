@@ -55,7 +55,10 @@
 
 <app-news-details 
 *ngFor="let newsItem of news"
-[news]="newsItem">
+[news]="newsItem"
+[culturalOfferId]="culturalOfferId"
+(onSaved)="fetchNews()"
+(onRefreshData)="fetchNews()">
 </app-news-details>    
 
 <div class="empty-container" *ngIf="!fetchPending && !news?.length">

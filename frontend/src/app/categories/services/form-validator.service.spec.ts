@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { FormValidatorService } from './form-validator.service';
@@ -6,7 +7,11 @@ describe('FormValidatorService', () => {
   let service: FormValidatorService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule
+      ]
+    });
     service = TestBed.inject(FormValidatorService);
   });
 
