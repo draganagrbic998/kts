@@ -23,7 +23,6 @@ export class NewsDetailsComponent implements OnInit {
   ) { }
 
   @Input() culturalOfferId: number;
-  @Output() onRefreshData: EventEmitter<null> = new EventEmitter();
   @Input() news: News;
   @Output() onRefreshData: EventEmitter<null> = new EventEmitter();
 

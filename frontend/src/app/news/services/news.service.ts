@@ -28,6 +28,6 @@ export class NewsService {
   }
 
   save(culturalOfferId: number, data: FormData): Observable<null>{
-    return this.http.post<null>( `${API_FILTER}/${culturalOfferId}/news`, data);
+    return this.http.post<null>( `${API_NEWS_BASE}/${culturalOfferId}/news`, data);
   }
 }
