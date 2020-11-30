@@ -17,9 +17,10 @@ export class NewsListComponent implements OnInit {
   ) { }
 
   @Input() culturalOfferId: number;
+
+  panelOpenState: boolean = false;
   news: News[];
   fetchPending: boolean = true;
-  panelOpenState: boolean = false;
   pageNumber: number = 0;
   startOfPages: boolean = true;
   endOfPages: boolean = true;
@@ -30,15 +31,15 @@ export class NewsListComponent implements OnInit {
 
   changePage(value: number): void{
     this.pageNumber += value;
-    this.fetchNews();
+    this.fetchData();
   }
 
-  filterNews(): void{
+  filterData(): void{
     this.pageNumber = 0;
-    this.fetchNews();
+    this.fetchData();
   }
 
-  fetchNews(): void{
+  fetchData(): void{
     this.fetchPending = true;
     this.newsService.filter(this.filterForm.value, this.culturalOfferId, this.pageNumber).subscribe(
       (data: HttpResponse<News[]>) => {
@@ -58,7 +59,7 @@ export class NewsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchNews();
+    this.fetchData();
   }
 
 }

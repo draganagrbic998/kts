@@ -50,7 +50,7 @@ public class NewsController {
 	@Autowired
 	private UserFollowingService userFollowingService;
 	
-	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/news/filter")
+	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/filter_news")
 	public ResponseEntity<List<NewsDTO>> list(@PathVariable long culturalOfferId, @RequestParam int page,
 			@RequestParam int size, @RequestBody FilterParamsNewsDTO filters, HttpServletResponse response) {
 		Pageable pageable = PageRequest.of(page, size);

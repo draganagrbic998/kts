@@ -23,8 +23,8 @@ export class NewsDetailsComponent implements OnInit {
   ) { }
 
   @Input() culturalOfferId: number;
-  @Input() news: News;
   @Output() onRefreshData: EventEmitter<null> = new EventEmitter();
+  @Input() news: News;
 
   get admin(): boolean{
     return this.authService.getUser()?.role === ADMIN_ROLE;

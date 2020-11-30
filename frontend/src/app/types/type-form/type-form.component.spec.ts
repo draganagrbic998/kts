@@ -1,8 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { of } from 'rxjs';
+import { CategoryService } from 'src/app/categories/services/category.service';
+import { LayoutModule } from 'src/app/layout/layout.module';
+import { TypeValidatorService } from '../services/type-validator.service';
+import { TypeService } from '../services/type.service';
 
 import { TypeFormComponent } from './type-form.component';
 
@@ -11,14 +14,25 @@ describe('TypeFormComponent', () => {
   let fixture: ComponentFixture<TypeFormComponent>;
 
   beforeEach(async () => {
+    const typeServiceMock = {};
+    const categoryServiceMock = {
+      all: jasmine.createSpy('all').and.returnValue(of(null)),
+    };
+    const typeValidatorMock = {
+      hasName: jasmine.createSpy('hasName').and.returnValue(() => of(null)),
+    };
     await TestBed.configureTestingModule({
-      declarations: [ TypeFormComponent ],
+      declarations: [ TypeFormComponent ], 
       imports: [
-        LayoutModule,
-        BrowserAnimationsModule,
-        HttpClientTestingModule
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        LayoutModule, 
+        BrowserAnimationsModule
+      ], 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      providers: [
+        {provide: TypeService, useValue: typeServiceMock}, 
+        {provide: CategoryService, useValue: categoryServiceMock}, 
+        {provide: TypeValidatorService, useValue: typeValidatorMock}
+      ]
     })
     .compileComponents();
   });

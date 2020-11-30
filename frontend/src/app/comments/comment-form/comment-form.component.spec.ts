@@ -1,9 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from 'src/app/layout/layout.module';
+import { CommentService } from '../services/comment.service';
 
 import { CommentFormComponent } from './comment-form.component';
 
@@ -13,17 +13,18 @@ describe('CommentFormComponent', () => {
 
   beforeEach(async () => {
     const commentMock = {};
+    const commentServiceMock = {};
     const dialogRefMock = {};
     await TestBed.configureTestingModule({
-      declarations: [ CommentFormComponent ],
+      declarations: [ CommentFormComponent ], 
       imports: [
-        HttpClientTestingModule,
         LayoutModule,
         BrowserAnimationsModule
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      ], 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
       providers: [
-        {provide: MAT_DIALOG_DATA, useValue: commentMock}, 
+        {provide: MAT_DIALOG_DATA, useValue: commentMock},
+        {provide: CommentService, useValue: commentServiceMock}, 
         {provide: MatDialogRef, useValue: dialogRefMock}
       ]
     })
