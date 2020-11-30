@@ -56,5 +56,7 @@
 <app-news-details 
 *ngFor="let newsItem of news"
 [news]="newsItem"
+[culturalOfferId]="culturalOfferId"
+(onSaved)="fetchData()"
 (onRefreshData)="fetchData()">
-</app-news-details>    
+</app-news-details>

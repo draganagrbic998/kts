@@ -1,30 +1,29 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { CommentService } from '../services/comment.service';
 
-import { CommentFormComponent } from './comment-form.component';
+import { NewsFormComponent } from './news-form.component';
 
-describe('CommentFormComponent', () => {
-  let component: CommentFormComponent;
-  let fixture: ComponentFixture<CommentFormComponent>;
+describe('NewsFormComponent', () => {
+  let component: NewsFormComponent;
+  let fixture: ComponentFixture<NewsFormComponent>;
 
   beforeEach(async () => {
-    const commentMock = {};
-    const commentServiceMock = {};
+    const newsMock = {};
     const dialogRefMock = {};
     await TestBed.configureTestingModule({
-      declarations: [ CommentFormComponent ], 
+      declarations: [ NewsFormComponent ],
       imports: [
+        HttpClientTestingModule,
         LayoutModule,
         BrowserAnimationsModule
-      ], 
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {provide: MAT_DIALOG_DATA, useValue: commentMock},
-        {provide: CommentService, useValue: commentServiceMock}, 
+        {provide: MAT_DIALOG_DATA, useValue: newsMock}, 
         {provide: MatDialogRef, useValue: dialogRefMock}
       ]
     })
@@ -32,7 +31,7 @@ describe('CommentFormComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CommentFormComponent);
+    fixture = TestBed.createComponent(NewsFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

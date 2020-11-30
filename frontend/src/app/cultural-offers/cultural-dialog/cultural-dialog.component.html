@@ -79,8 +79,8 @@
                 <app-comment-list #comments [culturalOfferId]="culturalOffer.id">
                 </app-comment-list>
             </mat-tab>
-            <mat-tab [label]="'News'">
-                <app-news-list [culturalOfferId]="culturalOffer.id">
+            <mat-tab #newsTab [label]="'News'">
+                <app-news-list #news [culturalOfferId]="culturalOffer.id">
                 </app-news-list>
             </mat-tab>
         </mat-tab-group>
@@ -91,6 +91,14 @@
         class="comment-button"
         (click)="comment(comments)">
             <mat-icon matTooltip="new comment">insert_comment</mat-icon>
+        </button>
+
+        <button 
+        *ngIf="newsTab.isActive && role==='admin'"
+        mat-icon-button
+        class="comment-button"
+        (click)="publishNews(news)">
+            <mat-icon matTooltip="publish news">event_note</mat-icon>
         </button>
 
     </mat-drawer>

@@ -26,4 +26,8 @@ export class NewsService {
   delete(id: number): Observable<null>{
     return this.http.delete<null>(`${API_NEWS}/${id}`);
   }
+
+  save(culturalOfferId: number, data: FormData): Observable<null>{
+    return this.http.post<null>( `${API_FILTER}/${culturalOfferId}/news`, data);
+  }
 }

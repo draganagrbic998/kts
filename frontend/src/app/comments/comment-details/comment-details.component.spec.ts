@@ -1,5 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { LayoutModule } from 'src/app/layout/layout.module';
 import { CommentService } from '../services/comment.service';
 
@@ -14,7 +15,8 @@ describe('CommentDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CommentDetailsComponent ], 
       imports: [
-        LayoutModule
+        LayoutModule,
+        HttpClientTestingModule
       ], 
       schemas: [CUSTOM_ELEMENTS_SCHEMA], 
       providers: [
