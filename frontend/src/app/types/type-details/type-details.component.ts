@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
-import { DIALOG_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
+import { DIALOG_OPTIONS } from 'src/app/utils/constants';
 import { TypeService } from '../services/type.service';
 import { Type } from '../utils/type';
 
@@ -15,8 +14,7 @@ export class TypeDetailsComponent implements OnInit {
 
   constructor(
     private typeService: TypeService,
-    private dialog: MatDialog, 
-    private snackBar: MatSnackBar
+    private dialog: MatDialog 
   ) { }
 
   @Input() type: Type;
@@ -28,7 +26,6 @@ export class TypeDetailsComponent implements OnInit {
     dialog.componentInstance.onDeleted.subscribe(
       () => {
         this.onDeleted.emit();
-        this.snackBar.open("Type successfully deleted!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
       }
     );
   }

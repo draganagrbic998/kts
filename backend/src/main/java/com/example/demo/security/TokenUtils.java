@@ -21,12 +21,12 @@ public class TokenUtils {
 	@Value("KTS-NVT-SECRET")
 	private String APP_SECRET;
 	
-	@Value("web")
-	private String AUDIENCE;
-	
 	@Value("Authorization")
 	private String AUTH_HEADER;
-	
+
+	@Value("web")
+	private String AUDIENCE;
+		
 	@Value("1000000000")
 	private long EXPIRES_IN;
 	

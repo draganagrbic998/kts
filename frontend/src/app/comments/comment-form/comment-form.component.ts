@@ -3,7 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ImageService } from 'src/app/services/image.service';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/utils/constants';
+import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { Image } from 'src/app/utils/image';
 import { CommentService } from '../services/comment.service';
 import { Comment } from '../utils/comment';
@@ -16,7 +16,7 @@ import { Comment } from '../utils/comment';
 export class CommentFormComponent implements OnInit {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private comment: Comment, 
+    @Inject(MAT_DIALOG_DATA) public comment: Comment, 
     private commentService: CommentService, 
     private imageService: ImageService,
     public dialogRef: MatDialogRef<CommentFormComponent>,
@@ -42,6 +42,7 @@ export class CommentFormComponent implements OnInit {
     if (this.comment.id){
       formData.append("id", this.comment.id + "");
     }
+
     formData.append("rate", this.rate + "");
     formData.append("text", this.text.value);
     for (const img of this.images){

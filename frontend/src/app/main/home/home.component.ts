@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   selectedTab: number = 0;
-  culturalOffers: CulturalOffer[][] = [undefined, undefined];
+  culturalOffers: CulturalOffer[][] = [[], []];
   fetchPending: boolean[] = [true, true];
   pageNumber: number[] = [0, 0];
   startOfPages: boolean[] = [true, true];
@@ -50,26 +50,14 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  changePage(amount: number): void{
-    this.pageNumber[this.selectedTab] += amount;
+  changePage(value: number): void{
+    this.pageNumber[this.selectedTab] += value;
     this.fetchData();
   }
 
   filterData(): void{
     this.pageNumber[this.selectedTab] = 0;
     this.fetchData();
-  }
-
-  refreshData(response: CulturalOffer | number): void{
-    const selectedTab = this.guest ? 1 : 0;
-    if (typeof response === "number"){
-      this.culturalOffers[selectedTab] = this.culturalOffers[selectedTab].filter(co => co.id !== response);
-    }
-    else{
-      const temp: number[] = this.culturalOffers[selectedTab].map(co => co.id);
-      const index: number = temp.indexOf(response.id);
-      this.culturalOffers[selectedTab].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
-    }
   }
 
   fetchData(): void{
@@ -87,12 +75,25 @@ export class HomeComponent implements OnInit {
           this.startOfPages[this.selectedTab] = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
         }
         else{
+          this.culturalOffers[this.selectedTab] = [];
           this.endOfPages[this.selectedTab] = true;
           this.startOfPages[this.selectedTab] = true;
         }
       }
     );
     
+  }
+
+  refreshData(response: CulturalOffer | number): void{
+    const selectedTab = this.guest ? 1 : 0;
+    if (typeof response === "number"){
+      this.culturalOffers[selectedTab] = this.culturalOffers[selectedTab].filter(co => co.id !== response);
+    }
+    else{
+      const temp: number[] = this.culturalOffers[selectedTab].map(co => co.id);
+      const index: number = temp.indexOf(response.id);
+      this.culturalOffers[selectedTab].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
+    }
   }
 
   ngOnInit(): void {

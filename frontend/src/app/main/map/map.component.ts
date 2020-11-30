@@ -42,6 +42,9 @@ export class MapComponent implements OnInit {
     const dialog: MatDialogRef<CulturalDialogComponent> = this.dialog.open(CulturalDialogComponent, options);
     dialog.componentInstance.onRefreshData.subscribe(
       (response: CulturalOffer | number) => {
+        if (typeof response !== "number"){
+          this.markOnMap(response);
+        }
         this.onRefreshData.emit(response);
       }
     );

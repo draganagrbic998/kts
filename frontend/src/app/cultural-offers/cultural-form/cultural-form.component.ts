@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { ImageService } from 'src/app/services/image.service';
-import { FormValidatorService } from 'src/app/types/services/form-validator.service';
+import { TypeValidatorService } from 'src/app/types/services/type-validator.service';
 import { TypeService } from 'src/app/types/services/type.service';
 import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { Image } from 'src/app/utils/image';
@@ -25,12 +25,12 @@ export class CulturalFormComponent implements AfterViewInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public culturalOffer: CulturalOffer, 
     private culturalService: CulturalService, 
-    private imageService: ImageService, 
-    private typeValidator: FormValidatorService,
-    public dialogRef: MatDialogRef<CulturalFormComponent>, 
-    private snackBar: MatSnackBar,
     private typeService: TypeService,
-    private culturalValidator: CulturalValidatorService
+    private imageService: ImageService, 
+    private culturalValidator: CulturalValidatorService,
+    private typeValidator: TypeValidatorService,
+    public dialogRef: MatDialogRef<CulturalFormComponent>, 
+    private snackBar: MatSnackBar
   ) { }
 
   geolocation: Geolocation = {
@@ -47,11 +47,11 @@ export class CulturalFormComponent implements AfterViewInit {
     description: new FormControl(this.culturalOffer.description || '')
   });
 
+  types: Observable<string[]>;
   image: Image = {upload: null, path: this.culturalOffer.image};
   savePending: boolean = false;
   onSaved: EventEmitter<CulturalOffer> = new EventEmitter();
 
-  types: Observable<string[]>;
   @ViewChild('locationInput') locationInput: ElementRef<HTMLInputElement>;
   locationAutocomplete: PlacesInstance;
 
@@ -105,8 +105,7 @@ export class CulturalFormComponent implements AfterViewInit {
     this.culturalService.save(formData).subscribe(
       (culturalOffer: CulturalOffer) => {
         this.dialogRef.close();
-        this.snackBar.open("Cultural offer has been successfully saved!", 
-        SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
+        this.snackBar.open("Offer successfully saved!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
         this.onSaved.emit(culturalOffer);
       }, 
       () => {
@@ -133,6 +132,5 @@ export class CulturalFormComponent implements AfterViewInit {
     });
     
   }
-
 
 }

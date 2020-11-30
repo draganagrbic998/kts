@@ -3,7 +3,7 @@
     <div>
         <app-toolbar 
         (onToggle)="drawer.toggle()"
-        (onRefreshData)="map.markOnMap($event); refreshData($event)">
+        (onRefreshData)="refreshData($event); map.markOnMap($event)">
         </app-toolbar>
         <app-map 
         #map
@@ -30,7 +30,8 @@
         ></app-cultural-list>    
 
         <div *ngIf="guest" class="tabs">
-            <mat-tab-group headerPosition="below" animationDuration="0ms"
+            <mat-tab-group 
+            headerPosition="below" animationDuration="0ms"
             (selectedIndexChange)="changeTab($event)">
                 <mat-tab [label]="'All Cultural Offers'">
                 </mat-tab>

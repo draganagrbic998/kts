@@ -24,5 +24,5 @@ public class UniqueCheckDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 }

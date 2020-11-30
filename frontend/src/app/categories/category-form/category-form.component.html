@@ -21,6 +21,9 @@
                 <mat-error *ngIf="categoryForm.get('name').hasError('nameError')">
                     Name already exists!
                 </mat-error>    
+                <mat-hint *ngIf="categoryForm.pending">
+                    Checking uniqueness of the name...
+                </mat-hint>                  
             </mat-form-field>
         </div>
 

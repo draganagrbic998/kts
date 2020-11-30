@@ -45,7 +45,7 @@
                 *ngIf="!fetchPending"
                 mat-raised-button 
                 color="accent"               
-                (click)="filterNews()">Filter</button>
+                (click)="filterData()">Filter</button>
                 <app-spinner-button *ngIf="fetchPending"></app-spinner-button>    
             </span>
         </app-spacer-container>
@@ -55,9 +55,6 @@
 
 <app-news-details 
 *ngFor="let newsItem of news"
-[news]="newsItem">
+[news]="newsItem"
+(onRefreshData)="fetchData()">
 </app-news-details>    
-
-<div class="empty-container" *ngIf="!fetchPending && !news?.length">
-    NO NEWS
-</div>

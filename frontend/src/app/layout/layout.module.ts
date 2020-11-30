@@ -11,6 +11,8 @@ import { ImageInputComponent } from './image-input/image-input.component';
 import { PreloaderComponent } from './preloader/preloader.component';
 import { SpacerContainerComponent } from './spacer-container/spacer-container.component';
 import { SpinnerButtonComponent } from './spinner-button/spinner-button.component';
+import { PaginatorComponent } from './paginator/paginator.component';
+import { ImageComponent } from './image/image.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -27,9 +29,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule} from '@angular/material/select';
 import { CarouselModule } from 'ng-uikit-pro-standard';
-import { PaginatorComponent } from './paginator/paginator.component';
-import { ImageComponent } from './image/image.component';
 
 @NgModule({
   declarations: [
@@ -84,6 +87,9 @@ import { ImageComponent } from './image/image.component';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatExpansionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
     CarouselModule
   ]
 })

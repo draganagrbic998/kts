@@ -8,7 +8,7 @@ import { TypeService } from './type.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FormValidatorService {
+export class TypeValidatorService {
 
   constructor(
     private typeService: TypeService

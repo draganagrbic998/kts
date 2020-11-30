@@ -1,10 +1,10 @@
 <div class="header-container mat-elevation-z8">
 
     <app-paginator
+    [title]="title"
     [fetchPending]="fetchPending"
     [hasPrevious]="hasPrevious"
     [hasNext]="hasNext"
-    [title]="title"
     (onChangePage)="onChangePage.emit($event)"
     ></app-paginator>
 
@@ -95,8 +95,9 @@
     </mat-expansion-panel>
 </div>
 
-<app-cultural-details *ngFor="let culturalOffer of culturalOffers"
-    [culturalOffer]="culturalOffer"
-    (onMarkOnMap)="onMarkOnMap.emit(culturalOffer)"
+<app-cultural-details 
+*ngFor="let culturalOffer of culturalOffers"
+[culturalOffer]="culturalOffer"
+(onMarkOnMap)="onMarkOnMap.emit(culturalOffer)"
 ></app-cultural-details>
 

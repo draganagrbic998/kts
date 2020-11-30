@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { CulturalOffer } from '../utils/cultural-offer';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserFollowingService } from '../services/user-following.service';
-import { DIALOG_OPTIONS, ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/utils/constants';
+import { DIALOG_OPTIONS, ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { AuthService } from 'src/app/services/auth.service';
 import { CulturalService } from '../services/cultural.service';
 import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';

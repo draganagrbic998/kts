@@ -59,7 +59,11 @@ public class Comment {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 		name = "comment_image", 
-		joinColumns = @JoinColumn(referencedColumnName = "id", name = "comment_id"), 
+		joinColumns = @JoinColumn(referencedColumnName = "id", name = "comment_id", 
+		foreignKey = @ForeignKey(
+	            foreignKeyDefinition = "FOREIGN KEY (comment_id) REFERENCES comment_table(id) ON DELETE CASCADE"
+	        )
+		), 
 		inverseJoinColumns = @JoinColumn(referencedColumnName = "id", name = "image_id")
 	)
 	private Set<Image> images = new HashSet<>();

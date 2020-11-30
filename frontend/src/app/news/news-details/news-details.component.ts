@@ -20,6 +20,7 @@ export class NewsDetailsComponent implements OnInit {
   ) { }
 
   @Input() news: News;
+  @Output() onRefreshData: EventEmitter<null> = new EventEmitter();
 
   get admin(): boolean{
     return this.authService.getUser()?.role === ADMIN_ROLE;
@@ -33,6 +34,7 @@ export class NewsDetailsComponent implements OnInit {
     const dialog: MatDialogRef<DeleteConfirmationComponent> = this.dialog.open(DeleteConfirmationComponent, options);
     dialog.componentInstance.onDeleted.subscribe(
       () => {
+        this.onRefreshData.emit();
       }
     );
   }

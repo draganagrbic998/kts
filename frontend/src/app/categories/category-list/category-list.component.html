@@ -1,8 +1,4 @@
-<div *ngIf="fetchPending" class="empty-container">
-    <mat-spinner></mat-spinner>
-</div>
-
-
+<app-preloader *ngIf="fetchPending"></app-preloader>
 
 <div class="header-container" *ngIf="!fetchPending">
     <app-paginator
@@ -20,6 +16,6 @@
 <app-category-details 
 *ngFor="let category of categories"
 [category]="category"
-(onDeleted) = "fetchData()">
+(onDeleted)="fetchData()">
 </app-category-details>
 

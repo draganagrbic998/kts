@@ -25,8 +25,8 @@ export class DeleteConfirmationComponent {
     this.deleteFunction().subscribe(
       () => {
         this.dialogRef.close();
-        this.snackBar.open("Item has been successfully removed!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
         this.onDeleted.emit();
+        this.snackBar.open("Item successfully removed!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
       }, 
       () => {
         this.deletePending = false;

@@ -5,7 +5,7 @@ import { ProfileFormComponent } from './profile-form.component';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { LayoutModule } from 'src/app/layout/layout.module';
 import { UserService } from '../services/user.service';
-import { FormValidatorService } from '../services/form-validator.service';
+import { UserValidatorService } from '../services/user-validator.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -33,7 +33,7 @@ describe('ProfileFormComponent', () => {
       providers: [
         {provide: AuthService, useValue: authServiceMock},
         {provide: UserService, useValue: userServiceMock}, 
-        {provide: FormValidatorService, useValue: formValidatorMock}
+        {provide: UserValidatorService, useValue: formValidatorMock}
       ]
     })
     .compileComponents();

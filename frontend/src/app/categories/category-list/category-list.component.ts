@@ -21,12 +21,10 @@ export class CategoryListComponent implements OnInit {
   startOfPages: boolean = true;
   endOfPages : boolean = true;
 
-
-  ngOnInit(): void {
+  changePage(amount: number): void{
+    this.pageNumber += amount;
     this.fetchData();
-    
   }
-
 
   fetchData(): void{
     this.fetchPending = true;
@@ -41,15 +39,15 @@ export class CategoryListComponent implements OnInit {
           this.startOfPages = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
         }
         else{
-          console.log("nema");
+          this.categories = [];
           this.endOfPages = true;
           this.startOfPages = true;
         }
       }
     );
   }
-  changePage(amount: number): void{
-    this.pageNumber += amount;
+
+  ngOnInit(): void {
     this.fetchData();
   }
 

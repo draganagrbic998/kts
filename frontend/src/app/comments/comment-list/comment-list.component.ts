@@ -38,6 +38,7 @@ export class CommentListComponent implements OnInit {
           this.startOfPages = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
         }
         else{
+          this.comments = [];
           this.endOfPages = true;
           this.startOfPages = true;
         }

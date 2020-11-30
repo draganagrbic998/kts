@@ -1,11 +1,12 @@
 <div class="root-container" cdkFocusInitial>
 
     <div [class.disabled]="savePending">
+        
         <app-close-button
         (onClose)="dialogRef.close()"
         ></app-close-button>
     
-        <h3>New Comment</h3>
+        <h3>{{comment.id ? 'Edit Comment' : 'New Comment'}}</h3>
         
         <br><br>
     
@@ -22,11 +23,11 @@
             autocomplete="off"
             [formControl]="text"
             placeholder="Enter comment..." 
-            autosize 
-            rows="4"></textarea>
+            rows="4"
+            ></textarea>
         </mat-form-field>    
         
-        <div *ngIf="images.length" class="img-container">
+        <div *ngIf="images.length" class="image-container">
             <app-image 
             *ngFor="let img of images; let index = i"
             [image]="img.path"

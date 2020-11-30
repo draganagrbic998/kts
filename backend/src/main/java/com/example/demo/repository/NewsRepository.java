@@ -11,6 +11,6 @@ import com.example.demo.model.News;
 
 public interface NewsRepository extends JpaRepository<News, Long> {
 
-    @Query("select n from News n where (n.createdAt >= :startDate or :startDate = null) and (n.createdAt <= :endDate or :endDate = null) and n.culturalOffer.id = :culturalOfferId order by n.createdAt desc")
-    public Page<News> filter(Date startDate, Date endDate, long culturalOfferId, Pageable pageable);
+    @Query("select n from News n where (n.createdAt >= :startDate or :startDate is null) and (n.createdAt <= :endDate or :endDate is null) and n.culturalOffer.id = :culturalOfferId order by n.createdAt desc")
+    public Page<News> filter(long culturalOfferId, Date startDate, Date endDate, Pageable pageable);
 }

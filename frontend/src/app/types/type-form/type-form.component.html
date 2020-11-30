@@ -1,17 +1,12 @@
 <div class="root-container"> 
 
-    <h3>Create new Type</h3>
-    
-    <br>
-
     <form [formGroup]="typeForm">
         
-        <div  [class.disabled]="savePending">
+        <div [class.disabled]="savePending">
 
             <app-image-input
-            [smallImage] = "true"
             [image]="image.path" 
-            [profile]="false"
+            [smallImage]="true"
             (onAddImage)="addImage($event)" 
             (onRemoveImage)="removeImage()">
             </app-image-input>
@@ -29,6 +24,9 @@
                 <mat-error *ngIf="typeForm.get('name').hasError('nameError')">
                     Name already exists!
                 </mat-error>    
+                <mat-hint *ngIf="typeForm.pending">
+                    Checking uniqueness of the name...
+                </mat-hint>                  
             </mat-form-field>
 
             <mat-form-field >
@@ -52,7 +50,6 @@
                 <app-spinner-button *ngIf="savePending"></app-spinner-button>  
             </div>
         </div>
-    
         
     </form>
 

@@ -6,7 +6,7 @@ import { Category } from 'src/app/categories/utils/category';
 import { ImageService } from 'src/app/services/image.service';
 import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { Image } from 'src/app/utils/image';
-import { FormValidatorService } from '../services/form-validator.service';
+import { TypeValidatorService } from '../services/type-validator.service';
 import { TypeService } from '../services/type.service';
 
 @Component({
@@ -16,26 +16,22 @@ import { TypeService } from '../services/type.service';
 })
 export class TypeFormComponent implements OnInit {
 
-  constructor(private imageService: ImageService,
+  constructor(
     private typeService: TypeService,
     private categoryService: CategoryService,
-    private formValidator: FormValidatorService,
+    private imageService: ImageService,
+    private typeValidator: TypeValidatorService,
     private snackBar: MatSnackBar
-    ) { }
+  ) { }
 
   @Output() onAdded: EventEmitter<null> = new EventEmitter();
-  image: Image = {path: "", upload: null};
   categories: Category[] = [];
+  image: Image = {path: "", upload: null};
   savePending: boolean = false;
   typeForm: FormGroup = new FormGroup({
-    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.formValidator.hasName(true)]),
-    category: new FormControl("",[Validators.required, Validators.pattern(new RegExp("\\S"))])
+    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.typeValidator.hasName(true)]),
+    category: new FormControl("", [Validators.required])
   });
-
-
-  ngOnInit(): void {
-    this.fetchCategories();
-  }
   
   addImage(upload: Blob): void{
     this.image.upload = upload;
@@ -51,18 +47,18 @@ export class TypeFormComponent implements OnInit {
   }
 
   fetchCategories(): void{
-    this.categoryService.getAllCategories().subscribe(
-      (cats:Category[]) => {
-        this.categories = cats;
+    this.categoryService.all().subscribe(
+      (categories: Category[]) => {
+        this.categories = categories;
       }
-    )
-
+    );
   }
+
   save(): void{
     if (this.typeForm.invalid){
       return;
-
     }
+
     const formData: FormData = new FormData();
 
     for (const i in this.typeForm.controls){
@@ -73,7 +69,6 @@ export class TypeFormComponent implements OnInit {
       formData.append("image", this.image.upload);
     }  
 
-    
     this.savePending = true;
     this.typeService.save(formData).subscribe(
       () => {
@@ -88,5 +83,8 @@ export class TypeFormComponent implements OnInit {
     )
   }
 
+  ngOnInit(): void {
+    this.fetchCategories();
+  }
 
 }

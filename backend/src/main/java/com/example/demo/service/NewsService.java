@@ -19,7 +19,7 @@ public class NewsService {
 
 	@Transactional(readOnly = true)
 	public Page<News> filter(long culturalOfferId, FilterParamsNewsDTO filters, Pageable pageable) {
-		return this.newsRepository.filter(filters.getStartDate(), filters.getEndDate(), culturalOfferId, pageable);
+		return this.newsRepository.filter(culturalOfferId, filters.getStartDate(), filters.getEndDate(), pageable);
 	}
 
 	@Transactional(readOnly = false)

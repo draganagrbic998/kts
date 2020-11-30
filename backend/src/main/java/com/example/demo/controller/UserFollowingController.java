@@ -38,7 +38,7 @@ public class UserFollowingController {
 	private CulturalOfferMapper culturalOfferMapper;
 
 	@PostMapping(value = "/filter_followings")
-	public ResponseEntity<List<CulturalOfferDTO>> filter(@RequestParam int page, @RequestParam int size, @RequestBody FilterParamsDTO filters, HttpServletResponse response){
+	public ResponseEntity<List<CulturalOfferDTO>> filter(@RequestBody FilterParamsDTO filters, @RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
 		Page<CulturalOffer> culturalOffers = this.userFollowingService.filter(filters, pageable);
 		response.setHeader(Constants.ENABLE_HEADER, Constants.FIRST_PAGE_HEADER + ", " + Constants.LAST_PAGE_HEADER);

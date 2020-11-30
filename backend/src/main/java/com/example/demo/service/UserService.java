@@ -57,7 +57,7 @@ public class UserService implements UserDetailsService {
 	@Transactional(readOnly = false)
 	public User register(User user)  {
 		AccountActivation accountActivation = new AccountActivation(user);
-		this.accountRepository.save(new AccountActivation(user));
+		this.accountRepository.save(accountActivation);
 		String link = Constants.FRONTEND_URL + "/user/activate/" + accountActivation.getCode();
 		String message = "You have been successfully registered! Click on link " + link + " to activate your account.";
 		this.emailService.sendMessage(new Email(user.getEmail(), "Account Activation", message));

@@ -42,13 +42,7 @@ public class CulturalOfferController {
 	
 	@Autowired
 	private CulturalOfferMapper culturalOfferMapper;
-	
-	@PreAuthorize("hasAuthority('admin')")
-	@PostMapping(value = "")
-	public ResponseEntity<CulturalOfferDTO> save(@ModelAttribute CulturalOfferUploadDTO culturalOfferDTO) throws FileNotFoundException, IOException {
-		return new ResponseEntity<>(new CulturalOfferDTO(this.culturalOfferService.save(this.culturalOfferMapper.map(culturalOfferDTO), culturalOfferDTO.getImage())), HttpStatus.OK);
-	}
-	
+		
 	@PostMapping(value = "/filter_names")
 	public ResponseEntity<List<String>> filterNames(@RequestBody String filter){
 		return new ResponseEntity<>(this.culturalOfferService.filterNames(filter), HttpStatus.OK);
@@ -65,13 +59,19 @@ public class CulturalOfferController {
 	}
 
 	@PostMapping(value = "/filter")
-	public ResponseEntity<List<CulturalOfferDTO>> filter(@RequestParam int page, @RequestParam int size, @RequestBody FilterParamsDTO filters, HttpServletResponse response){
+	public ResponseEntity<List<CulturalOfferDTO>> filter(@RequestBody FilterParamsDTO filters, @RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
 		Page<CulturalOffer> culturalOffers = this.culturalOfferService.filter(filters, pageable);
 		response.setHeader(Constants.ENABLE_HEADER, Constants.FIRST_PAGE_HEADER + ", " + Constants.LAST_PAGE_HEADER);
 		response.setHeader(Constants.FIRST_PAGE_HEADER, culturalOffers.isFirst() + "");
 		response.setHeader(Constants.LAST_PAGE_HEADER, culturalOffers.isLast() + "");
 		return new ResponseEntity<>(this.culturalOfferMapper.map(culturalOffers.toList()), HttpStatus.OK);
+	}
+	
+	@PreAuthorize("hasAuthority('admin')")
+	@PostMapping(value = "")
+	public ResponseEntity<CulturalOfferDTO> save(@ModelAttribute CulturalOfferUploadDTO culturalOfferDTO) throws FileNotFoundException, IOException {
+		return new ResponseEntity<>(new CulturalOfferDTO(this.culturalOfferService.save(this.culturalOfferMapper.map(culturalOfferDTO), culturalOfferDTO.getImage())), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('admin')")
@@ -81,6 +81,7 @@ public class CulturalOfferController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@PreAuthorize("hasAuthority('admin')")
 	@PostMapping(value = "/has_name")
 	public ResponseEntity<Boolean> hasName(@RequestBody UniqueCheckDTO param) {
 		return new ResponseEntity<>(this.culturalOfferService.hasName(param), HttpStatus.OK);

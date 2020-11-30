@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.dto.CulturalOfferDTO;
 import com.example.demo.dto.CulturalOfferUploadDTO;
 import com.example.demo.model.CulturalOffer;
-import com.example.demo.model.Type;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.TypeRepository;
 import com.example.demo.service.UserService;
@@ -19,11 +18,11 @@ import com.example.demo.service.UserService;
 public class CulturalOfferMapper {
 
 	@Autowired
-	private CommentRepository commentRepository;
-	
-	@Autowired
 	private UserService userService;
-	
+
+	@Autowired
+	private CommentRepository commentRepository;
+		
 	@Autowired
 	private TypeRepository typeRepository;
 	
@@ -32,30 +31,28 @@ public class CulturalOfferMapper {
 		return culturalOffers.stream().map(culturalOffer -> {
 			CulturalOfferDTO culturalOfferDTO = new CulturalOfferDTO(culturalOffer);
 			culturalOfferDTO.setFollowed(this.userService.userIsFollowing(culturalOffer));
-			double totalRate = 0.0;
-			int counter = 0;
-			for (int rate: this.commentRepository.rates(culturalOffer.getId())) {
-				totalRate += rate;
-				counter += 1;
+			List<Integer> rates = this.commentRepository.rates(culturalOffer.getId());
+			double rateValue = rates.stream().reduce(0, (a, b) -> a + b);
+			long rateCount = rates.size();
+			if (rateCount > 0) {
+				rateValue /= rateCount;
 			}
-			totalRate = counter > 0 ? totalRate / counter : totalRate;
-			culturalOfferDTO.setTotalRate(totalRate);
+			culturalOfferDTO.setTotalRate(rateValue);
 			return culturalOfferDTO;
 		}).collect(Collectors.toList());
 	}
 	
 	@Transactional(readOnly = true)
 	public CulturalOffer map(CulturalOfferUploadDTO culturalOfferDTO) {
-		Type type = this.typeRepository.findByName(culturalOfferDTO.getType());
 		CulturalOffer culturalOffer = new CulturalOffer();
 		culturalOffer.setId(culturalOfferDTO.getId());
+		culturalOffer.setType(this.typeRepository.findByName(culturalOfferDTO.getType()));
 		culturalOffer.setName(culturalOfferDTO.getName());
 		culturalOffer.setDescription(culturalOfferDTO.getName());
 		culturalOffer.setLocation(culturalOfferDTO.getLocation());
 		culturalOffer.setLat(culturalOfferDTO.getLat());
 		culturalOffer.setLng(culturalOfferDTO.getLng());
 		culturalOffer.setImage(culturalOfferDTO.getImagePath());
-		culturalOffer.setType(type);
 		return culturalOffer;
 	}
 

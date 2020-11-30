@@ -18,12 +18,11 @@ export class CommentDetailsComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private commentService: CommentService,
-    private dialog: MatDialog, 
-    private snackBar: MatSnackBar
+    private dialog: MatDialog
   ) { }
 
-  @Input() culturalOfferId: number;
   @Input() comment: Comment;
+  @Input() culturalOfferId: number;
   @Output() onRefreshData: EventEmitter<null> = new EventEmitter();
   panelOpenState: boolean = false;
 
@@ -49,7 +48,6 @@ export class CommentDetailsComponent implements OnInit {
     dialog.componentInstance.onDeleted.subscribe(
       () => {
         this.onRefreshData.emit();
-        this.snackBar.open("Comment successfully deleted!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
       }
     );
   }

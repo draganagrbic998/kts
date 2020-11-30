@@ -6,7 +6,7 @@ import { ImageService } from 'src/app/services/image.service';
 import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { Image } from 'src/app/utils/image';
 import { User } from 'src/app/utils/user';
-import { FormValidatorService } from '../services/form-validator.service';
+import { UserValidatorService } from '../services/user-validator.service';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class ProfileFormComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private imageService: ImageService,
-    private formValidator: FormValidatorService,
+    private userValidator: UserValidatorService,
     private snackBar: MatSnackBar
   ) { }
 
@@ -30,14 +30,14 @@ export class ProfileFormComponent implements OnInit {
 
   profileForm: FormGroup = new FormGroup({
     email: new FormControl(this.profile.email, [Validators.required, Validators.pattern(new RegExp("\\S"))], 
-    [this.formValidator.hasEmail(this.profile.id)]), 
+    [this.userValidator.hasEmail(this.profile.id)]), 
     firstName: new FormControl(this.profile.firstName, [Validators.required, Validators.pattern(new RegExp("\\S"))]), 
     lastName: new FormControl(this.profile.lastName, [Validators.required, Validators.pattern(new RegExp("\\S"))]), 
     oldPassword: new FormControl(''),
     newPassword: new FormControl(''), 
     newPasswordConfirmed: new FormControl('')
   }, {
-    validators: [this.formValidator.newPasswordConfirmed()]
+    validators: [this.userValidator.newPasswordConfirmed()]
   });
 
   addImage(upload: Blob): void{

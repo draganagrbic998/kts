@@ -86,7 +86,7 @@
         </mat-tab-group>
 
         <button 
-        *ngIf="commentsTab.isActive"
+        *ngIf="commentsTab.isActive && role!=='admin'"
         mat-icon-button
         class="comment-button"
         (click)="comment(comments)">

@@ -8,7 +8,7 @@ import { CategoryService } from './category.service';
 @Injectable({
   providedIn: 'root'
 })
-export class FormValidatorService {
+export class CategoryValidatorService {
 
   constructor(
     private categoryService: CategoryService
