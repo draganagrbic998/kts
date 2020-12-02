@@ -2,12 +2,13 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CategoryService } from 'src/app/categories/services/category.service';
-import { Category } from 'src/app/categories/utils/category';
 import { ImageService } from 'src/app/services/image.service';
 import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
 import { Image } from 'src/app/utils/image';
 import { TypeValidatorService } from '../services/type-validator.service';
 import { TypeService } from '../services/type.service';
+import { Observable } from 'rxjs';
+import { CategoryValidatorService } from 'src/app/categories/services/category-validator.service';
 
 @Component({
   selector: 'app-type-form',
@@ -21,19 +22,20 @@ export class TypeFormComponent implements OnInit {
     private categoryService: CategoryService,
     private imageService: ImageService,
     private typeValidator: TypeValidatorService,
+    private categoryValidator: CategoryValidatorService,
     private snackBar: MatSnackBar
   ) { }
 
-  @Output() onAdded: EventEmitter<null> = new EventEmitter();
-  categories: Category[] = [];
-  image: Image = {path: "", upload: null};
-  savePending: boolean = false;
   typeForm: FormGroup = new FormGroup({
-    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.typeValidator.hasName(true)]),
-    category: new FormControl("", [Validators.required])
+    name: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))], [this.typeValidator.hasName(true)]),
+    category: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))], [this.categoryValidator.hasName(false)])
   });
-  
-  addImage(upload: Blob): void{
+  savePending = false;
+  @Output() saved: EventEmitter<null> = new EventEmitter();
+  image: Image = {path: '', upload: null};
+  categories: Observable<string[]>;
+
+  changeImage(upload: Blob): void{
     this.image.upload = upload;
     this.imageService.getBase64(upload)
     .then((image: string) => {
@@ -47,11 +49,8 @@ export class TypeFormComponent implements OnInit {
   }
 
   fetchCategories(): void{
-    this.categoryService.all().subscribe(
-      (categories: Category[]) => {
-        this.categories = categories;
-      }
-    );
+    const value: string = this.typeForm.get('category').value.trim().toLowerCase();
+    this.categories = this.categoryService.filterNames(value);
   }
 
   save(): void{
@@ -60,27 +59,25 @@ export class TypeFormComponent implements OnInit {
     }
 
     const formData: FormData = new FormData();
-
-    for (const i in this.typeForm.controls){
-      formData.append(i, this.typeForm.get(i).value);
-    }
-
+    Object.keys(this.typeForm.value).forEach(key => {
+      formData.append(key, this.typeForm.value[key]);
+    });
     if (this.image.upload){
-      formData.append("image", this.image.upload);
-    }  
+      formData.append('placemarkIcon', this.image.upload);
+    }
 
     this.savePending = true;
     this.typeService.save(formData).subscribe(
       () => {
         this.savePending = false;
-        this.onAdded.emit();
-        this.snackBar.open("Type successfully added!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
-      }, 
+        this.saved.emit();
+        this.snackBar.open('Type successfully added!', SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
+      },
       () => {
         this.savePending = false;
         this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
       }
-    )
+    );
   }
 
   ngOnInit(): void {

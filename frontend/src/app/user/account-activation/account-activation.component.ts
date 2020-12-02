@@ -20,7 +20,7 @@ export class AccountActivationComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
-  activatePending: boolean = true;
+  activatePending = true;
 
   ngOnInit(): void {
     const code: string = this.route.snapshot.params.code;
@@ -28,10 +28,10 @@ export class AccountActivationComponent implements OnInit {
       () => {
         this.activatePending = false;
         this.router.navigate([`${USER_PATH}/${LOGIN_PATH}`]);
-        this.snackBar.open("Your account has been activated! You can login now.", 
+        this.snackBar.open('Your account has been activated! You can login now.',
         SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
       },
-      () =>{
+      () => {
         this.activatePending = false;
       }
     );

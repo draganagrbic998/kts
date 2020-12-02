@@ -1,6 +1,5 @@
 package com.example.demo.dto;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -8,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class NewsUploadDTO {
 
 	private Long id;
-	private Date createdAt;
 	private String text;
 	private List<MultipartFile> images;
 	private List<String> imagePaths;
@@ -23,14 +21,6 @@ public class NewsUploadDTO {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
 	}
 
 	public String getText() {

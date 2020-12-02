@@ -5,17 +5,17 @@
     [fetchPending]="fetchPending"
     [hasPrevious]="!startOfPages"
     [hasNext]="!endOfPages"
-    (onChangePage)="changePage($event)"
+    (changedPage)="changePage($event)"
     ></app-paginator>
 </div>
 
-<div *ngIf="!fetchPending && !types?.length" class="empty-container">
+<app-empty-container *ngIf="!fetchPending && !types?.length">
     NO TYPES
-</div>
+</app-empty-container>
 
 <app-type-details
 *ngFor="let type of types"
 [type]="type"
-(onDeleted)="fetchData()">
+(deleted)="fetchData()">
 </app-type-details>
 

@@ -26,7 +26,7 @@ describe('RegisterFormComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {provide: UserService, useValue: userServiceMock}, 
+        {provide: UserService, useValue: userServiceMock},
         {provide: UserValidatorService, useValue: formValidatorMock}
       ]
     })

@@ -8,11 +8,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class StarRatingComponent implements OnInit {
 
   constructor() {}
-  
-  @Input() starCount: number = 5;
-  @Input() rate: number = 0;
-  @Input() editable: boolean = true;
-  @Output() onRated: EventEmitter<number> = new EventEmitter();
+
+  @Input() starCount = 5;
+  @Input() rate = 0;
+  @Input() editable = false;
+  @Output() rated: EventEmitter<number> = new EventEmitter();
   rateArray: number[] = [];
 
   starClick(index: number): void {
@@ -22,7 +22,7 @@ export class StarRatingComponent implements OnInit {
     else{
       --this.rate;
     }
-    this.onRated.emit(this.rate);
+    this.rated.emit(this.rate);
   }
 
   starIcon(index: number): string {
@@ -31,12 +31,12 @@ export class StarRatingComponent implements OnInit {
     }
     if (this.rate >= index + 1) {
       return 'star';
-    };
+    }
     return 'star_border';
   }
 
   ngOnInit(): void {
-    for (let index: number = 0; index < this.starCount; ++index) {
+    for (let index = 0; index < this.starCount; ++index) {
       this.rateArray.push(index);
     }
   }

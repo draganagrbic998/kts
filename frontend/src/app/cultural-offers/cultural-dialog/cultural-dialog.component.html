@@ -4,7 +4,7 @@
 
         <app-close-button 
         [fixed]="true"
-        (onClose)="dialogRef.close()"
+        (closed)="dialogRef.close()"
         ></app-close-button>
 
         <div class="image-container mat-elevation-z8">
@@ -27,7 +27,7 @@
                 <app-bold-text>Description: </app-bold-text>{{culturalOffer.description}}
             </div>
             <div>
-                <app-bold-text>Total rate: </app-bold-text>{{ culturalOffer.totalRate | number:'1.2' }}/5
+                <app-bold-text>Total rate: </app-bold-text>{{ culturalOffer.totalRate | number:'1.2-2' }}/5
             </div>
         </div>
     
@@ -76,7 +76,9 @@
 
         <mat-tab-group animationDuration="0ms">
             <mat-tab #commentsTab [label]="'Reviews'">
-                <app-comment-list #comments [culturalOfferId]="culturalOffer.id">
+                <app-comment-list 
+                (updateTotalRate)="culturalOffer.totalRate=$event"
+                #comments [culturalOfferId]="culturalOffer.id">
                 </app-comment-list>
             </mat-tab>
             <mat-tab #newsTab [label]="'News'">
@@ -88,15 +90,15 @@
         <button 
         *ngIf="commentsTab.isActive && role!=='admin'"
         mat-icon-button
-        class="comment-button"
-        (click)="comment(comments)">
+        class="fixed-button"
+        (click)="publishReview(comments)">
             <mat-icon matTooltip="new comment">insert_comment</mat-icon>
         </button>
 
         <button 
         *ngIf="newsTab.isActive && role==='admin'"
         mat-icon-button
-        class="comment-button"
+        class="fixed-button"
         (click)="publishNews(news)">
             <mat-icon matTooltip="publish news">event_note</mat-icon>
         </button>

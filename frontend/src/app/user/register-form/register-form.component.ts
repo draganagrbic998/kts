@@ -13,18 +13,18 @@ import { UserService } from '../services/user.service';
 export class RegisterFormComponent implements OnInit {
 
   constructor(
-    private userService: UserService, 
+    private userService: UserService,
     private formValidator: UserValidatorService,
     private snackBar: MatSnackBar
     ) { }
 
-  registerPending: boolean = false;
+  registerPending = false;
   registerForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.pattern(new RegExp("\\S"))], 
-    [this.formValidator.hasEmail(null)]), 
-    firstName: new FormControl('', [Validators.required, Validators.pattern(new RegExp("\\S"))]), 
-    lastName: new FormControl('', [Validators.required, Validators.pattern(new RegExp("\\S"))]), 
-    password: new FormControl('', [Validators.required, Validators.pattern(new RegExp("\\S"))]), 
+    email: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))],
+    [this.formValidator.hasEmail(null)]),
+    firstName: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))]),
+    lastName: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))]),
+    password: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))]),
     passwordConfirmation: new FormControl('', [this.formValidator.passwordConfirmed()])
   });
 
@@ -36,14 +36,14 @@ export class RegisterFormComponent implements OnInit {
     this.userService.register(this.registerForm.value).subscribe(
       () => {
         this.registerPending = false;
-        this.snackBar.open("Your request has been sent! Check your email.", 
+        this.snackBar.open('Your request has been sent! Check your email.',
         SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
-      }, 
+      },
       () => {
         this.registerPending = false;
         this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
       }
-    )
+    );
   }
 
   ngOnInit(): void {
@@ -51,7 +51,7 @@ export class RegisterFormComponent implements OnInit {
       () => {
         this.registerForm.get('passwordConfirmation').updateValueAndValidity();
       }
-    )
+    );
   }
-  
+
 }

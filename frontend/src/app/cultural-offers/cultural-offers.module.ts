@@ -9,19 +9,19 @@ import { CulturalFormComponent } from './cultural-form/cultural-form.component';
 
 @NgModule({
   declarations: [
-    CulturalDetailsComponent, 
-    CulturalListComponent, 
-    CulturalDialogComponent, 
+    CulturalDetailsComponent,
+    CulturalListComponent,
+    CulturalDialogComponent,
     CulturalFormComponent
   ],
   imports: [
     LayoutModule,
     CommentsModule,
     NewsModule
-  ], 
+  ],
   exports: [
     CulturalListComponent,
-    CulturalDialogComponent, 
+    CulturalDialogComponent,
     CulturalFormComponent
   ]
 })

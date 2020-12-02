@@ -19,15 +19,15 @@ describe('CulturalDialogComponent', () => {
     const userFollowingService = {};
     const dialogRefMock = {};
     await TestBed.configureTestingModule({
-      declarations: [ CulturalDialogComponent ], 
+      declarations: [ CulturalDialogComponent ],
       imports: [
-        LayoutModule, 
-        RouterTestingModule, 
+        LayoutModule,
+        RouterTestingModule,
         BrowserAnimationsModule
-      ], 
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {provide: MAT_DIALOG_DATA, useValue: culturalOfferMock}, 
+        {provide: MAT_DIALOG_DATA, useValue: culturalOfferMock},
         {provide: CulturalService, useValue: culturalServiceMock},
         {provide: UserFollowingService, useValue: userFollowingService},
         {provide: MatDialogRef, useValue: dialogRefMock}

@@ -1,8 +1,5 @@
 package com.example.demo.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,6 +43,7 @@ public class UserService implements UserDetailsService {
 		return this.userRepository.findByEmail(username);	
 	}
 	
+	@Transactional(readOnly = true)
 	public User currentUser() {
 		Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		if (obj instanceof User) {
@@ -55,13 +53,13 @@ public class UserService implements UserDetailsService {
 	}
 		
 	@Transactional(readOnly = false)
-	public User register(User user)  {
+	public void register(User user)  {
+		this.userRepository.save(user);
 		AccountActivation accountActivation = new AccountActivation(user);
 		this.accountRepository.save(accountActivation);
 		String link = Constants.FRONTEND_URL + "/user/activate/" + accountActivation.getCode();
 		String message = "You have been successfully registered! Click on link " + link + " to activate your account.";
-		this.emailService.sendMessage(new Email(user.getEmail(), "Account Activation", message));
-		return this.userRepository.save(user);
+		this.emailService.sendEmail(new Email(user.getEmail(), "Account Activation", message));
 	}
 	
 	@Transactional(readOnly = false)
@@ -72,9 +70,14 @@ public class UserService implements UserDetailsService {
 	}
 	
 	@Transactional(readOnly = false)
-	public User save(User user, MultipartFile upload) throws FileNotFoundException, IOException {
+	public User save(User user, MultipartFile upload) {
 		if (upload != null) {
-			user.setImage(this.imageService.store(upload));
+			try {
+				user.setImage(this.imageService.store(upload));
+			}
+			catch(Exception e) {
+				;
+			}
 		}
 		return this.userRepository.save(user);
 	}

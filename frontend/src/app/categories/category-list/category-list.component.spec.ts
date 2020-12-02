@@ -18,7 +18,7 @@ describe('CategoryListComponent', () => {
       declarations: [ CategoryListComponent ],
       imports: [
         LayoutModule
-      ], 
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: CategoryService, useValue: categoryServiceMock}

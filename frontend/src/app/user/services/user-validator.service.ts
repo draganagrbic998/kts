@@ -16,12 +16,12 @@ export class UserValidatorService {
 
   passwordConfirmed(): ValidatorFn{
     return (control: AbstractControl): null | ValidationError => {
-      const passwordConfirmed: boolean = control.parent ? 
+      const passwordConfirmed: boolean = control.parent ?
       control.value === control.parent.get('password').value : true;
       return passwordConfirmed ? null : {passwordError: true};
-    }
+    };
   }
-  
+
   newPasswordConfirmed(): ValidatorFn {
     return (control: AbstractControl): null | ValidationError => {
       if ((control.get('newPassword').value || control.get('newPasswordConfirmed').value) && !control.get('oldPassword').value){
@@ -31,16 +31,16 @@ export class UserValidatorService {
         return {newPasswordError: true};
       }
       return null;
-    }
+    };
   }
 
   hasEmail(id: number): AsyncValidatorFn {
     return (control: AbstractControl): Observable<null | ValidationError> => {
-      return this.userService.hasEmail({id: id, name: control.value}).pipe(
+      return this.userService.hasEmail({id, name: control.value}).pipe(
         map((response: boolean) => !response ? null : {emailError: true}),
         catchError(() => of(null))
       );
-    }
+    };
   }
-  
+
 }

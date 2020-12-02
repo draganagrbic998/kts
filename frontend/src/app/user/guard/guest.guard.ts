@@ -25,5 +25,5 @@ export class GuestGuard implements CanActivate {
     }
     return true;
   }
-  
+
 }

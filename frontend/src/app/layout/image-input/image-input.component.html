@@ -21,7 +21,7 @@
         *ngIf="image" 
         mat-stroked-button 
         class="image-button"
-        (click)="onRemoveImage.emit()">
+        (click)="removed.emit()">
             Remove image
         </button>
     
@@ -29,7 +29,7 @@
         #fileInput 
         type="file" 
         accept="image/*" 
-        (change)="onAddImage.emit(fileInput.files[0])">
+        (change)="changed.emit(fileInput.files[0])">
 
     </app-spacer-container>
 

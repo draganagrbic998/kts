@@ -16,21 +16,21 @@ describe('TypeFormComponent', () => {
   beforeEach(async () => {
     const typeServiceMock = {};
     const categoryServiceMock = {
-      all: jasmine.createSpy('all').and.returnValue(of(null)),
+      filterNames: jasmine.createSpy('filterNames').and.returnValue(of(null)),
     };
     const typeValidatorMock = {
       hasName: jasmine.createSpy('hasName').and.returnValue(() => of(null)),
     };
     await TestBed.configureTestingModule({
-      declarations: [ TypeFormComponent ], 
+      declarations: [ TypeFormComponent ],
       imports: [
-        LayoutModule, 
+        LayoutModule,
         BrowserAnimationsModule
-      ], 
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {provide: TypeService, useValue: typeServiceMock}, 
-        {provide: CategoryService, useValue: categoryServiceMock}, 
+        {provide: TypeService, useValue: typeServiceMock},
+        {provide: CategoryService, useValue: categoryServiceMock},
         {provide: TypeValidatorService, useValue: typeValidatorMock}
       ]
     })

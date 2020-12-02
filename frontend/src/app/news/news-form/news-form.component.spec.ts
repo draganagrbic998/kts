@@ -23,7 +23,7 @@ describe('NewsFormComponent', () => {
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {provide: MAT_DIALOG_DATA, useValue: newsMock}, 
+        {provide: MAT_DIALOG_DATA, useValue: newsMock},
         {provide: MatDialogRef, useValue: dialogRefMock}
       ]
     })

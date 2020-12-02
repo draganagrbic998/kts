@@ -11,9 +11,9 @@ describe('ToolbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ToolbarComponent ], 
+      declarations: [ ToolbarComponent ],
       imports: [
-        LayoutModule, 
+        LayoutModule,
         RouterTestingModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]

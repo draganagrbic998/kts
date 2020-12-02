@@ -10,10 +10,10 @@ describe('CulturalDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CulturalDetailsComponent ], 
+      declarations: [ CulturalDetailsComponent ],
       imports: [
         LayoutModule
-      ], 
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
@@ -23,19 +23,19 @@ describe('CulturalDetailsComponent', () => {
     fixture = TestBed.createComponent(CulturalDetailsComponent);
     component = fixture.componentInstance;
     component.culturalOffer = {
-      id: null, 
-      category: null, 
+      id: null,
+      category: null,
       type: null,
-      placemarkIcon: null, 
-      name: null, 
+      placemarkIcon: null,
+      name: null,
       description: null,
       image: null,
-      location: null, 
-      lat: null, 
+      location: null,
+      lat: null,
       lng: null,
-      followed: null, 
+      followed: null,
       totalRate: null
-    }
+    };
     fixture.detectChanges();
   });
 

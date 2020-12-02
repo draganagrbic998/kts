@@ -17,7 +17,7 @@ describe('CategoryFormComponent', () => {
       imports: [
         LayoutModule,
         BrowserAnimationsModule
-      ], 
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: CategoryService, useValue: categoryServiceMock}

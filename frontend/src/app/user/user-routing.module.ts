@@ -17,18 +17,18 @@ const routes: Routes = [
       {
         path: LOGIN_PATH,
         component: LoginFormComponent
-      }, 
+      },
       {
         path: REGISTER_PATH,
         component: RegisterFormComponent
       },
       {
         path: PROFILE_PATH,
-        component: ProfileFormComponent, 
+        component: ProfileFormComponent,
         canActivate: [GuestGuard]
       }
     ]
-  }, 
+  },
   {
     path: ACTIVATE_PATH,
     component: AccountActivationComponent

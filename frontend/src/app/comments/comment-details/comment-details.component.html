@@ -3,7 +3,7 @@
         <mat-card-content>
             <div class="details-container">
                 <span>
-                    <app-star-rating [starCount]="comment.rate" [editable]="false"></app-star-rating>
+                    <app-star-rating [starCount]="comment.rate"></app-star-rating>
                 </span>
                 <span *ngIf="comment.user !== email">{{comment.user}}</span>
                 <span *ngIf="comment.user === email">
@@ -25,13 +25,11 @@
                 {{comment.text}}
             </div>
             <mat-accordion *ngIf="comment.images.length">
-                <mat-expansion-panel hideToggle 
-                (opened)="panelOpenState = true" 
-                (closed)="panelOpenState = false">
+                <mat-expansion-panel hideToggle #panel>
                     <mat-expansion-panel-header>
                       <mat-panel-title>
                         <mat-icon color="accent">
-                            {{panelOpenState ? 'fullscreen_exit' : 'image'}}
+                            {{panel.expanded ? 'fullscreen_exit' : 'image'}}
                         </mat-icon>
                       </mat-panel-title>
                     </mat-expansion-panel-header>

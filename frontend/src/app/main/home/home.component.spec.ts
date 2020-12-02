@@ -22,12 +22,12 @@ describe('HomeComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ HomeComponent ],
       imports: [
-        LayoutModule, 
+        LayoutModule,
         BrowserAnimationsModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {provide: CulturalService, useValue: culturalServiceMock}, 
+        {provide: CulturalService, useValue: culturalServiceMock},
         {provide: UserFollowingService, useValue: userFollowingServiceMock}
       ]
     })

@@ -1,5 +1,5 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/utils/constants';
 import { CommentService } from '../services/comment.service';
 
@@ -11,15 +11,16 @@ import { CommentService } from '../services/comment.service';
 export class CommentListComponent implements OnInit {
 
   constructor(
-    private commentService: CommentService 
+    private commentService: CommentService
   ) { }
 
   @Input() culturalOfferId: number;
   comments: Comment[];
-  fetchPending: boolean = true;
-  pageNumber: number = 0;
-  endOfPages: boolean = true;
-  startOfPages: boolean = true;
+  fetchPending = true;
+  pageNumber = 0;
+  endOfPages = true;
+  startOfPages = true;
+  @Output() updateTotalRate: EventEmitter<number> = new EventEmitter();
 
   changePage(value: number): void{
     this.pageNumber += value;
@@ -34,8 +35,8 @@ export class CommentListComponent implements OnInit {
         if (data){
           this.comments = data.body;
           const headers: HttpHeaders = data.headers;
-          this.endOfPages = headers.get(LAST_PAGE_HEADER) === "true" ? true : false;  
-          this.startOfPages = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
+          this.endOfPages = headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
+          this.startOfPages = headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
         }
         else{
           this.comments = [];

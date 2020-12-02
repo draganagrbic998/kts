@@ -17,7 +17,7 @@ describe('DeleteConfirmationComponent', () => {
       imports: [
         MatSnackBarModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: MAT_DIALOG_DATA, useValue: deleteFunctionMock},
         {provide: MatDialogRef, useValue: dialogRefMock}

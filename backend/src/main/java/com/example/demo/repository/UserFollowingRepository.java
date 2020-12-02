@@ -21,7 +21,7 @@ public interface UserFollowingRepository extends JpaRepository<UserFollowing, Lo
     public Page<CulturalOffer> filter(long userId, String name, String location, String type, Pageable pageable);
 	
 	@Query("select uf.user.email from UserFollowing uf where uf.culturalOffer.id=:culturalOfferId")
-	public List<String> getSubscribedUsersEmails(long culturalOfferId);
+	public List<String> getSubscribedEmails(long culturalOfferId);
 
 }
 

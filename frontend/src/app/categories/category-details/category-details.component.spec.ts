@@ -12,11 +12,11 @@ describe('CategoryDetailsComponent', () => {
   beforeEach(async () => {
     const categoryServiceMock = {};
     await TestBed.configureTestingModule({
-      declarations: [ CategoryDetailsComponent ], 
+      declarations: [ CategoryDetailsComponent ],
       imports: [
         LayoutModule
-      ], 
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: CategoryService, useValue: categoryServiceMock}
       ]
@@ -28,9 +28,9 @@ describe('CategoryDetailsComponent', () => {
     fixture = TestBed.createComponent(CategoryDetailsComponent);
     component = fixture.componentInstance;
     component.category = {
-      id: null, 
+      id: null,
       name: null
-    }
+    };
     fixture.detectChanges();
   });
 

@@ -19,10 +19,10 @@ describe('ProfileComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ProfileComponent ],
       imports: [
-        LayoutModule, 
+        LayoutModule,
         RouterTestingModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: AuthService, useValue: authServiceMock},
         {provide: MatDialogRef, useValue: dialogRefMock}

@@ -1,10 +1,10 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LARGE_PAGE_SIZE } from 'src/app/utils/constants';
 import { UniqueCheck } from 'src/app/utils/unique-check';
-import { API_FILTER_LOCATIONS, API_FILTER_NAMES, API_FILTER_TYPES, API_FILTER, API_BASE, API_HAS_NAME } from '../utils/api';
+import { environment } from 'src/environments/environment';
 import { CulturalOffer } from '../utils/cultural-offer';
 import { FilterParams } from '../utils/filter-params';
 
@@ -17,41 +17,43 @@ export class CulturalService {
     private http: HttpClient
   ) { }
 
+  private readonly API_OFFERS = `${environment.baseUrl}/api/cultural_offers`;
+
   filterNames(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(API_FILTER_NAMES, filter).pipe(
+    return this.http.post<string[]>(`${this.API_OFFERS}/filter_names`, filter).pipe(
       catchError(() => of([]))
     );
   }
 
   filterLocations(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(API_FILTER_LOCATIONS, filter).pipe(
+    return this.http.post<string[]>(`${this.API_OFFERS}/filter_locations`, filter).pipe(
       catchError(() => of([]))
     );
   }
 
   filterTypes(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(API_FILTER_TYPES, filter).pipe(
+    return this.http.post<string[]>(`${this.API_OFFERS}/filter_types`, filter).pipe(
       catchError(() => of([]))
     );
   }
 
   filter(filters: FilterParams, page: number): Observable<HttpResponse<CulturalOffer[]>>{
-    return this.http.post<CulturalOffer[]>(`${API_FILTER}?page=${page}&size=${LARGE_PAGE_SIZE}`, 
-    filters, { observe: 'response' }).pipe(
+    const params = new HttpParams().set('page', page + '').set('size', LARGE_PAGE_SIZE + '');
+    return this.http.post<CulturalOffer[]>(`${this.API_OFFERS}/filter`, filters, { observe: 'response', params }).pipe(
       catchError(() => of(null))
     );
   }
 
   save(data: FormData): Observable<CulturalOffer>{
-    return this.http.post<CulturalOffer>(API_BASE, data);
+    return this.http.post<CulturalOffer>(this.API_OFFERS, data);
   }
 
   delete(id: number): Observable<CulturalOffer>{
-    return this.http.delete<CulturalOffer>(`${API_BASE}/${id}`);
+    return this.http.delete<CulturalOffer>(`${this.API_OFFERS}/${id}`);
   }
 
   hasName(param: UniqueCheck): Observable<boolean>{
-    return this.http.post<boolean>(API_HAS_NAME, param);
+    return this.http.post<boolean>(`${this.API_OFFERS}/has_name`, param);
   }
-  
+
 }

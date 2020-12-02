@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -53,9 +51,8 @@ public class CommentController {
 	
 	@PreAuthorize("hasAuthority('guest')")
 	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/comment")
-	public ResponseEntity<HttpStatus> save(@PathVariable long culturalOfferId, @ModelAttribute CommentUploadDTO commentDTO) throws FileNotFoundException, IOException {
-		this.commentService.save(this.commentMapper.map(culturalOfferId, commentDTO), commentDTO.getImages());
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<Double> save(@PathVariable long culturalOfferId, @ModelAttribute CommentUploadDTO commentDTO) {
+		return new ResponseEntity<>(this.commentService.save(this.commentMapper.map(culturalOfferId, commentDTO), commentDTO.getImages()), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('guest')")

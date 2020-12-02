@@ -1,5 +1,5 @@
 <app-close-button 
-(onClose)="dialogRef.close()"
+(closed)="dialogRef.close()"
 [class.hidden]="form.savePending"
 ></app-close-button>
 
@@ -8,6 +8,6 @@
         <app-category-list  #list></app-category-list>
     </mat-tab>
     <mat-tab [label]="'New Category'">
-        <app-category-form #form (onAdded)="list.fetchData()"></app-category-form>
+        <app-category-form #form (saved)="list.fetchData()"></app-category-form>
     </mat-tab>
 </mat-tab-group>

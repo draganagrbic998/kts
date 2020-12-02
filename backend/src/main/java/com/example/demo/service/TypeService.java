@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +24,24 @@ public class TypeService {
 	private ImageService imageService;
 	
 	@Transactional(readOnly = true)
+	public List<String> filterNames(String filter){
+		return this.typeRepository.filterNames(filter);
+	}
+	
+	@Transactional(readOnly = true)
 	public Page<Type> list(Pageable pageable) {
 		return this.typeRepository.findAll(pageable);
 	}
 
 	@Transactional(readOnly = false)
-	public void save(Type type,MultipartFile upload) throws FileNotFoundException, IOException {
+	public void save(Type type,MultipartFile upload) {
 		if(upload != null) {
-			type.setPlacemarkIcon(imageService.store(upload));
+			try {
+				type.setPlacemarkIcon(imageService.store(upload));
+			}
+			catch(Exception e) {
+				;
+			}
 		}
 		this.typeRepository.save(type);
 	}
@@ -50,11 +58,6 @@ public class TypeService {
 			return false;
 		}
 		return true;
-	}
-
-	@Transactional(readOnly = true)
-	public List<String> filterNames(String filter){
-		return this.typeRepository.filterNames(filter);
 	}
 
 }

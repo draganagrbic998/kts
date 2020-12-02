@@ -13,12 +13,12 @@ describe('CommentDetailsComponent', () => {
   beforeEach(async () => {
     const commentServiceMock = {};
     await TestBed.configureTestingModule({
-      declarations: [ CommentDetailsComponent ], 
+      declarations: [ CommentDetailsComponent ],
       imports: [
         LayoutModule,
         HttpClientTestingModule
-      ], 
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: CommentService, useValue: commentServiceMock}
       ]
@@ -30,11 +30,11 @@ describe('CommentDetailsComponent', () => {
     fixture = TestBed.createComponent(CommentDetailsComponent);
     component = fixture.componentInstance;
     component.comment = {
-      id: null, 
-      createdAt: null, 
+      id: null,
+      createdAt: null,
       rate: null,
-      text: null, 
-      images: [], 
+      text: null,
+      images: [],
       user: null
     };
     fixture.detectChanges();

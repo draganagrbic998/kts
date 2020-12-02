@@ -1,11 +1,11 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { SMALL_PAGE_SIZE } from 'src/app/utils/constants';
 import { UniqueCheck } from 'src/app/utils/unique-check';
-import { API_BASE, API_HAS_NAME } from '../utils/api';
-import { Category } from '../utils/category';
+import { environment } from 'src/environments/environment';
+import { Category } from '../category';
 
 @Injectable({
   providedIn: 'root'
@@ -16,28 +16,29 @@ export class CategoryService {
     private http: HttpClient
   ) { }
 
+  private readonly API_CATEGORIES: string = `${environment.baseUrl}/api/categories`;
+
   list(page: number): Observable<HttpResponse<Category[]>>{
-    return this.http.get<Category[]>(`${API_BASE}?page=${page}&size=${SMALL_PAGE_SIZE}`, 
-     { observe: 'response' }
-    ).pipe(
+    const params = new HttpParams().set('page', page + '').set('size', SMALL_PAGE_SIZE + '');
+    return this.http.get<Category[]>(this.API_CATEGORIES, { observe: 'response', params}).pipe(
       catchError(() => of(null))
-    )
+    );
   }
 
   save(category: Category): Observable<null>{
-    return this.http.post<null>(API_BASE, category);
+    return this.http.post<null>(this.API_CATEGORIES, category);
   }
 
   delete(id: number): Observable<null>{
-    return this.http.delete<null>(`${API_BASE}/${id}`);
+    return this.http.delete<null>(`${this.API_CATEGORIES}/${id}`);
   }
 
   hasName(param: UniqueCheck): Observable<boolean>{
-    return this.http.post<boolean>(API_HAS_NAME, param);
+    return this.http.post<boolean>(`${this.API_CATEGORIES}/has_name`, param);
   }
 
-  all(){
-    return this.http.get<Category[]>(`${API_BASE}/all`);
+  filterNames(filter: string): Observable<string[]>{
+    return this.http.post<string[]>(`${this.API_CATEGORIES}/filter_names`, filter);
   }
 
 }

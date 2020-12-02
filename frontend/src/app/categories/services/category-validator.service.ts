@@ -14,13 +14,18 @@ export class CategoryValidatorService {
     private categoryService: CategoryService
   ) { }
 
-  hasName(): AsyncValidatorFn {
+  hasName(toBeUnique: boolean): AsyncValidatorFn{
     return (control: AbstractControl): Observable<null | ValidationError> => {
       return this.categoryService.hasName({id: null, name: control.value}).pipe(
-        map((response: boolean) => !response ? null : {nameError: true}),
+        map((response: boolean) => {
+          if (toBeUnique){
+            return !response ? null : {nameError: true};
+          }
+          return response ? null : {nameError: true};
+        }),
         catchError(() => of(null))
       );
-    }
+    };
   }
 
 }

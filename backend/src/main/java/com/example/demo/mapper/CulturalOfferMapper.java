@@ -18,26 +18,20 @@ import com.example.demo.service.UserService;
 public class CulturalOfferMapper {
 
 	@Autowired
-	private UserService userService;
+	private TypeRepository typeRepository;
 
 	@Autowired
 	private CommentRepository commentRepository;
-		
+			
 	@Autowired
-	private TypeRepository typeRepository;
+	private UserService userService;
 	
 	@Transactional(readOnly = true)
 	public List<CulturalOfferDTO> map(List<CulturalOffer> culturalOffers){
 		return culturalOffers.stream().map(culturalOffer -> {
 			CulturalOfferDTO culturalOfferDTO = new CulturalOfferDTO(culturalOffer);
 			culturalOfferDTO.setFollowed(this.userService.userIsFollowing(culturalOffer));
-			List<Integer> rates = this.commentRepository.rates(culturalOffer.getId());
-			double rateValue = rates.stream().reduce(0, (a, b) -> a + b);
-			long rateCount = rates.size();
-			if (rateCount > 0) {
-				rateValue /= rateCount;
-			}
-			culturalOfferDTO.setTotalRate(rateValue);
+			culturalOfferDTO.setTotalRate(this.commentRepository.totalRate(culturalOffer.getId()));
 			return culturalOfferDTO;
 		}).collect(Collectors.toList());
 	}

@@ -20,12 +20,12 @@ export class TypeValidatorService {
         map((response: boolean) => {
           if (toBeUnique){
             return !response ? null : {nameError: true};
-          };
+          }
           return response ? null : {nameError: true};
-        }), 
+        }),
         catchError(() => of(null))
       );
-    }
+    };
   }
 
 }

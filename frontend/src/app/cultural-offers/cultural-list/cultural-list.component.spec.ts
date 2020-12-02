@@ -14,12 +14,12 @@ describe('CulturalListComponent', () => {
   beforeEach(async () => {
     const culturalServiceMock = {};
     await TestBed.configureTestingModule({
-      declarations: [ CulturalListComponent ], 
+      declarations: [ CulturalListComponent ],
       imports: [
-        LayoutModule, 
+        LayoutModule,
         BrowserAnimationsModule
-      ], 
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: CulturalService, useValue: culturalServiceMock},
       ]
@@ -31,8 +31,8 @@ describe('CulturalListComponent', () => {
     fixture = TestBed.createComponent(CulturalListComponent);
     component = fixture.componentInstance;
     component.filterForm = new FormGroup({
-      name: new FormControl(''), 
-      location: new FormControl(''), 
+      name: new FormControl(''),
+      location: new FormControl(''),
       type: new FormControl('')
     });
     fixture.detectChanges();

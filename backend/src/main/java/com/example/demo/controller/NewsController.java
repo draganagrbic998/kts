@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -29,9 +27,7 @@ import com.example.demo.dto.NewsDTO;
 import com.example.demo.dto.NewsUploadDTO;
 import com.example.demo.mapper.NewsMapper;
 import com.example.demo.model.News;
-import com.example.demo.service.EmailService;
 import com.example.demo.service.NewsService;
-import com.example.demo.service.UserFollowingService;
 
 @RestController
 @RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,16 +39,9 @@ public class NewsController {
 
 	@Autowired
 	private NewsMapper newsMapper;
-
-	@Autowired
-	private EmailService emailService;
-	
-	@Autowired
-	private UserFollowingService userFollowingService;
 	
 	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/filter_news")
-	public ResponseEntity<List<NewsDTO>> list(@PathVariable long culturalOfferId, @RequestParam int page,
-			@RequestParam int size, @RequestBody FilterParamsNewsDTO filters, HttpServletResponse response) {
+	public ResponseEntity<List<NewsDTO>> list(@PathVariable long culturalOfferId, @RequestParam int page, @RequestParam int size, @RequestBody FilterParamsNewsDTO filters, HttpServletResponse response) {
 		Pageable pageable = PageRequest.of(page, size);
 		Page<News> news = this.newsService.filter(culturalOfferId, filters, pageable);
 		response.setHeader(Constants.ENABLE_HEADER, Constants.FIRST_PAGE_HEADER + ", " + Constants.LAST_PAGE_HEADER);
@@ -63,14 +52,8 @@ public class NewsController {
 
 	@PreAuthorize("hasAuthority('admin')")
 	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/news")
-	public ResponseEntity<HttpStatus> save(@PathVariable long culturalOfferId, @ModelAttribute NewsUploadDTO newsDTO)
-			throws FileNotFoundException, IOException {
-		News newNews = this.newsService.save(this.newsMapper.map(culturalOfferId, newsDTO), newsDTO.getImages());
-		
-		for (String userEmail : userFollowingService.getSubscribedUsersEmails(culturalOfferId)) {
-			this.emailService.sendMessageWithAttachments(userEmail, "News about '" + newNews.getCulturalOffer().getName() + "'", newNews.getText(), newNews.getImages());
-		}
-		
+	public ResponseEntity<HttpStatus> save(@PathVariable long culturalOfferId, @ModelAttribute NewsUploadDTO newsDTO) {
+		this.newsService.save(this.newsMapper.map(culturalOfferId, newsDTO), newsDTO.getImages());		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 

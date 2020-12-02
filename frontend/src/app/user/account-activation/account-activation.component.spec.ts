@@ -22,16 +22,16 @@ describe('AccountActivationComponent', () => {
           code: null
         }
       }
-    }
+    };
     await TestBed.configureTestingModule({
       declarations: [ AccountActivationComponent ],
       imports: [
-        LayoutModule, 
+        LayoutModule,
         RouterTestingModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {provide: UserService, useValue: userServiceMock}, 
+        {provide: UserService, useValue: userServiceMock},
         {provide: ActivatedRoute, useValue: routeMock}
       ]
     })

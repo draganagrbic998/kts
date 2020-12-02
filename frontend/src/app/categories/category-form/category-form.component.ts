@@ -17,12 +17,12 @@ export class CategoryFormComponent implements OnInit {
     private categoryValidator: CategoryValidatorService,
     private snackBar: MatSnackBar
   ) { }
-  
-  @Output() onAdded: EventEmitter<null> = new EventEmitter();
-  savePending: boolean = false;
+
   categoryForm: FormGroup = new FormGroup({
-    name: new FormControl("", [Validators.required, Validators.pattern(new RegExp("\\S"))],[this.categoryValidator.hasName()])
+    name: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))], [this.categoryValidator.hasName(true)])
   });
+  savePending = false;
+  @Output() saved: EventEmitter<null> = new EventEmitter();
 
   save(): void{
     if (this.categoryForm.invalid){
@@ -32,14 +32,14 @@ export class CategoryFormComponent implements OnInit {
     this.categoryService.save(this.categoryForm.value).subscribe(
       () => {
         this.savePending = false;
-        this.onAdded.emit();
-        this.snackBar.open("Category successfully added!", SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
-      }, 
+        this.saved.emit();
+        this.snackBar.open('Category successfully added!', SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
+      },
       () => {
         this.savePending = false;
         this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
       }
-    )
+    );
   }
 
   ngOnInit(): void {

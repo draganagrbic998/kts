@@ -26,11 +26,7 @@ public class ImageService {
 		String[] array = data.getOriginalFilename().split("\\.");
 		String extension = array[array.length - 1];
 		String fileName = "image" + this.imageRepository.count() + "." + extension;
-		String path = "src" + File.separatorChar
-				+ "main" + File.separatorChar
-				+ "resources" + File.separatorChar
-				+ "static" + File.separatorChar
-				+ fileName;
+		String path = Constants.STATIC_FOLDER + File.separatorChar + fileName;
 		File file = new File(path);
 		FileOutputStream fout = new FileOutputStream(file);
 		fout.write(data.getBytes());

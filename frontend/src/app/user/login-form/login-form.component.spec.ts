@@ -16,8 +16,8 @@ describe('LoginFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ LoginFormComponent ],
       imports: [
-        LayoutModule, 
-        RouterTestingModule, 
+        LayoutModule,
+        RouterTestingModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

@@ -24,23 +24,23 @@ export class ProfileFormComponent implements OnInit {
     private snackBar: MatSnackBar
   ) { }
 
-  savePending: boolean = false;
+  savePending = false;
   profile: User = this.authService.getUser();
   image: Image = {path: this.profile.image, upload: null};
 
   profileForm: FormGroup = new FormGroup({
-    email: new FormControl(this.profile.email, [Validators.required, Validators.pattern(new RegExp("\\S"))], 
-    [this.userValidator.hasEmail(this.profile.id)]), 
-    firstName: new FormControl(this.profile.firstName, [Validators.required, Validators.pattern(new RegExp("\\S"))]), 
-    lastName: new FormControl(this.profile.lastName, [Validators.required, Validators.pattern(new RegExp("\\S"))]), 
+    email: new FormControl(this.profile.email, [Validators.required, Validators.pattern(new RegExp('\\S'))],
+    [this.userValidator.hasEmail(this.profile.id)]),
+    firstName: new FormControl(this.profile.firstName, [Validators.required, Validators.pattern(new RegExp('\\S'))]),
+    lastName: new FormControl(this.profile.lastName, [Validators.required, Validators.pattern(new RegExp('\\S'))]),
     oldPassword: new FormControl(''),
-    newPassword: new FormControl(''), 
+    newPassword: new FormControl(''),
     newPasswordConfirmed: new FormControl('')
   }, {
     validators: [this.userValidator.newPasswordConfirmed()]
   });
 
-  addImage(upload: Blob): void{
+  changeImage(upload: Blob): void{
     this.image.upload = upload;
     this.imageService.getBase64(upload)
     .then((image: string) => {
@@ -66,44 +66,43 @@ export class ProfileFormComponent implements OnInit {
     }
 
     const formData: FormData = new FormData();
-    for (const i in this.profileForm.controls){
-      if (i === "oldPassword"){
-        if (!this.profileForm.get("newPassword").value){
-          continue;
-        }
-      }
-      if (i === "newPassword" && !this.profileForm.get("newPassword").value){
+
+    for (const key in this.profileForm.value){
+      if (key === 'oldPassword' && !this.profileForm.value.newPassword){
         continue;
       }
-      if (i === "newPasswordConfirmed"){
+      if (key === 'newPassword' && !this.profileForm.value.newPassword){
         continue;
       }
-      formData.append(i, this.profileForm.get(i).value);
+      if (key === 'newPasswordConfirmed'){
+        continue;
+      }
+      formData.append(key, this.profileForm.value[key]);
     }
 
     if (this.image.upload){
-      formData.append("image", this.image.upload);
-    }  
+      formData.append('image', this.image.upload);
+    }
 
     else if (this.image.path){
-      formData.append("imagePath", this.image.path);
+      formData.append('imagePath', this.image.path);
     }
-    
+
     this.savePending = true;
     this.userService.update(formData).subscribe(
       (user: User) => {
         this.savePending = false;
         this.resetPassword();
         this.authService.saveUser(user);
-        this.snackBar.open("Your profile has been updated!", 
+        this.snackBar.open('Your profile has been updated!',
         SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
-      }, 
+      },
       () => {
         this.savePending = false;
         this.resetPassword();
         this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
       }
-    )
+    );
 
   }
 

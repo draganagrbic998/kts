@@ -13,7 +13,7 @@ describe('StarRatingComponent', () => {
       declarations: [ StarRatingComponent ],
       imports: [
         LayoutModule
-      ], 
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();

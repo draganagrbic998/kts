@@ -9,7 +9,7 @@ import { CategoryListComponent } from './category-list/category-list.component';
 @NgModule({
   declarations: [
     CategoryDetailsComponent,
-    CategoryListComponent, 
+    CategoryListComponent,
     CategoryFormComponent,
     CategoryDialogComponent
   ],

@@ -62,6 +62,10 @@ public class News {
 		super();
 		this.createdAt = new Date();
 	}
+	
+	public void addImage(Image image) {
+		this.images.add(image);
+	}
 
 	public Long getId() {
 		return id;
@@ -101,10 +105,6 @@ public class News {
 
 	public void setImages(Set<Image> images) {
 		this.images = images;
-	}
-
-	public void addImage(Image image) {
-		this.images.add(image);
 	}
 	
 }

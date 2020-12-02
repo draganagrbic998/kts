@@ -24,9 +24,9 @@ export class ToolbarComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
-  @Output() onToggle: EventEmitter<null> = new EventEmitter();
-  @Output() onRefreshData: EventEmitter<CulturalOffer> = new EventEmitter();
-  
+  @Output() toggle: EventEmitter<null> = new EventEmitter();
+  @Output() refreshData: EventEmitter<CulturalOffer> = new EventEmitter();
+
   get role(): string{
     return this.authService.getUser()?.role;
   }
@@ -42,35 +42,35 @@ export class ToolbarComponent implements OnInit {
 
   profile(): void{
     this.dialog.open(ProfileComponent, {
-        panelClass: "no-padding", 
+        panelClass: 'no-padding',
         backdropClass: 'cdk-overlay-transparent-backdrop',
         position: {
-            top: '30px', 
+            top: '30px',
             right: '30px'
         }
     });
   }
 
   categories(): void{
-    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}}
+    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}};
     this.dialog.open(CategoryDialogComponent, options);
   }
-  
+
   types(): void{
-    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}}
+    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}};
     this.dialog.open(TypeDialogComponent, options);
   }
 
   addOffer(): void{
-    const options = {...DIALOG_OPTIONS, ...{data: {}}}
+    const options = {...DIALOG_OPTIONS, ...{data: {}}};
     const dialog: MatDialogRef<CulturalFormComponent> = this.dialog.open(CulturalFormComponent, options);
     dialog.componentInstance.onSaved.subscribe(
       (culturalOffer: CulturalOffer) => {
-        this.onRefreshData.emit(culturalOffer);
+        this.refreshData.emit(culturalOffer);
       }
     );
   }
-  
+
   ngOnInit(): void {
   }
 

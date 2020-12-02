@@ -2,14 +2,14 @@
 
     <div>
         <app-toolbar 
-        (onToggle)="drawer.toggle()"
-        (onRefreshData)="refreshData($event); map.markOnMap($event)">
+        (toggle)="drawer.toggle()"
+        (refreshData)="refreshData($event); map.markOnMap($event)">
         </app-toolbar>
         <app-map 
         #map
         [culturalOffers]="culturalOffers[selectedTab]"
         [fetchPending]="fetchPending[selectedTab]"
-        (onRefreshData)="refreshData($event)"
+        (refreshData)="refreshData($event)"
         ></app-map>
     </div>
 
@@ -24,9 +24,9 @@
         [hasPrevious]="!startOfPages[selectedTab]"
         [hasNext]="!endOfPages[selectedTab]"
         [filterForm]="filterForm[selectedTab]"
-        (onChangePage)="changePage($event)"
-        (onFilterData)="filterData()"
-        (onMarkOnMap)="map.markOnMap($event)"
+        (changePage)="changePage($event)"
+        (filterData)="filterData()"
+        (markOnMap)="map.markOnMap($event)"
         ></app-cultural-list>    
 
         <div *ngIf="guest" class="tabs">

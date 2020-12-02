@@ -10,7 +10,7 @@ describe('TypeValidatorService', () => {
     const typeServiceMock = {};
     TestBed.configureTestingModule({
       providers: [
-        {provide: TypeService, useValue: typeServiceMock}, 
+        {provide: TypeService, useValue: typeServiceMock},
       ]
     });
     service = TestBed.inject(TypeValidatorService);

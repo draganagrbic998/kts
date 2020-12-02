@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +13,7 @@ import com.example.demo.dto.FilterParamsNewsDTO;
 import com.example.demo.model.Image;
 import com.example.demo.model.News;
 import com.example.demo.repository.NewsRepository;
+import com.example.demo.repository.UserFollowingRepository;
 
 @Component
 @Transactional(readOnly = true)
@@ -24,7 +23,13 @@ public class NewsService {
 	private NewsRepository newsRepository;
 
 	@Autowired
+	private UserFollowingRepository userFollowingRepository;
+	
+	@Autowired
 	private ImageService imageService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	@Transactional(readOnly = true)
 	public Page<News> filter(long culturalOfferId, FilterParamsNewsDTO filters, Pageable pageable) {
@@ -32,19 +37,29 @@ public class NewsService {
 	}
 
 	@Transactional(readOnly = false)
-	public void delete(long id) {
-		this.newsRepository.deleteById(id);
+	public void save(News news, List<MultipartFile> uploads) {
+		if (uploads != null) {
+			uploads.stream().forEach(upload -> {
+				try {
+					Image image = new Image(this.imageService.store(upload));
+					news.addImage(image);
+					this.imageService.save(image);
+				}
+				catch(Exception e) {
+					;
+				}
+			});
+		}
+		this.newsRepository.save(news);
+		for (String emailAddress : this.userFollowingRepository.getSubscribedEmails(news.getCulturalOffer().getId())) {
+			Email email = new Email(emailAddress, "News about '" + news.getCulturalOffer().getName() + "'", news.getText(), news.getImages());
+			this.emailService.sendEmailWithAttachments(email);
+		}
 	}
 
 	@Transactional(readOnly = false)
-	public News save(News news, List<MultipartFile> uploads) throws FileNotFoundException, IOException {
-		if (uploads != null) {
-			for (MultipartFile mpf : uploads) {
-				Image image = new Image(this.imageService.store(mpf));
-				news.addImage(image);
-				this.imageService.save(image);
-			}
-		}
-		return this.newsRepository.save(news);
+	public void delete(long id) {
+		this.newsRepository.deleteById(id);
 	}
+	
 }

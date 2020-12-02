@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/utils/constants';
 import { NewsService } from '../services/news.service';
-import { News } from '../utils/news';
+import { News } from '../news';
 
 @Component({
   selector: 'app-news-list',
@@ -18,14 +18,13 @@ export class NewsListComponent implements OnInit {
 
   @Input() culturalOfferId: number;
 
-  panelOpenState: boolean = false;
   news: News[];
-  fetchPending: boolean = true;
-  pageNumber: number = 0;
-  startOfPages: boolean = true;
-  endOfPages: boolean = true;
+  fetchPending = true;
+  pageNumber = 0;
+  startOfPages = true;
+  endOfPages = true;
   filterForm: FormGroup = new FormGroup({
-    startDate: new FormControl(null), 
+    startDate: new FormControl(null),
     endDate: new FormControl(null)
   });
 
@@ -47,8 +46,8 @@ export class NewsListComponent implements OnInit {
         if (data){
           this.news = data.body;
           const headers: HttpHeaders = data.headers;
-          this.endOfPages = headers.get(LAST_PAGE_HEADER) === "true" ? true : false;
-          this.startOfPages = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
+          this.endOfPages = headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
+          this.startOfPages = headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
         }
         else{
           this.news = [];

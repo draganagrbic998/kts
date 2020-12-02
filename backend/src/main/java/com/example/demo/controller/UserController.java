@@ -1,8 +1,5 @@
 package com.example.demo.controller;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,7 +32,7 @@ public class UserController {
 	private TokenUtils tokenUtils;
 		
 	@PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<ProfileDTO> update(@ModelAttribute ProfileUploadDTO profileDTO) throws FileNotFoundException, IOException {
+	public ResponseEntity<ProfileDTO> update(@ModelAttribute ProfileUploadDTO profileDTO) {
 		User user = this.userService.save(this.userMapper.map(profileDTO), profileDTO.getImage());
 		String accessToken = this.tokenUtils.generateToken(user.getUsername());
 		return new ResponseEntity<>(new ProfileDTO(user, accessToken), HttpStatus.OK);

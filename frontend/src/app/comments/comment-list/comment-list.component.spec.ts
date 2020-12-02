@@ -15,10 +15,10 @@ describe('CommentListComponent', () => {
       list: jasmine.createSpy('list').and.returnValue(of(null))
     };
     await TestBed.configureTestingModule({
-      declarations: [ CommentListComponent ], 
+      declarations: [ CommentListComponent ],
       imports: [
         LayoutModule
-      ], 
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: CommentService, useValue: commentServiceMock}

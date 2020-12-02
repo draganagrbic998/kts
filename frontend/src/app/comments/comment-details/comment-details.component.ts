@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
 import { AuthService } from 'src/app/services/auth.service';
-import { DIALOG_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
+import { DIALOG_OPTIONS } from 'src/app/utils/constants';
 import { CommentFormComponent } from '../comment-form/comment-form.component';
 import { CommentService } from '../services/comment.service';
-import { Comment } from '../utils/comment';
+import { Comment } from '../comment';
 
 @Component({
   selector: 'app-comment-details',
@@ -23,8 +22,7 @@ export class CommentDetailsComponent implements OnInit {
 
   @Input() comment: Comment;
   @Input() culturalOfferId: number;
-  @Output() onRefreshData: EventEmitter<null> = new EventEmitter();
-  panelOpenState: boolean = false;
+  @Output() refreshData: EventEmitter<number> = new EventEmitter();
 
   get email(): string{
     return this.authService.getUser()?.email;
@@ -35,19 +33,19 @@ export class CommentDetailsComponent implements OnInit {
     const comment = {...this.comment, ...{culturalOfferId: this.culturalOfferId}};
     const options = {...DIALOG_OPTIONS, ...{data: comment}};
     const dialog: MatDialogRef<CommentFormComponent> = this.dialog.open(CommentFormComponent, options);
-      dialog.componentInstance.onSaved.subscribe(
-        () => {
-          this.onRefreshData.emit();
-        }
+    dialog.componentInstance.saved.subscribe(
+      (totalRate: number) => {
+        this.refreshData.emit(totalRate);
+      }
     );
   }
 
   delete(): void{
-    const options = {...DIALOG_OPTIONS, ...{data: () => this.commentService.delete(this.comment.id)}}
+    const options = {...DIALOG_OPTIONS, ...{data: () => this.commentService.delete(this.comment.id)}};
     const dialog: MatDialogRef<DeleteConfirmationComponent> = this.dialog.open(DeleteConfirmationComponent, options);
-    dialog.componentInstance.onDeleted.subscribe(
+    dialog.componentInstance.deleted.subscribe(
       () => {
-        this.onRefreshData.emit();
+        this.refreshData.emit();
       }
     );
   }

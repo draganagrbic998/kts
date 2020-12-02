@@ -4,8 +4,8 @@
     
         <app-image-input
         [image]="image.path" 
-        (onAddImage)="addImage($event)" 
-        (onRemoveImage)="removeImage()">
+        (changed)="changeImage($event)" 
+        (removed)="removeImage()">
         </app-image-input>
     
         <div class="form-container">

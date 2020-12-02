@@ -10,7 +10,7 @@ export class CloseButtonComponent implements OnInit {
   constructor() { }
 
   @Input() fixed: boolean;
-  @Output() onClose: EventEmitter<null> = new EventEmitter();
+  @Output() closed: EventEmitter<null> = new EventEmitter();
 
   ngOnInit(): void {
   }

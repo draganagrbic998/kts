@@ -1,2 +1,2 @@
-export const HOME_PATH: string = "";
-export const USER_PATH: string = "user";
+export const HOME_PATH = '';
+export const USER_PATH = 'user';

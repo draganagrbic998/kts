@@ -10,7 +10,7 @@ export class ImageComponent implements OnInit {
   constructor() { }
 
   @Input() image: string;
-  @Output() onDeleted: EventEmitter<null> = new EventEmitter();
+  @Output() deleted: EventEmitter<null> = new EventEmitter();
 
   ngOnInit(): void {
   }

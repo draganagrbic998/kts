@@ -10,10 +10,10 @@ import { ProfileFormComponent } from './profile-form/profile-form.component';
 
 @NgModule({
   declarations: [
-    UserComponent, 
-    LoginFormComponent, 
-    RegisterFormComponent, 
-    ProfileFormComponent, 
+    UserComponent,
+    LoginFormComponent,
+    RegisterFormComponent,
+    ProfileFormComponent,
     AccountActivationComponent
   ],
   imports: [

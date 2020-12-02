@@ -16,7 +16,7 @@ describe('TypeDetailsComponent', () => {
       imports: [
         LayoutModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: TypeService, useValue: typeServiceMock}
       ]
@@ -28,11 +28,11 @@ describe('TypeDetailsComponent', () => {
     fixture = TestBed.createComponent(TypeDetailsComponent);
     component = fixture.componentInstance;
     component.type = {
-      id: null, 
+      id: null,
       name: null,
-      category: null, 
+      category: null,
       placemarkIcon: null
-    }
+    };
     fixture.detectChanges();
   });
 

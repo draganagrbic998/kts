@@ -22,7 +22,7 @@ export class ProfileComponent implements OnInit {
   profile: User = this.authService.getUser();
 
   edit(): void{
-    this.dialogRef.close(); 
+    this.dialogRef.close();
     this.router.navigate([`${USER_PATH}/${PROFILE_PATH}`]);
   }
 

@@ -6,7 +6,7 @@ public class TypeUploadDTO {
 	
 	private String name;
 	private String category;
-	private MultipartFile image;
+	private MultipartFile placemarkIcon;
 	
 	public TypeUploadDTO() {
 		super();
@@ -28,12 +28,12 @@ public class TypeUploadDTO {
 		this.category = category;
 	}
 
-	public MultipartFile getImage() {
-		return image;
+	public MultipartFile getPlacemarkIcon() {
+		return placemarkIcon;
 	}
 
-	public void setImage(MultipartFile image) {
-		this.image = image;
+	public void setPlacemarkIcon(MultipartFile placemarkIcon) {
+		this.placemarkIcon = placemarkIcon;
 	}
 
 }

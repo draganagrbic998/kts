@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -70,7 +68,7 @@ public class CulturalOfferController {
 	
 	@PreAuthorize("hasAuthority('admin')")
 	@PostMapping(value = "")
-	public ResponseEntity<CulturalOfferDTO> save(@ModelAttribute CulturalOfferUploadDTO culturalOfferDTO) throws FileNotFoundException, IOException {
+	public ResponseEntity<CulturalOfferDTO> save(@ModelAttribute CulturalOfferUploadDTO culturalOfferDTO) {
 		return new ResponseEntity<>(new CulturalOfferDTO(this.culturalOfferService.save(this.culturalOfferMapper.map(culturalOfferDTO), culturalOfferDTO.getImage())), HttpStatus.OK);
 	}
 

@@ -13,7 +13,7 @@ export class PaginatorComponent implements OnInit {
   @Input() hasPrevious: boolean;
   @Input() hasNext: boolean;
   @Input() title: string;
-  @Output() onChangePage: EventEmitter<number> = new EventEmitter();
+  @Output() changedPage: EventEmitter<number> = new EventEmitter();
 
   ngOnInit(): void {
   }

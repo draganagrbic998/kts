@@ -18,7 +18,7 @@ describe('TypeDialogComponent', () => {
         LayoutModule,
         BrowserAnimationsModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: MatDialogRef, useValue: dialogRefMock}
       ]

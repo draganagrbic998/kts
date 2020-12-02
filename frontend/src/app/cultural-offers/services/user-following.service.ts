@@ -1,9 +1,9 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { LARGE_PAGE_SIZE } from 'src/app/utils/constants';
-import { API_BASE, API_FILTER_FOLLOWINGS } from '../utils/api';
+import { environment } from 'src/environments/environment';
 import { CulturalOffer } from '../utils/cultural-offer';
 import { FilterParams } from '../utils/filter-params';
 
@@ -16,15 +16,17 @@ export class UserFollowingService {
     private http: HttpClient
   ) { }
 
-  filter(filters: FilterParams, pageNumber: number): Observable<HttpResponse<CulturalOffer[]>>{
-    return this.http.post<CulturalOffer[]>(`${API_FILTER_FOLLOWINGS}?page=${pageNumber}&size=${LARGE_PAGE_SIZE}`, 
-    filters, {observe: "response"}).pipe(
+  private readonly API_OFFERS = `${environment.baseUrl}/api/cultural_offers`;
+
+  filter(filters: FilterParams, page: number): Observable<HttpResponse<CulturalOffer[]>>{
+    const params = new HttpParams().set('page', page + '').set('size', LARGE_PAGE_SIZE + '');
+    return this.http.post<CulturalOffer[]>(`${this.API_OFFERS}/filter_followings`, filters, {observe: 'response', params}).pipe(
       catchError(() => of(null))
     );
   }
 
   toggleSubscription(culturalOfferId: number): Observable<CulturalOffer>{
-    return this.http.post<CulturalOffer>(`${API_BASE}/${culturalOfferId}/toggle_subscription`, null);
+    return this.http.post<CulturalOffer>(`${this.API_OFFERS}/${culturalOfferId}/toggle_subscription`, null);
   }
 
 }

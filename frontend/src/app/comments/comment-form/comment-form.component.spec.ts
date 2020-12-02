@@ -16,15 +16,15 @@ describe('CommentFormComponent', () => {
     const commentServiceMock = {};
     const dialogRefMock = {};
     await TestBed.configureTestingModule({
-      declarations: [ CommentFormComponent ], 
+      declarations: [ CommentFormComponent ],
       imports: [
         LayoutModule,
         BrowserAnimationsModule
-      ], 
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: MAT_DIALOG_DATA, useValue: commentMock},
-        {provide: CommentService, useValue: commentServiceMock}, 
+        {provide: CommentService, useValue: commentServiceMock},
         {provide: MatDialogRef, useValue: dialogRefMock}
       ]
     })
@@ -40,4 +40,5 @@ describe('CommentFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

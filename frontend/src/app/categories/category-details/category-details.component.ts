@@ -3,7 +3,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
 import { DIALOG_OPTIONS } from 'src/app/utils/constants';
 import { CategoryService } from '../services/category.service';
-import { Category } from '../utils/category';
+import { Category } from '../category';
 
 @Component({
   selector: 'app-category-details',
@@ -18,18 +18,18 @@ export class CategoryDetailsComponent implements OnInit {
   ) { }
 
   @Input() category: Category;
-  @Output() onDeleted: EventEmitter<number> = new EventEmitter();
-  
+  @Output() deleted: EventEmitter<null> = new EventEmitter();
+
   delete(): void {
-    const options = {...DIALOG_OPTIONS, ...{data: () => this.categoryService.delete(this.category.id)}}
+    const options = {...DIALOG_OPTIONS, ...{data: () => this.categoryService.delete(this.category.id)}};
     const dialog: MatDialogRef<DeleteConfirmationComponent> = this.dialog.open(DeleteConfirmationComponent, options);
-    dialog.componentInstance.onDeleted.subscribe(
+    dialog.componentInstance.deleted.subscribe(
       () => {
-        this.onDeleted.emit(this.category.id);
+        this.deleted.emit();
       }
     );
   }
-  
+
   ngOnInit(): void {
   }
 

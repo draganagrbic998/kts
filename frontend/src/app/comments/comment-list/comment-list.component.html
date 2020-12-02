@@ -5,17 +5,17 @@
     [fetchPending]="fetchPending"
     [hasPrevious]="!startOfPages"
     [hasNext]="!endOfPages"
-    (onChangePage)="changePage($event)"
+    (changedPage)="changePage($event)"
     ></app-paginator>  
 </div>
 
-<div *ngIf="!fetchPending && !comments?.length" class="empty-container">
-    NO COMMENTS
-</div>
+<app-empty-container *ngIf="!fetchPending && !comments?.length">
+    NO REVIEWS
+</app-empty-container>
 
 <app-comment-details 
 *ngFor="let comment of comments"
 [comment]="comment"
 [culturalOfferId]="culturalOfferId"
-(onRefreshData)="fetchComments()">
+(refreshData)="fetchComments(); updateTotalRate.emit($event)">
 </app-comment-details>    

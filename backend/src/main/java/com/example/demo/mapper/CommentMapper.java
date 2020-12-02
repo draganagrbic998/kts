@@ -18,13 +18,13 @@ import com.example.demo.service.UserService;
 public class CommentMapper {
 
 	@Autowired
-	private UserService userService;
-
-	@Autowired
 	private CulturalOfferRepository culturalOfferRepository;
 		
 	@Autowired
 	private ImageRepository imageRepository;
+	
+	@Autowired
+	private UserService userService;
 
 	public List<CommentDTO> map(List<Comment> comments){
 		return comments.stream().map(comment -> new CommentDTO(comment)).collect(Collectors.toList());
@@ -39,9 +39,7 @@ public class CommentMapper {
 		comment.setRate(commentDTO.getRate());
 		comment.setText(commentDTO.getText());
 		if (commentDTO.getImagePaths() != null) {
-			for (String image: commentDTO.getImagePaths()) {
-				comment.addImage(this.imageRepository.findByPath(image));
-			}			
+			commentDTO.getImagePaths().stream().forEach(image -> comment.addImage(this.imageRepository.findByPath(image)));
 		}
 		return comment;
 	}

@@ -21,11 +21,11 @@ import { AuthInterceptor } from './interceptor/auth.interceptor';
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS, 
-      useClass: AuthInterceptor, 
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
       multi: true
     }
-  ],  
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

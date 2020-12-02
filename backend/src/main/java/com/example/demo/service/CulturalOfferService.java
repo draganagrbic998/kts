@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +43,19 @@ public class CulturalOfferService {
 	public Page<CulturalOffer> filter(FilterParamsDTO filters, Pageable pageable){
 		return this.culturalOfferRepository.filter(filters.getName(), filters.getLocation(), filters.getType(), pageable);
 	}
+	
+	@Transactional(readOnly = false)
+	public CulturalOffer save(CulturalOffer culturalOffer, MultipartFile image) {
+		if (image != null) {
+			try {
+				culturalOffer.setImage(this.imageService.store(image));
+			}
+			catch(Exception e) {
+				;
+			}
+		}
+		return this.culturalOfferRepository.save(culturalOffer);
+	}
 
 	@Transactional(readOnly = false)
 	public void delete(long id) {
@@ -60,12 +71,4 @@ public class CulturalOfferService {
 		return true;
 	}	
 	
-	@Transactional(readOnly = false)
-	public CulturalOffer save(CulturalOffer culturalOffer, MultipartFile image) throws FileNotFoundException, IOException {
-		if (image != null) {
-			culturalOffer.setImage(this.imageService.store(image));
-		}
-		return this.culturalOfferRepository.save(culturalOffer);
-	}
-
 }

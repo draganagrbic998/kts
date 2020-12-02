@@ -65,10 +65,10 @@ public class CategoryController {
 	public ResponseEntity<Boolean> hasName(@RequestBody UniqueCheckDTO param) {
 		return new ResponseEntity<>(this.categoryService.hasName(param), HttpStatus.OK);
 	}
-	
-	@GetMapping(value = "/all")
-	public ResponseEntity<List<CategoryDTO>> all(){
-		return new ResponseEntity<List<CategoryDTO>>(this.categoryMapper.map((List<Category>) this.categoryService.all()),HttpStatus.OK);
+		
+	@PostMapping(value = "/filter_names")
+	public ResponseEntity<List<String>> filterNames(@RequestBody String filter){
+		return new ResponseEntity<>(this.categoryService.filterNames(filter), HttpStatus.OK);
 	}
 	
 }

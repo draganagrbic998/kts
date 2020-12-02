@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +29,21 @@ public class CommentService {
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(Comment comment, List<MultipartFile> uploads) throws FileNotFoundException, IOException {
+	public double save(Comment comment, List<MultipartFile> uploads) {
 		if (uploads != null) {
-			for (MultipartFile mpf: uploads) {
-				Image image = new Image(this.imageService.store(mpf));
-				comment.addImage(image);
-				this.imageService.save(image);
-			}
+			uploads.stream().forEach(upload -> {
+				try {
+					Image image = new Image(this.imageService.store(upload));
+					comment.addImage(image);
+					this.imageService.save(image);
+				} 
+				catch (Exception e) {
+					;
+				}
+			});
 		}
 		this.commentRepository.save(comment);
+		return this.commentRepository.totalRate(comment.getCulturalOffer().getId());
 	}
 
 	@Transactional(readOnly = false)

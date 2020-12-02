@@ -19,16 +19,16 @@ export class CulturalValidatorService {
     return (): null | ValidationError => {
       const empty = [null, undefined];
       return (empty.includes(geolocation.lat) || empty.includes(geolocation.lng)) ? {locationError: true} : null;
-    }
+    };
   }
 
   hasName(id: number): AsyncValidatorFn{
     return (control: AbstractControl): Observable<null | ValidationError> => {
-      return this.culturalService.hasName({id: id, name: control.value}).pipe(
+      return this.culturalService.hasName({id, name: control.value}).pipe(
         map((response: boolean) => !response ? null : {nameError: true}),
         catchError(() => of(null))
       );
-    }
+    };
   }
-  
+
 }

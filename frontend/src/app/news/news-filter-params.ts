@@ -1,4 +1,4 @@
-export interface FilterParamsNews{
+export interface NewsFilterParams{
     startDate: Date;
     endDate: Date;
 }

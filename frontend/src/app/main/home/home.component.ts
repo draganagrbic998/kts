@@ -15,12 +15,12 @@ import { AuthService } from 'src/app/services/auth.service';
 export class HomeComponent implements OnInit {
 
   constructor(
-    private authService: AuthService, 
-    private culturalService: CulturalService, 
+    private authService: AuthService,
+    private culturalService: CulturalService,
     private userFollowingService: UserFollowingService
   ) { }
 
-  selectedTab: number = 0;
+  selectedTab = 0;
   culturalOffers: CulturalOffer[][] = [[], []];
   fetchPending: boolean[] = [true, true];
   pageNumber: number[] = [0, 0];
@@ -28,13 +28,13 @@ export class HomeComponent implements OnInit {
   endOfPages: boolean[] = [true, true];
   filterForm: FormGroup[] = [
     new FormGroup({
-      name: new FormControl(''), 
-      location: new FormControl(''), 
+      name: new FormControl(''),
+      location: new FormControl(''),
       type: new FormControl('')
-    }), 
+    }),
     new FormGroup({
-      name: new FormControl(''), 
-      location: new FormControl(''), 
+      name: new FormControl(''),
+      location: new FormControl(''),
       type: new FormControl('')
     })
   ];
@@ -71,8 +71,8 @@ export class HomeComponent implements OnInit {
         if (data){
           this.culturalOffers[this.selectedTab] = data.body;
           const headers: HttpHeaders = data.headers;
-          this.endOfPages[this.selectedTab] = headers.get(LAST_PAGE_HEADER) === "true" ? true : false;
-          this.startOfPages[this.selectedTab] = headers.get(FIRST_PAGE_HEADER) === "true" ? true : false;
+          this.endOfPages[this.selectedTab] = headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
+          this.startOfPages[this.selectedTab] = headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
         }
         else{
           this.culturalOffers[this.selectedTab] = [];
@@ -81,18 +81,18 @@ export class HomeComponent implements OnInit {
         }
       }
     );
-    
+
   }
 
   refreshData(response: CulturalOffer | number): void{
     const selectedTab = this.guest ? 1 : 0;
-    if (typeof response === "number"){
+    if (typeof response === 'number'){
       this.culturalOffers[selectedTab] = this.culturalOffers[selectedTab].filter(co => co.id !== response);
     }
     else{
       const temp: number[] = this.culturalOffers[selectedTab].map(co => co.id);
       const index: number = temp.indexOf(response.id);
-      this.culturalOffers[selectedTab].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);  
+      this.culturalOffers[selectedTab].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);
     }
   }
 

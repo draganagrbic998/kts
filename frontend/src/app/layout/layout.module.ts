@@ -24,15 +24,15 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card'
+import { MatCardModule } from '@angular/material/card';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatSelectModule} from '@angular/material/select';
 import { CarouselModule } from 'ng-uikit-pro-standard';
+import { EmptyContainerComponent } from './empty-container/empty-container.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +45,8 @@ import { CarouselModule } from 'ng-uikit-pro-standard';
     SpacerContainerComponent,
     SpinnerButtonComponent,
     PaginatorComponent,
-    ImageComponent
+    ImageComponent,
+    EmptyContainerComponent
   ],
   imports: [
     CommonModule,
@@ -71,6 +72,7 @@ import { CarouselModule } from 'ng-uikit-pro-standard';
     SpinnerButtonComponent,
     PaginatorComponent,
     ImageComponent,
+    EmptyContainerComponent,
 
     MatFormFieldModule,
     MatInputModule,
@@ -89,7 +91,6 @@ import { CarouselModule } from 'ng-uikit-pro-standard';
     MatExpansionModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSelectModule,
     CarouselModule
   ]
 })

@@ -28,18 +28,18 @@ describe('CulturalFormComponent', () => {
     };
     const dialogRefMock = {};
     await TestBed.configureTestingModule({
-      declarations: [ CulturalFormComponent ], 
+      declarations: [ CulturalFormComponent ],
       imports: [
-        LayoutModule, 
+        LayoutModule,
         BrowserAnimationsModule
-      ], 
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: MAT_DIALOG_DATA, useValue: culturalOfferMock},
-        {provide: CulturalService, useValue: culturalServiceMock}, 
-        {provide: TypeService, useValue: typeServiceMock}, 
-        {provide: CulturalValidatorService, culturalValidatorMock}, 
-        {provide: TypeValidatorService, useValue: typeValidatorMock}, 
+        {provide: CulturalService, useValue: culturalServiceMock},
+        {provide: TypeService, useValue: typeServiceMock},
+        {provide: CulturalValidatorService, culturalValidatorMock},
+        {provide: TypeValidatorService, useValue: typeValidatorMock},
         {provide: MatDialogRef, useValue: dialogRefMock}
       ]
     })

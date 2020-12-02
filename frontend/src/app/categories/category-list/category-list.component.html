@@ -1,21 +1,21 @@
 <app-preloader *ngIf="fetchPending"></app-preloader>
 
-<div class="header-container" *ngIf="!fetchPending">
+<div class="header-container">
     <app-paginator
     [fetchPending]="fetchPending"
     [hasPrevious]="!startOfPages"
     [hasNext]="!endOfPages"
-    (onChangePage)="changePage($event)"
+    (changedPage)="changePage($event)"
     ></app-paginator>
 </div>
 
-<div *ngIf="!fetchPending && !categories?.length" class="empty-container">
+<app-empty-container *ngIf="!fetchPending && !categories?.length">
     NO CATEGORIES
-</div>
+</app-empty-container>
 
 <app-category-details 
 *ngFor="let category of categories"
 [category]="category"
-(onDeleted)="fetchData()">
+(deleted)="fetchData()">
 </app-category-details>
 

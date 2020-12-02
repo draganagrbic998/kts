@@ -1,7 +1,5 @@
 package com.example.demo.controller;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -54,9 +52,9 @@ public class TypeController {
 	}
 	
 	@PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<HttpStatus> save(@ModelAttribute TypeUploadDTO typeDTO) throws FileNotFoundException, IOException{
+	public ResponseEntity<HttpStatus> save(@ModelAttribute TypeUploadDTO typeDTO) {
 		Type type = this.typeMapper.map(typeDTO);
-		this.typeService.save(type,typeDTO.getImage());
+		this.typeService.save(type,typeDTO.getPlacemarkIcon());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

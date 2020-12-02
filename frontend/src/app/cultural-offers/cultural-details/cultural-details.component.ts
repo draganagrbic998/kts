@@ -11,7 +11,7 @@ export class CulturalDetailsComponent implements OnInit {
   constructor() { }
 
   @Input() culturalOffer: CulturalOffer;
-  @Output() onMarkOnMap: EventEmitter<CulturalOffer> = new EventEmitter();
+  @Output() markOnMap: EventEmitter<CulturalOffer> = new EventEmitter();
 
   ngOnInit(): void {
   }

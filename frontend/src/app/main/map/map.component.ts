@@ -3,7 +3,6 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CulturalDialogComponent } from 'src/app/cultural-offers/cultural-dialog/cultural-dialog.component';
 import { CulturalOffer } from 'src/app/cultural-offers/utils/cultural-offer';
 import { DIALOG_OPTIONS } from 'src/app/utils/constants';
-import { DEFAULT_MAP_CENTER } from '../utils/constants';
 
 @Component({
   selector: 'app-map',
@@ -16,49 +15,50 @@ export class MapComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
-  @Input() culturalOffers: CulturalOffer[];
-  @Input() fetchPending: boolean;
-  @Output() onRefreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
-
-  mapPending: boolean = true;
+  private readonly DEFAULT_CENTER: number[] = [44.787197, 20.457273];
+  mapPending = true;
   center: CulturalOffer;
   ymaps;
+
+  @Input() culturalOffers: CulturalOffer[];
+  @Input() fetchPending: boolean;
+  @Output() refreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
 
   get mapCenter(): number[]{
     if (this.center){
       return [this.center.lat, this.center.lng];
     }
-    return DEFAULT_MAP_CENTER;
+    return this.DEFAULT_CENTER;
   }
 
   markOnMap(culturalOffer: CulturalOffer): void{
     this.center = culturalOffer;
-    this.ymaps.instance.balloon.open(this.mapCenter, 
+    this.ymaps.instance.balloon.open(this.mapCenter,
       `<div style='text-align: center; font-weight: bold;'>${culturalOffer.name} is placed here!</div>`);
   }
 
   showDetails(culturalOffer: CulturalOffer): void{
-    const options = {...DIALOG_OPTIONS, ...{data: culturalOffer}}
+    const options = {...DIALOG_OPTIONS, ...{data: culturalOffer}};
     const dialog: MatDialogRef<CulturalDialogComponent> = this.dialog.open(CulturalDialogComponent, options);
     dialog.componentInstance.onRefreshData.subscribe(
       (response: CulturalOffer | number) => {
-        if (typeof response !== "number"){
+        this.refreshData.emit(response);
+        if (typeof response !== 'number'){
           this.markOnMap(response);
         }
-        this.onRefreshData.emit(response);
       }
     );
   }
 
-  placemarkOptions(culturalOffer: CulturalOffer){
+  placemarkOptions(culturalOffer: CulturalOffer): any{
     return {
       iconLayout: 'default#image',
       iconImageHref: culturalOffer.placemarkIcon
-    }
+    };
   }
 
-  placemarkProperties(culturalOffer: CulturalOffer){
-    
+  placemarkProperties(culturalOffer: CulturalOffer): any{
+
     return {
       hintContent: `
         <div style="text-align: center;">
@@ -73,7 +73,7 @@ export class MapComponent implements OnInit {
           </div>
         </div>
       `
-    }
+    };
   }
 
   ngOnInit(): void {

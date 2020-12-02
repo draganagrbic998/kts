@@ -26,13 +26,13 @@ describe('ProfileFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ProfileFormComponent ],
       imports: [
-        LayoutModule, 
+        LayoutModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: AuthService, useValue: authServiceMock},
-        {provide: UserService, useValue: userServiceMock}, 
+        {provide: UserService, useValue: userServiceMock},
         {provide: UserValidatorService, useValue: formValidatorMock}
       ]
     })

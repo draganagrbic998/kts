@@ -1,3 +1,3 @@
 export interface ValidationError{
-    [errorName:string]: boolean;
+    [errorName: string]: boolean;
 }

@@ -5,18 +5,18 @@
     [fetchPending]="fetchPending"
     [hasPrevious]="hasPrevious"
     [hasNext]="hasNext"
-    (onChangePage)="onChangePage.emit($event)"
+    (changedPage)="changePage.emit($event)"
     ></app-paginator>
 
 </div>
 
 <div class="block"></div>
 
-<app-preloader *ngIf="fetchPending && !panelOpenState"></app-preloader>
+<app-preloader *ngIf="fetchPending && !panel.expanded"></app-preloader>
 
 <div class="filter-container">
 
-    <mat-expansion-panel hideToggle (opened)="panelOpenState=true" (closed)="panelOpenState=false">
+    <mat-expansion-panel hideToggle #panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <span></span>
@@ -87,7 +87,7 @@
                 *ngIf="!fetchPending"
                 mat-raised-button 
                 color="accent"               
-                (click)="onFilterData.emit()">Filter</button>
+                (click)="filterData.emit()">Filter</button>
                 <app-spinner-button *ngIf="fetchPending"></app-spinner-button>    
             </span>
         </app-spacer-container>
@@ -98,6 +98,6 @@
 <app-cultural-details 
 *ngFor="let culturalOffer of culturalOffers"
 [culturalOffer]="culturalOffer"
-(onMarkOnMap)="onMarkOnMap.emit(culturalOffer)"
+(markOnMap)="markOnMap.emit(culturalOffer)"
 ></app-cultural-details>
 

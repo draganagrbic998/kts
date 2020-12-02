@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,11 @@ public class CategoryService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Transactional(readOnly = true)
+	public List<String> filterNames(String filter){
+		return this.categoryRepository.filterNames(filter);
+	}
 		
 	@Transactional(readOnly = true)
 	public Page<Category> list(Pageable pageable){

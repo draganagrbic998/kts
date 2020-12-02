@@ -15,5 +15,5 @@ export class ImageService {
       reader.readAsDataURL(file);
     });
   }
-  
+
 }

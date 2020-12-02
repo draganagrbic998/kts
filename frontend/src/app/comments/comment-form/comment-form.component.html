@@ -3,16 +3,17 @@
     <div [class.disabled]="savePending">
         
         <app-close-button
-        (onClose)="dialogRef.close()"
+        (closed)="dialogRef.close()"
         ></app-close-button>
     
-        <h3>{{comment.id ? 'Edit Comment' : 'New Comment'}}</h3>
+        <h3>Publish Review</h3>
         
         <br><br>
     
         <app-star-rating
+        [editable]="true"
         [rate]="rate"
-        (onRated)="rate=$event"
+        (rated)="rate=$event"
         ></app-star-rating>
     
         <br>
@@ -23,15 +24,14 @@
             autocomplete="off"
             [formControl]="text"
             placeholder="Enter comment..." 
-            rows="4"
-            ></textarea>
+            rows="4"></textarea>
         </mat-form-field>    
         
         <div *ngIf="images.length" class="image-container">
             <app-image 
-            *ngFor="let img of images; let index = i"
-            [image]="img.path"
-            (onDeleted)="images.splice(index, 1)">
+            *ngFor="let image of images; let i = index"
+            [image]="image.path"
+            (deleted)="images.splice(i, 1)">
             </app-image>       
         </div>   
         
@@ -59,7 +59,7 @@
             mat-raised-button 
             color="accent" 
             [disabled]="text.invalid" 
-            (click)="save()">Save comment</button>  
+            (click)="save()">Save review</button>  
             <app-spinner-button *ngIf="savePending"></app-spinner-button>      
         </span>
     </app-spacer-container>         

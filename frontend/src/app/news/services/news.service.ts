@@ -1,11 +1,11 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { API_NEWS, API_NEWS_BASE } from '../utils/api';
 import { SMALL_PAGE_SIZE } from 'src/app/utils/constants';
-import { News } from '../utils/news';
-import { FilterParamsNews } from '../utils/filter-params';
+import { News } from '../news';
+import { environment } from 'src/environments/environment';
+import { NewsFilterParams } from '../news-filter-params';
 
 @Injectable({
   providedIn: 'root'
@@ -16,18 +16,22 @@ export class NewsService {
     private http: HttpClient
   ) { }
 
-  filter(filters: FilterParamsNews, culturalOfferId: number, page: number): Observable<HttpResponse<News[]>>{
-    return this.http.post<News[]>(`${API_NEWS_BASE}/${culturalOfferId}/filter_news?page=${page}&size=${SMALL_PAGE_SIZE}`, 
-    filters, {observe: "response"}).pipe(
+  private readonly API_NEWS = `${environment.baseUrl}/api/news`;
+  private readonly API_OFFERS = `${environment.baseUrl}/api/cultural_offers`;
+
+  filter(filters: NewsFilterParams, culturalOfferId: number, page: number): Observable<HttpResponse<News[]>>{
+    const params = new HttpParams().set('page', page + '').set('size', SMALL_PAGE_SIZE + '');
+    return this.http.post<News[]>(`${this.API_OFFERS}/${culturalOfferId}/filter_news`, filters, {observe: 'response', params}).pipe(
       catchError(() => of(null))
     );
   }
 
-  delete(id: number): Observable<null>{
-    return this.http.delete<null>(`${API_NEWS}/${id}`);
+  save(culturalOfferId: number, data: FormData): Observable<null>{
+    return this.http.post<null>( `${this.API_OFFERS}/${culturalOfferId}/news`, data);
   }
 
-  save(culturalOfferId: number, data: FormData): Observable<null>{
-    return this.http.post<null>( `${API_NEWS_BASE}/${culturalOfferId}/news`, data);
+  delete(id: number): Observable<null>{
+    return this.http.delete<null>(`${this.API_NEWS}/${id}`);
   }
+
 }

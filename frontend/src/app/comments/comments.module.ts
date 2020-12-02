@@ -7,16 +7,16 @@ import { CommentFormComponent } from './comment-form/comment-form.component';
 
 @NgModule({
   declarations: [
-    CommentDetailsComponent, 
+    CommentDetailsComponent,
     CommentListComponent,
     CommentFormComponent,
     StarRatingComponent
   ],
   imports: [
     LayoutModule
-  ], 
+  ],
   exports: [
-    CommentListComponent, 
+    CommentListComponent,
     CommentFormComponent
   ]
 })

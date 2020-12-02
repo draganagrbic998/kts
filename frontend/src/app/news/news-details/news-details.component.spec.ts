@@ -16,7 +16,7 @@ describe('NewsDetailsComponent', () => {
       imports: [
         LayoutModule
       ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA], 
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: NewsService, useValue: newsServiceMock}
       ]
@@ -28,11 +28,11 @@ describe('NewsDetailsComponent', () => {
     fixture = TestBed.createComponent(NewsDetailsComponent);
     component = fixture.componentInstance;
     component.news = {
-      id: null, 
-      createdAt: null, 
-      text: null, 
+      id: null,
+      createdAt: null,
+      text: null,
       images: []
-    }
+    };
     fixture.detectChanges();
   });
 

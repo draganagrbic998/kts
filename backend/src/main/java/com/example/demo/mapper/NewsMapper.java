@@ -9,7 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.dto.NewsDTO;
 import com.example.demo.dto.NewsUploadDTO;
-import com.example.demo.model.CulturalOffer;
 import com.example.demo.model.News;
 import com.example.demo.repository.CulturalOfferRepository;
 import com.example.demo.repository.ImageRepository;
@@ -29,16 +28,12 @@ public class NewsMapper {
 
 	@Transactional(readOnly = true)
 	public News map(long culturalOfferId, NewsUploadDTO newsDTO) {
-		CulturalOffer culturalOffer = this.culturalOfferRepository.findById(culturalOfferId).get();
 		News news = new News();
 		news.setId(newsDTO.getId());
 		news.setText(newsDTO.getText());
-		news.setCulturalOffer(culturalOffer);
-
+		news.setCulturalOffer(this.culturalOfferRepository.findById(culturalOfferId).get());
 		if (newsDTO.getImagePaths() != null) {
-			for (String image : newsDTO.getImagePaths()) {
-				news.addImage(this.imageRepository.findByPath(image));
-			}
+			newsDTO.getImagePaths().stream().forEach(image -> news.addImage(this.imageRepository.findByPath(image)));
 		}
 		return news;
 	}

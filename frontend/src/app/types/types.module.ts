@@ -8,14 +8,14 @@ import { TypeFormComponent } from './type-form/type-form.component';
 @NgModule({
   declarations: [
     TypeDetailsComponent,
-    TypeListComponent, 
-    TypeDialogComponent, 
+    TypeListComponent,
+    TypeDialogComponent,
     TypeFormComponent
   ],
   imports: [
     LayoutModule
   ],
-  exports :[
+  exports: [
     TypeDialogComponent
   ]
 })

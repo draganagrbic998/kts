@@ -12,8 +12,8 @@ export class ImageInputComponent implements OnInit {
   @Input() image: string;
   @Input() smallImage: boolean;
   @Input() profile: boolean;
-  @Output() onAddImage: EventEmitter<Blob> = new EventEmitter();
-  @Output() onRemoveImage: EventEmitter<null> = new EventEmitter();
+  @Output() changed: EventEmitter<Blob> = new EventEmitter();
+  @Output() removed: EventEmitter<null> = new EventEmitter();
 
   ngOnInit(): void {
   }
