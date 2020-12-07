@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -50,13 +51,13 @@ public class CategoryController {
 	}
 	
 	@PostMapping(value = "")
-	public ResponseEntity<HttpStatus> save(@RequestBody CategoryDTO categoryDTO){
+	public ResponseEntity<Void> save(@Valid @RequestBody CategoryDTO categoryDTO){
 		this.categoryService.save(this.categoryMapper.map(categoryDTO));
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
+	public ResponseEntity<Void> delete(@PathVariable long id) {
 		this.categoryService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

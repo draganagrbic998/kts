@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -51,13 +52,13 @@ public class CommentController {
 	
 	@PreAuthorize("hasAuthority('guest')")
 	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/comment")
-	public ResponseEntity<Double> save(@PathVariable long culturalOfferId, @ModelAttribute CommentUploadDTO commentDTO) {
+	public ResponseEntity<Double> save(@PathVariable long culturalOfferId, @Valid @ModelAttribute CommentUploadDTO commentDTO) {
 		return new ResponseEntity<>(this.commentService.save(this.commentMapper.map(culturalOfferId, commentDTO), commentDTO.getImages()), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('guest')")
 	@DeleteMapping(value = "/api/comments/{id}")
-	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
+	public ResponseEntity<Void> delete(@PathVariable long id) {
 		this.commentService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

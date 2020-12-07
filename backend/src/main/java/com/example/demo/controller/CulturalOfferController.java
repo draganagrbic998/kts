@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -68,13 +69,13 @@ public class CulturalOfferController {
 	
 	@PreAuthorize("hasAuthority('admin')")
 	@PostMapping(value = "")
-	public ResponseEntity<CulturalOfferDTO> save(@ModelAttribute CulturalOfferUploadDTO culturalOfferDTO) {
+	public ResponseEntity<CulturalOfferDTO> save(@Valid @ModelAttribute CulturalOfferUploadDTO culturalOfferDTO) {
 		return new ResponseEntity<>(new CulturalOfferDTO(this.culturalOfferService.save(this.culturalOfferMapper.map(culturalOfferDTO), culturalOfferDTO.getImage())), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('admin')")
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
+	public ResponseEntity<Void> delete(@PathVariable long id) {
 		this.culturalOfferService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

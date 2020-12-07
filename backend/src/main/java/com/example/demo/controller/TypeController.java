@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,14 +53,14 @@ public class TypeController {
 	}
 	
 	@PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<HttpStatus> save(@ModelAttribute TypeUploadDTO typeDTO) {
+	public ResponseEntity<Void> save(@Valid @ModelAttribute TypeUploadDTO typeDTO) {
 		Type type = this.typeMapper.map(typeDTO);
 		this.typeService.save(type,typeDTO.getPlacemarkIcon());
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
+	public ResponseEntity<Void> delete(@PathVariable long id) {
 		this.typeService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

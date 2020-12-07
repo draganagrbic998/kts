@@ -2,12 +2,17 @@ package com.example.demo.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class NewsUploadDTO {
 
 	private Long id;
+	
+	@NotBlank
 	private String text;
+	
 	private List<MultipartFile> images;
 	private List<String> imagePaths;
 

@@ -2,13 +2,22 @@ package com.example.demo.dto;
 
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.web.multipart.MultipartFile;
+
+import com.sun.istack.NotNull;
 
 public class CommentUploadDTO {
 
 	private Long id;
+	
+	@NotNull
 	private int rate;
+	
+	@NotBlank
 	private String text;
+	
 	private List<MultipartFile> images;
 	private List<String> imagePaths;
 	

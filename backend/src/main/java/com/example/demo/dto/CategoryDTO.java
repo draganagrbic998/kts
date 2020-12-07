@@ -1,10 +1,14 @@
 package com.example.demo.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import com.example.demo.model.Category;
 
 public class CategoryDTO {
 	
 	private Long id;
+	
+	@NotBlank
 	private String name;
 	
 	public CategoryDTO() {

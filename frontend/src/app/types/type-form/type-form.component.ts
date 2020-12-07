@@ -7,7 +7,7 @@ import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR
 import { Image } from 'src/app/utils/image';
 import { TypeValidatorService } from '../services/type-validator.service';
 import { TypeService } from '../services/type.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CategoryValidatorService } from 'src/app/categories/services/category-validator.service';
 
 @Component({
@@ -50,7 +50,7 @@ export class TypeFormComponent implements OnInit {
 
   fetchCategories(): void{
     const value: string = this.typeForm.get('category').value.trim().toLowerCase();
-    this.categories = this.categoryService.filterNames(value);
+    this.categories = value.length ? this.categoryService.filterNames(value) : of([]);
   }
 
   save(): void{

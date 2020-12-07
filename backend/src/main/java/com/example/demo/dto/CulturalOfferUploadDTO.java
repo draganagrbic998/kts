@@ -1,16 +1,32 @@
 package com.example.demo.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.web.multipart.MultipartFile;
+
+import com.sun.istack.NotNull;
 
 public class CulturalOfferUploadDTO {
 
 	private Long id;
+	
+	@NotBlank
 	private String type;
+	
+	@NotBlank
 	private String name;
+	
 	private String description;
+	
+	@NotBlank
 	private String location;
+	
+	@NotNull
 	private double lat;
+	
+	@NotNull
 	private double lng;
+	
 	private MultipartFile image;
 	private String imagePath;
 	

@@ -1,11 +1,17 @@
 package com.example.demo.dto;
 
+import javax.validation.constraints.NotBlank;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class TypeUploadDTO {
 	
+	@NotBlank
 	private String name;
+	
+	@NotBlank
 	private String category;
+	
 	private MultipartFile placemarkIcon;
 	
 	public TypeUploadDTO() {

@@ -31,32 +31,17 @@ export class CulturalListComponent implements OnInit {
 
   fetchNames(): void{
     const value: string = this.filterForm.get('name').value.trim().toLowerCase();
-    if (value.length){
-      this.names = this.culturalService.filterNames(value);
-    }
-    else{
-      this.names = of([]);
-    }
+    this.names = value.length ? this.culturalService.filterNames(value) : of([]);
   }
 
   fetchLocations(): void{
     const value: string = this.filterForm.get('location').value.trim().toLowerCase();
-    if (value.length){
-      this.locations = this.culturalService.filterLocations(value);
-    }
-    else{
-      this.locations = of([]);
-    }
+    this.locations = value.length ? this.culturalService.filterLocations(value) : of([]);
   }
 
   fetchTypes(): void{
     const value: string = this.filterForm.get('type').value.trim().toLowerCase();
-    if (value.length){
-      this.types = this.culturalService.filterTypes(value);
-    }
-    else{
-      this.types = of([]);
-    }
+    this.types = value.length ? this.culturalService.filterTypes(value) : of([]);
   }
 
   ngOnInit(): void {

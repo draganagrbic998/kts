@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -52,14 +53,14 @@ public class NewsController {
 
 	@PreAuthorize("hasAuthority('admin')")
 	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/news")
-	public ResponseEntity<HttpStatus> save(@PathVariable long culturalOfferId, @ModelAttribute NewsUploadDTO newsDTO) {
+	public ResponseEntity<Void> save(@PathVariable long culturalOfferId, @Valid @ModelAttribute NewsUploadDTO newsDTO) {
 		this.newsService.save(this.newsMapper.map(culturalOfferId, newsDTO), newsDTO.getImages());		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('admin')")
 	@DeleteMapping(value = "api/news/{id}")
-	public ResponseEntity<HttpStatus> delete(@PathVariable long id) {
+	public ResponseEntity<Void> delete(@PathVariable long id) {
 		this.newsService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

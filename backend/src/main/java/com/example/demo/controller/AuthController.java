@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,7 +43,7 @@ public class AuthController {
 	private AuthenticationManager authManager;
 	
 	@PostMapping(value = "/login")
-	public ResponseEntity<ProfileDTO> login(@RequestBody LoginDTO loginDTO){
+	public ResponseEntity<ProfileDTO> login(@Valid @RequestBody LoginDTO loginDTO){
 		this.authManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
 		String accessToken = this.tokenUtils.generateToken(loginDTO.getEmail());
 		User user = (User) this.userService.loadUserByUsername(loginDTO.getEmail());
@@ -49,13 +51,13 @@ public class AuthController {
 	}
 	
 	@PostMapping(value = "/register")
-	public ResponseEntity<HttpStatus> register(@RequestBody RegisterDTO registerDTO){
+	public ResponseEntity<Void> register(@Valid @RequestBody RegisterDTO registerDTO){
 		this.userService.register(this.userMapper.map(registerDTO));
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/activate/{code}")
-	public ResponseEntity<HttpStatus> activate(@PathVariable String code){
+	public ResponseEntity<Void> activate(@PathVariable String code){
 		this.userService.activate(code);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

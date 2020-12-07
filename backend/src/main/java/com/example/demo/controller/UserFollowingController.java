@@ -48,7 +48,7 @@ public class UserFollowingController {
 	}
 	
 	@PostMapping(value = "/{culturalOfferId}/toggle_subscription")
-	public ResponseEntity<HttpStatus> toggleSubscription(@PathVariable long culturalOfferId){
+	public ResponseEntity<Void> toggleSubscription(@PathVariable long culturalOfferId){
 		this.userFollowingService.toggleSubscription(culturalOfferId);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, Inject, AfterViewInit, ViewChild }
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { ImageService } from 'src/app/services/image.service';
 import { TypeValidatorService } from 'src/app/types/services/type-validator.service';
 import { TypeService } from 'src/app/types/services/type.service';
@@ -58,7 +58,7 @@ export class CulturalFormComponent implements AfterViewInit {
 
   fetchTypes(): void{
     const value: string = this.culturalForm.get('type').value.trim().toLowerCase();
-    this.types = this.typeService.filterNames(value);
+    this.types = value.length ? this.typeService.filterNames(value) : of([]);
   }
 
   changeImage(upload: Blob): void{
