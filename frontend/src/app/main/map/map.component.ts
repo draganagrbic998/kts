@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { CulturalDialogComponent } from 'src/app/cultural-offers/cultural-dialog/cultural-dialog.component';
-import { CulturalOffer } from 'src/app/cultural-offers/utils/cultural-offer';
-import { DIALOG_OPTIONS } from 'src/app/utils/constants';
+import { CulturalOffer } from 'src/app/models/cultural-offer';
 
 @Component({
   selector: 'app-map',

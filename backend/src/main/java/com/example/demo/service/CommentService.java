@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,10 +13,10 @@ import com.example.demo.model.Comment;
 import com.example.demo.model.Image;
 import com.example.demo.repository.CommentRepository;
 
-@Component
+@Service
 @Transactional(readOnly = true)
 public class CommentService {
-	
+		
 	@Autowired
 	private CommentRepository commentRepository;
 	
@@ -36,10 +36,7 @@ public class CommentService {
 					Image image = new Image(this.imageService.store(upload));
 					comment.addImage(image);
 					this.imageService.save(image);
-				} 
-				catch (Exception e) {
-					;
-				}
+				} catch(Exception e) {};
 			});
 		}
 		this.commentRepository.save(comment);
@@ -47,8 +44,10 @@ public class CommentService {
 	}
 
 	@Transactional(readOnly = false)
-	public void delete(long id) {
+	public double delete(long id) {
+		long culturalOfferId = this.commentRepository.findById(id).get().getCulturalOffer().getId();
 		this.commentRepository.deleteById(id);
+		return this.commentRepository.totalRate(culturalOfferId);
 	}
 		
 }

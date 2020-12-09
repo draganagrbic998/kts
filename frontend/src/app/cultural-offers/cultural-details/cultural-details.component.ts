@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CulturalOffer } from '../utils/cultural-offer';
+import { CulturalOffer } from 'src/app/models/cultural-offer';
 
 @Component({
   selector: 'app-cultural-details',

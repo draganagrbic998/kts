@@ -1,9 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
-import { CategoryService } from '../services/category.service';
-import { CategoryValidatorService } from '../services/category-validator.service';
+import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
+import { CategoryService } from 'src/app/services/category/category.service';
+import { CategoryValidatorService } from 'src/app/validators/category/category-validator.service';
 
 @Component({
   selector: 'app-category-form',
@@ -34,6 +34,7 @@ export class CategoryFormComponent implements OnInit {
         this.savePending = false;
         this.saved.emit();
         this.snackBar.open('Category successfully added!', SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
+        this.categoryForm.reset();
       },
       () => {
         this.savePending = false;

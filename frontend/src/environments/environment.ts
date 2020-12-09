@@ -4,7 +4,14 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:8080'
+  baseUrl: 'http://localhost:8080',
+  apiAuth: 'auth',
+  apiUser: 'api/user',
+  apiCategories: 'api/categories',
+  apiTypes: 'api/types',
+  apiCulturalOffers: 'api/cultural_offers',
+  apiComments: 'api/comments',
+  apiNews: 'api/news'
 };
 
 /*

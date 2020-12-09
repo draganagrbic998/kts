@@ -1,0 +1,1 @@
+insert into category_table (name) values ('test');

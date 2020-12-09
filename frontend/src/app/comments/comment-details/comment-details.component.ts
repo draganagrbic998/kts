@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
-import { AuthService } from 'src/app/services/auth.service';
-import { DIALOG_OPTIONS } from 'src/app/utils/constants';
+import { Comment } from 'src/app/models/comment';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { CommentService } from 'src/app/services/comment/comment.service';
 import { CommentFormComponent } from '../comment-form/comment-form.component';
-import { CommentService } from '../services/comment.service';
-import { Comment } from '../comment';
 
 @Component({
   selector: 'app-comment-details',
@@ -44,8 +44,8 @@ export class CommentDetailsComponent implements OnInit {
     const options = {...DIALOG_OPTIONS, ...{data: () => this.commentService.delete(this.comment.id)}};
     const dialog: MatDialogRef<DeleteConfirmationComponent> = this.dialog.open(DeleteConfirmationComponent, options);
     dialog.componentInstance.deleted.subscribe(
-      () => {
-        this.refreshData.emit();
+      (totalRate: number) => {
+        this.refreshData.emit(totalRate);
       }
     );
   }

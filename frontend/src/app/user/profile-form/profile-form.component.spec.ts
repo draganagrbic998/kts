@@ -1,14 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { ProfileFormComponent } from './profile-form.component';
-
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { UserService } from '../services/user.service';
-import { UserValidatorService } from '../services/user-validator.service';
-import { AuthService } from 'src/app/services/auth.service';
 import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProfileFormComponent } from './profile-form.component';
+import { LayoutModule } from 'src/app/layout/layout.module';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { UserValidatorService } from 'src/app/validators/user/user-validator.service';
 
 describe('ProfileFormComponent', () => {
   let component: ProfileFormComponent;

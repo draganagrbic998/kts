@@ -1,8 +1,8 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/utils/constants';
-import { TypeService } from '../services/type.service';
-import { Type } from '../type';
+import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/constants/pagination';
+import { Type } from 'src/app/models/type';
+import { TypeService } from 'src/app/services/type/type.service';
 
 @Component({
   selector: 'app-type-list',

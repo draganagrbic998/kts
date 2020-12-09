@@ -2,18 +2,20 @@ import { Component, ElementRef, EventEmitter, Inject, AfterViewInit, ViewChild }
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, of } from 'rxjs';
-import { ImageService } from 'src/app/services/image.service';
-import { TypeValidatorService } from 'src/app/types/services/type-validator.service';
-import { TypeService } from 'src/app/types/services/type.service';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
-import { Image } from 'src/app/utils/image';
-import { CulturalValidatorService } from '../services/cultural-validator.service';
-import { CulturalService } from '../services/cultural.service';
-import { CulturalOffer } from '../utils/cultural-offer';
-import { Geolocation } from '../utils/geolocation';
-import { ALGOLIA_API_ID, ALGOLIA_API_KEY } from '../utils/constants';
+import { Observable, of, Subject } from 'rxjs';
 import places, { PlacesInstance } from 'places.js';
+import { CulturalOffer } from 'src/app/models/cultural-offer';
+import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
+import { TypeService } from 'src/app/services/type/type.service';
+import { ImageService } from 'src/app/services/image/image.service';
+import { CulturalValidatorService } from 'src/app/validators/cultural-offer/cultural-validator.service';
+import { TypeValidatorService } from 'src/app/validators/type/type-validator.service';
+import { Geolocation } from 'src/app/models/geolocation';
+import { Image } from 'src/app/models/image';
+import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
+import { ALGOLIA_API_ID, ALGOLIA_API_KEY } from 'src/app/constants/algolia';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { AUTOCOMPLETE_DEBOUNCE, AUTOCOMPLETE_LENGTH } from 'src/app/constants/autocomplete';
 
 @Component({
   selector: 'app-cultural-form',
@@ -50,16 +52,18 @@ export class CulturalFormComponent implements AfterViewInit {
 
   savePending = false;
   onSaved: EventEmitter<CulturalOffer> = new EventEmitter();
-  types: Observable<string[]>;
   image: Image = {upload: null, path: this.culturalOffer.image};
+
+  typeFilters: Subject<string> = new Subject<string>();
+  types: Observable<string[]> = this.typeFilters.pipe(
+    debounceTime(AUTOCOMPLETE_DEBOUNCE),
+    distinctUntilChanged(),
+    switchMap((filter: string) => filter.length >= AUTOCOMPLETE_LENGTH ?
+    this.typeService.filterNames(filter) : of([]))
+  );
 
   @ViewChild('locationInput') locationInput: ElementRef<HTMLInputElement>;
   locationAutocomplete: PlacesInstance;
-
-  fetchTypes(): void{
-    const value: string = this.culturalForm.get('type').value.trim().toLowerCase();
-    this.types = value.length ? this.typeService.filterNames(value) : of([]);
-  }
 
   changeImage(upload: Blob): void{
     this.image.upload = upload;

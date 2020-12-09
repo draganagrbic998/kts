@@ -35,7 +35,7 @@
                 formControlName="name"
                 placeholder="Filter by name..."
                 [matAutocomplete]="names_auto"
-                (input)="fetchNames()">  
+                (input)="nameFilters.next(filterForm.get('name').value.trim())">  
                 <mat-autocomplete #names_auto="matAutocomplete">
                     <mat-option *ngFor="let name of names | async" [value]="name">
                       {{name}}
@@ -52,7 +52,7 @@
                 formControlName="location"
                 placeholder="Filter by location..."
                 [matAutocomplete]="location_auto"
-                (input)="fetchLocations()">  
+                (input)="locationFilters.next(filterForm.get('location').value.trim())">  
                 <mat-autocomplete #location_auto="matAutocomplete">
                     <mat-option *ngFor="let location of locations | async" [value]="location">
                       {{location}}
@@ -69,7 +69,7 @@
                 formControlName="type"
                 placeholder="Filter by type..."
                 [matAutocomplete]="types_auto"
-                (input)="fetchTypes()">  
+                (input)="typeFilters.next(filterForm.get('type').value.trim())">  
                 <mat-autocomplete #types_auto="matAutocomplete">
                     <mat-option *ngFor="let type of types | async" [value]="type">
                       {{type}}
@@ -101,3 +101,4 @@
 (markOnMap)="markOnMap.emit(culturalOffer)"
 ></app-cultural-details>
 
+<div class="block"></div>

@@ -1,9 +1,9 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/utils/constants';
-import { NewsService } from '../services/news.service';
-import { News } from '../news';
+import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/constants/pagination';
+import { News } from 'src/app/models/news';
+import { NewsService } from 'src/app/services/news/news.service';
 
 @Component({
   selector: 'app-news-list',

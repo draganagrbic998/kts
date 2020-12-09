@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { CulturalService } from '../services/cultural.service';
-import { CulturalOffer } from '../utils/cultural-offer';
+import { Observable, of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { AUTOCOMPLETE_DEBOUNCE, AUTOCOMPLETE_LENGTH } from 'src/app/constants/autocomplete';
+import { CulturalOffer } from 'src/app/models/cultural-offer';
+import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
 
 @Component({
   selector: 'app-cultural-list',
@@ -25,24 +27,28 @@ export class CulturalListComponent implements OnInit {
   @Output() filterData: EventEmitter<null> = new EventEmitter();
   @Output() markOnMap: EventEmitter<CulturalOffer> = new EventEmitter();
 
-  names: Observable<string[]>;
-  locations: Observable<string[]>;
-  types: Observable<string[]>;
+  nameFilters: Subject<string> = new Subject<string>();
+  locationFilters: Subject<string> = new Subject<string>();
+  typeFilters: Subject<string> = new Subject<string>();
 
-  fetchNames(): void{
-    const value: string = this.filterForm.get('name').value.trim().toLowerCase();
-    this.names = value.length ? this.culturalService.filterNames(value) : of([]);
-  }
-
-  fetchLocations(): void{
-    const value: string = this.filterForm.get('location').value.trim().toLowerCase();
-    this.locations = value.length ? this.culturalService.filterLocations(value) : of([]);
-  }
-
-  fetchTypes(): void{
-    const value: string = this.filterForm.get('type').value.trim().toLowerCase();
-    this.types = value.length ? this.culturalService.filterTypes(value) : of([]);
-  }
+  names: Observable<string[]> = this.nameFilters.pipe(
+    debounceTime(AUTOCOMPLETE_DEBOUNCE),
+    distinctUntilChanged(),
+    switchMap((filter: string) => filter.length >= AUTOCOMPLETE_LENGTH ?
+    this.culturalService.filterNames(filter) : of([]))
+  );
+  locations: Observable<string[]> = this.locationFilters.pipe(
+    debounceTime(AUTOCOMPLETE_DEBOUNCE),
+    distinctUntilChanged(),
+    switchMap((filter: string) => filter.length >= AUTOCOMPLETE_LENGTH ?
+    this.culturalService.filterLocations(filter) : of([]))
+  );
+  types: Observable<string[]> = this.typeFilters.pipe(
+    debounceTime(AUTOCOMPLETE_DEBOUNCE),
+    distinctUntilChanged(),
+    switchMap((filter: string) => filter.length >= AUTOCOMPLETE_LENGTH ?
+    this.culturalService.filterTypes(filter) : of([]))
+  );
 
   ngOnInit(): void {
   }

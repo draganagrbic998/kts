@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,7 +14,7 @@ import com.example.demo.constants.Constants;
 import com.example.demo.model.Image;
 import com.example.demo.repository.ImageRepository;
 
-@Component
+@Service
 @Transactional(readOnly = true)
 public class ImageService {
 	

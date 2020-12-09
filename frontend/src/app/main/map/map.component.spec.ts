@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
 import { MapComponent } from './map.component';
 import { LayoutModule } from 'src/app/layout/layout.module';
 

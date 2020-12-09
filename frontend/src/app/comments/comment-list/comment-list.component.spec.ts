@@ -2,8 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { CommentService } from '../services/comment.service';
-
+import { CommentService } from 'src/app/services/comment/comment.service';
 import { CommentListComponent } from './comment-list.component';
 
 describe('CommentListComponent', () => {

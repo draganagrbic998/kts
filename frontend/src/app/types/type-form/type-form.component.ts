@@ -1,14 +1,16 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { CategoryService } from 'src/app/categories/services/category.service';
-import { ImageService } from 'src/app/services/image.service';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
-import { Image } from 'src/app/utils/image';
-import { TypeValidatorService } from '../services/type-validator.service';
-import { TypeService } from '../services/type.service';
-import { Observable, of } from 'rxjs';
-import { CategoryValidatorService } from 'src/app/categories/services/category-validator.service';
+import { Observable, of, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { AUTOCOMPLETE_DEBOUNCE, AUTOCOMPLETE_LENGTH } from 'src/app/constants/autocomplete';
+import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
+import { Image } from 'src/app/models/image';
+import { CategoryService } from 'src/app/services/category/category.service';
+import { ImageService } from 'src/app/services/image/image.service';
+import { TypeService } from 'src/app/services/type/type.service';
+import { CategoryValidatorService } from 'src/app/validators/category/category-validator.service';
+import { TypeValidatorService } from 'src/app/validators/type/type-validator.service';
 
 @Component({
   selector: 'app-type-form',
@@ -33,7 +35,14 @@ export class TypeFormComponent implements OnInit {
   savePending = false;
   @Output() saved: EventEmitter<null> = new EventEmitter();
   image: Image = {path: '', upload: null};
-  categories: Observable<string[]>;
+
+  categoryFilters: Subject<string> = new Subject<string>();
+  categories: Observable<string[]> = this.categoryFilters.pipe(
+    debounceTime(AUTOCOMPLETE_DEBOUNCE),
+    distinctUntilChanged(),
+    switchMap((filter: string) => filter.length >= AUTOCOMPLETE_LENGTH ?
+    this.categoryService.filterNames(filter) : of([]))
+  );
 
   changeImage(upload: Blob): void{
     this.image.upload = upload;
@@ -46,11 +55,6 @@ export class TypeFormComponent implements OnInit {
   removeImage(): void{
     this.image.upload = null;
     this.image.path = null;
-  }
-
-  fetchCategories(): void{
-    const value: string = this.typeForm.get('category').value.trim().toLowerCase();
-    this.categories = value.length ? this.categoryService.filterNames(value) : of([]);
   }
 
   save(): void{
@@ -72,6 +76,7 @@ export class TypeFormComponent implements OnInit {
         this.savePending = false;
         this.saved.emit();
         this.snackBar.open('Type successfully added!', SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
+        this.typeForm.reset();
       },
       () => {
         this.savePending = false;
@@ -81,7 +86,6 @@ export class TypeFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchCategories();
   }
 
 }

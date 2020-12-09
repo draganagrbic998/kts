@@ -3,9 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { UserValidatorService } from '../services/user-validator.service';
-import { UserService } from '../services/user.service';
-
+import { UserService } from 'src/app/services/user/user.service';
+import { UserValidatorService } from 'src/app/validators/user/user-validator.service';
 import { RegisterFormComponent } from './register-form.component';
 
 describe('RegisterFormComponent', () => {

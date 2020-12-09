@@ -1,9 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
-import { USER_PATH } from '../utils/router';
-import { LOGIN_PATH, PROFILE_PATH } from './utils/router';
+import { LOGIN_PATH, PROFILE_PATH, USER_PATH } from '../constants/router';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-user',

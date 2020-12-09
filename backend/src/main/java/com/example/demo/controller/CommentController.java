@@ -58,9 +58,8 @@ public class CommentController {
 
 	@PreAuthorize("hasAuthority('guest')")
 	@DeleteMapping(value = "/api/comments/{id}")
-	public ResponseEntity<Void> delete(@PathVariable long id) {
-		this.commentService.delete(id);
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<Double> delete(@PathVariable long id) {
+		return new ResponseEntity<>(this.commentService.delete(id), HttpStatus.OK);
 	}
 		
 }

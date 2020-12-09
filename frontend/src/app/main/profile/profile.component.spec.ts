@@ -3,8 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { AuthService } from 'src/app/services/auth.service';
-
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { ProfileComponent } from './profile.component';
 
 describe('ProfileComponent', () => {

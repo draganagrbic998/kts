@@ -2,8 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { CategoryService } from '../services/category.service';
-
+import { CategoryService } from 'src/app/services/category/category.service';
 import { CategoryFormComponent } from './category-form.component';
 
 describe('CategoryFormComponent', () => {
