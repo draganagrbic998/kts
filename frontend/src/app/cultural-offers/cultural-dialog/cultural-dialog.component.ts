@@ -1,19 +1,18 @@
 import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CulturalOffer } from '../utils/cultural-offer';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { UserFollowingService } from '../services/user-following.service';
-import { DIALOG_OPTIONS, ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/utils/constants';
-import { AuthService } from 'src/app/services/auth.service';
-import { CulturalService } from '../services/cultural.service';
-import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
 import { Router } from '@angular/router';
-import { LOGIN_PATH } from 'src/app/user/utils/router';
-import { USER_PATH } from 'src/app/utils/router';
-import { CommentListComponent } from 'src/app/comments/comment-list/comment-list.component';
 import { CommentFormComponent } from 'src/app/comments/comment-form/comment-form.component';
-import { NewsListComponent } from 'src/app/news/news-list/news-list.component';
+import { CommentListComponent } from 'src/app/comments/comment-list/comment-list.component';
+import { DIALOG_OPTIONS, ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/constants/dialog';
+import { LOGIN_PATH, USER_PATH } from 'src/app/constants/router';
+import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
+import { CulturalOffer } from 'src/app/models/cultural-offer';
 import { NewsFormComponent } from 'src/app/news/news-form/news-form.component';
+import { NewsListComponent } from 'src/app/news/news-list/news-list.component';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
+import { UserFollowingService } from 'src/app/services/user-following/user-following.service';
 import { CulturalFormComponent } from '../cultural-form/cultural-form.component';
 
 @Component({
@@ -75,7 +74,7 @@ export class CulturalDialogComponent implements OnInit {
       () => {
         this.toggleSubPending = false;
         this.culturalOffer.followed = !this.culturalOffer.followed;
-        this.onRefreshData.emit(this.culturalOffer.followed ? this.culturalOffer : this.culturalOffer.id);
+        this.onRefreshData.emit(this.culturalOffer);
       },
       () => {
         this.toggleSubPending = false;

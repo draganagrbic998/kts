@@ -17,10 +17,8 @@ public class ProfileUploadDTO {
 	@NotBlank
 	private String lastName;
 	
-	@NotBlank
 	private String oldPassword;
 	
-	@NotBlank
 	private String newPassword;
 	
 	private MultipartFile image;

@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
-import { UserValidatorService } from '../services/user-validator.service';
-import { UserService } from '../services/user.service';
+import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
+import { UserService } from 'src/app/services/user/user.service';
+import { UserValidatorService } from 'src/app/validators/user/user-validator.service';
 
 @Component({
   selector: 'app-register-form',
@@ -38,6 +38,7 @@ export class RegisterFormComponent implements OnInit {
         this.registerPending = false;
         this.snackBar.open('Your request has been sent! Check your email.',
         SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
+        this.registerForm.reset();
       },
       () => {
         this.registerPending = false;

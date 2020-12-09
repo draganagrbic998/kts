@@ -4,11 +4,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { TypeValidatorService } from 'src/app/types/services/type-validator.service';
-import { TypeService } from 'src/app/types/services/type.service';
-import { CulturalValidatorService } from '../services/cultural-validator.service';
-import { CulturalService } from '../services/cultural.service';
-
+import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
+import { TypeService } from 'src/app/services/type/type.service';
+import { CulturalValidatorService } from 'src/app/validators/cultural-offer/cultural-validator.service';
+import { TypeValidatorService } from 'src/app/validators/type/type-validator.service';
 import { CulturalFormComponent } from './cultural-form.component';
 
 describe('CulturalFormComponent', () => {

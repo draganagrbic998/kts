@@ -13,6 +13,7 @@ import { SpacerContainerComponent } from './spacer-container/spacer-container.co
 import { SpinnerButtonComponent } from './spinner-button/spinner-button.component';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { ImageComponent } from './image/image.component';
+import { EmptyContainerComponent } from './empty-container/empty-container.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -32,7 +33,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CarouselModule } from 'ng-uikit-pro-standard';
-import { EmptyContainerComponent } from './empty-container/empty-container.component';
 
 @NgModule({
   declarations: [

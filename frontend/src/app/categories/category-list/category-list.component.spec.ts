@@ -2,8 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { CategoryService } from '../services/category.service';
-
+import { CategoryService } from 'src/app/services/category/category.service';
 import { CategoryListComponent } from './category-list.component';
 
 describe('CategoryListComponent', () => {

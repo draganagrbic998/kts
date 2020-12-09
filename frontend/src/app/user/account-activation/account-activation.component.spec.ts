@@ -4,8 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { UserService } from '../services/user.service';
-
+import { UserService } from 'src/app/services/user/user.service';
 import { AccountActivationComponent } from './account-activation.component';
 
 describe('AccountActivationComponent', () => {

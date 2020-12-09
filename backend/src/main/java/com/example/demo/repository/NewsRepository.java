@@ -6,9 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.News;
 
+@Repository
 public interface NewsRepository extends JpaRepository<News, Long> {
 
     @Query("select n from News n where (n.createdAt >= :startDate or :startDate is null) and (n.createdAt <= :endDate or :endDate is null) and n.culturalOffer.id = :culturalOfferId order by n.createdAt desc")

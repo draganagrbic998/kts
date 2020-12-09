@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
-import { DIALOG_OPTIONS } from 'src/app/utils/constants';
-import { CategoryService } from '../services/category.service';
-import { Category } from '../category';
+import { Category } from 'src/app/models/category';
+import { CategoryService } from 'src/app/services/category/category.service';
 
 @Component({
   selector: 'app-category-details',

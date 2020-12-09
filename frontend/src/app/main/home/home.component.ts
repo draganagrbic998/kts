@@ -1,11 +1,12 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
-import { CulturalOffer } from 'src/app/cultural-offers/utils/cultural-offer';
-import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER, GUEST_ROLE } from 'src/app/utils/constants';
-import { UserFollowingService } from 'src/app/cultural-offers/services/user-following.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/constants/pagination';
+import { GUEST_ROLE } from 'src/app/constants/roles';
+import { CulturalOffer } from 'src/app/models/cultural-offer';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
+import { UserFollowingService } from 'src/app/services/user-following/user-following.service';
 
 @Component({
   selector: 'app-home',
@@ -85,14 +86,21 @@ export class HomeComponent implements OnInit {
   }
 
   refreshData(response: CulturalOffer | number): void{
-    const selectedTab = this.guest ? 1 : 0;
     if (typeof response === 'number'){
-      this.culturalOffers[selectedTab] = this.culturalOffers[selectedTab].filter(co => co.id !== response);
+      this.culturalOffers[0] = this.culturalOffers[0].filter(co => co.id !== response);
     }
     else{
-      const temp: number[] = this.culturalOffers[selectedTab].map(co => co.id);
+      const temp: number[] = this.culturalOffers[0].map(co => co.id);
       const index: number = temp.indexOf(response.id);
-      this.culturalOffers[selectedTab].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);
+      this.culturalOffers[0].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);
+      if (this.guest){
+        if (response.followed){
+          this.culturalOffers[1].push(response);
+        }
+        else{
+          this.culturalOffers[1] = this.culturalOffers[1].filter(co => co.id !== response.id);
+        }
+      }
     }
   }
 

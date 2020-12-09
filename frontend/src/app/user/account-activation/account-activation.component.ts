@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
-import { USER_PATH } from 'src/app/utils/router';
-import { UserService } from '../services/user.service';
-import { LOGIN_PATH } from '../utils/router';
+import { SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
+import { LOGIN_PATH, USER_PATH } from 'src/app/constants/router';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-account-activation',

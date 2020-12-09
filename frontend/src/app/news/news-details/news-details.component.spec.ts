@@ -1,8 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { NewsService } from '../services/news.service';
-
+import { NewsService } from 'src/app/services/news/news.service';
 import { NewsDetailsComponent } from './news-details.component';
 
 describe('NewsDetailsComponent', () => {

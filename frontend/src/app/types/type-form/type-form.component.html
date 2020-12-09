@@ -37,7 +37,7 @@
                 formControlName="category" 
                 placeholder="Enter category"
                 [matAutocomplete]="auto"
-                (input)="fetchCategories()">
+                (input)="categoryFilters.next(typeForm.get('category').value.trim())">
                 <mat-error *ngIf="!typeForm.get('category').hasError('nameError')">
                     Category is required!
                 </mat-error>

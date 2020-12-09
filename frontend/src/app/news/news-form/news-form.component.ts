@@ -2,11 +2,11 @@ import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ImageService } from 'src/app/services/image.service';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/utils/constants';
-import { Image } from 'src/app/utils/image';
-import { NewsService } from '../services/news.service';
-import { News } from '../news';
+import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/constants/dialog';
+import { Image } from 'src/app/models/image';
+import { News } from 'src/app/models/news';
+import { ImageService } from 'src/app/services/image/image.service';
+import { NewsService } from 'src/app/services/news/news.service';
 
 @Component({
   selector: 'app-news-form',

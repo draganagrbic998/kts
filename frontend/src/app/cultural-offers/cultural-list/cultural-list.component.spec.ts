@@ -3,8 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { CulturalService } from '../services/cultural.service';
-
+import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
 import { CulturalListComponent } from './cultural-list.component';
 
 describe('CulturalListComponent', () => {

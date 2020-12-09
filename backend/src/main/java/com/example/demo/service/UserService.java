@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +18,7 @@ import com.example.demo.repository.AccountActivationRepository;
 import com.example.demo.repository.UserFollowingRepository;
 import com.example.demo.repository.UserRepository;
 
-@Component
+@Service
 @Transactional(readOnly = true)
 public class UserService implements UserDetailsService {
 

@@ -3,8 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { CommentService } from '../services/comment.service';
-
+import { CommentService } from 'src/app/services/comment/comment.service';
 import { CommentFormComponent } from './comment-form.component';
 
 describe('CommentFormComponent', () => {

@@ -6,9 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.CulturalOffer;
 
+@Repository
 public interface CulturalOfferRepository extends JpaRepository<CulturalOffer, Long> {
 
 	@Query("select distinct co.name from CulturalOffer co where lower(co.name) like lower(concat('%', :filter, '%'))")

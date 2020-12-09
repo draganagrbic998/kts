@@ -4,9 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { LayoutModule } from 'src/app/layout/layout.module';
-import { CulturalService } from '../services/cultural.service';
-import { UserFollowingService } from '../services/user-following.service';
-
+import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
+import { UserFollowingService } from 'src/app/services/user-following/user-following.service';
 import { CulturalDialogComponent } from './cultural-dialog.component';
 
 describe('CulturalDialogComponent', () => {

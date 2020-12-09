@@ -1,11 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { NewsService } from '../services/news.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { NewsListComponent } from './news-list.component';
+import { LayoutModule } from 'src/app/layout/layout.module';
+import { NewsService } from 'src/app/services/news/news.service';
 
 describe('NewsListComponent', () => {
   let component: NewsListComponent;

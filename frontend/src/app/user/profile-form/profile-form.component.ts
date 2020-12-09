@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AuthService } from 'src/app/services/auth.service';
-import { ImageService } from 'src/app/services/image.service';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/utils/constants';
-import { Image } from 'src/app/utils/image';
-import { User } from 'src/app/utils/user';
-import { UserValidatorService } from '../services/user-validator.service';
-import { UserService } from '../services/user.service';
+import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
+import { Image } from 'src/app/models/image';
+import { User } from 'src/app/models/user';
+import { AuthService } from 'src/app/services/auth/auth.service';
+import { ImageService } from 'src/app/services/image/image.service';
+import { UserService } from 'src/app/services/user/user.service';
+import { UserValidatorService } from 'src/app/validators/user/user-validator.service';
 
 @Component({
   selector: 'app-profile-form',

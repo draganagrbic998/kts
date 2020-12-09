@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
-import { DIALOG_OPTIONS } from 'src/app/utils/constants';
-import { TypeService } from '../services/type.service';
-import { Type } from '../type';
+import { Type } from 'src/app/models/type';
+import { TypeService } from 'src/app/services/type/type.service';
 
 @Component({
   selector: 'app-type-details',
