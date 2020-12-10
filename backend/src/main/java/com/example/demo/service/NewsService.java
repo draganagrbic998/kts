@@ -40,14 +40,9 @@ public class NewsService {
 	public void save(News news, List<MultipartFile> uploads) {
 		if (uploads != null) {
 			uploads.stream().forEach(upload -> {
-				try {
-					Image image = new Image(this.imageService.store(upload));
-					news.addImage(image);
-					this.imageService.save(image);
-				}
-				catch(Exception e) {
-					;
-				}
+				Image image = new Image(this.imageService.store(upload));
+				news.addImage(image);
+				this.imageService.save(image);
 			});
 		}
 		this.newsRepository.save(news);

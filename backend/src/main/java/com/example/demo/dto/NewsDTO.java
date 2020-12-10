@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.example.demo.model.Image;
 import com.example.demo.model.News;
 
 public class NewsDTO {
@@ -21,7 +22,7 @@ public class NewsDTO {
 		this.id = news.getId();
 		this.createdAt = news.getCreatedAt();
 		this.text = news.getText();
-		this.images = news.getImages().stream().map(image -> image.getPath()).collect(Collectors.toList());
+		this.images = news.getImages().stream().map(Image::getPath).collect(Collectors.toList());
 	}
 
 	public long getId() {

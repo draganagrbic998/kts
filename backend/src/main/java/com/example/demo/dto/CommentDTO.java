@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.example.demo.model.Comment;
+import com.example.demo.model.Image;
 
 public class CommentDTO {
 
@@ -25,7 +26,7 @@ public class CommentDTO {
 		this.createdAt = comment.getCreatedAt();
 		this.rate = comment.getRate();
 		this.text = comment.getText();
-		this.images = comment.getImages().stream().map(image -> image.getPath()).collect(Collectors.toList());
+		this.images = comment.getImages().stream().map(Image::getPath).collect(Collectors.toList());
 		this.user = comment.getUser().getEmail();
 	}
 

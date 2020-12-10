@@ -19,7 +19,7 @@ public class CategoryMapper {
 	}
 	
 	public List<CategoryDTO> map(List<Category> categories) {
-		return categories.stream().map(category -> new CategoryDTO(category)).collect(Collectors.toList());
+		return categories.stream().map(CategoryDTO::new).collect(Collectors.toList());
 	}
 	
 }

@@ -34,14 +34,9 @@ public class TypeService {
 	}
 
 	@Transactional(readOnly = false)
-	public void save(Type type,MultipartFile upload) {
+	public void save(Type type, MultipartFile upload) {
 		if(upload != null) {
-			try {
-				type.setPlacemarkIcon(imageService.store(upload));
-			}
-			catch(Exception e) {
-				;
-			}
+			type.setPlacemarkIcon(imageService.store(upload));
 		}
 		this.typeRepository.save(type);
 	}
@@ -53,11 +48,7 @@ public class TypeService {
 	
 	@Transactional(readOnly = true)
 	public boolean hasName(UniqueCheckDTO param) {
-		Type type = this.typeRepository.findByName(param.getName());
-		if (type == null) {
-			return false;
-		}
-		return true;
+		return this.typeRepository.findByName(param.getName()) != null;
 	}
 
 }

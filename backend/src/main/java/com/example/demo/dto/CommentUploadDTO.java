@@ -3,21 +3,20 @@ package com.example.demo.dto;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.sun.istack.NotNull;
-
 public class CommentUploadDTO {
-
+	
 	private Long id;
 	
 	@NotNull
 	private int rate;
-	
+
 	@NotBlank
 	private String text;
-	
+		
 	private List<MultipartFile> images;
 	private List<String> imagePaths;
 	
@@ -64,5 +63,5 @@ public class CommentUploadDTO {
 	public void setImagePaths(List<String> imagePaths) {
 		this.imagePaths = imagePaths;
 	}
-	
+
 }

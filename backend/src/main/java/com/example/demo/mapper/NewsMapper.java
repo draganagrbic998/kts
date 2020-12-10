@@ -23,7 +23,7 @@ public class NewsMapper {
 	private ImageRepository imageRepository;
 
 	public List<NewsDTO> map(List<News> news) {
-		return news.stream().map(newsItem -> new NewsDTO(newsItem)).collect(Collectors.toList());
+		return news.stream().map(NewsDTO::new).collect(Collectors.toList());
 	}
 
 	@Transactional(readOnly = true)
@@ -31,7 +31,7 @@ public class NewsMapper {
 		News news = new News();
 		news.setId(newsDTO.getId());
 		news.setText(newsDTO.getText());
-		news.setCulturalOffer(this.culturalOfferRepository.findById(culturalOfferId).get());
+		news.setCulturalOffer(this.culturalOfferRepository.findById(culturalOfferId).orElse(null));
 		if (newsDTO.getImagePaths() != null) {
 			newsDTO.getImagePaths().stream().forEach(image -> news.addImage(this.imageRepository.findByPath(image)));
 		}

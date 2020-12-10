@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,7 +38,7 @@ public class UserService implements UserDetailsService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) {
 		return this.userRepository.findByEmail(username);	
 	}
 	
@@ -72,23 +71,14 @@ public class UserService implements UserDetailsService {
 	@Transactional(readOnly = false)
 	public User save(User user, MultipartFile upload) {
 		if (upload != null) {
-			try {
-				user.setImage(this.imageService.store(upload));
-			}
-			catch(Exception e) {
-				;
-			}
+			user.setImage(this.imageService.store(upload));
 		}
 		return this.userRepository.save(user);
 	}
 	
 	@Transactional(readOnly = true)
 	public boolean hasEmail(UniqueCheckDTO param) {
-		User user = this.userRepository.hasEmail(param.getId(), param.getName());
-		if (user == null) {
-			return false;
-		}
-		return true;
+		return this.userRepository.hasEmail(param.getId(), param.getName()) != null;
 	}
 		
 	@Transactional(readOnly = true)
@@ -97,7 +87,7 @@ public class UserService implements UserDetailsService {
 		if (user == null) {
 			return false;
 		}
-		if (user.getAuthority().getName() == Constants.ADMIN_AUTHORITY) {
+		if (user.getAuthority().getName().equals(Constants.ADMIN_AUTHORITY)) {
 			return false;
 		}
 		return this.userFollowingRepository.list(user.getId()).stream().anyMatch(co -> co.getId().equals(culturalOffer.getId()));

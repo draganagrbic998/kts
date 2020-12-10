@@ -40,7 +40,7 @@ public class UserMapper {
 		user.setFirstName(userDTO.getFirstName());
 		user.setLastName(userDTO.getLastName());
 		user.setPassword(this.passwordEncoder.encode(userDTO.getPassword()));
-		Set<Authority> authorities = new HashSet<Authority>();
+		Set<Authority> authorities = new HashSet<>();
 		authorities.add(this.authorityRepository.findByName(Constants.GUEST_AUTHORITY));
 		user.setAuthorities(authorities);
 		return user;

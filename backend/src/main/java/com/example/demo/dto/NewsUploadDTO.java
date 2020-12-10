@@ -15,7 +15,7 @@ public class NewsUploadDTO {
 	
 	private List<MultipartFile> images;
 	private List<String> imagePaths;
-
+	
 	public NewsUploadDTO() {
 		super();
 	}
@@ -51,5 +51,5 @@ public class NewsUploadDTO {
 	public void setImagePaths(List<String> imagePaths) {
 		this.imagePaths = imagePaths;
 	}
-
+	
 }

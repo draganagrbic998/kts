@@ -16,30 +16,30 @@ import io.jsonwebtoken.SignatureAlgorithm;
 public class TokenUtils {
 
 	@Value("KTS-NVT-APP")
-	private String APP_NAME;
+	private String appName;
 	
 	@Value("KTS-NVT-SECRET")
-	private String APP_SECRET;
+	private String appSecret;
 	
 	@Value("Authorization")
-	private String AUTH_HEADER;
+	private String authHeader;
 
 	@Value("web")
-	private String AUDIENCE;
+	private String audience;
 		
 	@Value("1000000000")
-	private long EXPIRES_IN;
+	private long expiresIn;
 	
-	private SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS512;
+	private SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS512;
 	
 	public String generateToken(String username) {
 		return Jwts.builder()
 				.setSubject(username)
-				.setIssuer(this.APP_NAME)
-				.setAudience(this.AUDIENCE)
+				.setIssuer(this.appName)
+				.setAudience(this.audience)
 				.setIssuedAt(new Date())
-				.setExpiration(new Date(new Date().getTime() + this.EXPIRES_IN))
-				.signWith(this.SIGNATURE_ALGORITHM, this.APP_SECRET).compact();
+				.setExpiration(new Date(new Date().getTime() + this.expiresIn))
+				.signWith(this.signatureAlgorithm, this.appSecret).compact();
 	}
 	
 	public boolean validateToken(String token, UserDetails user) {
@@ -48,32 +48,22 @@ public class TokenUtils {
 	}
 	
 	public String getToken(HttpServletRequest request) {
-		return request.getHeader(this.AUTH_HEADER);
+		return request.getHeader(this.authHeader);
 	}
 	
 	public String getUsername(String token) {
-		try {
-			return this.getClaims(token).getSubject();
-		}
-		catch(Exception e) {
-			return null;
-		}
+		return this.getClaims(token).getSubject();
 	}
 	
 	private Claims getClaims(String token) {
-		try {
-			return Jwts.parser()
-					.setSigningKey(this.APP_SECRET)
-					.parseClaimsJws(token)
-					.getBody();
-		}
-		catch(Exception e) {
-			return null;
-		}
+		return Jwts.parser()
+				.setSigningKey(this.appSecret)
+				.parseClaimsJws(token)
+				.getBody();
 	}
 
 	public long getExpiresIn() {
-		return this.EXPIRES_IN;
+		return this.expiresIn;
 	}
 	
 }
