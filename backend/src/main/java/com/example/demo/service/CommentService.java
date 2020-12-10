@@ -32,11 +32,9 @@ public class CommentService {
 	public double save(Comment comment, List<MultipartFile> uploads) {
 		if (uploads != null) {
 			uploads.stream().forEach(upload -> {
-				try {
-					Image image = new Image(this.imageService.store(upload));
-					comment.addImage(image);
-					this.imageService.save(image);
-				} catch(Exception e) {};
+				Image image = new Image(this.imageService.store(upload));
+				comment.addImage(image);
+				this.imageService.save(image);
 			});
 		}
 		this.commentRepository.save(comment);
@@ -44,8 +42,9 @@ public class CommentService {
 	}
 
 	@Transactional(readOnly = false)
-	public double delete(long id) {
-		long culturalOfferId = this.commentRepository.findById(id).get().getCulturalOffer().getId();
+	public double delete(long id) {		
+		Comment comment = this.commentRepository.findById(id).orElse(null);
+		long culturalOfferId = comment != null ? comment.getCulturalOffer().getId() : null;
 		this.commentRepository.deleteById(id);
 		return this.commentRepository.totalRate(culturalOfferId);
 	}

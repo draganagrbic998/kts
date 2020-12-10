@@ -32,11 +32,9 @@ public class AuthFilter extends OncePerRequestFilter {
 			String username = this.tokenUtils.getUsername(token);
 			if (username != null) {
 				UserDetails user = this.userService.loadUserByUsername(username);
-				if (user != null) {
-					if (this.tokenUtils.validateToken(token, user)) {
-						AuthToken authToken = new AuthToken(user, token);
-						SecurityContextHolder.getContext().setAuthentication(authToken);
-					}
+				if (user != null && this.tokenUtils.validateToken(token, user)) {
+					AuthToken authToken = new AuthToken(user, token);
+					SecurityContextHolder.getContext().setAuthentication(authToken);
 				}
 			}
 		}

@@ -17,7 +17,7 @@ public class AccountActivationRepositoryTest {
 	
 	@Test
 	public void test() {
-		assertEquals(this.accountActivationRepository.count(), 0);
+		assertEquals(0, this.accountActivationRepository.count());
 	}
 	
 }

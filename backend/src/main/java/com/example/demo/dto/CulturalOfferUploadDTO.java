@@ -1,10 +1,9 @@
 package com.example.demo.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
-
-import com.sun.istack.NotNull;
 
 public class CulturalOfferUploadDTO {
 

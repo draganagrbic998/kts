@@ -36,7 +36,7 @@ public class UserFollowingService {
 		User user = this.userService.currentUser();
 		UserFollowing userFollowing = this.userFollowingRepository.findByUserIdAndCulturalOfferId(user.getId(), culturalOfferId);
 		if (userFollowing == null) {
-			this.userFollowingRepository.save(new UserFollowing(user, this.culturalOfferRepository.findById(culturalOfferId).get()));		
+			this.userFollowingRepository.save(new UserFollowing(user, this.culturalOfferRepository.findById(culturalOfferId).orElse(null)));		
 		}
 		else {
 			this.userFollowingRepository.deleteById(userFollowing.getId());

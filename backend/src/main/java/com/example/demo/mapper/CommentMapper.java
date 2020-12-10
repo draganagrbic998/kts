@@ -27,14 +27,14 @@ public class CommentMapper {
 	private UserService userService;
 
 	public List<CommentDTO> map(List<Comment> comments){
-		return comments.stream().map(comment -> new CommentDTO(comment)).collect(Collectors.toList());
+		return comments.stream().map(CommentDTO::new).collect(Collectors.toList());
 	}
 	
 	@Transactional(readOnly = true)
 	public Comment map(long culturalOfferId, CommentUploadDTO commentDTO) {
 		Comment comment = new Comment();
 		comment.setUser(this.userService.currentUser());
-		comment.setCulturalOffer(this.culturalOfferRepository.findById(culturalOfferId).get());
+		comment.setCulturalOffer(this.culturalOfferRepository.findById(culturalOfferId).orElse(null));
 		comment.setId(commentDTO.getId());
 		comment.setRate(commentDTO.getRate());
 		comment.setText(commentDTO.getText());

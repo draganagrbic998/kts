@@ -17,8 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "news_table")

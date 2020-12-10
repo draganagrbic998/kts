@@ -41,11 +41,7 @@ public class CategoryService {
 	
 	@Transactional(readOnly = true)
 	public boolean hasName(UniqueCheckDTO param) {
-		Category cat = this.categoryRepository.findByName(param.getName());
-		if (cat == null) {
-			return false;
-		}
-		return true;
+		return this.categoryRepository.findByName(param.getName()) != null;
 	}
 	
 }

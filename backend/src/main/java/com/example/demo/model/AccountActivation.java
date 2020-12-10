@@ -12,8 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "account_activation_table")

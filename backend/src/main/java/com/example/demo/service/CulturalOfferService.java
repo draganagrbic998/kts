@@ -45,14 +45,9 @@ public class CulturalOfferService {
 	}
 	
 	@Transactional(readOnly = false)
-	public CulturalOffer save(CulturalOffer culturalOffer, MultipartFile image) {
-		if (image != null) {
-			try {
-				culturalOffer.setImage(this.imageService.store(image));
-			}
-			catch(Exception e) {
-				;
-			}
+	public CulturalOffer save(CulturalOffer culturalOffer, MultipartFile upload) {
+		if (upload != null) {
+			culturalOffer.setImage(this.imageService.store(upload));
 		}
 		return this.culturalOfferRepository.save(culturalOffer);
 	}
@@ -64,11 +59,7 @@ public class CulturalOfferService {
 	
 	@Transactional(readOnly = true) 
 	public boolean hasName(UniqueCheckDTO param) {
-		CulturalOffer culturalOffer = this.culturalOfferRepository.hasName(param.getId(), param.getName());
-		if (culturalOffer == null) {
-			return false;
-		}
-		return true;
+		return this.culturalOfferRepository.hasName(param.getId(), param.getName()) != null;
 	}	
 	
 }

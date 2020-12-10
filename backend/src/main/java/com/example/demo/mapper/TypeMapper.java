@@ -19,7 +19,7 @@ public class TypeMapper {
 	private CategoryRepository categoryRepository;
 	
 	public List<TypeDTO> map(List<Type> types) {
-		return types.stream().map(type -> new TypeDTO(type)).collect(Collectors.toList());
+		return types.stream().map(TypeDTO::new).collect(Collectors.toList());
 	}
 
 	@Transactional(readOnly = true)

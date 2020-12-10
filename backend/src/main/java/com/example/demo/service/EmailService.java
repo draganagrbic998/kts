@@ -52,18 +52,12 @@ public class EmailService {
 		            	helper.addAttachment(path, file);
 	            	}
 	            	catch(Exception e) {
-	            		;
+	            		return;
 	            	}
 	            });
 	        }
 	    };
-	     
-	    try {
-	    	this.sender.send(preparator);
-	    }
-	    catch (Exception ex) {
-	    	;
-	    }
+    	this.sender.send(preparator);
 	}
 
 }

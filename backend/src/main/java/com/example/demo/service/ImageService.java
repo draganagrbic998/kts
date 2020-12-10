@@ -1,7 +1,6 @@
 package com.example.demo.service;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -22,16 +21,32 @@ public class ImageService {
 	private ImageRepository imageRepository;
 	
 	@Transactional(readOnly = true)
-	public String store(MultipartFile data) throws FileNotFoundException, IOException {
-		String[] array = data.getOriginalFilename().split("\\.");
-		String extension = array[array.length - 1];
-		String fileName = "image" + this.imageRepository.count() + "." + extension;
-		String path = Constants.STATIC_FOLDER + File.separatorChar + fileName;
-		File file = new File(path);
-		FileOutputStream fout = new FileOutputStream(file);
-		fout.write(data.getBytes());
-		fout.close();
-		return Constants.BACKEND_URL + "/" + fileName;
+	public String store(MultipartFile data) {
+		FileOutputStream fout = null;
+		try {
+			String fileName = data.getOriginalFilename();
+			if (fileName == null) {
+				return null;
+			}
+			String[] array = fileName.split("\\.");
+			String extension = array[array.length - 1];
+			fileName = "image" + this.imageRepository.count() + "." + extension;
+			fout = new FileOutputStream(new File(Constants.STATIC_FOLDER + File.separatorChar + fileName));
+			fout.write(data.getBytes());
+			fout.close();
+			return Constants.BACKEND_URL + "/" + fileName;
+		}
+		catch(IOException e) {
+			if (fout != null) {
+				try {
+					fout.close();
+				} 
+				catch (Exception e2) {
+					return null;
+				}
+			}
+			return null;
+		}
 	}
 	
 	@Transactional(readOnly = false)
