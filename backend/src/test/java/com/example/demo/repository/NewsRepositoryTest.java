@@ -1,7 +1,5 @@
 package com.example.demo.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,7 @@ public class NewsRepositoryTest {
 	
 	@Test
 	public void test() {
-		assertEquals(0, this.newsRepository.count());
+		
 	}
-
+	
 }

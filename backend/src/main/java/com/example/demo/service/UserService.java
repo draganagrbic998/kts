@@ -90,7 +90,7 @@ public class UserService implements UserDetailsService {
 		if (user.getAuthority().getName().equals(Constants.ADMIN_AUTHORITY)) {
 			return false;
 		}
-		return this.userFollowingRepository.list(user.getId()).stream().anyMatch(co -> co.getId().equals(culturalOffer.getId()));
+		return this.userFollowingRepository.findByUserIdAndCulturalOfferId(user.getId(), culturalOffer.getId()) != null;
 	}
 
 }

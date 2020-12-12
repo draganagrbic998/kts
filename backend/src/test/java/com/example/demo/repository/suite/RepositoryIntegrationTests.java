@@ -23,7 +23,7 @@ import com.example.demo.repository.UserRepositoryTest;
 		CommentRepositoryTest.class, CulturalOfferRepositoryTest.class, ImageRepositoryTest.class,
 		NewsRepositoryTest.class, TypeRepositoryTest.class, UserFollowingRepositoryTest.class,
 		UserRepositoryTest.class })
-public class RepositoryTests {
+public class RepositoryIntegrationTests {
 	
 	@Test
 	public void test() {

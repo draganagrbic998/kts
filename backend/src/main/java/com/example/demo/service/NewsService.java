@@ -46,7 +46,7 @@ public class NewsService {
 			});
 		}
 		this.newsRepository.save(news);
-		for (String emailAddress : this.userFollowingRepository.getSubscribedEmails(news.getCulturalOffer().getId())) {
+		for (String emailAddress : this.userFollowingRepository.subscribedEmails(news.getCulturalOffer().getId())) {
 			Email email = new Email(emailAddress, "News about '" + news.getCulturalOffer().getName() + "'", news.getText(), news.getImages());
 			this.emailService.sendEmailWithAttachments(email);
 		}
