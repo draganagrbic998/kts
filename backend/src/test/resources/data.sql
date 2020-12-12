@@ -30,6 +30,12 @@ insert into cultural_offer_table (type_id, name, description, lat, lng, location
 insert into cultural_offer_table (type_id, name, description, lat, lng, location) values (2, 'cultural_offer_two', 'description_two', 20, 20, 'location_two');
 insert into cultural_offer_table (type_id, name, description, lat, lng, location) values (3, 'cultural_offer_three', 'description_three', 30, 30, 'location_three');
 
+----------------------------------------NEWS----------------------------------------
+insert into news_table (created_at, cultural_offer_id, text) values ('2020-09-12', 2, 'news_one');
+insert into news_table (created_at, cultural_offer_id, text) values ('2020-09-14', 3, 'news_two');
+insert into news_table (created_at, cultural_offer_id, text) values ('2020-09-10', 3, 'news_three');
+insert into news_table (created_at, cultural_offer_id, text) values ('2020-09-16', 3, 'news_four');
+
 ----------------------------------------COMMENTS----------------------------------------
 insert into comment_table (created_at, user_id, cultural_offer_id, rate, text) values ('2020-12-12', 1, 1, 3, 'comment_one');
 insert into comment_table (created_at, user_id, cultural_offer_id, rate, text) values ('2020-12-14', 2, 1, 2, 'comment_two');
