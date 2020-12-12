@@ -46,10 +46,10 @@ public class NewsService {
 			});
 		}
 		this.newsRepository.save(news);
-		for (String emailAddress : this.userFollowingRepository.getSubscribedEmails(news.getCulturalOffer().getId())) {
+		this.userFollowingRepository.subscribedEmails(news.getCulturalOffer().getId()).stream().forEach(emailAddress -> {
 			Email email = new Email(emailAddress, "News about '" + news.getCulturalOffer().getName() + "'", news.getText(), news.getImages());
 			this.emailService.sendEmailWithAttachments(email);
-		}
+		});
 	}
 
 	@Transactional(readOnly = false)

@@ -53,13 +53,15 @@ public class CommentController {
 	@PreAuthorize("hasAuthority('guest')")
 	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/comment")
 	public ResponseEntity<Double> save(@PathVariable long culturalOfferId, @Valid @ModelAttribute CommentUploadDTO commentDTO) {
-		return new ResponseEntity<>(this.commentService.save(this.commentMapper.map(culturalOfferId, commentDTO), commentDTO.getImages()), HttpStatus.OK);
+		Comment comment = this.commentService.save(this.commentMapper.map(culturalOfferId, commentDTO), commentDTO.getImages());
+		return new ResponseEntity<>(this.commentService.totalRate(comment.getId()), HttpStatus.OK);
 	}
 
 	@PreAuthorize("hasAuthority('guest')")
 	@DeleteMapping(value = "/api/comments/{id}")
 	public ResponseEntity<Double> delete(@PathVariable long id) {
-		return new ResponseEntity<>(this.commentService.delete(id), HttpStatus.OK);
+		this.commentService.delete(id);
+		return new ResponseEntity<>(this.commentService.totalRate(id), HttpStatus.OK);
 	}
 		
 }

@@ -30,7 +30,7 @@ public class CulturalOfferMapper {
 	public List<CulturalOfferDTO> map(List<CulturalOffer> culturalOffers){
 		return culturalOffers.stream().map(culturalOffer -> {
 			CulturalOfferDTO culturalOfferDTO = new CulturalOfferDTO(culturalOffer);
-			culturalOfferDTO.setFollowed(this.userService.userIsFollowing(culturalOffer));
+			culturalOfferDTO.setFollowed(this.userService.userIsFollowing(culturalOffer.getId()));
 			culturalOfferDTO.setTotalRate(this.commentRepository.totalRate(culturalOffer.getId()));
 			return culturalOfferDTO;
 		}).collect(Collectors.toList());

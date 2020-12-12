@@ -1,7 +1,6 @@
 package com.example.demo.dto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,18 +13,13 @@ public class CulturalOfferUploadDTO {
 	
 	@NotBlank
 	private String name;
-	
-	private String description;
-	
+		
 	@NotBlank
 	private String location;
 	
-	@NotNull
 	private double lat;
-	
-	@NotNull
 	private double lng;
-	
+	private String description;
 	private MultipartFile image;
 	private String imagePath;
 	
@@ -57,14 +51,6 @@ public class CulturalOfferUploadDTO {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
 	public String getLocation() {
 		return location;
 	}
@@ -87,6 +73,14 @@ public class CulturalOfferUploadDTO {
 
 	public void setLng(double lng) {
 		this.lng = lng;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public MultipartFile getImage() {

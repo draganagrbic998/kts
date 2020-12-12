@@ -13,9 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,7 +35,6 @@ public class User implements UserDetails {
     private Set<Authority> authorities;
 	
 	@NotBlank
-	@Email
 	@Column(name = "email", unique = true)
 	private String email;
 	
@@ -56,7 +53,6 @@ public class User implements UserDetails {
 	@Column(name = "image")
 	private String image;
 			
-	@NotNull
 	@Column(name = "enabled")
 	private boolean enabled;
 				
@@ -100,7 +96,7 @@ public class User implements UserDetails {
 	}
 	
 	public Authority getAuthority() {
-		return this.authorities.iterator().next();	
+		return this.authorities.iterator().next();
 	}
 
 	public Long getId() {

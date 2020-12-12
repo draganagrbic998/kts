@@ -39,7 +39,7 @@ public class CommentMapper {
 		comment.setRate(commentDTO.getRate());
 		comment.setText(commentDTO.getText());
 		if (commentDTO.getImagePaths() != null) {
-			commentDTO.getImagePaths().stream().forEach(image -> comment.addImage(this.imageRepository.findByPath(image)));
+			commentDTO.getImagePaths().stream().forEach(path -> comment.addImage(this.imageRepository.findByPath(path)));
 		}
 		return comment;
 	}
