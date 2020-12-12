@@ -24,12 +24,24 @@ public class CommentService {
 	private ImageService imageService;
 	
 	@Transactional(readOnly = true)
+	public double totalRate(long id) {
+		Comment comment = this.commentRepository.findById(id).orElse(null);
+		long culturalOfferId = comment != null ? comment.getCulturalOffer().getId() : -1;
+		return this.commentRepository.totalRate(culturalOfferId);
+	}
+	
+	@Transactional(readOnly = true)
 	public Page<Comment> list(long culturalOfferId, Pageable pageable) {
 		return this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(culturalOfferId, pageable);
 	}
 	
 	@Transactional(readOnly = false)
-	public double save(Comment comment, List<MultipartFile> uploads) {
+	public void delete(long id) {		
+		this.commentRepository.deleteById(id);
+	}
+	
+	@Transactional(readOnly = false)
+	public Comment save(Comment comment, List<MultipartFile> uploads) {
 		if (uploads != null) {
 			uploads.stream().forEach(upload -> {
 				Image image = new Image(this.imageService.store(upload));
@@ -37,16 +49,7 @@ public class CommentService {
 				this.imageService.save(image);
 			});
 		}
-		this.commentRepository.save(comment);
-		return this.commentRepository.totalRate(comment.getCulturalOffer().getId());
-	}
-
-	@Transactional(readOnly = false)
-	public double delete(long id) {		
-		Comment comment = this.commentRepository.findById(id).orElse(null);
-		long culturalOfferId = comment != null ? comment.getCulturalOffer().getId() : null;
-		this.commentRepository.deleteById(id);
-		return this.commentRepository.totalRate(culturalOfferId);
+		return this.commentRepository.save(comment);
 	}
 		
 }

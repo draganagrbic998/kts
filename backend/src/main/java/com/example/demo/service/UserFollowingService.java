@@ -42,5 +42,5 @@ public class UserFollowingService {
 			this.userFollowingRepository.deleteById(userFollowing.getId());
 		}
 	}
-
+	
 }

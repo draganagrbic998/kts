@@ -40,7 +40,7 @@ public class UserFollowingRepositoryTest {
 	
 	@Test
 	public void testFindNonExisting() {
-		UserFollowing uf = this.userFollowingRepository.findByUserIdAndCulturalOfferId(UserConstants.ID_TWO, CulturalOfferConstants.ID_ONE);
+		UserFollowing uf = this.userFollowingRepository.findByUserIdAndCulturalOfferId(UserConstants.ID_TWO, CulturalOfferConstants.ID_TWO);
 		assertNull(uf);
 	}
 	
@@ -62,15 +62,12 @@ public class UserFollowingRepositoryTest {
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_ONE, offers.get(0).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
 		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
 		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_THREE, offers.get(1).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
 		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
 		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_TWO, offers.get(2).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
 	}
 	
@@ -80,11 +77,9 @@ public class UserFollowingRepositoryTest {
 		assertEquals(MainConstants.PART_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_ONE, offers.get(0).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
 		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
 		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_THREE, offers.get(1).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
 	}
 	
@@ -94,15 +89,12 @@ public class UserFollowingRepositoryTest {
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_ONE, offers.get(0).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
 		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
 		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_THREE, offers.get(1).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
 		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
 		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_TWO, offers.get(2).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
 	}
 	
@@ -112,11 +104,9 @@ public class UserFollowingRepositoryTest {
 		assertEquals(MainConstants.PART_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_ONE, offers.get(0).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
 		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
 		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_THREE, offers.get(1).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
 	}
 	
@@ -126,7 +116,6 @@ public class UserFollowingRepositoryTest {
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_ONE, offers.get(0).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
 	}
 	
@@ -136,7 +125,6 @@ public class UserFollowingRepositoryTest {
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_ONE, offers.get(0).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
 	}
 	
@@ -146,7 +134,6 @@ public class UserFollowingRepositoryTest {
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_ONE, offers.get(0).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
 	}
 	
@@ -156,7 +143,6 @@ public class UserFollowingRepositoryTest {
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.DESCRIPTION_ONE, offers.get(0).getDescription());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
 	}
 	
@@ -168,12 +154,6 @@ public class UserFollowingRepositoryTest {
 	
 	@Test
 	public void testFilterNoneNoUserFollowing() {
-		List<CulturalOffer> offers = this.userFollowingRepository.filter(UserConstants.ID_TWO, FilterConstants.FILTER_ALL, FilterConstants.FILTER_ALL, FilterConstants.FILTER_ALL, this.pageableAll).getContent();
-		assertTrue(offers.isEmpty());
-	}
-	
-	@Test
-	public void testFilterNoneNoUser() {
 		List<CulturalOffer> offers = this.userFollowingRepository.filter(MainConstants.NON_EXISTING_ID, FilterConstants.FILTER_ALL, FilterConstants.FILTER_ALL, FilterConstants.FILTER_ALL, this.pageableAll).getContent();
 		assertTrue(offers.isEmpty());
 	}
@@ -183,7 +163,7 @@ public class UserFollowingRepositoryTest {
 		List<String> emails = this.userFollowingRepository.subscribedEmails(CulturalOfferConstants.ID_ONE);
 		assertEquals(MainConstants.PART_SIZE, emails.size());
 		assertTrue(emails.contains(UserConstants.EMAIL_ONE));
-		assertTrue(emails.contains(UserConstants.EMAIL_THREE));
+		assertTrue(emails.contains(UserConstants.EMAIL_TWO));
 	}
 	
 	@Test

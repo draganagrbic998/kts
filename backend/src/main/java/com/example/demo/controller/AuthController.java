@@ -23,6 +23,7 @@ import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.mapper.UserMapper;
 import com.example.demo.model.User;
 import com.example.demo.security.TokenUtils;
+import com.example.demo.service.AccountActivationService;
 import com.example.demo.service.UserService;
 
 @RestController
@@ -33,6 +34,9 @@ public class AuthController {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private AccountActivationService accountActivationService;
+		
 	@Autowired
 	private UserMapper userMapper;
 
@@ -52,13 +56,14 @@ public class AuthController {
 	
 	@PostMapping(value = "/register")
 	public ResponseEntity<Void> register(@Valid @RequestBody RegisterDTO registerDTO){
-		this.userService.register(this.userMapper.map(registerDTO));
+		User user = this.userService.save(this.userMapper.map(registerDTO), null);
+		this.accountActivationService.save(user);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/activate/{code}")
 	public ResponseEntity<Void> activate(@PathVariable String code){
-		this.userService.activate(code);
+		this.accountActivationService.activate(code);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	

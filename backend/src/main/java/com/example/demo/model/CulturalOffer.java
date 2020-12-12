@@ -40,11 +40,9 @@ public class CulturalOffer {
 	@Column(name = "location")
 	private String location;
 				
-	@NotNull
 	@Column(name = "lat")
 	private double lat;
 	
-	@NotNull
 	@Column(name = "lng")
 	private double lng;
 			

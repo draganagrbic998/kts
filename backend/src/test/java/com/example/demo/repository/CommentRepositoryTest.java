@@ -44,12 +44,6 @@ public class CommentRepositoryTest {
 	
 	@Test
 	public void testTotalRateNone() {
-		double totalRate = this.commentRepository.totalRate(CulturalOfferConstants.ID_THREE);
-		assertEquals(MainConstants.NONE_SIZE, totalRate);		//oce ovaj double uvek raditi??
-	}
-	
-	@Test
-	public void testTotalRateNonExisting() {
 		double totalRate = this.commentRepository.totalRate(MainConstants.NON_EXISTING_ID);
 		assertEquals(MainConstants.NONE_SIZE, totalRate);		//oce ovaj double uvek raditi??
 	}
@@ -92,12 +86,6 @@ public class CommentRepositoryTest {
 	
 	@Test
 	public void testListNone() {
-		List<Comment> comments = this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_THREE, this.pageableAll).getContent();
-		assertTrue(comments.isEmpty());
-	}
-	
-	@Test
-	public void testListNonExisting() {
 		List<Comment> comments = this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(MainConstants.NON_EXISTING_ID, this.pageableAll).getContent();
 		assertTrue(comments.isEmpty());
 	}

@@ -21,7 +21,7 @@ public class AuthorityRepositoryTest {
 	private AuthorityRepository authorityRepository;
 	
 	@Test
-	public void testFindByExistingName() {
+	public void testFindByNameExisting() {
 		Authority a = this.authorityRepository.findByName(AuthorityConstants.NAME_ONE);
 		assertNotNull(a);
 		assertEquals(AuthorityConstants.ID_ONE, a.getId());
@@ -29,7 +29,7 @@ public class AuthorityRepositoryTest {
 	}
 
 	@Test
-	public void testFindByNonExistingName() {
+	public void testFindByNameNonExisting() {
 		Authority a = this.authorityRepository.findByName(AuthorityConstants.NON_EXISTING_NAME);
 		assertNull(a);
 	}

@@ -17,5 +17,5 @@ public class CommentConstants {
 	public static final long ID_FOUR = 4;
 	public static final String DATE_FOUR = "2020-12-11";
 	public static final String TEXT_FOUR = "comment_four";
-
+	
 }

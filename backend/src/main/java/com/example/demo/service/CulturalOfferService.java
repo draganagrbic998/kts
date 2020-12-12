@@ -24,6 +24,11 @@ public class CulturalOfferService {
 	@Autowired
 	private ImageService imageService;
 	
+	@Transactional(readOnly = true) 
+	public boolean hasName(UniqueCheckDTO param) {
+		return this.culturalOfferRepository.hasName(param.getId(), param.getName()) != null;
+	}	
+	
 	@Transactional(readOnly = true)
 	public List<String> filterNames(String filter){
 		return this.culturalOfferRepository.filterNames(filter);
@@ -43,7 +48,12 @@ public class CulturalOfferService {
 	public Page<CulturalOffer> filter(FilterParamsDTO filters, Pageable pageable){
 		return this.culturalOfferRepository.filter(filters.getName(), filters.getLocation(), filters.getType(), pageable);
 	}
-	
+
+	@Transactional(readOnly = false)
+	public void delete(long id) {
+		this.culturalOfferRepository.deleteById(id);
+	}
+
 	@Transactional(readOnly = false)
 	public CulturalOffer save(CulturalOffer culturalOffer, MultipartFile upload) {
 		if (upload != null) {
@@ -51,15 +61,5 @@ public class CulturalOfferService {
 		}
 		return this.culturalOfferRepository.save(culturalOffer);
 	}
-
-	@Transactional(readOnly = false)
-	public void delete(long id) {
-		this.culturalOfferRepository.deleteById(id);
-	}
-	
-	@Transactional(readOnly = true) 
-	public boolean hasName(UniqueCheckDTO param) {
-		return this.culturalOfferRepository.hasName(param.getId(), param.getName()) != null;
-	}	
-	
+		
 }

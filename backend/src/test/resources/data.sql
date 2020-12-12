@@ -1,5 +1,6 @@
 ----------------------------------------AUTHORITIES----------------------------------------
 insert into authority_table (name) values ('authority_one');
+insert into authority_table (name) values ('guest');
 
 ----------------------------------------IMAGES----------------------------------------
 insert into image_table (path) values ('image_one');
@@ -11,6 +12,7 @@ insert into user_table (email, password, first_name, last_name, enabled)
 values ('email_two', 'password_two', 'first_name_two', 'last_name_two', true);
 insert into user_table (email, password, first_name, last_name, enabled)
 values ('email_three', 'password_three', 'first_name_three', 'last_name_three', true);
+insert into user_authority (user_id, authority_id) values (2, 2);
 
 ----------------------------------------ACCOUNT ACTIVATIONS----------------------------------------
 insert into account_activation_table (user_id, code) values (1, 'code_one');
@@ -40,4 +42,4 @@ insert into comment_table (created_at, user_id, cultural_offer_id, rate, text) v
 insert into user_following_table (user_id, cultural_offer_id) values (1, 1);
 insert into user_following_table (user_id, cultural_offer_id) values (1, 2);
 insert into user_following_table (user_id, cultural_offer_id) values (1, 3);
-insert into user_following_table (user_id, cultural_offer_id) values (3, 1);
+insert into user_following_table (user_id, cultural_offer_id) values (2, 1);

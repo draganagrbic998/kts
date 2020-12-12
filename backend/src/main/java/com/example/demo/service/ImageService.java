@@ -19,6 +19,11 @@ public class ImageService {
 	
 	@Autowired
 	private ImageRepository imageRepository;
+
+	@Transactional(readOnly = false)
+	public Image save(Image image) {
+		return this.imageRepository.save(image);
+	}
 	
 	@Transactional(readOnly = true)
 	public String store(MultipartFile data) {
@@ -49,9 +54,4 @@ public class ImageService {
 		}
 	}
 	
-	@Transactional(readOnly = false)
-	public void save(Image image) {
-		this.imageRepository.save(image);
-	}
-
 }

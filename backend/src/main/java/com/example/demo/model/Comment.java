@@ -47,7 +47,6 @@ public class Comment {
 	)
 	private CulturalOffer culturalOffer;
 	
-	@NotNull
 	@Column(name = "rate")
 	private int rate;
 		
