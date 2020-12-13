@@ -1,5 +1,7 @@
 package com.example.demo.constants;
 
+import com.example.demo.model.Type;
+
 public class TypeConstants {
 	
 	public static final long ID_ONE = 1;
@@ -15,8 +17,10 @@ public class TypeConstants {
 	public static final String NAME_THREE = "type_three";
 	public static final String PLACEMARK_THREE = "placemark_three";
 	
+	public static final long ID_FOUR = 4;
 	public static final String FILTER_NAME_ALL = "type";
 	public static final String NON_EXISTING_NAME = "type_none";
+	
 	
 
 }

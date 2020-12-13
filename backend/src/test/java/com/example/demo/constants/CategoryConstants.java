@@ -13,5 +13,7 @@ public class CategoryConstants {
 	public static final String FILTER_NAME_ALL = "category";
 	public static final String NON_EXISTING_NAME = "category_none";
 	
+	public static final long ID_FOUR = 4;
+	
 
 }
