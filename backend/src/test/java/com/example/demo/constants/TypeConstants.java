@@ -1,7 +1,5 @@
 package com.example.demo.constants;
 
-import com.example.demo.model.Type;
-
 public class TypeConstants {
 	
 	public static final long ID_ONE = 1;

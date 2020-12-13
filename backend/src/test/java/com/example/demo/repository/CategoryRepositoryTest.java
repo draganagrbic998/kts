@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.constants.CategoryConstants;
-import com.example.demo.constants.CulturalOfferConstants;
 import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.model.Category;
