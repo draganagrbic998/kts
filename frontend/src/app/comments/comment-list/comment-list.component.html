@@ -1,13 +1,11 @@
 <app-preloader *ngIf="fetchPending"></app-preloader>
 
-<div class="header-container">
-    <app-paginator
-    [fetchPending]="fetchPending"
-    [hasPrevious]="!startOfPages"
-    [hasNext]="!endOfPages"
-    (changedPage)="changePage($event)"
-    ></app-paginator>  
-</div>
+<app-paginator
+[fetchPending]="fetchPending"
+[hasPrevious]="!startOfPages"
+[hasNext]="!endOfPages"
+(changedPage)="changePage($event)"
+></app-paginator>  
 
 <app-empty-container *ngIf="!fetchPending && !comments?.length">
     NO REVIEWS

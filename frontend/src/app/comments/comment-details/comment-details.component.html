@@ -34,13 +34,8 @@
                       </mat-panel-title>
                     </mat-expansion-panel-header>
                     
-                    <mdb-carousel class="carousel-fade" [animation]="'fade'">
-                        <mdb-carousel-item *ngFor="let img of comment.images; let i = index">
-                            <img [src]="img ? img : '../../../assets/noimage.png'" 
-                            (error)="comment.images[i]=null" >
-                        </mdb-carousel-item>
-                    </mdb-carousel>        
-
+                    <app-carousel [images]="comment.images"></app-carousel>
+                    
                   </mat-expansion-panel>
             </mat-accordion>
         </mat-card-content>

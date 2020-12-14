@@ -84,25 +84,12 @@
     </div>
     
     <div class="button-container">
-        <app-spacer-container>
-            <span>
-            </span>
-            <span>
-                <button 
-                *ngIf="!savePending"
-                mat-raised-button 
-                color="primary"      
-                (click)="dialogRef.close()">Cancel</button>
-                <button 
-                *ngIf="!savePending"
-                mat-raised-button 
-                color="accent"       
-                class="save-button"        
-                (click)="save()">Save</button>
-                <app-spinner-button *ngIf="savePending"></app-spinner-button>
-            </span>
-        </app-spacer-container>     
-        
+        <app-save-cancel-container
+        [pending]="savePending"
+        [inputControl]="culturalForm"
+        (cancelled)="dialogRef.close()"
+        (saved)="save()"
+        ></app-save-cancel-container>            
     </div>
     
 </form>

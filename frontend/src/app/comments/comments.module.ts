@@ -16,8 +16,7 @@ import { CommentFormComponent } from './comment-form/comment-form.component';
     LayoutModule
   ],
   exports: [
-    CommentListComponent,
-    CommentFormComponent
+    CommentListComponent
   ]
 })
 export class CommentsModule { }

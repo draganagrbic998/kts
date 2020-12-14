@@ -1,16 +1,11 @@
-<div class="header-container mat-elevation-z8">
-
-    <app-paginator
-    [title]="title"
-    [fetchPending]="fetchPending"
-    [hasPrevious]="hasPrevious"
-    [hasNext]="hasNext"
-    (changedPage)="changePage.emit($event)"
-    ></app-paginator>
-
-</div>
-
-<div class="block"></div>
+<app-paginator
+[fixed]="true"
+[title]="title"
+[fetchPending]="fetchPending"
+[hasPrevious]="hasPrevious"
+[hasNext]="hasNext"
+(changedPage)="changePage.emit($event)"
+></app-paginator>
 
 <app-preloader *ngIf="fetchPending && !panel.expanded"></app-preloader>
 
@@ -20,10 +15,10 @@
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <span></span>
-                <span class="center-container">
+                <app-center-container>
                     <mat-icon color="accent">search</mat-icon>
                     <span class="filter-button">Filter</span>
-                </span>
+                </app-center-container>
             </mat-panel-title>
         </mat-expansion-panel-header>
         
@@ -101,4 +96,4 @@
 (markOnMap)="markOnMap.emit(culturalOffer)"
 ></app-cultural-details>
 
-<div class="block"></div>
+<app-block></app-block>

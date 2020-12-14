@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/constants/dialog';
 import { Image } from 'src/app/models/image';
 import { News } from 'src/app/models/news';
-import { ImageService } from 'src/app/services/image/image.service';
 import { NewsService } from 'src/app/services/news/news.service';
 
 @Component({
@@ -16,9 +15,8 @@ import { NewsService } from 'src/app/services/news/news.service';
 export class NewsFormComponent implements OnInit {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private news: News,
+    @Inject(MAT_DIALOG_DATA) public news: News,
     private newsService: NewsService,
-    private imageService: ImageService,
     public dialogRef: MatDialogRef<NewsFormComponent>,
     private snackBar: MatSnackBar
   ) { }
@@ -29,13 +27,6 @@ export class NewsFormComponent implements OnInit {
   images: Image[] = this.news.images ? this.news.images.map(img => {
     return {path: img, upload: null};
   }) : [];
-
-  addImage(upload: Blob): void{
-    this.imageService.getBase64(upload)
-    .then((path: string) => {
-      this.images.push({path, upload});
-    });
-  }
 
   save(): void{
     const formData: FormData = new FormData();

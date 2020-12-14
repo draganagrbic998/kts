@@ -6,7 +6,6 @@ import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/c
 import { Comment } from 'src/app/models/comment';
 import { Image } from 'src/app/models/image';
 import { CommentService } from 'src/app/services/comment/comment.service';
-import { ImageService } from 'src/app/services/image/image.service';
 
 @Component({
   selector: 'app-comment-form',
@@ -18,7 +17,6 @@ export class CommentFormComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) public comment: Comment,
     private commentService: CommentService,
-    private imageService: ImageService,
     public dialogRef: MatDialogRef<CommentFormComponent>,
     private snackBar: MatSnackBar
   ) { }
@@ -31,15 +29,7 @@ export class CommentFormComponent implements OnInit {
     return {path: img, upload: null};
   }) : [];
 
-  addImage(upload: Blob): void{
-    this.imageService.getBase64(upload)
-    .then((path: string) => {
-      this.images.push({path, upload});
-    });
-  }
-
   save(): void{
-
     const formData: FormData = new FormData();
     if (this.comment.id){
       formData.append('id', this.comment.id + '');

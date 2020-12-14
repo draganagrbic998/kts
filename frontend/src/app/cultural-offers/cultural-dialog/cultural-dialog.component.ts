@@ -90,7 +90,7 @@ export class CulturalDialogComponent implements OnInit {
       return;
     }
 
-    const options = {...DIALOG_OPTIONS, ...{data: {culturalOfferId: this.culturalOffer.id}}};
+    const options = {...DIALOG_OPTIONS, ...{data: {culturalOfferId: this.culturalOffer.id, images: []}}};
     const dialog: MatDialogRef<CommentFormComponent> = this.dialog.open(CommentFormComponent, options);
     dialog.componentInstance.saved.subscribe(
       () => {
@@ -100,7 +100,7 @@ export class CulturalDialogComponent implements OnInit {
   }
 
   publishNews(news: NewsListComponent): void{
-    const options = {...DIALOG_OPTIONS, ...{data: {culturalOfferId: this.culturalOffer.id}}};
+    const options = {...DIALOG_OPTIONS, ...{data: {culturalOfferId: this.culturalOffer.id, images: []}}};
     const dialog: MatDialogRef<NewsFormComponent> = this.dialog.open(NewsFormComponent, options);
     dialog.componentInstance.saved.subscribe(
       () => {

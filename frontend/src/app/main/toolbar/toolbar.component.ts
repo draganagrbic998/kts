@@ -1,13 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CategoryDialogComponent } from 'src/app/categories/category-dialog/category-dialog.component';
+import { CatTypeDialogComponent } from 'src/app/cats-types/cat-type-dialog/cat-type-dialog.component';
 import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { LOGIN_PATH, USER_PATH } from 'src/app/constants/router';
 import { CulturalFormComponent } from 'src/app/cultural-offers/cultural-form/cultural-form.component';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { TypeDialogComponent } from 'src/app/types/type-dialog/type-dialog.component';
 import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
@@ -51,13 +50,13 @@ export class ToolbarComponent implements OnInit {
   }
 
   categories(): void{
-    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}};
-    this.dialog.open(CategoryDialogComponent, options);
+    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}, data: true};
+    this.dialog.open(CatTypeDialogComponent, options);
   }
 
   types(): void{
-    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}};
-    this.dialog.open(TypeDialogComponent, options);
+    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '550px'}, data: false};
+    this.dialog.open(CatTypeDialogComponent, options);
   }
 
   addOffer(): void{

@@ -18,7 +18,7 @@
     class="mat-elevation-z24" #drawer mode="side">
         
         <app-cultural-list
-        [title]="selectedTab ? 'Followed Cultural Offers' : 'All Cultural Offers'"
+        [title]="selectedTab ? 'Followed Offers' : 'All Cultural Offers'"
         [culturalOffers]="culturalOffers[selectedTab]"
         [fetchPending]="fetchPending[selectedTab]"
         [hasPrevious]="!startOfPages[selectedTab]"

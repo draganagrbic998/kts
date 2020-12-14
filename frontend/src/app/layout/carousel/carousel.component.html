@@ -1,0 +1,6 @@
+<mdb-carousel class="carousel-fade" [animation]="'fade'">
+    <mdb-carousel-item *ngFor="let img of images; let i = index">
+        <img [src]="img ? img : '../../../assets/noimage.png'" 
+        (error)="comment.images[i]=null" >
+    </mdb-carousel-item>
+</mdb-carousel>        

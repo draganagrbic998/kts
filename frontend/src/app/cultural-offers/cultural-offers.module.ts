@@ -20,9 +20,7 @@ import { CulturalFormComponent } from './cultural-form/cultural-form.component';
     NewsModule
   ],
   exports: [
-    CulturalListComponent,
-    CulturalDialogComponent,
-    CulturalFormComponent
+    CulturalListComponent
   ]
 })
 export class CulturalOffersModule { }

@@ -9,6 +9,7 @@ export class PaginatorComponent implements OnInit {
 
   constructor() { }
 
+  @Input() fixed: boolean;
   @Input() fetchPending: boolean;
   @Input() hasPrevious: boolean;
   @Input() hasNext: boolean;

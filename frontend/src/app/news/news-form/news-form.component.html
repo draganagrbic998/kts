@@ -1,14 +1,11 @@
 <div class="root-container" cdkFocusInitial>
 
-    <div [class.disabled]="savePending">
-        <app-close-button
-        (closed)="dialogRef.close()"
-        ></app-close-button>
-    
-        <h3>Publish News</h3>
+    <h3>Publish News</h3>
         
-        <br><br>
-    
+    <br><br>
+
+    <div [class.disabled]="savePending">
+        
         <mat-form-field appearance="outline">
             <textarea 
             matInput 
@@ -17,42 +14,20 @@
             placeholder="Enter news..." 
             rows="4"></textarea>
         </mat-form-field>    
-        
-        <div *ngIf="images.length" class="image-container">
-            <app-image 
-            *ngFor="let image of images; let i = index"
-            [image]="image.path"
-            (deleted)="images.splice(i, 1)">
-            </app-image>       
-        </div>   
-        
-        <input 
-        #fileInput
-        type="file" 
-        accept="image/*" 
-        (change)="addImage(fileInput.files[0]); fileInput.value=null">    
 
         <br>
-
+        
+        <app-images-input [images]="news.images"></app-images-input>
+        
     </div>
         
-    <app-spacer-container>
-        <span>
-            <button 
-            *ngIf="!savePending"
-            mat-raised-button 
-            color="primary" 
-            (click)="fileInput.click()">Add image</button>
-        </span>
-        <span>
-            <button 
-            *ngIf="!savePending"
-            mat-raised-button 
-            color="accent" 
-            [disabled]="text.invalid" 
-            (click)="save()">Save news</button>  
-            <app-spinner-button *ngIf="savePending"></app-spinner-button>      
-        </span>
-    </app-spacer-container>         
+    <br><br>
+    
+    <app-save-cancel-container
+    [pending]="savePending"
+    [inputControl]="text"
+    (cancelled)="dialogRef.close()"
+    (saved)="save()"
+    ></app-save-cancel-container>
     
 </div>

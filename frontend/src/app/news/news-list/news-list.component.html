@@ -1,11 +1,9 @@
-<div class="header-container">
-    <app-paginator
-    [fetchPending]="fetchPending"
-    [hasPrevious]="!startOfPages"
-    [hasNext]="!endOfPages"
-    (changedPage)="changePage($event)"
-    ></app-paginator>    
-</div>
+<app-paginator
+[fetchPending]="fetchPending"
+[hasPrevious]="!startOfPages"
+[hasNext]="!endOfPages"
+(changedPage)="changePage($event)"
+></app-paginator>    
 
 <app-preloader *ngIf="fetchPending && !panel.expanded"></app-preloader>
 
@@ -15,10 +13,10 @@
         <mat-expansion-panel-header>
             <mat-panel-title>
                 <span></span>
-                <span class="center-container">
+                <app-center-container>
                     <mat-icon color="accent">search</mat-icon>
                     <span class="filter-button">Filter</span>
-                </span>
+                </app-center-container>
             </mat-panel-title>
         </mat-expansion-panel-header>
         

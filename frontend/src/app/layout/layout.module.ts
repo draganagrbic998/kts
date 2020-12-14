@@ -14,6 +14,11 @@ import { SpinnerButtonComponent } from './spinner-button/spinner-button.componen
 import { PaginatorComponent } from './paginator/paginator.component';
 import { ImageComponent } from './image/image.component';
 import { EmptyContainerComponent } from './empty-container/empty-container.component';
+import { CenterContainerComponent } from './center-container/center-container.component';
+import { CarouselComponent } from './carousel/carousel.component';
+import { BlockComponent } from './block/block.component';
+import { ImagesInputComponent } from './images-input/images-input.component';
+import { SaveCancelContainerComponent } from './save-cancel-container/save-cancel-container.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -46,7 +51,12 @@ import { CarouselModule } from 'ng-uikit-pro-standard';
     SpinnerButtonComponent,
     PaginatorComponent,
     ImageComponent,
-    EmptyContainerComponent
+    EmptyContainerComponent,
+    CenterContainerComponent,
+    CarouselComponent,
+    BlockComponent,
+    ImagesInputComponent,
+    SaveCancelContainerComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +64,8 @@ import { CarouselModule } from 'ng-uikit-pro-standard';
     MatButtonModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    CarouselModule
   ],
   exports: [
     CommonModule,
@@ -73,6 +84,11 @@ import { CarouselModule } from 'ng-uikit-pro-standard';
     PaginatorComponent,
     ImageComponent,
     EmptyContainerComponent,
+    CenterContainerComponent,
+    CarouselComponent,
+    BlockComponent,
+    ImagesInputComponent,
+    SaveCancelContainerComponent,
 
     MatFormFieldModule,
     MatInputModule,
@@ -90,8 +106,7 @@ import { CarouselModule } from 'ng-uikit-pro-standard';
     MatSnackBarModule,
     MatExpansionModule,
     MatDatepickerModule,
-    MatNativeDateModule,
-    CarouselModule
+    MatNativeDateModule
   ]
 })
 export class LayoutModule { }

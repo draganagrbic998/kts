@@ -6,8 +6,7 @@ import { HomeComponent } from './home/home.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { YANDEX_MAP_CONFIG } from '../constants/yandex';
 import { CulturalOffersModule } from '../cultural-offers/cultural-offers.module';
-import { CategoriesModule } from '../categories/categories.module';
-import { TypesModule } from '../types/types.module';
+import { CatsTypesModule } from '../cats-types/cats-types.module';
 import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
@@ -21,8 +20,7 @@ import { ProfileComponent } from './profile/profile.component';
     AngularYandexMapsModule.forRoot(YANDEX_MAP_CONFIG),
     LayoutModule,
     CulturalOffersModule,
-    CategoriesModule,
-    TypesModule
+    CatsTypesModule
   ],
   exports: [
     HomeComponent

@@ -14,13 +14,8 @@
 
             <br>
 
-            <mdb-carousel class="carousel-fade" [animation]="'fade'">
-                <mdb-carousel-item *ngFor="let img of news.images; let i = index">
-                    <img [src]="img ? img : '../../../assets/noimage.png'" 
-                    (error)="news.images[i]=null" >
-                </mdb-carousel-item>
-            </mdb-carousel>            
-
+            <app-carousel [images]="news.images"></app-carousel>
+            
             <br>
 
             <app-spacer-container>
