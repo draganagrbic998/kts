@@ -30,7 +30,7 @@ public class ImageService {
 		FileOutputStream fout = null;
 		try {
 			String fileName = data.getOriginalFilename();
-			if (fileName == null) {
+			if (fileName == null || fileName.equalsIgnoreCase("")) {
 				return null;
 			}
 			String[] array = fileName.split("\\.");

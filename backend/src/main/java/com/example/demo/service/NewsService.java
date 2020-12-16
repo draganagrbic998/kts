@@ -37,7 +37,7 @@ public class NewsService {
 	}
 
 	@Transactional(readOnly = false)
-	public void save(News news, List<MultipartFile> uploads) {
+	public News save(News news, List<MultipartFile> uploads) {
 		if (uploads != null) {
 			uploads.stream().forEach(upload -> {
 				Image image = new Image(this.imageService.store(upload));
@@ -45,11 +45,12 @@ public class NewsService {
 				this.imageService.save(image);
 			});
 		}
-		this.newsRepository.save(news);
+		News n = this.newsRepository.save(news);
 		this.userFollowingRepository.subscribedEmails(news.getCulturalOffer().getId()).stream().forEach(emailAddress -> {
 			Email email = new Email(emailAddress, "News about '" + news.getCulturalOffer().getName() + "'", news.getText(), news.getImages());
 			this.emailService.sendEmailWithAttachments(email);
 		});
+		return n;
 	}
 
 	@Transactional(readOnly = false)

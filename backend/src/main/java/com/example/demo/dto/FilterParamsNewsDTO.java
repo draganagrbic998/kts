@@ -11,6 +11,11 @@ public class FilterParamsNewsDTO {
 		super();
 	}
 
+	public FilterParamsNewsDTO(Date startDate, Date endDate) {
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
