@@ -19,7 +19,7 @@ public interface UserFollowingRepository extends JpaRepository<UserFollowing, Lo
 	@Query("select uf.culturalOffer from UserFollowing uf where uf.user.id = :userId and (lower(uf.culturalOffer.name) like lower(concat('%', :name, '%')) and lower(uf.culturalOffer.location) like lower(concat('%', :location, '%')) and lower(uf.culturalOffer.type.name) like lower(concat('%', :type, '%'))) order by uf.culturalOffer.name")
     public Page<CulturalOffer> filter(long userId, String name, String location, String type, Pageable pageable);
 
-	@Query("select uf.user.email from UserFollowing uf where uf.culturalOffer.id=:culturalOfferId")
+	@Query("select uf.user.email from UserFollowing uf where uf.culturalOffer.id=:culturalOfferId order by uf.user.email")
 	public List<String> subscribedEmails(long culturalOfferId);
 
 }

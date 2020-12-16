@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.constants.Constants;
+import com.example.demo.dto.BooleanDTO;
+import com.example.demo.dto.StringDTO;
 import com.example.demo.dto.TypeDTO;
 import com.example.demo.dto.TypeUploadDTO;
 import com.example.demo.dto.UniqueCheckDTO;
@@ -42,7 +44,7 @@ public class TypeController {
 	@Autowired
 	private TypeMapper typeMapper;
 	
-	@GetMapping(value = "")
+	@GetMapping
 	public ResponseEntity<List<TypeDTO>> list(@RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Type> types = this.typeService.list(pageable);
@@ -52,11 +54,11 @@ public class TypeController {
 		return new ResponseEntity<>(this.typeMapper.map(types.toList()), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Void> save(@Valid @ModelAttribute TypeUploadDTO typeDTO) {
 		Type type = this.typeMapper.map(typeDTO);
 		this.typeService.save(type,typeDTO.getPlacemarkIcon());
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -66,13 +68,13 @@ public class TypeController {
 	}
 	
 	@PostMapping(value = "/has_name")
-	public ResponseEntity<Boolean> hasName(@RequestBody UniqueCheckDTO param) {
-		return new ResponseEntity<>(this.typeService.hasName(param), HttpStatus.OK);
+	public ResponseEntity<BooleanDTO> hasName(@RequestBody UniqueCheckDTO param) {
+		return new ResponseEntity<>(new BooleanDTO(this.typeService.hasName(param)), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/filter_names")
-	public ResponseEntity<List<String>> filterNames(@RequestBody String filter){
-		return new ResponseEntity<>(this.typeService.filterNames(filter), HttpStatus.OK);
+	public ResponseEntity<List<String>> filterNames(@RequestBody StringDTO filter){
+		return new ResponseEntity<>(this.typeService.filterNames(filter.getValue()), HttpStatus.OK);
 	}
 	
 }

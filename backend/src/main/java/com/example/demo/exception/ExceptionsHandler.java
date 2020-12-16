@@ -10,7 +10,20 @@ public class ExceptionsHandler {
 
 	@ExceptionHandler
 	public ResponseEntity<ExceptionMessage> handleException(Exception exception){
-		return new ResponseEntity<>(new ExceptionMessage(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+		String message = exception.getMessage();
+		if (message == null) {
+			message = ExceptionConstants.NOT_FOUND;
+		}
+		else if (message.contains("entity with id")) {
+			message = ExceptionConstants.INVALID_ID;
+		}
+		else if (message.contains("must not be null") || message.contains("must not be blank")) {
+			message = ExceptionConstants.NOT_EMPTY_VIOLATION;
+		}
+		else if (message.contains("ConstraintViolationException")) {
+			message = ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION;
+		}
+		return new ResponseEntity<>(new ExceptionMessage(message, HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
 }

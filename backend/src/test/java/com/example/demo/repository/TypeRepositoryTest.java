@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.example.demo.constants.CategoryConstants;
 import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.TypeConstants;
@@ -26,47 +27,60 @@ public class TypeRepositoryTest {
 	private TypeRepository typeRepository;
 	
 	@Test
-	public void testFindByExistingName() {
-		Type t = this.typeRepository.findByName(TypeConstants.NAME_ONE);
-		assertNotNull(t);
-		assertEquals(TypeConstants.ID_ONE, t.getId());
-		assertEquals(TypeConstants.NAME_ONE, t.getName());
+	public void testFindByNameExisting() {
+		Type type = 
+				this.typeRepository
+				.findByName(TypeConstants.NAME_ONE);
+		assertNotNull(type);
+		assertEquals(TypeConstants.ID_ONE, type.getId());
+		assertEquals(TypeConstants.NAME_ONE, type.getName());
+		assertEquals(CategoryConstants.ID_ONE, type.getCategory().getId());
 	}
 
 	@Test
-	public void testFindByNonExistingName() {
-		Type t = this.typeRepository.findByName(TypeConstants.NON_EXISTING_NAME);
-		assertNull(t);
+	public void testFindByNameNonExisting() {
+		Type type = 
+				this.typeRepository
+				.findByName(TypeConstants.NON_EXISTING_NAME);
+		assertNull(type);
 	}
 	
 	@Test
 	public void testFilterNamesEmpty() {
-		List<String> names = this.typeRepository.filterNames(FilterConstants.FILTER_ALL);
+		List<String> names = 
+				this.typeRepository
+				.filterNames(FilterConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
-		assertTrue(names.contains(TypeConstants.NAME_ONE));
-		assertTrue(names.contains(TypeConstants.NAME_TWO));
-		assertTrue(names.contains(TypeConstants.NAME_THREE));
+		assertEquals(TypeConstants.NAME_ONE, names.get(0));
+		assertEquals(TypeConstants.NAME_THREE, names.get(1));
+		assertEquals(TypeConstants.NAME_TWO, names.get(2));
 	}
 	
 	@Test
 	public void testFilterNamesAll() {
-		List<String> names = this.typeRepository.filterNames(TypeConstants.FILTER_NAME_ALL);
+		List<String> names = 
+				this.typeRepository
+				.filterNames(TypeConstants.FILTER_NAME_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
-		assertTrue(names.contains(TypeConstants.NAME_ONE));
-		assertTrue(names.contains(TypeConstants.NAME_TWO));
-		assertTrue(names.contains(TypeConstants.NAME_THREE));
+		assertEquals(TypeConstants.NAME_ONE, names.get(0));
+		assertEquals(TypeConstants.NAME_THREE, names.get(1));
+		assertEquals(TypeConstants.NAME_TWO, names.get(2));
 	}
 	
 	@Test
 	public void testFilterNamesOne() {
-		List<String> names = this.typeRepository.filterNames(FilterConstants.FILTER_ONE);
+		List<String> names = 
+				this.typeRepository
+				.filterNames(FilterConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
 	}
 	
 	@Test
 	public void testFilterNamesNone() {
-		List<String> names = this.typeRepository.filterNames(FilterConstants.FILTER_NONE);
+		List<String> names = 
+				this.typeRepository
+				.filterNames(FilterConstants.FILTER_NONE);
 		assertTrue(names.isEmpty());
 	}
 	

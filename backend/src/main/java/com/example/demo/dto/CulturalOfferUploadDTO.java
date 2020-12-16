@@ -16,7 +16,7 @@ public class CulturalOfferUploadDTO {
 		
 	@NotBlank
 	private String location;
-	
+
 	private double lat;
 	private double lng;
 	private String description;

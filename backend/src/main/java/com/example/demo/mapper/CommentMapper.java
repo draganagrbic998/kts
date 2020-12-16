@@ -31,11 +31,11 @@ public class CommentMapper {
 	}
 	
 	@Transactional(readOnly = true)
-	public Comment map(long culturalOfferId, CommentUploadDTO commentDTO) {
+	public Comment map(CommentUploadDTO commentDTO) {
 		Comment comment = new Comment();
-		comment.setUser(this.userService.currentUser());
-		comment.setCulturalOffer(this.culturalOfferRepository.findById(culturalOfferId).orElse(null));
 		comment.setId(commentDTO.getId());
+		comment.setUser(this.userService.currentUser());
+		comment.setCulturalOffer(this.culturalOfferRepository.findById(commentDTO.getCulturalOfferId()).orElse(null));
 		comment.setRate(commentDTO.getRate());
 		comment.setText(commentDTO.getText());
 		if (commentDTO.getImagePaths() != null) {

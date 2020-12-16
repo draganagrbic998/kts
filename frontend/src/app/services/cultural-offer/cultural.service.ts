@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { LARGE_PAGE_SIZE } from 'src/app/constants/pagination';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
 import { FilterParams } from 'src/app/models/filter-params';
@@ -20,19 +20,19 @@ export class CulturalService {
   private readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
 
   filterNames(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(`${this.API_OFFERS}/filter_names`, filter).pipe(
+    return this.http.post<string[]>(`${this.API_OFFERS}/filter_names`, {value: filter}).pipe(
       catchError(() => of([]))
     );
   }
 
   filterLocations(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(`${this.API_OFFERS}/filter_locations`, filter).pipe(
+    return this.http.post<string[]>(`${this.API_OFFERS}/filter_locations`, {value: filter}).pipe(
       catchError(() => of([]))
     );
   }
 
   filterTypes(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(`${this.API_OFFERS}/filter_types`, filter).pipe(
+    return this.http.post<string[]>(`${this.API_OFFERS}/filter_types`, {value: filter}).pipe(
       catchError(() => of([]))
     );
   }
@@ -53,7 +53,9 @@ export class CulturalService {
   }
 
   hasName(param: UniqueCheck): Observable<boolean>{
-    return this.http.post<boolean>(`${this.API_OFFERS}/has_name`, param);
+    return this.http.post<{value: boolean}>(`${this.API_OFFERS}/has_name`, param).pipe(
+      map((response: {value: boolean}) => response.value)
+    );
   }
 
 }

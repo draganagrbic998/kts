@@ -28,11 +28,7 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
-	@NotNull
-	@Column(name = "created_at")
-	private Date createdAt;
-	
+		
 	@NotNull
 	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "user_id")
@@ -46,6 +42,10 @@ public class Comment {
         )
 	)
 	private CulturalOffer culturalOffer;
+	
+	@NotNull
+	@Column(name = "created_at")
+	private Date createdAt;
 	
 	@Column(name = "rate")
 	private int rate;
@@ -83,14 +83,6 @@ public class Comment {
 		this.id = id;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public User getUser() {
 		return user;
 	}
@@ -105,6 +97,14 @@ public class Comment {
 
 	public void setCulturalOffer(CulturalOffer culturalOffer) {
 		this.culturalOffer = culturalOffer;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public int getRate() {

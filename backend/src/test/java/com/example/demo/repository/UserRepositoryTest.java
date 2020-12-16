@@ -22,49 +22,62 @@ public class UserRepositoryTest {
 	
 	@Test
 	public void testFindByEmailExisting() {
-		User u = this.userRepository.findByEmail(UserConstants.EMAIL_ONE);
-		assertNotNull(u);
-		assertEquals(UserConstants.ID_ONE, u.getId());
-		assertEquals(UserConstants.EMAIL_ONE, u.getEmail());
-		assertEquals(UserConstants.PASSWORD_ONE, u.getPassword());
-		assertEquals(UserConstants.FIRST_NAME_ONE, u.getFirstName());
-		assertEquals(UserConstants.LAST_NAME_ONE, u.getLastName());
+		User user = 
+				this.userRepository
+				.findByEmail(UserConstants.EMAIL_ONE);
+		assertNotNull(user);
+		assertEquals(UserConstants.ID_ONE, user.getId());
+		assertEquals(UserConstants.EMAIL_ONE, user.getEmail());
+		assertEquals(UserConstants.FIRST_NAME_ONE, user.getFirstName());
+		assertEquals(UserConstants.LAST_NAME_ONE, user.getLastName());
 	}
 	
 	@Test
 	public void testFindByEmailNonExisting() {
-		User u = this.userRepository.findByEmail(UserConstants.NON_EXISTING_EMAIL);
-		assertNull(u);
+		User user = 
+				this.userRepository
+				.findByEmail(UserConstants.NON_EXISTING_EMAIL);
+		assertNull(user);
 	}
 	
 	@Test
 	public void testHasEmailNewUserNonExisting() {
-		User u = this.userRepository.hasEmail(null, UserConstants.NON_EXISTING_EMAIL);
-		assertNull(u);
+		User user = 
+				this.userRepository
+				.hasEmail(null, UserConstants.NON_EXISTING_EMAIL);
+		assertNull(user);
 	}
 	
 	@Test
 	public void testHasEmailNewUserExisting() {
-		User u = this.userRepository.hasEmail(null, UserConstants.EMAIL_ONE);
-		assertNotNull(u);
+		User user = 
+				this.userRepository
+				.hasEmail(null, UserConstants.EMAIL_ONE);
+		assertNotNull(user);
 	}
 	
 	@Test
 	public void testHasEmailOldUserOwnEmail() {
-		User u = this.userRepository.hasEmail(UserConstants.ID_ONE, UserConstants.EMAIL_ONE);
-		assertNull(u);
+		User user = 
+				this.userRepository
+				.hasEmail(UserConstants.ID_ONE, UserConstants.EMAIL_ONE);
+		assertNull(user);
 	}
 	
 	@Test
 	public void testHasEmailOldUserNonExisting() {
-		User u = this.userRepository.hasEmail(UserConstants.ID_ONE, UserConstants.NON_EXISTING_EMAIL);
-		assertNull(u);
+		User user = 
+				this.userRepository
+				.hasEmail(UserConstants.ID_ONE, UserConstants.NON_EXISTING_EMAIL);
+		assertNull(user);
 	}
 	
 	@Test
 	public void testHasEmailOldUserExisting() {
-		User u = this.userRepository.hasEmail(UserConstants.ID_ONE, UserConstants.EMAIL_TWO);
-		assertNotNull(u);
+		User user = 
+				this.userRepository
+				.hasEmail(UserConstants.ID_ONE, UserConstants.EMAIL_TWO);
+		assertNotNull(user);
 	}
 
 }

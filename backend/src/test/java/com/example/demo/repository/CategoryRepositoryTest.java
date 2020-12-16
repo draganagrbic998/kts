@@ -26,47 +26,59 @@ public class CategoryRepositoryTest {
 	private CategoryRepository categoryRepository;
 	
 	@Test
-	public void testFindByExistingName() {
-		Category c = this.categoryRepository.findByName(CategoryConstants.NAME_ONE);
-		assertNotNull(c);
-		assertEquals(CategoryConstants.ID_ONE, c.getId());
-		assertEquals(CategoryConstants.NAME_ONE, c.getName());
+	public void testFindByNameExisting() {
+		Category category = 
+				this.categoryRepository
+				.findByName(CategoryConstants.NAME_ONE);
+		assertNotNull(category);
+		assertEquals(CategoryConstants.ID_ONE, category.getId());
+		assertEquals(CategoryConstants.NAME_ONE, category.getName());
 	}
 
 	@Test
-	public void testFindByNonExistingName() {
-		Category c = this.categoryRepository.findByName(CategoryConstants.NON_EXISTING_NAME);
-		assertNull(c);
+	public void testFindByNameNonExisting() {
+		Category category = 
+				this.categoryRepository
+				.findByName(CategoryConstants.NON_EXISTING_NAME);
+		assertNull(category);
 	}
 	
 	@Test
 	public void testFilterNamesEmpty() {
-		List<String> names = this.categoryRepository.filterNames(FilterConstants.FILTER_ALL);
+		List<String> names = 
+				this.categoryRepository
+				.filterNames(FilterConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
-		assertTrue(names.contains(CategoryConstants.NAME_ONE));
-		assertTrue(names.contains(CategoryConstants.NAME_TWO));
-		assertTrue(names.contains(CategoryConstants.NAME_THREE));
+		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
+		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
+		assertEquals(CategoryConstants.NAME_TWO, names.get(2));
 	}
 	
 	@Test
 	public void testFilterNamesAll() {
-		List<String> names = this.categoryRepository.filterNames(CategoryConstants.FILTER_NAME_ALL);
+		List<String> names = 
+				this.categoryRepository
+				.filterNames(CategoryConstants.FILTER_NAME_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
-		assertTrue(names.contains(CategoryConstants.NAME_ONE));
-		assertTrue(names.contains(CategoryConstants.NAME_TWO));
-		assertTrue(names.contains(CategoryConstants.NAME_THREE));
+		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
+		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
+		assertEquals(CategoryConstants.NAME_TWO, names.get(2));
 	}
 	
 	@Test
 	public void testFilterNamesOne() {
-		List<String> names = this.categoryRepository.filterNames(FilterConstants.FILTER_ONE);
+		List<String> names = 
+				this.categoryRepository
+				.filterNames(FilterConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
 	}
 	
 	@Test
 	public void testFilterNamesNone() {
-		List<String> names = this.categoryRepository.filterNames(FilterConstants.FILTER_NONE);
+		List<String> names = 
+				this.categoryRepository
+				.filterNames(FilterConstants.FILTER_NONE);
 		assertTrue(names.isEmpty());
 	}
 

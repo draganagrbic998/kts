@@ -47,67 +47,102 @@ public class CommentServiceTest {
 	@Autowired
 	private CulturalOfferRepository culturalOfferRepository;
 
-	private Pageable pageableAll = PageRequest.of(0, 3);
-	private Pageable pageablePart = PageRequest.of(0, 2);
-	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
+	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
+	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
 	
 	@Test
 	public void testTotalRateMore() {
-		double totalRate = this.commentService.totalRate(CommentConstants.ID_ONE);
-		assertEquals(MainConstants.TOTAL_SIZE, totalRate);		//oce ovaj double uvek raditi??
+		double totalRate = 
+				this.commentService
+				.totalRate(CulturalOfferConstants.ID_ONE);
+		assertEquals(MainConstants.TOTAL_SIZE, totalRate);	//oce ovaj double uvek raditi??
 	}
 	
 	@Test
 	public void testTotalRateOne() {
-		double totalRate = this.commentService.totalRate(CommentConstants.ID_FOUR);
-		assertEquals(MainConstants.ONE_SIZE, totalRate);		//oce ovaj double uvek raditi??
+		double totalRate = 
+				this.commentService
+				.totalRate(CulturalOfferConstants.ID_TWO);
+		assertEquals(MainConstants.ONE_SIZE, totalRate);	//oce ovaj double uvek raditi??
 	}
 		
 	@Test
 	public void testTotalRateNone() {
-		double totalRate = this.commentService.totalRate(MainConstants.NON_EXISTING_ID);
-		assertEquals(MainConstants.NONE_SIZE, totalRate);		//oce ovaj double uvek raditi??
+		double totalRate = 
+				this.commentService
+				.totalRate(MainConstants.NON_EXISTING_ID);
+		assertEquals(MainConstants.NONE_SIZE, totalRate);	//oce ovaj double uvek raditi??
 	}
 
 	@Test
 	public void testListMore() {
-		List<Comment> comments = this.commentService.list(CulturalOfferConstants.ID_ONE, this.pageableAll).getContent();
+		List<Comment> comments = 
+				this.commentService
+				.list(CulturalOfferConstants.ID_ONE, this.pageableAll).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_TWO, comments.get(0).getId());
+		assertEquals(UserConstants.ID_TWO, comments.get(0).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_TWO, this.format.format(comments.get(0).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_TWO, comments.get(0).getText());
 		assertEquals(CommentConstants.ID_ONE, comments.get(1).getId());
+		assertEquals(UserConstants.ID_ONE, comments.get(1).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_ONE, this.format.format(comments.get(1).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_ONE, comments.get(1).getText());
 		assertEquals(CommentConstants.ID_THREE, comments.get(2).getId());
+		assertEquals(UserConstants.ID_TWO, comments.get(2).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(2).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_THREE, this.format.format(comments.get(2).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_THREE, comments.get(2).getText());
 	}
 	
 	@Test
 	public void testListMorePaginated() {
-		List<Comment> comments = this.commentService.list(CulturalOfferConstants.ID_ONE, this.pageablePart).getContent();
+		List<Comment> comments = 
+				this.commentService
+				.list(CulturalOfferConstants.ID_ONE, this.pageablePart).getContent();
 		assertEquals(MainConstants.PART_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_TWO, comments.get(0).getId());
+		assertEquals(UserConstants.ID_TWO, comments.get(0).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_TWO, this.format.format(comments.get(0).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_TWO, comments.get(0).getText());
 		assertEquals(CommentConstants.ID_ONE, comments.get(1).getId());
+		assertEquals(UserConstants.ID_ONE, comments.get(1).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_ONE, this.format.format(comments.get(1).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_ONE, comments.get(1).getText());
 	}
 	
 	@Test
+	public void testListMoreNonExistingPage() {
+		List<Comment> comments = 
+				this.commentService
+				.list(CulturalOfferConstants.ID_ONE, this.pageableNonExisting).getContent();
+		assertTrue(comments.isEmpty());
+	}
+	
+	@Test
 	public void testListOne() {
-		List<Comment> comments = this.commentService.list(CulturalOfferConstants.ID_TWO, this.pageableAll).getContent();
+		List<Comment> comments = 
+				this.commentService
+				.list(CulturalOfferConstants.ID_TWO, this.pageableAll).getContent();
 		assertEquals(MainConstants.ONE_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_FOUR, comments.get(0).getId());
+		assertEquals(UserConstants.ID_ONE, comments.get(0).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_TWO, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_FOUR, this.format.format(comments.get(0).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_FOUR, comments.get(0).getText());
 	}
 	
 	@Test
 	public void testListNone() {
-		List<Comment> comments = this.commentService.list(MainConstants.NON_EXISTING_ID, this.pageableAll).getContent();
+		List<Comment> comments = 
+				this.commentService
+				.list(MainConstants.NON_EXISTING_ID, this.pageableAll).getContent();
 		assertTrue(comments.isEmpty());
 	}
 	
@@ -131,94 +166,160 @@ public class CommentServiceTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testSaveValid() {
+	public void testAddValid() {
 		long size = this.commentRepository.count();
-		Comment c = this.testingComment();
-		c = this.commentService.save(c, null);
+		Comment comment = this.testingComment();
+		comment = this.commentService.save(comment, null);
 		assertEquals(size + 1, this.commentRepository.count());
-		assertEquals(this.format.format(new Date()), this.format.format(c.getCreatedAt()));
-		assertEquals(UserConstants.ID_ONE, c.getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, c.getUser().getId());
-		assertEquals(CommentConstants.TEXT_ONE, c.getText());
+		assertEquals(UserConstants.ID_ONE, comment.getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comment.getCulturalOffer().getId());
+		assertEquals(this.format.format(new Date()), this.format.format(comment.getCreatedAt()));
+		assertEquals(CommentConstants.TEXT_ONE, comment.getText());
+	}
+		
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testAddNullUser() {
+		Comment comment = this.testingComment();
+		comment.setUser(null);
+		this.commentService.save(comment, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullDate() {
-		Comment c = this.testingComment();
-		c.setCreatedAt(null);
-		this.commentService.save(c, null);
+	public void testAddNullOffer() {
+		Comment comment = this.testingComment();
+		comment.setCulturalOffer(null);
+		this.commentService.save(comment, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullUser() {
-		Comment c = this.testingComment();
-		c.setUser(null);
-		this.commentService.save(c, null);
+	public void testAddNullDate() {
+		Comment comment = this.testingComment();
+		comment.setCreatedAt(null);
+		this.commentService.save(comment, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullOffer() {
-		Comment c = this.testingComment();
-		c.setCulturalOffer(null);
-		this.commentService.save(c, null);
+	public void testAddNullText() {
+		Comment comment = this.testingComment();
+		comment.setText(null);
+		this.commentService.save(comment, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullText() {
-		Comment c = this.testingComment();
-		c.setText(null);
-		this.commentService.save(c, null);
+	public void testAddEmptyText() {
+		Comment comment = this.testingComment();
+		comment.setText("");
+		this.commentService.save(comment, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveEmptyText() {
-		Comment c = this.testingComment();
-		c.setText("");
-		this.commentService.save(c, null);
-	}
-	
-	@Test(expected = ConstraintViolationException.class)
-	@Transactional
-	@Rollback(true)
-	public void testSaveBlankText() {
-		Comment c = this.testingComment();
-		c.setText("  ");
-		this.commentService.save(c, null);
+	public void testAddBlankText() {
+		Comment comment = this.testingComment();
+		comment.setText("  ");
+		this.commentService.save(comment, null);
 	}
 	
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testUpdate() {
+	public void testUpdateValid() {
 		long size = this.commentRepository.count();
-		Comment c = this.testingComment();
-		c.setId(CommentConstants.ID_ONE);
-		c = this.commentService.save(c, null);
+		Comment comment = this.testingComment();
+		comment.setId(CommentConstants.ID_ONE);
+		comment = this.commentService.save(comment, null);
 		assertEquals(size, this.commentRepository.count());
-		assertEquals(CommentConstants.ID_ONE, c.getId());
-		assertEquals(this.format.format(new Date()), this.format.format(c.getCreatedAt()));
-		assertEquals(UserConstants.ID_ONE, c.getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, c.getUser().getId());
-		assertEquals(CommentConstants.TEXT_ONE, c.getText());
+		assertEquals(CommentConstants.ID_ONE, comment.getId());
+		assertEquals(UserConstants.ID_ONE, comment.getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comment.getUser().getId());
+		assertEquals(this.format.format(new Date()), this.format.format(comment.getCreatedAt()));
+		assertEquals(CommentConstants.TEXT_ONE, comment.getText());
 	}
 	
-	public Comment testingComment() {
-		Comment c = new Comment();
-		c.setCreatedAt(new Date());
-		c.setUser(this.userRepository.findById(UserConstants.ID_ONE).orElse(null));
-		c.setCulturalOffer(this.culturalOfferRepository.findById(CulturalOfferConstants.ID_ONE).orElse(null));
-		c.setText(CommentConstants.TEXT_ONE);
-		return c;
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullUser() {
+		Comment comment = this.testingComment();
+		comment.setId(CommentConstants.ID_ONE);
+		comment.setUser(null);
+		this.commentService.save(comment, null);
+		this.commentRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullOffer() {
+		Comment comment = this.testingComment();
+		comment.setId(CommentConstants.ID_ONE);
+		comment.setCulturalOffer(null);
+		this.commentService.save(comment, null);
+		this.commentRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullDate() {
+		Comment comment = this.testingComment();
+		comment.setId(CommentConstants.ID_ONE);
+		comment.setCreatedAt(null);
+		this.commentService.save(comment, null);
+		this.commentRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullText() {
+		Comment comment = this.testingComment();
+		comment.setId(CommentConstants.ID_ONE);
+		comment.setText(null);
+		this.commentService.save(comment, null);
+		this.commentRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateEmptyText() {
+		Comment comment = this.testingComment();
+		comment.setId(CommentConstants.ID_ONE);
+		comment.setText("");
+		this.commentService.save(comment, null);
+		this.commentRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateBlankText() {
+		Comment comment = this.testingComment();
+		comment.setId(CommentConstants.ID_ONE);
+		comment.setText("  ");
+		this.commentService.save(comment, null);
+		this.commentRepository.count();
+	}
+	
+	private Comment testingComment() {
+		Comment comment = new Comment();
+		comment.setUser(this.userRepository.findById(UserConstants.ID_ONE).orElse(null));
+		comment.setCulturalOffer(this.culturalOfferRepository.findById(CulturalOfferConstants.ID_ONE).orElse(null));
+		comment.setCreatedAt(new Date());
+		comment.setText(CommentConstants.TEXT_ONE);
+		return comment;
 	}
 
 }

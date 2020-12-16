@@ -24,6 +24,11 @@ public class TypeService {
 	private ImageService imageService;
 	
 	@Transactional(readOnly = true)
+	public boolean hasName(UniqueCheckDTO param) {
+		return this.typeRepository.findByName(param.getName()) != null;
+	}
+	
+	@Transactional(readOnly = true)
 	public List<String> filterNames(String filter){
 		return this.typeRepository.filterNames(filter);
 	}
@@ -34,21 +39,16 @@ public class TypeService {
 	}
 
 	@Transactional(readOnly = false)
+	public void delete(long id) {
+		this.typeRepository.deleteById(id);
+	}
+
+	@Transactional(readOnly = false)
 	public void save(Type type, MultipartFile upload) {
 		if(upload != null) {
 			type.setPlacemarkIcon(imageService.store(upload));
 		}
 		this.typeRepository.save(type);
 	}
-	
-	@Transactional(readOnly = false)
-	public void delete(long id) {
-		this.typeRepository.deleteById(id);
-	}
-	
-	@Transactional(readOnly = true)
-	public boolean hasName(UniqueCheckDTO param) {
-		return this.typeRepository.findByName(param.getName()) != null;
-	}
-
+		
 }

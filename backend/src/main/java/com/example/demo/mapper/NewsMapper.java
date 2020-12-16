@@ -27,11 +27,11 @@ public class NewsMapper {
 	}
 
 	@Transactional(readOnly = true)
-	public News map(long culturalOfferId, NewsUploadDTO newsDTO) {
+	public News map(NewsUploadDTO newsDTO) {
 		News news = new News();
 		news.setId(newsDTO.getId());
+		news.setCulturalOffer(this.culturalOfferRepository.findById(newsDTO.getCulturalOfferId()).orElse(null));
 		news.setText(newsDTO.getText());
-		news.setCulturalOffer(this.culturalOfferRepository.findById(culturalOfferId).orElse(null));
 		if (newsDTO.getImagePaths() != null) {
 			newsDTO.getImagePaths().stream().forEach(image -> news.addImage(this.imageRepository.findByPath(image)));
 		}

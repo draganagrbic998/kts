@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,7 +48,7 @@ public class UserFollowingController {
 		return new ResponseEntity<>(this.culturalOfferMapper.map(culturalOffers.toList()), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/{culturalOfferId}/toggle_subscription")
+	@GetMapping(value = "/{culturalOfferId}/toggle_subscription")
 	public ResponseEntity<Void> toggleSubscription(@PathVariable long culturalOfferId){
 		this.userFollowingService.toggleSubscription(culturalOfferId);
 		return new ResponseEntity<>(HttpStatus.OK);

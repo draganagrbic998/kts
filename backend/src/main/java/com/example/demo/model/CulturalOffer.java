@@ -30,12 +30,6 @@ public class CulturalOffer {
 	@Column(name = "name", unique = true)
 	private String name;
 	
-	@Column(name = "description")
-	private String description;
-	
-	@Column(name = "image")
-	private String image;
-	
 	@NotBlank
 	@Column(name = "location")
 	private String location;
@@ -45,7 +39,13 @@ public class CulturalOffer {
 	
 	@Column(name = "lng")
 	private double lng;
-			
+
+	@Column(name = "description")
+	private String description;
+	
+	@Column(name = "image")
+	private String image;
+				
 	public CulturalOffer() {
 		super();
 	}
@@ -74,22 +74,6 @@ public class CulturalOffer {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
 	public String getLocation() {
 		return location;
 	}
@@ -112,6 +96,22 @@ public class CulturalOffer {
 
 	public void setLng(double lng) {
 		this.lng = lng;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 }

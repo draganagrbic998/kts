@@ -44,6 +44,7 @@ export class CommentFormComponent implements OnInit {
     if (this.comment.id){
       formData.append('id', this.comment.id + '');
     }
+    formData.append('culturalOfferId', this.comment.culturalOfferId + '');
     formData.append('rate', this.rate + '');
     formData.append('text', this.text.value);
     for (const image of this.images){
@@ -56,7 +57,7 @@ export class CommentFormComponent implements OnInit {
     }
 
     this.savePending = true;
-    this.commentService.save(this.comment.culturalOfferId, formData).subscribe(
+    this.commentService.save(formData).subscribe(
       (totalRate: number) => {
         this.dialogRef.close();
         this.saved.emit(totalRate);

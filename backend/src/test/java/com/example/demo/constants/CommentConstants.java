@@ -18,4 +18,6 @@ public class CommentConstants {
 	public static final String DATE_FOUR = "2020-12-11";
 	public static final String TEXT_FOUR = "comment_four";
 	
+	public static final String NON_EXISTING_TEXT = "comment_none";
+	
 }

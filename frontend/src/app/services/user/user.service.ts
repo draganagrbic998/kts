@@ -6,6 +6,7 @@ import { Login } from 'src/app/models/login';
 import { User } from 'src/app/models/user';
 import { Registration } from 'src/app/models/registration';
 import { UniqueCheck } from 'src/app/models/unique-check';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,9 @@ export class UserService {
   }
 
   hasEmail(param: UniqueCheck): Observable<boolean>{
-    return this.http.post<boolean>(`${this.API_AUTH}/has_email`, param);
+    return this.http.post<{value: boolean}>(`${this.API_AUTH}/has_email`, param).pipe(
+      map((response: {value: boolean}) => response.value)
+    );
   }
 
 }

@@ -1,6 +1,5 @@
 package com.example.demo.dto;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -8,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class ProfileUploadDTO {
 	
 	@NotBlank
-	@Email
 	private String email;
 	
 	@NotBlank
@@ -18,9 +16,7 @@ public class ProfileUploadDTO {
 	private String lastName;
 	
 	private String oldPassword;
-	
 	private String newPassword;
-	
 	private MultipartFile image;
 	private String imagePath;
 	

@@ -13,7 +13,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 	
 	public Category findByName(String name);
 	
-	@Query("select distinct c.name from Category c where lower(c.name) like lower(concat('%',:filter,'%'))")
+	@Query("select c.name from Category c where lower(c.name) like lower(concat('%',:filter,'%')) order by c.name")
 	public List<String> filterNames(String filter);
 
 }

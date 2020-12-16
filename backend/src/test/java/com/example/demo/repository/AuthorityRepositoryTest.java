@@ -22,16 +22,20 @@ public class AuthorityRepositoryTest {
 	
 	@Test
 	public void testFindByNameExisting() {
-		Authority a = this.authorityRepository.findByName(AuthorityConstants.NAME_ONE);
-		assertNotNull(a);
-		assertEquals(AuthorityConstants.ID_ONE, a.getId());
-		assertEquals(AuthorityConstants.NAME_ONE, a.getName());
+		Authority authority = 
+				this.authorityRepository
+				.findByName(AuthorityConstants.NAME_ONE);
+		assertNotNull(authority);
+		assertEquals(AuthorityConstants.ID_ONE, authority.getId());
+		assertEquals(AuthorityConstants.NAME_ONE, authority.getName());
 	}
 
 	@Test
 	public void testFindByNameNonExisting() {
-		Authority a = this.authorityRepository.findByName(AuthorityConstants.NON_EXISTING_NAME);
-		assertNull(a);
+		Authority authority = 
+				this.authorityRepository
+				.findByName(AuthorityConstants.NON_EXISTING_NAME);
+		assertNull(authority);
 	}
 	
 }

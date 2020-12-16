@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { SMALL_PAGE_SIZE } from 'src/app/constants/pagination';
 import { UniqueCheck } from 'src/app/models/unique-check';
@@ -34,11 +34,13 @@ export class TypeService {
   }
 
   hasName(param: UniqueCheck): Observable<boolean>{
-    return this.http.post<boolean>(`${this.API_TYPES}/has_name`, param);
+    return this.http.post<{value: boolean}>(`${this.API_TYPES}/has_name`, param).pipe(
+      map((response: {value: boolean}) => response.value)
+    );
   }
 
   filterNames(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(`${this.API_TYPES}/filter_names`, filter);
+    return this.http.post<string[]>(`${this.API_TYPES}/filter_names`, {value: filter});
   }
 
 }

@@ -33,18 +33,19 @@ import com.example.demo.service.CategoryService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CategoryServiceTest {
+	
 	@Autowired
 	private CategoryService categoryService;
 	
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
-	private Pageable pageableAll = PageRequest.of(0, 3);
-	private Pageable pageablePart = PageRequest.of(0, 2);
-	private Pageable pageableNonExisting = PageRequest.of(1, 3);
+		
+	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
+	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	
 	@Test
-	public void testHasNameNewCategoryNonExisting() {
+	public void testHasNameNonExisting() {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(CategoryConstants.NON_EXISTING_NAME);
@@ -52,7 +53,7 @@ public class CategoryServiceTest {
 	}
 	
 	@Test
-	public void testHasNameNewCategoryExisting() {
+	public void testHasNameExisting() {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(CategoryConstants.NAME_ONE);
@@ -61,38 +62,48 @@ public class CategoryServiceTest {
 	
 	@Test
 	public void testFilterNamesEmpty() {
-		List<String> names = this.categoryService.filterNames(FilterConstants.FILTER_ALL);
+		List<String> names = 
+				this.categoryService
+				.filterNames(FilterConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
-		assertTrue(names.contains(CategoryConstants.NAME_ONE));
-		assertTrue(names.contains(CategoryConstants.NAME_TWO));
-		assertTrue(names.contains(CategoryConstants.NAME_THREE));
+		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
+		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
+		assertEquals(CategoryConstants.NAME_TWO, names.get(2));
 	}
 	
 	@Test
 	public void testFilterNamesAll() {
-		List<String> names = this.categoryService.filterNames(CategoryConstants.FILTER_NAME_ALL);
+		List<String> names = 
+				this.categoryService
+				.filterNames(CategoryConstants.FILTER_NAME_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
-		assertTrue(names.contains(CategoryConstants.NAME_ONE));
-		assertTrue(names.contains(CategoryConstants.NAME_TWO));
-		assertTrue(names.contains(CategoryConstants.NAME_THREE));
+		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
+		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
+		assertEquals(CategoryConstants.NAME_TWO, names.get(2));
 	}
 	
 	@Test
 	public void testFilterNamesOne() {
-		List<String> names = this.categoryService.filterNames(FilterConstants.FILTER_ONE);
+		List<String> names = 
+				this.categoryService
+				.filterNames(FilterConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
 	}
 	
 	@Test
 	public void testFilterNamesNone() {
-		List<String> names = this.categoryService.filterNames(FilterConstants.FILTER_NONE);
+		List<String> names = 
+				this.categoryService
+				.filterNames(FilterConstants.FILTER_NONE);
 		assertTrue(names.isEmpty());
 	}
 	
 	@Test
 	public void testListAll() {
-		List<Category> categories = this.categoryService.list(this.pageableAll).getContent();
+		List<Category> categories = 
+				this.categoryService
+				.list(this.pageableAll).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, categories.size());
 		assertEquals(CategoryConstants.ID_ONE, categories.get(0).getId());
 		assertEquals(CategoryConstants.NAME_ONE, categories.get(0).getName());
@@ -104,7 +115,9 @@ public class CategoryServiceTest {
 	
 	@Test
 	public void testListAllPaginated() {
-		List<Category> categories = this.categoryService.list(this.pageablePart).getContent();
+		List<Category> categories = 
+				this.categoryService
+				.list(this.pageablePart).getContent();
 		assertEquals(MainConstants.PART_SIZE, categories.size());
 		assertEquals(CategoryConstants.ID_ONE, categories.get(0).getId());
 		assertEquals(CategoryConstants.NAME_ONE, categories.get(0).getName());
@@ -113,29 +126,28 @@ public class CategoryServiceTest {
 	}
 	
 	@Test
-	public void testListNonExistingPage() {
-		List<Category> categories = this.categoryService.list(this.pageableNonExisting).getContent();
+	public void testListAllNonExistingPage() {
+		List<Category> categories = 
+				this.categoryService
+				.list(this.pageableNonExisting).getContent();
 		assertEquals(MainConstants.NONE_SIZE, categories.size());
 	}
 	
-
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testDeleteExistingWithoutCulturalOffer() {
-		Category cat = this.testingCategory();
-		this.categoryRepository.save(cat);
+	public void testDeleteExisting() {
+		long id = this.categoryRepository.save(this.testingCategory()).getId();
 		long size = this.categoryRepository.count();
-		this.categoryService.delete(CategoryConstants.ID_FOUR);
+		this.categoryService.delete(id);
 		assertEquals(size - 1, this.categoryRepository.count());
-		assertNull(this.categoryRepository.findById(CategoryConstants.ID_FOUR).orElse(null));
+		assertNull(this.categoryRepository.findById(id).orElse(null));
 	}
-	
 	
 	@Test(expected = DataIntegrityViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testDeleteExistingWithCulturalOffer() {
+	public void testDeleteWithType() {
 		this.categoryService.delete(CategoryConstants.ID_ONE);
 		this.categoryRepository.count();
 	}
@@ -150,7 +162,7 @@ public class CategoryServiceTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testSaveValid() {
+	public void testAddValid() {
 		long size = this.categoryRepository.count();
 		Category category = this.testingCategory();
 		this.categoryService.save(category);
@@ -158,11 +170,10 @@ public class CategoryServiceTest {
 		assertEquals(CategoryConstants.NON_EXISTING_NAME, category.getName());
 	}
 	
-	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullName() {
+	public void testAddNullName() {
 		Category category = this.testingCategory();
 		category.setName(null);
 		this.categoryService.save(category);
@@ -171,7 +182,7 @@ public class CategoryServiceTest {
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveEmptyName() {
+	public void testAddEmptyName() {
 		Category category = this.testingCategory();
 		category.setName("");
 		this.categoryService.save(category);
@@ -180,7 +191,7 @@ public class CategoryServiceTest {
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveBlankName() {
+	public void testAddBlankName() {
 		Category category = this.testingCategory();
 		category.setName("  ");
 		this.categoryService.save(category);
@@ -189,17 +200,16 @@ public class CategoryServiceTest {
 	@Test(expected = DataIntegrityViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNonUniqueName() {
+	public void testAddNonUniqueName() {
 		Category category = this.testingCategory();
 		category.setName(CategoryConstants.NAME_ONE);
 		this.categoryService.save(category);
 	}
 	
-	
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testUpdate() {
+	public void testUpdateValid() {
 		long size = this.categoryRepository.count();
 		Category category = this.testingCategory();
 		category.setId(CulturalOfferConstants.ID_ONE);
@@ -209,13 +219,54 @@ public class CategoryServiceTest {
 		assertEquals(CategoryConstants.NON_EXISTING_NAME, category.getName());
 	}
 	
-	public Category testingCategory() {
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullName() {
+		Category category = this.testingCategory();
+		category.setId(CulturalOfferConstants.ID_ONE);
+		category.setName(null);
+		this.categoryService.save(category);
+		this.categoryRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateEmptyName() {
+		Category category = this.testingCategory();
+		category.setId(CulturalOfferConstants.ID_ONE);
+		category.setName("");
+		this.categoryService.save(category);
+		this.categoryRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateBlankName() {
+		Category category = this.testingCategory();
+		category.setId(CulturalOfferConstants.ID_ONE);
+		category.setName("  ");
+		this.categoryService.save(category);
+		this.categoryRepository.count();
+	}
+	
+	@Test(expected = DataIntegrityViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNonUniqueName() {
+		Category category = this.testingCategory();
+		category.setId(CulturalOfferConstants.ID_ONE);
+		category.setName(CategoryConstants.NAME_TWO);
+		this.categoryService.save(category);
+		this.categoryRepository.count();
+	}
+	
+	private Category testingCategory() {
 		Category category = new Category();
 		category.setName(CategoryConstants.NON_EXISTING_NAME);
 		return category;
 	}
-	
-	
-	
 
 }

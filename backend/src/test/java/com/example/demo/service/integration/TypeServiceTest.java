@@ -34,6 +34,7 @@ import com.example.demo.service.TypeService;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class TypeServiceTest {
+	
 	@Autowired
 	private TypeService typeService;
 	
@@ -43,12 +44,12 @@ public class TypeServiceTest {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
-	private Pageable pageableAll = PageRequest.of(0, 3);
-	private Pageable pageablePart = PageRequest.of(0, 2);
-	private Pageable pageableNonExisting = PageRequest.of(1, 3);
+	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
+	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 
 	@Test
-	public void testHasNameNewTypeNonExisting() {
+	public void testHasNameNonExisting() {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(TypeConstants.NON_EXISTING_NAME);
@@ -56,7 +57,7 @@ public class TypeServiceTest {
 	}
 	
 	@Test
-	public void testHasNameNewTypeExisting() {
+	public void testHasNameExisting() {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(TypeConstants.NAME_ONE);
@@ -65,80 +66,92 @@ public class TypeServiceTest {
 	
 	@Test
 	public void testFilterNamesEmpty() {
-		List<String> names = this.typeService.filterNames(FilterConstants.FILTER_ALL);
+		List<String> names = 
+				this.typeService
+				.filterNames(FilterConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
-		assertTrue(names.contains(TypeConstants.NAME_ONE));
-		assertTrue(names.contains(TypeConstants.NAME_TWO));
-		assertTrue(names.contains(TypeConstants.NAME_THREE));
+		assertEquals(TypeConstants.NAME_ONE, names.get(0));
+		assertEquals(TypeConstants.NAME_THREE, names.get(1));
+		assertEquals(TypeConstants.NAME_TWO, names.get(2));
 	}
 	
 	@Test
 	public void testFilterNamesAll() {
-		List<String> names = this.typeService.filterNames(TypeConstants.FILTER_NAME_ALL);
+		List<String> names = 
+				this.typeService
+				.filterNames(TypeConstants.FILTER_NAME_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
-		assertTrue(names.contains(TypeConstants.NAME_ONE));
-		assertTrue(names.contains(TypeConstants.NAME_TWO));
-		assertTrue(names.contains(TypeConstants.NAME_THREE));
+		assertEquals(TypeConstants.NAME_ONE, names.get(0));
+		assertEquals(TypeConstants.NAME_THREE, names.get(1));
+		assertEquals(TypeConstants.NAME_TWO, names.get(2));
 	}
 	
 	@Test
 	public void testFilterNamesOne() {
-		List<String> names = this.typeService.filterNames(FilterConstants.FILTER_ONE);
+		List<String> names = 
+				this.typeService
+				.filterNames(FilterConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
 	}
 	
 	@Test
 	public void testFilterNamesNone() {
-		List<String> names = this.typeService.filterNames(FilterConstants.FILTER_NONE);
+		List<String> names = 
+				this.typeService
+				.filterNames(FilterConstants.FILTER_NONE);
 		assertTrue(names.isEmpty());
 	}
 	
 	@Test
 	public void testListAll() {
-		List<Type> types = this.typeService.list(this.pageableAll).getContent();
+		List<Type> types = 
+				this.typeService
+				.list(this.pageableAll).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.ID_ONE, types.get(0).getId());
+		assertEquals(CategoryConstants.ID_ONE, types.get(0).getCategory().getId());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0).getName());
-		assertEquals(TypeConstants.PLACEMARK_ONE, types.get(0).getPlacemarkIcon());
 		assertEquals(TypeConstants.ID_TWO, types.get(1).getId());
+		assertEquals(CategoryConstants.ID_TWO, types.get(1).getCategory().getId());
 		assertEquals(TypeConstants.NAME_TWO, types.get(1).getName());
-		assertEquals(TypeConstants.PLACEMARK_TWO, types.get(1).getPlacemarkIcon());
 		assertEquals(TypeConstants.ID_THREE, types.get(2).getId());
+		assertEquals(CategoryConstants.ID_THREE, types.get(2).getCategory().getId());
 		assertEquals(TypeConstants.NAME_THREE, types.get(2).getName());
-		assertEquals(TypeConstants.PLACEMARK_THREE, types.get(2).getPlacemarkIcon());
 	}
 	
 	@Test
 	public void testListAllPaginated() {
-		List<Type> types = this.typeService.list(this.pageablePart).getContent();
+		List<Type> types = 
+				this.typeService
+				.list(this.pageablePart).getContent();
 		assertEquals(MainConstants.PART_SIZE, types.size());
 		assertEquals(TypeConstants.ID_ONE, types.get(0).getId());
+		assertEquals(CategoryConstants.ID_ONE, types.get(0).getCategory().getId());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0).getName());
-		assertEquals(TypeConstants.PLACEMARK_ONE, types.get(0).getPlacemarkIcon());
 		assertEquals(TypeConstants.ID_TWO, types.get(1).getId());
+		assertEquals(CategoryConstants.ID_TWO, types.get(1).getCategory().getId());
 		assertEquals(TypeConstants.NAME_TWO, types.get(1).getName());
-		assertEquals(TypeConstants.PLACEMARK_TWO, types.get(1).getPlacemarkIcon());
 	}
 	
 	@Test
-	public void testListNonExistingPage() {
-		List<Type> types  = this.typeService.list(this.pageableNonExisting).getContent();
-		assertEquals(MainConstants.NONE_SIZE, types.size());
+	public void testListAllNonExistingPage() {
+		List<Type> types  = 
+				this.typeService
+				.list(this.pageableNonExisting).getContent();
+		assertTrue(types.isEmpty());
 	}
 	
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testDeleteExistingWithoutCulturalOffer() {
-		Type type = this.testingType();
-		this.typeRepository.save(type);
+	public void testDeleteExisting() {
+		long id = this.typeRepository.save(this.testingType()).getId();
 		long size = this.typeRepository.count();
-		this.typeService.delete(TypeConstants.ID_FOUR);
+		this.typeService.delete(id);
 		assertEquals(size - 1, this.typeRepository.count());
-		assertNull(this.typeRepository.findById(TypeConstants.ID_FOUR).orElse(null));
+		assertNull(this.typeRepository.findById(id).orElse(null));
 	}
-	
 	
 	@Test(expected = DataIntegrityViolationException.class)
 	@Transactional
@@ -158,18 +171,19 @@ public class TypeServiceTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testSaveValid() {
+	public void testAddValid() {
 		long size = this.typeRepository.count();
 		Type type = this.testingType();
-		this.typeService.save(type,null);
+		this.typeService.save(type, null);
 		assertEquals(size + 1, this.typeRepository.count());
+		assertEquals(CategoryConstants.ID_ONE, type.getCategory().getId());
 		assertEquals(TypeConstants.NON_EXISTING_NAME, type.getName());
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullCategory() {
+	public void testAddNullCategory() {
 		Type type = this.testingType();
 		type.setCategory(null);
 		this.typeService.save(type, null);
@@ -178,60 +192,112 @@ public class TypeServiceTest {
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullName() {
+	public void testAddNullName() {
 		Type type = this.testingType();
 		type.setName(null);
-		this.typeService.save(type,null);
+		this.typeService.save(type, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveEmptyName() {
+	public void testAddEmptyName() {
 		Type type = this.testingType();
 		type.setName("");
-		this.typeService.save(type,null);
+		this.typeService.save(type, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveBlankName() {
+	public void testAddBlankName() {
 		Type type = this.testingType();
 		type.setName("  ");
-		this.typeService.save(type,null);
+		this.typeService.save(type, null);
 	}
 	
 	@Test(expected = DataIntegrityViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNonUniqueName() {
+	public void testAddNonUniqueName() {
 		Type type = this.testingType();
 		type.setName(TypeConstants.NAME_ONE);
-		this.typeService.save(type,null);
+		this.typeService.save(type, null);
 	}
-	
 	
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testUpdate() {
+	public void testUpdateValid() {
 		long size = this.typeRepository.count();
 		Type type = this.testingType();
 		type.setId(TypeConstants.ID_ONE);
-		this.typeService.save(type,null);
+		this.typeService.save(type, null);
 		assertEquals(size, this.typeRepository.count());
 		assertEquals(TypeConstants.ID_ONE, type.getId());
+		assertEquals(CategoryConstants.ID_ONE, type.getCategory().getId());
 		assertEquals(TypeConstants.NON_EXISTING_NAME, type.getName());
-		assertEquals(TypeConstants.PLACEMARK_THREE, type.getPlacemarkIcon());
-
 	}
 	
-	public Type testingType() {
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullCategory() {
+		Type type = this.testingType();
+		type.setId(TypeConstants.ID_ONE);
+		type.setCategory(null);
+		this.typeService.save(type, null);
+		this.typeRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullName() {
+		Type type = this.testingType();
+		type.setId(TypeConstants.ID_ONE);
+		type.setName(null);
+		this.typeService.save(type, null);
+		this.typeRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateEmptyName() {
+		Type type = this.testingType();
+		type.setId(TypeConstants.ID_ONE);
+		type.setName("");
+		this.typeService.save(type, null);
+		this.typeRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateBlankName() {
+		Type type = this.testingType();
+		type.setId(TypeConstants.ID_ONE);
+		type.setName("  ");
+		this.typeService.save(type, null);
+		this.typeRepository.count();
+	}
+	
+	@Test(expected = DataIntegrityViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNonUniqueName() {
+		Type type = this.testingType();
+		type.setId(TypeConstants.ID_ONE);
+		type.setName(TypeConstants.NAME_TWO);
+		this.typeService.save(type, null);
+		this.typeRepository.count();
+	}
+	
+	private Type testingType() {
 		Type type = new Type();
+		type.setCategory(this.categoryRepository.findById(CategoryConstants.ID_ONE).orElse(null));
 		type.setName(TypeConstants.NON_EXISTING_NAME);
-		type.setCategory(this.categoryRepository.findById(1l).orElse(null));
-		type.setPlacemarkIcon(TypeConstants.PLACEMARK_THREE);
 		return type;
 	}
 }

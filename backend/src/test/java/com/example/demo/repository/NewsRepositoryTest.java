@@ -27,9 +27,9 @@ public class NewsRepositoryTest {
 	@Autowired
 	private NewsRepository newsRepository;
 
-	private Pageable pageableAll = PageRequest.of(0, 3);
-	private Pageable pageablePart = PageRequest.of(0, 2);
-	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
+	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
 
 	@Test
 	public void testListNonExisting() {

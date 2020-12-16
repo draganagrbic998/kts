@@ -3,6 +3,8 @@ package com.example.demo.service.integration;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
 
 import com.example.demo.constants.AccountActivationConstants;
 import com.example.demo.constants.UserConstants;
@@ -50,29 +51,18 @@ public class AccountActivationServiceTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testSaveUserExisting() {
+	public void testSaveValid() {
 		long size = this.accountActivationRepository.count();
-		User u = this.userRepository.findByEmail(UserConstants.EMAIL_ONE);
-		System.out.println(u.getId());
-		this.accountActivationService.save(u);
+		User user = this.userRepository.findByEmail(UserConstants.EMAIL_ONE);
+		this.accountActivationService.save(user);
 		assertEquals(size + 1,this.accountActivationRepository.count());
 	}
 	
-	@Test(expected = InvalidDataAccessApiUsageException.class)
+	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveUserNonExisting() {
-		User u = this.testingUser();
-		this.accountActivationService.save(u);
-	}
-	
-	public User testingUser() {
-		User u = new User();
-		u.setEmail(UserConstants.NON_EXISTING_EMAIL);
-		u.setFirstName(UserConstants.FIRST_NAME_ONE);
-		u.setLastName(UserConstants.LAST_NAME_ONE);
-		u.setPassword(UserConstants.PASSWORD_ONE);
-		return u;
+	public void testSaveNullUser() {
+		this.accountActivationService.save(null);
 	}
 
 }

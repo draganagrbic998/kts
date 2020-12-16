@@ -23,21 +23,21 @@ public class AccountActivationRepositoryTest {
 	
 	@Test
 	public void testFindByCodeExisting() {
-		AccountActivation a = this.accountActivationRepository.findByCode(AccountActivationConstants.CODE_ONE);
-		assertNotNull(a);
-		assertEquals(AccountActivationConstants.ID_ONE, a.getId());
-		assertEquals(AccountActivationConstants.CODE_ONE, a.getCode());
-		assertEquals(UserConstants.ID_ONE, a.getUser().getId());
-		assertEquals(UserConstants.EMAIL_ONE, a.getUser().getEmail());
-		assertEquals(UserConstants.PASSWORD_ONE, a.getUser().getPassword());
-		assertEquals(UserConstants.FIRST_NAME_ONE, a.getUser().getFirstName());
-		assertEquals(UserConstants.LAST_NAME_ONE, a.getUser().getLastName());
+		AccountActivation accountActivation = 
+				this.accountActivationRepository
+				.findByCode(AccountActivationConstants.CODE_ONE);
+		assertNotNull(accountActivation);
+		assertEquals(AccountActivationConstants.ID_ONE, accountActivation.getId());
+		assertEquals(AccountActivationConstants.CODE_ONE, accountActivation.getCode());
+		assertEquals(UserConstants.ID_ONE, accountActivation.getUser().getId());
 	}
 	
 	@Test
 	public void testFindByCodeNonExisting() {
-		AccountActivation a = this.accountActivationRepository.findByCode(AccountActivationConstants.NON_EXISTING_CODE);
-		assertNull(a);
+		AccountActivation accountActivation = 
+				this.accountActivationRepository
+				.findByCode(AccountActivationConstants.NON_EXISTING_CODE);
+		assertNull(accountActivation);
 	}
 	
 }

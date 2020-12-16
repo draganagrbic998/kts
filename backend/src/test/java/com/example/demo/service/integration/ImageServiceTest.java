@@ -30,42 +30,87 @@ public class ImageServiceTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testSaveValid() {
+	public void testAddValid() {
 		long size = this.imageRepository.count();
-		Image i = this.testingImage();
-		i = this.imageService.save(i);
+		Image image = this.testingImage();
+		image = this.imageService.save(image);
 		assertEquals(size + 1, this.imageRepository.count());
-		assertEquals(ImageConstants.NON_EXISTING_PATH, i.getPath());
+		assertEquals(ImageConstants.NON_EXISTING_PATH, image.getPath());
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullPath() {
-		Image i = this.testingImage();
-		i.setPath(null);
-		this.imageService.save(i);
+	public void testAddNullPath() {
+		Image image = this.testingImage();
+		image.setPath(null);
+		this.imageService.save(image);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveEmptyPath() {
-		Image i = this.testingImage();
-		i.setPath("");
-		this.imageService.save(i);
+	public void testAddEmptyPath() {
+		Image image = this.testingImage();
+		image.setPath("");
+		this.imageService.save(image);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveBlankPath() {
-		Image i = this.testingImage();
-		i.setPath("  ");
-		this.imageService.save(i);
+	public void testAddBlankPath() {
+		Image image = this.testingImage();
+		image.setPath("  ");
+		this.imageService.save(image);
 	}
 	
-	public Image testingImage() {
+	@Test
+	@Transactional
+	@Rollback(true)
+	public void testUpdateValid() {
+		long size = this.imageRepository.count();
+		Image image = this.testingImage();
+		image.setId(ImageConstants.ID_ONE);
+		image = this.imageService.save(image);
+		assertEquals(size, this.imageRepository.count());
+		assertEquals(ImageConstants.NON_EXISTING_PATH, image.getPath());
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullPath() {
+		Image image = this.testingImage();
+		image.setId(ImageConstants.ID_ONE);
+		image.setPath(null);
+		this.imageService.save(image);
+		this.imageRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateEmptyPath() {
+		Image image = this.testingImage();
+		image.setId(ImageConstants.ID_ONE);
+		image.setPath("");
+		this.imageService.save(image);
+		this.imageRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateBlankPath() {
+		Image image = this.testingImage();
+		image.setId(ImageConstants.ID_ONE);
+		image.setPath("  ");
+		this.imageService.save(image);
+		this.imageRepository.count();
+	}
+	
+	private Image testingImage() {
 		Image image = new Image();
 		image.setPath(ImageConstants.NON_EXISTING_PATH);
 		return image;

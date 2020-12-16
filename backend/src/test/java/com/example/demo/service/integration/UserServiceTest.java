@@ -18,6 +18,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.constants.Constants;
 import com.example.demo.constants.CulturalOfferConstants;
 import com.example.demo.constants.UserConstants;
 import com.example.demo.dto.UniqueCheckDTO;
@@ -42,19 +43,20 @@ public class UserServiceTest {
 	
 	@Test
 	public void testloadUserByUsernameExisting() {
-		User u = (User) this.userService.loadUserByUsername(UserConstants.EMAIL_ONE);
-		assertNotNull(u);
-		assertEquals(UserConstants.ID_ONE, u.getId());
-		assertEquals(UserConstants.EMAIL_ONE, u.getEmail());
-		assertEquals(UserConstants.PASSWORD_ONE, u.getPassword());
-		assertEquals(UserConstants.FIRST_NAME_ONE, u.getFirstName());
-		assertEquals(UserConstants.LAST_NAME_ONE, u.getLastName());
+		User user = (User) this.userService
+				.loadUserByUsername(UserConstants.EMAIL_ONE);
+		assertNotNull(user);
+		assertEquals(UserConstants.ID_ONE, user.getId());
+		assertEquals(UserConstants.EMAIL_ONE, user.getEmail());
+		assertEquals(UserConstants.FIRST_NAME_ONE, user.getFirstName());
+		assertEquals(UserConstants.LAST_NAME_ONE, user.getLastName());
 	}
 	
 	@Test
 	public void testloadUserByUsernameNonExisting() {
-		User u = (User) this.userService.loadUserByUsername(UserConstants.NON_EXISTING_EMAIL);
-		assertNull(u);
+		User user = (User) this.userService
+				.loadUserByUsername(UserConstants.NON_EXISTING_EMAIL);
+		assertNull(user);
 	}
 	
 	@Test
@@ -100,153 +102,293 @@ public class UserServiceTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testSaveValid() {
+	public void testAddValid() {
 		long size = this.userRepository.count();
-		User u = this.testingUser();
-		u = this.userService.save(u, null);
+		User user = this.testingUser();
+		user = this.userService.save(user, null);
 		assertEquals(size + 1, this.userRepository.count());
-		assertEquals(UserConstants.NON_EXISTING_EMAIL, u.getEmail());
-		assertEquals(UserConstants.PASSWORD_ONE, u.getPassword());
-		assertEquals(UserConstants.FIRST_NAME_ONE, u.getFirstName());
-		assertEquals(UserConstants.LAST_NAME_ONE, u.getLastName());
+		assertEquals(UserConstants.NON_EXISTING_EMAIL, user.getEmail());
+		assertEquals(UserConstants.FIRST_NAME_ONE, user.getFirstName());
+		assertEquals(UserConstants.LAST_NAME_ONE, user.getLastName());
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullEmail() {
-		User u = this.testingUser();
-		u.setEmail(null);
-		this.userService.save(u, null);
+	public void testAddNullEmail() {
+		User user = this.testingUser();
+		user.setEmail(null);
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveEmptyEmail() {
-		User u = this.testingUser();
-		u.setEmail("");
-		this.userService.save(u, null);
+	public void testAddEmptyEmail() {
+		User user = this.testingUser();
+		user.setEmail("");
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveBlankEmail() {
-		User u = this.testingUser();
-		u.setEmail("  ");
-		this.userService.save(u, null);
+	public void testAddBlankEmail() {
+		User user = this.testingUser();
+		user.setEmail("  ");
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = DataIntegrityViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNonUniqueEmail() {
-		User u = this.testingUser();
-		u.setEmail(UserConstants.EMAIL_ONE);
-		this.userService.save(u, null);
+	public void testAddNonUniqueEmail() {
+		User user = this.testingUser();
+		user.setEmail(UserConstants.EMAIL_ONE);
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullPassword() {
-		User u = this.testingUser();
-		u.setPassword(null);
-		this.userService.save(u, null);
+	public void testAddNullPassword() {
+		User user = this.testingUser();
+		user.setPassword(null);
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveEmptyPassword() {
-		User u = this.testingUser();
-		u.setPassword("");
-		this.userService.save(u, null);
+	public void testAddEmptyPassword() {
+		User user = this.testingUser();
+		user.setPassword("");
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveBlankPassword() {
-		User u = this.testingUser();
-		u.setPassword(" ");
-		this.userService.save(u, null);
+	public void testAddBlankPassword() {
+		User user = this.testingUser();
+		user.setPassword(" ");
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullFirstName() {
-		User u = this.testingUser();
-		u.setFirstName(null);
-		this.userService.save(u, null);
+	public void testAddNullFirstName() {
+		User user = this.testingUser();
+		user.setFirstName(null);
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveEmptyFirstName() {
-		User u = this.testingUser();
-		u.setFirstName("");
-		this.userService.save(u, null);
+	public void testAddEmptyFirstName() {
+		User user = this.testingUser();
+		user.setFirstName("");
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveBlankFirstName() {
-		User u = this.testingUser();
-		u.setFirstName("  ");
-		this.userService.save(u, null);
+	public void testAddBlankFirstName() {
+		User user = this.testingUser();
+		user.setFirstName("  ");
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullLastName() {
-		User u = this.testingUser();
-		u.setLastName(null);
-		this.userService.save(u, null);
+	public void testAddNullLastName() {
+		User user = this.testingUser();
+		user.setLastName(null);
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveEmptyLastName() {
-		User u = this.testingUser();
-		u.setLastName("");
-		this.userService.save(u, null);
+	public void testAddEmptyLastName() {
+		User user = this.testingUser();
+		user.setLastName("");
+		this.userService.save(user, null);
 	}
 	
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveBlanklLastName() {
-		User u = this.testingUser();
-		u.setLastName("  ");
-		this.userService.save(u, null);
+	public void testAddBlanklLastName() {
+		User user = this.testingUser();
+		user.setLastName("  ");
+		this.userService.save(user, null);
 	}
 	
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testUpdate() {
+	public void testUpdateValid() {
 		long size = this.userRepository.count();
-		User u = this.testingUser();
-		u.setId(UserConstants.ID_ONE);
-		u = this.userService.save(u, null);
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user = this.userService.save(user, null);
 		assertEquals(size, this.userRepository.count());
-		assertEquals(UserConstants.ID_ONE, u.getId());
-		assertEquals(UserConstants.NON_EXISTING_EMAIL, u.getEmail());
-		assertEquals(UserConstants.PASSWORD_ONE, u.getPassword());
-		assertEquals(UserConstants.FIRST_NAME_ONE, u.getFirstName());
-		assertEquals(UserConstants.LAST_NAME_ONE, u.getLastName());
+		assertEquals(UserConstants.ID_ONE, user.getId());
+		assertEquals(UserConstants.NON_EXISTING_EMAIL, user.getEmail());
+		assertEquals(UserConstants.FIRST_NAME_ONE, user.getFirstName());
+		assertEquals(UserConstants.LAST_NAME_ONE, user.getLastName());
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullEmail() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setEmail(null);
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateEmptyEmail() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setEmail("");
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateBlankEmail() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setEmail("  ");
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = DataIntegrityViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNonUniqueEmail() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setEmail(UserConstants.EMAIL_TWO);
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullPassword() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setPassword(null);
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateEmptyPassword() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setPassword("");
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateBlankPassword() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setPassword(" ");
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullFirstName() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setFirstName(null);
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateEmptyFirstName() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setFirstName("");
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateBlankFirstName() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setFirstName("  ");
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullLastName() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setLastName(null);
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateEmptyLastName() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setLastName("");
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateBlanklLastName() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setLastName("  ");
+		this.userService.save(user, null);
+		this.userRepository.count();
 	}
 	
 	@Test
 	public void testCurrentUserNull() {
-		this.removeAuthentication();
 		assertNull(this.userService.currentUser());
 	}
 	
@@ -257,14 +399,12 @@ public class UserServiceTest {
 		assertNotNull(u);
 		assertEquals(UserConstants.ID_TWO, u.getId());
 		assertEquals(UserConstants.EMAIL_TWO, u.getEmail());
-		assertEquals(UserConstants.PASSWORD_TWO, u.getPassword());
 		assertEquals(UserConstants.FIRST_NAME_TWO, u.getFirstName());
 		assertEquals(UserConstants.LAST_NAME_TWO, u.getLastName());
 	}
 	
 	@Test
 	public void testUserIsFollowingNullUser() {
-		this.removeAuthentication();
 		assertFalse(this.userService.userIsFollowing(CulturalOfferConstants.ID_ONE));
 	}
 	
@@ -286,27 +426,26 @@ public class UserServiceTest {
 		assertTrue(this.userService.userIsFollowing(CulturalOfferConstants.ID_ONE));
 	}
 	
-	public User testingUser() {
-		User u = new User();
-		u.setEmail(UserConstants.NON_EXISTING_EMAIL);
-		u.setPassword(UserConstants.PASSWORD_ONE);
-		u.setFirstName(UserConstants.FIRST_NAME_ONE);
-		u.setLastName(UserConstants.LAST_NAME_ONE);
-		return u;
+	private User testingUser() {
+		User user = new User();
+		user.setEmail(UserConstants.NON_EXISTING_EMAIL);
+		user.setPassword(UserConstants.LOGIN_PASSWORD);
+		user.setFirstName(UserConstants.FIRST_NAME_ONE);
+		user.setLastName(UserConstants.LAST_NAME_ONE);
+		return user;
 	}
 	
 	public void setAuthentication(boolean admin) {
 		User user = this.userRepository.findById(UserConstants.ID_TWO).orElse(null);
 		if (admin) {
-			user.getAuthority().setName("admin");
+			user.getAuthority().setName(Constants.ADMIN_AUTHORITY);
+		}
+		else {
+			user.getAuthority().setName(Constants.GUEST_AUTHORITY);			
 		}
 		String token = this.tokenUtils.generateToken(user.getUsername());
 		AuthToken authToken = new AuthToken(user, token);
 		SecurityContextHolder.getContext().setAuthentication(authToken);
-	}
-	
-	public void removeAuthentication() {
-		SecurityContextHolder.getContext().setAuthentication(null);
 	}
 	
 }

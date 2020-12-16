@@ -22,16 +22,20 @@ public class ImageRepositoryTest {
 	
 	@Test
 	public void testFindByPathExisting() {
-		Image i = this.imageRepository.findByPath(ImageConstants.PATH_ONE);
-		assertNotNull(i);
-		assertEquals(ImageConstants.ID_ONE, i.getId());
-		assertEquals(ImageConstants.PATH_ONE, i.getPath());
+		Image image = 
+				this.imageRepository
+				.findByPath(ImageConstants.PATH_ONE);
+		assertNotNull(image);
+		assertEquals(ImageConstants.ID_ONE, image.getId());
+		assertEquals(ImageConstants.PATH_ONE, image.getPath());
 	}
 	
 	@Test
 	public void testFindByPathNonExisting() {
-		Image i = this.imageRepository.findByPath(ImageConstants.NON_EXISTING_PATH);
-		assertNull(i);
+		Image image = 
+				this.imageRepository
+				.findByPath(ImageConstants.NON_EXISTING_PATH);
+		assertNull(image);
 	}
 
 }

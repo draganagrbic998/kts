@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.demo.dto.BooleanDTO;
 import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.ProfileDTO;
 import com.example.demo.dto.RegisterDTO;
@@ -46,6 +47,24 @@ public class AuthController {
 	@Autowired
 	private AuthenticationManager authManager;
 	
+	@PostMapping(value = "/has_email")
+	public ResponseEntity<BooleanDTO> hasEmail(@RequestBody UniqueCheckDTO param) {
+		return new ResponseEntity<>(new BooleanDTO(this.userService.hasEmail(param)), HttpStatus.OK);
+	}
+		
+	@GetMapping(value = "/activate/{code}")
+	public ResponseEntity<Void> activate(@PathVariable String code){
+		this.accountActivationService.activate(code);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/register")
+	public ResponseEntity<Void> register(@Valid @RequestBody RegisterDTO registerDTO){
+		User user = this.userService.save(this.userMapper.map(registerDTO), null);
+		this.accountActivationService.save(user);
+		return new ResponseEntity<>(HttpStatus.CREATED);
+	}
+	
 	@PostMapping(value = "/login")
 	public ResponseEntity<ProfileDTO> login(@Valid @RequestBody LoginDTO loginDTO){
 		this.authManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getEmail(), loginDTO.getPassword()));
@@ -53,23 +72,5 @@ public class AuthController {
 		User user = (User) this.userService.loadUserByUsername(loginDTO.getEmail());
 		return new ResponseEntity<>(new ProfileDTO(user, accessToken), HttpStatus.OK);
 	}
-	
-	@PostMapping(value = "/register")
-	public ResponseEntity<Void> register(@Valid @RequestBody RegisterDTO registerDTO){
-		User user = this.userService.save(this.userMapper.map(registerDTO), null);
-		this.accountActivationService.save(user);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-	
-	@GetMapping(value = "/activate/{code}")
-	public ResponseEntity<Void> activate(@PathVariable String code){
-		this.accountActivationService.activate(code);
-		return new ResponseEntity<>(HttpStatus.OK);
-	}
-	
-	@PostMapping(value = "/has_email")
-	public ResponseEntity<Boolean> hasEmail(@RequestBody UniqueCheckDTO param) {
-		return new ResponseEntity<>(this.userService.hasEmail(param), HttpStatus.OK);
-	}
-	
+		
 }

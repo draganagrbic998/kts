@@ -16,6 +16,5 @@
 <app-comment-details 
 *ngFor="let comment of comments"
 [comment]="comment"
-[culturalOfferId]="culturalOfferId"
 (refreshData)="fetchComments(); updateTotalRate.emit($event)">
 </app-comment-details>    

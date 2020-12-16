@@ -1,8 +1,5 @@
 package com.example.demo.repository.suite;
 
-import static org.junit.Assert.assertNull;
-
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
@@ -25,9 +22,4 @@ import com.example.demo.repository.UserRepositoryTest;
 		UserRepositoryTest.class })
 public class RepositoryIntegrationTests {
 	
-	@Test
-	public void test() {
-		assertNull(null);
-	}
-
 }

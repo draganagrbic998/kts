@@ -10,12 +10,13 @@ import com.example.demo.model.Image;
 public class CommentDTO {
 
 	private long id;
+	private String user;
+	private long culturalOfferId;
 	private Date createdAt;
 	private int rate;
 	private String text;
 	private List<String> images;
-	private String user;
-	
+
 	public CommentDTO() {
 		super();
 	}
@@ -23,11 +24,12 @@ public class CommentDTO {
 	public CommentDTO(Comment comment) {
 		super();
 		this.id = comment.getId();
+		this.user = comment.getUser().getEmail();
+		this.culturalOfferId = comment.getCulturalOffer().getId();
 		this.createdAt = comment.getCreatedAt();
 		this.rate = comment.getRate();
 		this.text = comment.getText();
 		this.images = comment.getImages().stream().map(Image::getPath).collect(Collectors.toList());
-		this.user = comment.getUser().getEmail();
 	}
 
 	public long getId() {
@@ -36,6 +38,22 @@ public class CommentDTO {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public String getUser() {
+		return user;
+	}
+
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	public long getCulturalOfferId() {
+		return culturalOfferId;
+	}
+
+	public void setCulturalOfferId(long culturalOfferId) {
+		this.culturalOfferId = culturalOfferId;
 	}
 
 	public Date getCreatedAt() {
@@ -68,14 +86,6 @@ public class CommentDTO {
 
 	public void setImages(List<String> images) {
 		this.images = images;
-	}
-
-	public String getUser() {
-		return user;
-	}
-
-	public void setUser(String user) {
-		this.user = user;
 	}
 	
 }

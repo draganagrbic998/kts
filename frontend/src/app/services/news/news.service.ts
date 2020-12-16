@@ -26,8 +26,8 @@ export class NewsService {
     );
   }
 
-  save(culturalOfferId: number, data: FormData): Observable<null>{
-    return this.http.post<null>( `${this.API_OFFERS}/${culturalOfferId}/news`, data);
+  save(data: FormData): Observable<null>{
+    return this.http.post<null>(this.API_NEWS, data);
   }
 
   delete(id: number): Observable<null>{
