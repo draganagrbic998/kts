@@ -20,6 +20,11 @@ public class CategoryService {
 	private CategoryRepository categoryRepository;
 	
 	@Transactional(readOnly = true)
+	public boolean hasName(UniqueCheckDTO param) {
+		return this.categoryRepository.findByName(param.getName()) != null;
+	}
+	
+	@Transactional(readOnly = true)
 	public List<String> filterNames(String filter){
 		return this.categoryRepository.filterNames(filter);
 	}
@@ -30,18 +35,13 @@ public class CategoryService {
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(Category category) {
-		this.categoryRepository.save(category);
-	}
-
-	@Transactional(readOnly = false)
 	public void delete(long id) {
 		this.categoryRepository.deleteById(id);
 	}
 	
-	@Transactional(readOnly = true)
-	public boolean hasName(UniqueCheckDTO param) {
-		return this.categoryRepository.findByName(param.getName()) != null;
+	@Transactional(readOnly = false)
+	public void save(Category category) {
+		this.categoryRepository.save(category);
 	}
-	
+		
 }

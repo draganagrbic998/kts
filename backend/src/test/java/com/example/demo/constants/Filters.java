@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.dto.FilterParamsDTO;
 
 @Component
-public class OfferFilters {
+public class Filters {
 
 	public FilterParamsDTO filtersEmpty() {
 		FilterParamsDTO filters = new FilterParamsDTO();

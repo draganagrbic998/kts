@@ -21,7 +21,14 @@ public class AccountActivationService {
 	
 	@Autowired
 	private UserService userService;
-
+	
+	@Transactional(readOnly = false)
+	public void activate(String code) {
+		User user =  this.accountRepository.findByCode(code).getUser();
+		user.setEnabled(true);
+		this.userService.save(user, null);
+	}
+	
 	@Transactional(readOnly = false)
 	public AccountActivation save(User user) {
 		AccountActivation accountActivation = new AccountActivation(user);
@@ -30,13 +37,6 @@ public class AccountActivationService {
 		String message = "You have been successfully registered! Click on link " + link + " to activate your account.";
 		this.emailService.sendEmail(new Email(user.getEmail(), "Account Activation", message));
 		return accountActivation;
-	}
-	
-	@Transactional(readOnly = false)
-	public void activate(String code) {
-		User user =  this.accountRepository.findByCode(code).getUser();
-		user.setEnabled(true);
-		this.userService.save(user, null);
 	}
 	
 }

@@ -9,10 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class NewsUploadDTO {
 
 	private Long id;
+	private long culturalOfferId;
 	
 	@NotBlank
 	private String text;
-	
 	private List<MultipartFile> images;
 	private List<String> imagePaths;
 	
@@ -26,6 +26,14 @@ public class NewsUploadDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public long getCulturalOfferId() {
+		return culturalOfferId;
+	}
+
+	public void setCulturalOfferId(long culturalOfferId) {
+		this.culturalOfferId = culturalOfferId;
 	}
 
 	public String getText() {

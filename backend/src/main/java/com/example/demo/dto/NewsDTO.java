@@ -10,6 +10,7 @@ import com.example.demo.model.News;
 public class NewsDTO {
 	
 	private long id;
+	private long culturalOfferId;
 	private Date createdAt;
 	private String text;
 	private List<String> images;
@@ -20,6 +21,7 @@ public class NewsDTO {
 	
 	public NewsDTO(News news) {
 		this.id = news.getId();
+		this.culturalOfferId = news.getCulturalOffer().getId();
 		this.createdAt = news.getCreatedAt();
 		this.text = news.getText();
 		this.images = news.getImages().stream().map(Image::getPath).collect(Collectors.toList());
@@ -31,6 +33,14 @@ public class NewsDTO {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public long getCulturalOfferId() {
+		return culturalOfferId;
+	}
+
+	public void setCulturalOfferId(long culturalOfferId) {
+		this.culturalOfferId = culturalOfferId;
 	}
 
 	public Date getCreatedAt() {

@@ -13,9 +13,5 @@ public class Constants {
 	public static final String ENABLE_HEADER = "Access-Control-Expose-Headers";
 	public static final String FIRST_PAGE_HEADER = "first-page";
 	public static final String LAST_PAGE_HEADER = "last-page";
-	
-	private Constants() {
-		super();
-	}
 		
 }

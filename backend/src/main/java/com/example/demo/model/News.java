@@ -27,11 +27,7 @@ public class News {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
-	@NotNull
-	@Column(name = "created_at")
-	private Date createdAt;
-	
+		
 	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "cultural_offer_id", 
@@ -40,6 +36,10 @@ public class News {
         )
 	)
 	private CulturalOffer culturalOffer;
+	
+	@NotNull
+	@Column(name = "created_at")
+	private Date createdAt;
 			
 	@NotBlank
 	@Column(name = "text")
@@ -74,20 +74,20 @@ public class News {
 		this.id = id;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
 	public CulturalOffer getCulturalOffer() {
 		return culturalOffer;
 	}
 
 	public void setCulturalOffer(CulturalOffer culturalOffer) {
 		this.culturalOffer = culturalOffer;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getText() {

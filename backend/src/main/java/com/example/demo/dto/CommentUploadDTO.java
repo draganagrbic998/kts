@@ -3,20 +3,17 @@ package com.example.demo.dto;
 import java.util.List;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 
 public class CommentUploadDTO {
 	
 	private Long id;
-	
-	@NotNull
+	private long culturalOfferId;
 	private int rate;
 
 	@NotBlank
 	private String text;
-		
 	private List<MultipartFile> images;
 	private List<String> imagePaths;
 	
@@ -30,6 +27,14 @@ public class CommentUploadDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public long getCulturalOfferId() {
+		return culturalOfferId;
+	}
+
+	public void setCulturalOfferId(long culturalOfferId) {
+		this.culturalOfferId = culturalOfferId;
 	}
 
 	public int getRate() {

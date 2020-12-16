@@ -21,7 +21,6 @@ export class NewsDetailsComponent implements OnInit {
     private dialog: MatDialog
   ) { }
 
-  @Input() culturalOfferId: number;
   @Input() news: News;
   @Output() refreshData: EventEmitter<null> = new EventEmitter();
 
@@ -30,8 +29,7 @@ export class NewsDetailsComponent implements OnInit {
   }
 
   edit(): void {
-    const news = {...this.news, ...{culturalOfferId: this.culturalOfferId}};
-    const options = {...DIALOG_OPTIONS, ...{data: news}};
+    const options = {...DIALOG_OPTIONS, ...{data: this.news}};
     const dialog: MatDialogRef<NewsFormComponent> = this.dialog.open(NewsFormComponent, options);
     dialog.componentInstance.saved.subscribe(
       () => {

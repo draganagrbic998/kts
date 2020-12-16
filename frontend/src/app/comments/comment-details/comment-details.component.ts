@@ -21,7 +21,6 @@ export class CommentDetailsComponent implements OnInit {
   ) { }
 
   @Input() comment: Comment;
-  @Input() culturalOfferId: number;
   @Output() refreshData: EventEmitter<number> = new EventEmitter();
 
   get email(): string{
@@ -30,8 +29,7 @@ export class CommentDetailsComponent implements OnInit {
 
   edit(): void{
 
-    const comment = {...this.comment, ...{culturalOfferId: this.culturalOfferId}};
-    const options = {...DIALOG_OPTIONS, ...{data: comment}};
+    const options = {...DIALOG_OPTIONS, ...{data: this.comment}};
     const dialog: MatDialogRef<CommentFormComponent> = this.dialog.open(CommentFormComponent, options);
     dialog.componentInstance.saved.subscribe(
       (totalRate: number) => {

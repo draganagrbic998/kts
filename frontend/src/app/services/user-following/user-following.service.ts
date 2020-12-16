@@ -26,7 +26,7 @@ export class UserFollowingService {
   }
 
   toggleSubscription(culturalOfferId: number): Observable<CulturalOffer>{
-    return this.http.post<CulturalOffer>(`${this.API_OFFERS}/${culturalOfferId}/toggle_subscription`, null);
+    return this.http.get<CulturalOffer>(`${this.API_OFFERS}/${culturalOfferId}/toggle_subscription`);
   }
 
 }

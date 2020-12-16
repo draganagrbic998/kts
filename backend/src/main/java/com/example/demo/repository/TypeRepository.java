@@ -13,7 +13,7 @@ public interface TypeRepository extends JpaRepository<Type, Long> {
 	
 	public Type findByName(String name);
 
-	@Query("select distinct t.name from Type t where lower(t.name) like lower(concat('%',:filter,'%'))")
+	@Query("select t.name from Type t where lower(t.name) like lower(concat('%',:filter,'%')) order by t.name")
 	public List<String> filterNames(String filter);
 	
 }

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.constants.Constants;
 import com.example.demo.dto.CommentDTO;
 import com.example.demo.dto.CommentUploadDTO;
+import com.example.demo.dto.DoubleDTO;
 import com.example.demo.mapper.CommentMapper;
 import com.example.demo.model.Comment;
 import com.example.demo.service.CommentService;
@@ -49,19 +50,19 @@ public class CommentController {
 		response.setHeader(Constants.LAST_PAGE_HEADER, comments.isLast() + "");
 		return new ResponseEntity<>(this.commentMapper.map(comments.toList()), HttpStatus.OK);
 	}
-	
-	@PreAuthorize("hasAuthority('guest')")
-	@PostMapping(value = "/api/cultural_offers/{culturalOfferId}/comment")
-	public ResponseEntity<Double> save(@PathVariable long culturalOfferId, @Valid @ModelAttribute CommentUploadDTO commentDTO) {
-		Comment comment = this.commentService.save(this.commentMapper.map(culturalOfferId, commentDTO), commentDTO.getImages());
-		return new ResponseEntity<>(this.commentService.totalRate(comment.getId()), HttpStatus.OK);
-	}
 
 	@PreAuthorize("hasAuthority('guest')")
 	@DeleteMapping(value = "/api/comments/{id}")
-	public ResponseEntity<Double> delete(@PathVariable long id) {
-		this.commentService.delete(id);
-		return new ResponseEntity<>(this.commentService.totalRate(id), HttpStatus.OK);
+	public ResponseEntity<DoubleDTO> delete(@PathVariable long id) {
+		long culturalOfferId = this.commentService.delete(id);
+		return new ResponseEntity<>(new DoubleDTO(this.commentService.totalRate(culturalOfferId)), HttpStatus.OK);
+	}
+
+	@PreAuthorize("hasAuthority('guest')")
+	@PostMapping(value = "/api/comments")
+	public ResponseEntity<DoubleDTO> save(@Valid @ModelAttribute CommentUploadDTO commentDTO) {
+		Comment comment = this.commentService.save(this.commentMapper.map(commentDTO), commentDTO.getImages());
+		return new ResponseEntity<>(new DoubleDTO(this.commentService.totalRate(comment.getCulturalOffer().getId())), HttpStatus.CREATED);
 	}
 		
 }

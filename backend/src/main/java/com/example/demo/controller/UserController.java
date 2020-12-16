@@ -33,7 +33,7 @@ public class UserController {
 	@Autowired
 	private TokenUtils tokenUtils;
 		
-	@PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PostMapping
 	public ResponseEntity<ProfileDTO> update(@Valid @ModelAttribute ProfileUploadDTO profileDTO) {
 		User user = this.userService.save(this.userMapper.map(profileDTO), profileDTO.getImage());
 		String accessToken = this.tokenUtils.generateToken(user.getUsername());

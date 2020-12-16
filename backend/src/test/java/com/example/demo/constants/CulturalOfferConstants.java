@@ -17,6 +17,7 @@ public class CulturalOfferConstants {
 	public static final String FILTER_NAME_ALL = "cultural_offer";
 	public static final String FILTER_LOCATION_ALL = "location";
 	public static final String FILTER_TYPE_ALL = "type";
+	
 	public static final String NON_EXISTING_NAME = "cultural_offer_none";
 	public static final String NON_EXISTING_LOCATION = "location_none";
 

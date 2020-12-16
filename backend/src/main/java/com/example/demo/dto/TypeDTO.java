@@ -5,8 +5,8 @@ import com.example.demo.model.Type;
 public class TypeDTO {
 	
 	private long id;
-	private String name;
 	private String category;
+	private String name;
 	private String placemarkIcon;
 
 	public TypeDTO() {
@@ -16,8 +16,8 @@ public class TypeDTO {
 	public TypeDTO(Type type) {
 		super();
 		this.id = type.getId();
-		this.name = type.getName();
 		this.category = type.getCategory().getName();
+		this.name = type.getName();
 		this.placemarkIcon = type.getPlacemarkIcon();
 	}
 
@@ -29,20 +29,20 @@ public class TypeDTO {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getCategory() {
 		return category;
 	}
 
 	public void setCategory(String category) {
 		this.category = category;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPlacemarkIcon() {

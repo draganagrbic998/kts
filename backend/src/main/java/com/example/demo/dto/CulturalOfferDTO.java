@@ -9,11 +9,11 @@ public class CulturalOfferDTO {
 	private String type;
 	private String placemarkIcon;
 	private String name;
-	private String description;
-	private String image;
 	private String location;
 	private double lat;
 	private double lng;
+	private String description;
+	private String image;
 	private double totalRate;
 	private boolean followed;
 	
@@ -27,11 +27,11 @@ public class CulturalOfferDTO {
 		this.type = culturalOffer.getType().getName();
 		this.placemarkIcon = culturalOffer.getType().getPlacemarkIcon();
 		this.name = culturalOffer.getName();
-		this.description = culturalOffer.getDescription();
-		this.image = culturalOffer.getImage();
 		this.location = culturalOffer.getLocation();
 		this.lat = culturalOffer.getLat();
 		this.lng = culturalOffer.getLng();
+		this.description = culturalOffer.getDescription();
+		this.image = culturalOffer.getImage();
 	}
 
 	public long getId() {
@@ -74,22 +74,6 @@ public class CulturalOfferDTO {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
 	public String getLocation() {
 		return location;
 	}
@@ -112,6 +96,22 @@ public class CulturalOfferDTO {
 
 	public void setLng(double lng) {
 		this.lng = lng;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public double getTotalRate() {

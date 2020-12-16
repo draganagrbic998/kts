@@ -4,11 +4,11 @@ export interface CulturalOffer{
     type: string;
     placemarkIcon: string;
     name: string;
-    description: string;
-    image: string;
     location: string;
     lat: number;
     lng: number;
+    description: string;
+    image: string;
     totalRate: number;
     followed: boolean;
 }

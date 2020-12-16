@@ -27,20 +27,13 @@ public class NewsRepositoryTest {
 	@Autowired
 	private NewsRepository newsRepository;
 
-	private Pageable pageableAll = PageRequest.of(0, 3);
-	private Pageable pageablePart = PageRequest.of(0, 2);
-	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
+	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
 
 	@Test
 	public void testListNonExisting() {
 		List<News> news = this.newsRepository.filter(MainConstants.NON_EXISTING_ID, null, null, this.pageableAll)
-				.getContent();
-		assertTrue(news.isEmpty());
-	}
-
-	@Test
-	public void testListNoneCulturalOffer() {
-		List<News> news = this.newsRepository.filter(CulturalOfferConstants.ID_ONE, null, null, this.pageableAll)
 				.getContent();
 		assertTrue(news.isEmpty());
 	}

@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { SMALL_PAGE_SIZE } from 'src/app/constants/pagination';
 import { Category } from 'src/app/models/category';
 import { UniqueCheck } from 'src/app/models/unique-check';
@@ -34,11 +34,13 @@ export class CategoryService {
   }
 
   hasName(param: UniqueCheck): Observable<boolean>{
-    return this.http.post<boolean>(`${this.API_CATEGORIES}/has_name`, param);
+    return this.http.post<{value: boolean}>(`${this.API_CATEGORIES}/has_name`, param).pipe(
+      map((response: {value: boolean}) => response.value)
+    );
   }
 
   filterNames(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(`${this.API_CATEGORIES}/filter_names`, filter);
+    return this.http.post<string[]>(`${this.API_CATEGORIES}/filter_names`, {value: filter});
   }
 
 }

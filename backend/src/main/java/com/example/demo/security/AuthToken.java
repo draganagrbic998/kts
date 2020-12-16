@@ -30,14 +30,4 @@ public class AuthToken extends AbstractAuthenticationToken{
 		return true;
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		return super.equals(obj);
-	}
-	
-	@Override
-	public int hashCode() {
-		return super.hashCode();
-	}
-	
 }

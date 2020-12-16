@@ -20,15 +20,15 @@ public class Type {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private Long id;
-	
-	@NotBlank
-	@Column(name = "name", unique = true)
-	private String name;
-	
+		
 	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "category_id")
 	private Category category;
+	
+	@NotBlank
+	@Column(name = "name", unique = true)
+	private String name;
 	
 	@Column(name = "placemark_icon")
 	private String placemarkIcon;
@@ -45,20 +45,20 @@ public class Type {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public Category getCategory() {
 		return category;
 	}
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPlacemarkIcon() {

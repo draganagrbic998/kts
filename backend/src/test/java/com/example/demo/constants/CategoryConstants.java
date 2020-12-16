@@ -1,6 +1,7 @@
 package com.example.demo.constants;
 
 public class CategoryConstants {
+	
 	public static final long ID_ONE = 1;
 	public static final String NAME_ONE = "category_one";
 	
@@ -13,5 +14,4 @@ public class CategoryConstants {
 	public static final String FILTER_NAME_ALL = "category";
 	public static final String NON_EXISTING_NAME = "category_none";
 	
-
 }

@@ -33,6 +33,7 @@ export class NewsFormComponent implements OnInit {
     if (this.news.id){
       formData.append('id', this.news.id + '');
     }
+    formData.append('culturalOfferId', this.news.culturalOfferId + '');
     formData.append('text', this.text.value);
 
     for (const image of this.images){
@@ -45,7 +46,7 @@ export class NewsFormComponent implements OnInit {
     }
 
     this.savePending = true;
-    this.newsService.save(this.news.culturalOfferId, formData).subscribe(
+    this.newsService.save(formData).subscribe(
       () => {
         this.dialogRef.close();
         this.saved.emit();

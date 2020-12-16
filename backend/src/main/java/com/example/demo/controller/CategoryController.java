@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.constants.Constants;
+import com.example.demo.dto.BooleanDTO;
 import com.example.demo.dto.CategoryDTO;
+import com.example.demo.dto.StringDTO;
 import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.mapper.CategoryMapper;
 import com.example.demo.model.Category;
@@ -53,7 +55,7 @@ public class CategoryController {
 	@PostMapping(value = "")
 	public ResponseEntity<Void> save(@Valid @RequestBody CategoryDTO categoryDTO){
 		this.categoryService.save(this.categoryMapper.map(categoryDTO));
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -63,13 +65,13 @@ public class CategoryController {
 	}
 	
 	@PostMapping(value = "/has_name")
-	public ResponseEntity<Boolean> hasName(@RequestBody UniqueCheckDTO param) {
-		return new ResponseEntity<>(this.categoryService.hasName(param), HttpStatus.OK);
+	public ResponseEntity<BooleanDTO> hasName(@RequestBody UniqueCheckDTO param) {
+		return new ResponseEntity<>(new BooleanDTO(this.categoryService.hasName(param)), HttpStatus.OK);
 	}
 		
 	@PostMapping(value = "/filter_names")
-	public ResponseEntity<List<String>> filterNames(@RequestBody String filter){
-		return new ResponseEntity<>(this.categoryService.filterNames(filter), HttpStatus.OK);
+	public ResponseEntity<List<String>> filterNames(@RequestBody StringDTO filter){
+		return new ResponseEntity<>(this.categoryService.filterNames(filter.getValue()), HttpStatus.OK);
 	}
 	
 }

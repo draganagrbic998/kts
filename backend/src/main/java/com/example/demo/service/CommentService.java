@@ -24,9 +24,7 @@ public class CommentService {
 	private ImageService imageService;
 	
 	@Transactional(readOnly = true)
-	public double totalRate(long id) {
-		Comment comment = this.commentRepository.findById(id).orElse(null);
-		long culturalOfferId = comment != null ? comment.getCulturalOffer().getId() : -1;
+	public double totalRate(long culturalOfferId) {
 		return this.commentRepository.totalRate(culturalOfferId);
 	}
 	
@@ -36,8 +34,11 @@ public class CommentService {
 	}
 	
 	@Transactional(readOnly = false)
-	public void delete(long id) {		
+	public long delete(long id) {		
+		Comment comment = this.commentRepository.findById(id).orElse(null);
+		long culturalOfferId = comment != null ? comment.getCulturalOffer().getId() : -1;
 		this.commentRepository.deleteById(id);
+		return culturalOfferId;
 	}
 	
 	@Transactional(readOnly = false)

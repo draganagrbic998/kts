@@ -23,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.constants.Constants;
+import com.example.demo.dto.BooleanDTO;
 import com.example.demo.dto.CulturalOfferDTO;
 import com.example.demo.dto.CulturalOfferUploadDTO;
+import com.example.demo.dto.StringDTO;
 import com.example.demo.dto.FilterParamsDTO;
 import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.mapper.CulturalOfferMapper;
@@ -41,20 +43,26 @@ public class CulturalOfferController {
 	
 	@Autowired
 	private CulturalOfferMapper culturalOfferMapper;
+	
+	@PreAuthorize("hasAuthority('admin')")
+	@PostMapping(value = "/has_name")
+	public ResponseEntity<BooleanDTO> hasName(@RequestBody UniqueCheckDTO param) {
+		return new ResponseEntity<>(new BooleanDTO(this.culturalOfferService.hasName(param)), HttpStatus.OK);
+	}
 		
 	@PostMapping(value = "/filter_names")
-	public ResponseEntity<List<String>> filterNames(@RequestBody String filter){
-		return new ResponseEntity<>(this.culturalOfferService.filterNames(filter), HttpStatus.OK);
+	public ResponseEntity<List<String>> filterNames(@RequestBody StringDTO filter){
+		return new ResponseEntity<>(this.culturalOfferService.filterNames(filter.getValue()), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/filter_locations")
-	public ResponseEntity<List<String>> filterLocations(@RequestBody String filter){
-		return new ResponseEntity<>(this.culturalOfferService.filterLocations(filter), HttpStatus.OK);
+	public ResponseEntity<List<String>> filterLocations(@RequestBody StringDTO filter){
+		return new ResponseEntity<>(this.culturalOfferService.filterLocations(filter.getValue()), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/filter_types")
-	public ResponseEntity<List<String>> filterTypes(@RequestBody String filter){
-		return new ResponseEntity<>(this.culturalOfferService.filterTypes(filter), HttpStatus.OK);
+	public ResponseEntity<List<String>> filterTypes(@RequestBody StringDTO filter){
+		return new ResponseEntity<>(this.culturalOfferService.filterTypes(filter.getValue()), HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/filter")
@@ -66,12 +74,6 @@ public class CulturalOfferController {
 		response.setHeader(Constants.LAST_PAGE_HEADER, culturalOffers.isLast() + "");
 		return new ResponseEntity<>(this.culturalOfferMapper.map(culturalOffers.toList()), HttpStatus.OK);
 	}
-	
-	@PreAuthorize("hasAuthority('admin')")
-	@PostMapping(value = "")
-	public ResponseEntity<CulturalOfferDTO> save(@Valid @ModelAttribute CulturalOfferUploadDTO culturalOfferDTO) {
-		return new ResponseEntity<>(new CulturalOfferDTO(this.culturalOfferService.save(this.culturalOfferMapper.map(culturalOfferDTO), culturalOfferDTO.getImage())), HttpStatus.OK);
-	}
 
 	@PreAuthorize("hasAuthority('admin')")
 	@DeleteMapping(value = "/{id}")
@@ -79,11 +81,11 @@ public class CulturalOfferController {
 		this.culturalOfferService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
+
 	@PreAuthorize("hasAuthority('admin')")
-	@PostMapping(value = "/has_name")
-	public ResponseEntity<Boolean> hasName(@RequestBody UniqueCheckDTO param) {
-		return new ResponseEntity<>(this.culturalOfferService.hasName(param), HttpStatus.OK);
+	@PostMapping
+	public ResponseEntity<CulturalOfferDTO> save(@Valid @ModelAttribute CulturalOfferUploadDTO culturalOfferDTO) {
+		return new ResponseEntity<>(new CulturalOfferDTO(this.culturalOfferService.save(this.culturalOfferMapper.map(culturalOfferDTO), culturalOfferDTO.getImage())), HttpStatus.CREATED);
 	}
-	
+		
 }
