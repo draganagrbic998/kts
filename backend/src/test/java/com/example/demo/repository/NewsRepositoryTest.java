@@ -39,13 +39,6 @@ public class NewsRepositoryTest {
 	}
 
 	@Test
-	public void testListNoneCulturalOffer() {
-		List<News> news = this.newsRepository.filter(CulturalOfferConstants.ID_ONE, null, null, this.pageableAll)
-				.getContent();
-		assertTrue(news.isEmpty());
-	}
-
-	@Test
 	public void testListNoneDates() throws ParseException {
 		List<News> news = this.newsRepository
 				.filter(CulturalOfferConstants.ID_TWO, this.format.parse(NewsConstants.WRONG_START),
