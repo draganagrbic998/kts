@@ -7,15 +7,15 @@ L
 cobol 41b5000e85246e42913987502134e5bb!sonar-cobol-plugin-4.6.0.4639.jar
 I
 web c630590cde18543c5e3ccea8c61cde26 sonar-html-plugin-3.3.0.2534.jar
-K
-java 97bbdef9b189c9be4ff8e1ce705843c8!sonar-java-plugin-6.9.0.23563.jar
+L
+java eeed0e5770d96c8a2a84038cc83c06e4"sonar-java-plugin-6.10.0.24201.jar
 W
 
-javascript 53e69bbbd36c8bc63baec34cb85bdf04'sonar-javascript-plugin-6.7.0.14237.jar
+javascript 880e8ff9942d66f180010b72f44c6e5d'sonar-javascript-plugin-7.0.1.14561.jar
 N
 kotlin 597d39ca6772d9b0251f431bd58f930d"sonar-kotlin-plugin-1.8.1.1804.jar
 Y
-license b54643a3f2985a6707e0a8c3a0d198f4,sonarlint-license-plugin-8.0.0.15599-all.jar
+license 4633f5e044c4ff19b3bc08b1ec1e65e6,sonarlint-license-plugin-8.0.0.15678-all.jar
 I
 php 3276033a6d38512c1cf6cc2755c0e791 sonar-php-plugin-3.13.0.6849.jar
 L

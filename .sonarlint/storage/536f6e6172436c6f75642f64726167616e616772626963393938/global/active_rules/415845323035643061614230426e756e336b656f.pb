@@ -7,6 +7,12 @@ objc:S1135
 
 objc:S1133
 objcS1133INFO
+R
+"objc:SingleDeclarationPerStatement,
+objcSingleDeclarationPerStatementMINOR
+ 
+	objc:S886
+objcS886MINOR
 "
 
 objc:S5978
@@ -23,9 +29,6 @@ objc:S3646
 
 objc:S5381
 objcS5381MINOR
- 
-	objc:S886
-objcS886MINOR
 "
 
 objc:S2193
@@ -71,9 +74,6 @@ objc:S1874
 
 objc:S1199
 objcS1199MINOR
-R
-"objc:SingleDeclarationPerStatement,
-objcSingleDeclarationPerStatementMINOR
  
 	objc:S995
 objcS995MINOR
@@ -143,6 +143,10 @@ objc:S3730
 
 objc:S3744
 objcS3744MINOR
+"
+
+objc:S2259
+objcS2259MAJOR
 8
 objc:PPBadIncludeForm
 objcPPBadIncludeFormMAJOR
@@ -162,10 +166,6 @@ objc:S2668
 
 objc:S5832
 objcS5832MAJOR
-"
-
-objc:S2259
-objcS2259MAJOR
 "
 
 objc:S5501
@@ -435,9 +435,6 @@ objc:S4144
 0
 objc:SizeofSizeof
 objcSizeofSizeofMAJOR
-#
-	objc:S859
-objcS859CRITICAL
 %
 
 objc:S5658
@@ -446,6 +443,16 @@ objc:S5658
 
 objc:S6069
 objcS6069CRITICAL
+3
+objc:PPUndefUsage
+objcPPUndefUsageCRITICAL
+%
+
+objc:S4830
+objcS4830CRITICAL
+#
+	objc:S859
+objcS859CRITICAL
 %
 
 objc:S5547
@@ -464,15 +471,8 @@ objc:S1081
 objcS1081CRITICAL
 %
 
-objc:S4830
-objcS4830CRITICAL
-%
-
 objc:S5847
 objcS5847CRITICAL
-3
-objc:PPUndefUsage
-objcPPUndefUsageCRITICAL
 %
 
 objc:S5314
@@ -593,6 +593,18 @@ objc:S1768
 
 objc:S3485
 objcS3485CRITICAL
+ˆ
+objc:NonReentrantFunctionÿ
+objcNonReentrantFunctionBLOCKER"∞
+nonReentrantFunctionListìasctime,crypt,ctermid,ctime,fgetgrent,fgetpwent,fgetspent,getgrent,getgrgid,getgrnam,gethostbyaddr,gethostbyname,gethostbyname2,gethostent,getlogin,getnetbyaddr,getnetbyname,getnetent,getnetgrent,getprotobyname,getprotobynumber,getprotoent,getpwent,getpwnam,getpwuid,getrpcbyname,getrpcbynumber,getrpcent,getservbyname,getservbyport,getservent,getspent,getspnam,gmtime,localtime,sgetspent,strtok,ttyname
+$
+
+objc:S5798
+objcS5798BLOCKER
+$
+
+objc:S3520
+objcS3520BLOCKER
 $
 
 objc:S5542
@@ -605,10 +617,6 @@ $
 
 objc:S4426
 objcS4426BLOCKER
-$
-
-objc:S5798
-objcS5798BLOCKER
 $
 
 objc:S2275
@@ -631,10 +639,6 @@ $
 
 objc:S3519
 objcS3519BLOCKER
-$
-
-objc:S3520
-objcS3520BLOCKER
 $
 
 objc:S3529
@@ -703,10 +707,6 @@ $
 
 objc:S5000
 objcS5000BLOCKER
-÷
-objc:NonReentrantFunction∏
-objcNonReentrantFunctionBLOCKER"ê
-nonReentrantFunctionListÛcrypt,ctermid,ecvt,fcvt,fgetgrent,fgetpwent,fgetspent,gcvt,getgrent,getgrgid,getgrnam,gethostbyaddr,gethostbyname,gethostbyname2,gethostent,getlogin,getnetbyaddr,getnetbyname,getnetgrent,getprotobyname,getpwent,getpwnam,getpwuid,getrpcbyname,getrpcbynumber,getrpcent,getservbyname,getservbyport,getservent,getspent,getspnam,gmtime,localtime,readdir,strtok,tempnam,ttyname
 $
 
 objc:S3491

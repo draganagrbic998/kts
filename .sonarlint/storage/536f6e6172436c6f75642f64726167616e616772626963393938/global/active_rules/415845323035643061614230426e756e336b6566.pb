@@ -4,6 +4,10 @@
 
 javascriptS1135INFO
 .
+javascript:S1116
+
+javascriptS1116MINOR
+.
 javascript:S4138
 
 javascriptS4138MINOR
@@ -94,10 +98,6 @@ javascriptS4158MINOR
 
 javascriptS3626MINOR
 .
-javascript:S1116
-
-javascriptS1116MINOR
-.
 javascript:S4326
 
 javascriptS4326MINOR
@@ -125,10 +125,54 @@ javascriptS3001MINOR
 javascript:S3863
 
 javascriptS3863MINOR
+,
+javascript:S881
+
+javascriptS881MAJOR
+.
+javascript:S2688
+
+javascriptS2688MAJOR
+.
+javascript:S2201
+
+javascriptS2201MAJOR
 .
 javascript:S2681
 
 javascriptS2681MAJOR
+.
+javascript:S1121
+
+javascriptS1121MAJOR
+.
+javascript:S1854
+
+javascriptS1854MAJOR
+.
+javascript:S1862
+
+javascriptS1862MAJOR
+.
+javascript:S2259
+
+javascriptS2259MAJOR
+.
+javascript:S2251
+
+javascriptS2251MAJOR
+.
+javascript:S1656
+
+javascriptS1656MAJOR
+.
+javascript:S1764
+
+javascriptS1764MAJOR
+.
+javascript:S1763
+
+javascriptS1763MAJOR
 .
 javascript:S4822
 
@@ -166,10 +210,6 @@ javascriptS3358MAJOR
 
 javascriptS905MAJOR
 .
-javascript:S1121
-
-javascriptS1121MAJOR
-.
 javascript:S3786
 
 javascriptS3786MAJOR
@@ -187,10 +227,6 @@ javascriptS1119MAJOR
 
 javascriptS1479MAJOR"
 maximum30
-.
-javascript:S1736
-
-javascriptS1736MAJOR
 .
 javascript:S3923
 
@@ -224,10 +260,6 @@ javascriptS1871MAJOR
 
 javascriptS1515MAJOR
 .
-javascript:S1764
-
-javascriptS1764MAJOR
-.
 javascript:S1529
 
 javascriptS1529MAJOR
@@ -252,10 +284,6 @@ javascriptS4624MAJOR
 
 javascriptS1110MAJOR
 .
-javascript:S1854
-
-javascriptS1854MAJOR
-.
 javascript:S2123
 
 javascriptS2123MAJOR
@@ -268,47 +296,19 @@ javascriptS125MAJOR
 
 javascriptS1439MAJOR
 ,
-javascript:S881
-
-javascriptS881MAJOR
-,
 javascript:S878
 
 javascriptS878MAJOR
 .
-javascript:S2688
-
-javascriptS2688MAJOR
-.
-javascript:S2201
-
-javascriptS2201MAJOR
-.
-javascript:S1862
-
-javascriptS1862MAJOR
-.
 javascript:S3696
 
 javascriptS3696MAJOR
-.
-javascript:S2259
-
-javascriptS2259MAJOR
-.
-javascript:S2251
-
-javascriptS2251MAJOR
 8
 javascript:S138%
 
 javascriptS138MAJOR"
 
 max200
-.
-javascript:S1656
-
-javascriptS1656MAJOR
 =
 javascript:S104*
 
@@ -469,9 +469,25 @@ javascriptS4030MAJOR
 
 javascriptS4165MAJOR
 1
+javascript:S1143
+
+javascriptS1143CRITICAL
+1
 javascript:S5659
 
 javascriptS5659CRITICAL
+1
+javascript:S5547
+
+javascriptS5547CRITICAL
+/
+javascript:S930
+
+javascriptS930CRITICAL
+/
+javascript:S888
+
+javascriptS888CRITICAL
 1
 javascript:S2819
 
@@ -480,10 +496,6 @@ javascriptS2819CRITICAL
 javascript:S121
 
 javascriptS121CRITICAL
-1
-javascript:S5547
-
-javascriptS5547CRITICAL
 1
 javascript:S5527
 
@@ -512,10 +524,6 @@ javascriptS4275CRITICAL
 javascript:S3812
 
 javascriptS3812CRITICAL
-/
-javascript:S930
-
-javascriptS930CRITICAL
 A
 javascript:S1192-
 
@@ -530,10 +538,6 @@ javascriptS4524CRITICAL
 
 javascriptS1821CRITICAL
 1
-javascript:S1143
-
-javascriptS1143CRITICAL
-1
 javascript:S3353
 
 javascriptS3353CRITICAL
@@ -545,10 +549,6 @@ javascriptS3854CRITICAL
 javascript:S3972
 
 javascriptS3972CRITICAL
-/
-javascript:S888
-
-javascriptS888CRITICAL
 B
 javascript:S3776.
 
@@ -583,41 +583,49 @@ javascriptS3834CRITICAL
 
 javascriptS3973CRITICAL
 0
-javascript:S5542
+jssecurity:S2083
 
-javascriptS5542BLOCKER
-0
-javascript:S4426
-
-javascriptS4426BLOCKER
+jssecurityS2083BLOCKER
 0
 jssecurity:S3649
 
 jssecurityS3649BLOCKER
 0
-javascript:S3796
+jssecurity:S6096
 
-javascriptS3796BLOCKER
+jssecurityS6096BLOCKER
+0
+javascript:S5542
+
+javascriptS5542BLOCKER
 .
 javascript:S128
 
 javascriptS128BLOCKER
 0
-javascript:S1527
+javascript:S2189
 
-javascriptS1527BLOCKER
+javascriptS2189BLOCKER
 0
 javascript:S1314
 
 javascriptS1314BLOCKER
 0
+javascript:S4426
+
+javascriptS4426BLOCKER
+0
+javascript:S3796
+
+javascriptS3796BLOCKER
+0
+javascript:S1527
+
+javascriptS1527BLOCKER
+0
 javascript:S1526
 
 javascriptS1526BLOCKER
-0
-javascript:S2189
-
-javascriptS2189BLOCKER
 0
 javascript:S1219
 

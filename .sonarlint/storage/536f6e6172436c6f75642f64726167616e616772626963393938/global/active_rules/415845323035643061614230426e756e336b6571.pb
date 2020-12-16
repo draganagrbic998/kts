@@ -257,6 +257,9 @@ common-phpDuplicatedBlocksMAJOR
  
 	php:S4144
 phpS4144MAJOR
+3
+phpsecurity:S2631
+phpsecurityS2631CRITICAL
 #
 	php:S5547
 phpS5547CRITICAL
@@ -283,9 +286,6 @@ P
 #
 	php:S4433
 phpS4433CRITICAL
-3
-phpsecurity:S2631
-phpsecurityS2631CRITICAL
 #
 	php:S4524
 phpS4524CRITICAL
@@ -323,6 +323,18 @@ J
 	php:S3972
 phpS3972CRITICAL
 2
+phpsecurity:S2078
+phpsecurityS2078BLOCKER
+2
+phpsecurity:S2076
+phpsecurityS2076BLOCKER
+2
+phpsecurity:S3649
+phpsecurityS3649BLOCKER
+2
+phpsecurity:S2091
+phpsecurityS2091BLOCKER
+2
 phpsecurity:S5135
 phpsecurityS5135BLOCKER
 "
@@ -355,12 +367,6 @@ J
 "
 	php:S2115
 phpS2115BLOCKER
-2
-phpsecurity:S2076
-phpsecurityS2076BLOCKER
-2
-phpsecurity:S3649
-phpsecurityS3649BLOCKER
 "
 	php:S2014
 phpS2014BLOCKER
@@ -368,17 +374,11 @@ J
 phpsecurity:S2083
 phpsecurityS2083BLOCKER
 2
-phpsecurity:S2078
-phpsecurityS2078BLOCKER
-2
 phpsecurity:S5335
 phpsecurityS5335BLOCKER
 2
 phpsecurity:S5334
 phpsecurityS5334BLOCKER
-2
-phpsecurity:S2091
-phpsecurityS2091BLOCKER
 2
 phpsecurity:S5146
 phpsecurityS5146BLOCKER

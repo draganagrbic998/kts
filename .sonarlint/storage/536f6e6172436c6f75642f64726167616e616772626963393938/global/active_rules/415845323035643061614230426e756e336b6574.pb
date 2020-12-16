@@ -6,6 +6,27 @@
 	cpp:S1133
 cppS1133INFO
  
+	cpp:S5997
+cppS5997MINOR
+ 
+	cpp:S3469
+cppS3469MINOR
+P
+!cpp:SingleDeclarationPerStatement+
+cppSingleDeclarationPerStatementMINOR
+ 
+	cpp:S6009
+cppS6009MINOR
+ 
+	cpp:S6013
+cppS6013MINOR
+ 
+	cpp:S5566
+cppS5566MINOR
+
+cpp:S886
+cppS886MINOR
+ 
 	cpp:S5978
 cppS5978MINOR
  
@@ -75,17 +96,11 @@
 	cpp:S3731
 cppS3731MINOR
  
-	cpp:S5566
-cppS5566MINOR
- 
 	cpp:S2737
 cppS2737MINOR
  
 	cpp:S5381
 cppS5381MINOR
-
-cpp:S886
-cppS886MINOR
  
 	cpp:S3730
 cppS3730MINOR
@@ -136,9 +151,6 @@ M
  
 	cpp:S5350
 cppS5350MINOR
-P
-!cpp:SingleDeclarationPerStatement+
-cppSingleDeclarationPerStatementMINOR
 
 cpp:S995
 cppS995MINOR
@@ -188,9 +200,6 @@ L
 	cpp:S3458
 cppS3458MINOR
  
-	cpp:S3469
-cppS3469MINOR
- 
 	cpp:S3522
 cppS3522MINOR
  
@@ -214,6 +223,72 @@ L
  
 	cpp:S3744
 cppS3744MINOR
+ 
+	cpp:S5415
+cppS5415MAJOR
+ 
+	cpp:S1181
+cppS1181MAJOR
+ 
+	cpp:S2259
+cppS2259MAJOR
+F
+cpp:UnnamedNamespaceInHeader&
+cppUnnamedNamespaceInHeaderMAJOR
+ 
+	cpp:S5817
+cppS5817MAJOR
+ 
+	cpp:S6022
+cppS6022MAJOR
+ 
+	cpp:S6023
+cppS6023MAJOR
+ 
+	cpp:S6033
+cppS6033MAJOR
+ 
+	cpp:S6032
+cppS6032MAJOR
+ 
+	cpp:S6031
+cppS6031MAJOR
+ 
+	cpp:S6030
+cppS6030MAJOR
+ 
+	cpp:S6007
+cppS6007MAJOR
+ 
+	cpp:S6004
+cppS6004MAJOR
+ 
+	cpp:S6003
+cppS6003MAJOR
+ 
+	cpp:S6006
+cppS6006MAJOR
+ 
+	cpp:S6005
+cppS6005MAJOR
+ 
+	cpp:S6018
+cppS6018MAJOR
+ 
+	cpp:S6015
+cppS6015MAJOR
+ 
+	cpp:S6016
+cppS6016MAJOR
+ 
+	cpp:S6011
+cppS6011MAJOR
+ 
+	cpp:S6045
+cppS6045MAJOR
+
+cpp:S106
+cppS106MAJOR
  
 	cpp:S1016
 cppS1016MAJOR
@@ -251,18 +326,12 @@ L
 	cpp:S5414
 cppS5414MAJOR
  
-	cpp:S5415
-cppS5415MAJOR
- 
 	cpp:S3230
 cppS3230MAJOR
 +
 	cpp:S1188
 cppS1188MAJOR"	
 max20
- 
-	cpp:S1181
-cppS1181MAJOR
  
 	cpp:S4423
 cppS4423MAJOR
@@ -303,9 +372,6 @@ L
 	cpp:S5832
 cppS5832MAJOR
  
-	cpp:S2259
-cppS2259MAJOR
- 
 	cpp:S2589
 cppS2589MAJOR
  
@@ -317,9 +383,6 @@ L
  
 	cpp:S5501
 cppS5501MAJOR
- 
-	cpp:S5817
-cppS5817MAJOR
  
 	cpp:S5820
 cppS5820MAJOR
@@ -356,9 +419,6 @@ H
 
 cpp:S905
 cppS905MAJOR
-F
-cpp:UnnamedNamespaceInHeader&
-cppUnnamedNamespaceInHeaderMAJOR
  
 	cpp:S1751
 cppS1751MAJOR
@@ -506,9 +566,6 @@ common-cppDuplicatedBlocksMAJOR
 >
 cpp:PPNonStandardInclude"
 cppPPNonStandardIncludeMAJOR
-
-cpp:S106
-cppS106MAJOR
  
 	cpp:S1066
 cppS1066MAJOR
@@ -595,6 +652,39 @@ common-cppDuplicatedBlocksMAJOR
 cpp:SizeofSizeof
 cppSizeofSizeofMAJOR
 #
+	cpp:S5658
+cppS5658CRITICAL
+#
+	cpp:S5421
+cppS5421CRITICAL
+#
+	cpp:S1042
+cppS1042CRITICAL
+#
+	cpp:S5527
+cppS5527CRITICAL
+1
+cpp:PPUndefUsage
+cppPPUndefUsageCRITICAL
+#
+	cpp:S4830
+cppS4830CRITICAL
+#
+	cpp:S3624
+cppS3624CRITICAL
+#
+	cpp:S5275
+cppS5275CRITICAL
+#
+	cpp:S6069
+cppS6069CRITICAL
+#
+	cpp:S5213
+cppS5213CRITICAL
+A
+cpp:CommaAndOrOverloaded%
+cppCommaAndOrOverloadedCRITICAL
+#
 	cpp:S1265
 cppS1265CRITICAL
 #
@@ -622,9 +712,6 @@ common-cppDuplicatedBlocksMAJOR
 cpp:S859
 cppS859CRITICAL
 #
-	cpp:S5658
-cppS5658CRITICAL
-#
 	cpp:S3470
 cppS3470CRITICAL
 #
@@ -634,14 +721,8 @@ common-cppDuplicatedBlocksMAJOR
 	cpp:S5547
 cppS5547CRITICAL
 #
-	cpp:S5421
-cppS5421CRITICAL
-#
 	cpp:S5524
 cppS5524CRITICAL
-#
-	cpp:S5527
-cppS5527CRITICAL
 #
 	cpp:S5409
 cppS5409CRITICAL
@@ -655,17 +736,8 @@ O
 cpp:ExceptionSpecificationUsage,
 cppExceptionSpecificationUsageCRITICAL
 #
-	cpp:S4830
-cppS4830CRITICAL
-#
-	cpp:S6069
-cppS6069CRITICAL
-#
 	cpp:S1709
 cppS1709CRITICAL
-#
-	cpp:S5213
-cppS5213CRITICAL
 #
 	cpp:S5570
 cppS5570CRITICAL
@@ -697,14 +769,8 @@ O
 	cpp:S4963
 cppS4963CRITICAL
 #
-	cpp:S3624
-cppS3624CRITICAL
-#
 	cpp:S5180
 cppS5180CRITICAL
-1
-cpp:PPUndefUsage
-cppPPUndefUsageCRITICAL
 #
 	cpp:S5314
 cppS5314CRITICAL
@@ -712,14 +778,8 @@ O
 	cpp:S1035
 cppS1035CRITICAL
 #
-	cpp:S1042
-cppS1042CRITICAL
-#
 	cpp:S3518
 cppS3518CRITICAL
-A
-cpp:CommaAndOrOverloaded%
-cppCommaAndOrOverloadedCRITICAL
 A
 cpp:SwitchWithoutDefault%
 cppSwitchWithoutDefaultCRITICAL
@@ -732,9 +792,6 @@ A
 9
 cpp:FunctionEllipsis!
 cppFunctionEllipsisCRITICAL
-#
-	cpp:S5275
-cppS5275CRITICAL
 #
 	cpp:S5281
 cppS5281CRITICAL
@@ -816,6 +873,31 @@ I
 	cpp:S3807
 cppS3807CRITICAL
 "
+	cpp:S4999
+cppS4999BLOCKER
+"
+	cpp:S5417
+cppS5417BLOCKER
+"
+	cpp:S5302
+cppS5302BLOCKER
+"
+	cpp:S5999
+cppS5999BLOCKER
+"
+	cpp:S3520
+cppS3520BLOCKER
+"
+	cpp:S5184
+cppS5184BLOCKER
+Ù
+cpp:NonReentrantFunction◊
+cppNonReentrantFunctionBLOCKER"∞
+nonReentrantFunctionListìasctime,crypt,ctermid,ctime,fgetgrent,fgetpwent,fgetspent,getgrent,getgrgid,getgrnam,gethostbyaddr,gethostbyname,gethostbyname2,gethostent,getlogin,getnetbyaddr,getnetbyname,getnetent,getnetgrent,getprotobyname,getprotobynumber,getprotoent,getpwent,getpwnam,getpwuid,getrpcbyname,getrpcbynumber,getrpcent,getservbyname,getservbyport,getservent,getspent,getspnam,gmtime,localtime,sgetspent,strtok,ttyname
+"
+	cpp:S5798
+cppS5798BLOCKER
+"
 	cpp:S5502
 cppS5502BLOCKER
 "
@@ -830,9 +912,6 @@ I
 "
 	cpp:S2387
 cppS2387BLOCKER
-"
-	cpp:S5417
-cppS5417BLOCKER
 "
 	cpp:S5542
 cppS5542BLOCKER
@@ -852,12 +931,6 @@ I
 	cpp:S5912
 cppS5912BLOCKER
 "
-	cpp:S5184
-cppS5184BLOCKER
-"
-	cpp:S5798
-cppS5798BLOCKER
-"
 	cpp:S5018
 cppS5018BLOCKER
 "
@@ -875,9 +948,6 @@ I
 "
 	cpp:S5553
 cppS5553BLOCKER
-"
-	cpp:S5302
-cppS5302BLOCKER
 "
 	cpp:S2275
 cppS2275BLOCKER
@@ -900,17 +970,11 @@ H
 	cpp:S3519
 cppS3519BLOCKER
 "
-	cpp:S3520
-cppS3520BLOCKER
-"
 	cpp:S3529
 cppS3529BLOCKER
 "
 	cpp:S2095
 cppS2095BLOCKER
-"
-	cpp:S4999
-cppS4999BLOCKER
 "
 	cpp:S1036
 cppS1036BLOCKER
@@ -962,10 +1026,6 @@ D
 "
 	cpp:S5000
 cppS5000BLOCKER
-‘
-cpp:NonReentrantFunction∑
-cppNonReentrantFunctionBLOCKER"ê
-nonReentrantFunctionListÛcrypt,ctermid,ecvt,fcvt,fgetgrent,fgetpwent,fgetspent,gcvt,getgrent,getgrgid,getgrnam,gethostbyaddr,gethostbyname,gethostbyname2,gethostent,getlogin,getnetbyaddr,getnetbyname,getnetgrent,getprotobyname,getpwent,getpwnam,getpwuid,getrpcbyname,getrpcbynumber,getrpcent,getservbyname,getservbyport,getservent,getspent,getspnam,gmtime,localtime,readdir,strtok,tempnam,ttyname
 "
 	cpp:S1232
 cppS1232BLOCKER
