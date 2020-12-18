@@ -29,6 +29,7 @@ public class NewsRepositoryTest {
 
 	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
+	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
 
 	@Test
@@ -55,6 +56,14 @@ public class NewsRepositoryTest {
 		assertEquals(NewsConstants.ID_ONE, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_ONE, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_ONE, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_TWO, news.get(0).getCulturalOffer().getId());
+	}
+
+	@Test
+	public void testListMorePaginatedNonExisting() {
+		List<News> news = this.newsRepository
+				.filter(CulturalOfferConstants.ID_ONE, null, null, this.pageableNonExisting).getContent();
+		assertTrue(news.isEmpty());
 	}
 
 	@Test
@@ -65,9 +74,11 @@ public class NewsRepositoryTest {
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
 	}
 
 	@Test
@@ -78,12 +89,15 @@ public class NewsRepositoryTest {
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_THREE, news.get(2).getId());
 		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
 	}
 
 	@Test
@@ -96,6 +110,7 @@ public class NewsRepositoryTest {
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 	}
 
 	@Test
@@ -108,9 +123,11 @@ public class NewsRepositoryTest {
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
 	}
 
 	@Test
@@ -123,11 +140,14 @@ public class NewsRepositoryTest {
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_THREE, news.get(2).getId());
 		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
 	}
 }

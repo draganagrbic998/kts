@@ -26,4 +26,6 @@ public class NewsConstants {
 	public static final long ID_FOUR = 4;
 	public static final String DATE_FOUR = "2020-09-16";
 	public static final String TEXT_FOUR = "news_four";
+	
+	public static final String NON_EXISTING_TEXT = "news_none";
 }

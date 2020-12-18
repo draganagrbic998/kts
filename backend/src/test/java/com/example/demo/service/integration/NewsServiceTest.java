@@ -47,6 +47,7 @@ public class NewsServiceTest {
 
 	private Pageable pageableAll = PageRequest.of(0, 3);
 	private Pageable pageablePart = PageRequest.of(0, 2);
+	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Test
@@ -57,12 +58,15 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_THREE, news.get(2).getId());
 		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
 	}
 
 	@Test
@@ -73,9 +77,19 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
+	}
+
+	@Test
+	public void testListMoreNonExistingPage() {
+		List<News> news = 
+				this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, new FilterParamsNewsDTO(), this.pageableNonExisting).getContent();
+		assertTrue(news.isEmpty());
 	}
 
 	@Test
@@ -86,6 +100,7 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.ID_ONE, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_ONE, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_ONE, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_TWO, news.get(0).getCulturalOffer().getId());
 	}
 
 	@Test
@@ -114,6 +129,7 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 	}
 
 	@Test
@@ -126,9 +142,11 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
 	}
 
 	@Test
@@ -141,12 +159,15 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
 		assertEquals(NewsConstants.ID_THREE, news.get(2).getId());
 		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
 	}
 
 	@Test
@@ -239,6 +260,60 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.TEXT_ONE, n.getText());
 	}
 
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullDate() {
+		News n = this.testingNews();
+		n.setId(NewsConstants.ID_ONE);
+		n.setCreatedAt(null);
+		this.newsService.save(n, null);
+		this.newsRepository.count();
+	}
+
+	@Test(expected = NullPointerException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullOffer() {
+		News n = this.testingNews();
+		n.setId(NewsConstants.ID_ONE);
+		n.setCulturalOffer(null);
+		this.newsService.save(n, null);
+	}
+
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateNullText() {
+		News n = this.testingNews();
+		n.setId(NewsConstants.ID_ONE);
+		n.setText(null);
+		this.newsService.save(n, null);
+		this.newsRepository.count();
+	}
+
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateEmptyText() {
+		News n = this.testingNews();
+		n.setId(NewsConstants.ID_ONE);
+		n.setText("");
+		this.newsService.save(n, null);
+		this.newsRepository.count();
+	}
+
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateBlankText() {
+		News n = this.testingNews();
+		n.setId(NewsConstants.ID_ONE);
+		n.setText("  ");
+		this.newsService.save(n, null);
+		this.newsRepository.count();
+	}
+	
 	public News testingNews() {
 		News n = new News();
 		n.setCreatedAt(new Date());
