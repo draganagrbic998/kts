@@ -23,16 +23,16 @@ public class AccountActivationService {
 	private UserService userService;
 	
 	@Transactional(readOnly = false)
-	public void activate(String code) {
+	public User activate(String code) {
 		User user =  this.accountRepository.findByCode(code).getUser();
 		user.setEnabled(true);
-		this.userService.save(user, null);
+		return this.userService.save(user, null);
 	}
 	
 	@Transactional(readOnly = false)
 	public AccountActivation save(User user) {
 		AccountActivation accountActivation = new AccountActivation(user);
-		this.accountRepository.save(accountActivation);
+		accountActivation = this.accountRepository.save(accountActivation);
 		String link = Constants.FRONTEND_URL + "/user/activate/" + accountActivation.getCode();
 		String message = "You have been successfully registered! Click on link " + link + " to activate your account.";
 		this.emailService.sendEmail(new Email(user.getEmail(), "Account Activation", message));
