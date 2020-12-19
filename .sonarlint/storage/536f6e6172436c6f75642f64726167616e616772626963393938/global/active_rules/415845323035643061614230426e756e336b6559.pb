@@ -1,20 +1,87 @@
 
 !
 
-java:S1135
-javaS1135INFO
-!
-
 java:S5786
 javaS5786INFO
+!
+
+java:S1135
+javaS1135INFO
 !
 
 java:S1133
 javaS1133INFO
 "
 
+java:S1130
+javaS1130MINOR
+"
+
 java:S5838
 javaS5838MINOR
+"
+
+java:S1116
+javaS1116MINOR
+"
+
+java:S2386
+javaS2386MINOR
+"
+
+java:S1182
+javaS1182MINOR
+"
+
+java:S1659
+javaS1659MINOR
+"
+
+java:S2637
+javaS2637MINOR
+"
+
+java:S1874
+javaS1874MINOR
+"
+
+java:S2674
+javaS2674MINOR
+"
+
+java:S1444
+javaS1444MINOR
+"
+
+java:S1206
+javaS1206MINOR
+"
+
+java:S6068
+javaS6068MINOR
+"
+
+java:S1989
+javaS1989MINOR
+"
+
+java:S2066
+javaS2066MINOR
+"
+
+java:S2184
+javaS2184MINOR
+"
+
+java:S1075
+javaS1075MINOR
+"
+
+java:S3077
+javaS3077MINOR
+ 
+	java:S899
+javaS899MINOR
 "
 
 java:S5853
@@ -32,13 +99,6 @@ z
 java:S3577l
 javaS3577MINOR"V
 formatL^((Test|IT)[a-zA-Z0-9_]+|[A-Z][a-zA-Z0-9_]*(Test|Tests|TestCase|IT|ITCase))$
- 
-	java:S899
-javaS899MINOR
-"
-
-java:S2386
-javaS2386MINOR
 "
 
 java:S5857
@@ -55,10 +115,6 @@ java:S3400
 	java:S1012
 javaS101MINOR"
 format^[A-Z][a-zA-Z0-9]*$
-"
-
-java:S1444
-javaS1444MINOR
 "
 
 java:S1612
@@ -81,10 +137,6 @@ java:S1602
 javaS1602MINOR
 "
 
-java:S1130
-javaS1130MINOR
-"
-
 java:S1264
 javaS1264MINOR
 "
@@ -99,10 +151,6 @@ java:S2200
 
 java:S3416
 javaS3416MINOR
-"
-
-java:S1116
-javaS1116MINOR
 "
 
 java:S1126
@@ -178,10 +226,6 @@ java:S2272
 javaS2272MINOR
 "
 
-java:S1182
-javaS1182MINOR
-"
-
 java:S1158
 javaS1158MINOR
 "
@@ -210,20 +254,8 @@ java:S4929
 javaS4929MINOR
 "
 
-java:S1659
-javaS1659MINOR
-"
-
 java:S1301
 javaS1301MINOR
-"
-
-java:S2637
-javaS2637MINOR
-"
-
-java:S1874
-javaS1874MINOR
 "
 
 java:S1643
@@ -258,10 +290,6 @@ java:S2676
 javaS2676MINOR
 "
 
-java:S2674
-javaS2674MINOR
-"
-
 java:S1220
 javaS1220MINOR
 "
@@ -284,10 +312,6 @@ java:S4719
 
 java:S3626
 javaS3626MINOR
-"
-
-java:S1206
-javaS1206MINOR
 "
 
 java:S4087
@@ -322,10 +346,6 @@ java:S1611
 javaS1611MINOR
 "
 
-java:S1989
-javaS1989MINOR
-"
-
 java:S1710
 javaS1710MINOR
  
@@ -347,14 +367,6 @@ java:S4488
 
 java:S2065
 javaS2065MINOR
-"
-
-java:S2066
-javaS2066MINOR
-"
-
-java:S2184
-javaS2184MINOR
 "
 
 java:S2183
@@ -405,10 +417,6 @@ java:S2165
 javaS2165MINOR
 "
 
-java:S1075
-javaS1075MINOR
-"
-
 java:S1195
 javaS1195MINOR
 "
@@ -431,10 +439,6 @@ java:S3020
 
 java:S2293
 javaS2293MINOR
-"
-
-java:S3077
-javaS3077MINOR
 "
 
 java:S4276
@@ -464,16 +468,212 @@ java:S2094
 javasecurityS5145MINOR
 "
 
+java:S2225
+javaS2225MAJOR
+"
+
+java:S2226
+javaS2226MAJOR
+"
+
+java:S5855
+javaS5855MAJOR
+"
+
+java:S5850
+javaS5850MAJOR
+"
+
+java:S3551
+javaS3551MAJOR
+"
+
+java:S2583
+javaS2583MAJOR
+"
+
+java:S5738
+javaS5738MAJOR
+"
+
+java:S2111
+javaS2111MAJOR
+"
+
+java:S2445
+javaS2445MAJOR
+"
+
+java:S2446
+javaS2446MAJOR
+"
+
 java:S2201
 javaS2201MAJOR
 "
 
-java:S5993
-javaS5993MAJOR
+java:S1111
+javaS1111MAJOR
+"
+
+java:S2442
+javaS2442MAJOR
+"
+
+java:S2681
+javaS2681MAJOR
+"
+
+java:S5958
+javaS5958MAJOR
+"
+
+java:S1121
+javaS1121MAJOR
+"
+
+java:S1172
+javaS1172MAJOR
+"
+
+java:S2159
+javaS2159MAJOR
+"
+
+java:S1065
+javaS1065MAJOR
+"
+
+java:S1181
+javaS1181MAJOR
+D
+
+java:S59986
+javaS5998MAJOR" 
+maxStackConsumptionFactor5.0
+"
+
+java:S2259
+javaS2259MAJOR
+"
+
+java:S1168
+javaS1168MAJOR
+"
+
+java:S3346
+javaS3346MAJOR
+"
+
+java:S2251
+javaS2251MAJOR
+"
+
+java:S1656
+javaS1656MAJOR
+"
+
+java:S1872
+javaS1872MAJOR
+"
+
+java:S1764
+javaS1764MAJOR
+"
+
+java:S3824
+javaS3824MAJOR
+"
+
+java:S3751
+javaS3751MAJOR
+"
+
+java:S1217
+javaS1217MAJOR
+"
+
+java:S4973
+javaS4973MAJOR
+"
+
+java:S2886
+javaS2886MAJOR
 "
 
 java:S5808
 javaS5808MAJOR
+"
+
+java:S6035
+javaS6035MAJOR
+"
+
+java:S6019
+javaS6019MAJOR
+"
+
+java:S1854
+javaS1854MAJOR
+"
+
+java:S1862
+javaS1862MAJOR
+"
+
+java:S1860
+javaS1860MAJOR
+"
+
+java:S6070
+javaS6070MAJOR
+ 
+	java:S112
+javaS112MAJOR
+"
+
+java:S3034
+javaS3034MAJOR
+"
+
+java:S2061
+javaS2061MAJOR
+?
+	java:S1072
+javaS107MAJOR"
+max7"
+constructorMax7
+ 
+	java:S106
+javaS106MAJOR
+"
+
+java:S3011
+javaS3011MAJOR
+"
+
+java:S1193
+javaS1193MAJOR
+"
+
+java:S2175
+javaS2175MAJOR
+"
+
+java:S3078
+javaS3078MAJOR
+"
+
+java:S3067
+javaS3067MAJOR
+"
+
+java:S3064
+javaS3064MAJOR
+"
+
+java:S5993
+javaS5993MAJOR
 *
 	java:S110
 javaS110MAJOR"
@@ -486,10 +686,6 @@ java:S5976
 
 java:S5973
 javaS5973MAJOR
-"
-
-java:S5958
-javaS5958MAJOR
 "
 
 java:S5960
@@ -540,10 +736,6 @@ java:S5854
 javaS5854MAJOR
 "
 
-java:S5850
-javaS5850MAJOR
-"
-
 java:S5866
 javaS5866MAJOR
 "
@@ -563,10 +755,6 @@ java:S5868
 java:S5843)
 javaS5843MAJOR"
 maxComplexity20
-"
-
-java:S3011
-javaS3011MAJOR
 "
 
 java:S2204
@@ -605,10 +793,6 @@ java:S2757
 javaS2757MAJOR
 "
 
-java:S2583
-javaS2583MAJOR
-"
-
 java:S1149
 javaS1149MAJOR
 "
@@ -637,10 +821,6 @@ java:S3984
 javaS3984MAJOR
 "
 
-java:S5738
-javaS5738MAJOR
-"
-
 java:S3740
 javaS3740MAJOR
 "
@@ -657,10 +837,6 @@ java:S1871
 javaS1871MAJOR
 "
 
-java:S1764
-javaS1764MAJOR
-"
-
 java:S5679
 javaS5679MAJOR
 "
@@ -671,10 +847,6 @@ java:S4042
 
 java:S5261
 javaS5261MAJOR
-"
-
-java:S3064
-javaS3064MAJOR
 2
 javasecurity:S5144
 javasecurityS5144MAJOR
@@ -684,36 +856,16 @@ java:S1751
 javaS1751MAJOR
 "
 
-java:S2175
-javaS2175MAJOR
-"
-
 java:S4144
 javaS4144MAJOR
-"
-
-java:S2259
-javaS2259MAJOR
-"
-
-java:S2225
-javaS2225MAJOR
 "
 
 java:S3436
 javaS3436MAJOR
 "
 
-java:S2226
-javaS2226MAJOR
-"
-
 java:S1134
 javaS1134MAJOR
-"
-
-java:S3551
-javaS3551MAJOR
 "
 
 java:S3439
@@ -738,10 +890,6 @@ java:S2234
 
 java:S2114
 javaS2114MAJOR
-"
-
-java:S2111
-javaS2111MAJOR
 "
 
 java:S1144
@@ -772,32 +920,12 @@ java:S3655
 javaS3655MAJOR
 "
 
-java:S2445
-javaS2445MAJOR
-"
-
-java:S2446
-javaS2446MAJOR
-"
-
 java:S2441
 javaS2441MAJOR
 "
 
-java:S1111
-javaS1111MAJOR
-"
-
-java:S2442
-javaS2442MAJOR
-"
-
 java:S1110
 javaS1110MAJOR
-"
-
-java:S2681
-javaS2681MAJOR
 "
 
 java:S2209
@@ -829,10 +957,6 @@ java:S1123
 javaS1123MAJOR
 "
 
-java:S1121
-javaS1121MAJOR
-"
-
 java:S4517
 javaS4517MAJOR
 "
@@ -849,16 +973,8 @@ java:S2142
 javaS2142MAJOR
 "
 
-java:S1172
-javaS1172MAJOR
-"
-
 java:S1171
 javaS1171MAJOR
-"
-
-java:S2159
-javaS2159MAJOR
 "
 
 java:S1068
@@ -869,20 +985,12 @@ java:S1066
 javaS1066MAJOR
 "
 
-java:S1065
-javaS1065MAJOR
-"
-
 java:S2154
 javaS2154MAJOR
 "
 
 java:S2273
 javaS2273MAJOR
-"
-
-java:S1181
-javaS1181MAJOR
 "
 
 java:S2127
@@ -905,14 +1013,6 @@ java:S1150
 javaS1150MAJOR
 "
 
-java:S1168
-javaS1168MAJOR
-"
-
-java:S3346
-javaS3346MAJOR
-"
-
 java:S2133
 javaS2133MAJOR
 "
@@ -931,10 +1031,6 @@ java:S2252
 
 java:S2139
 javaS2139MAJOR
-"
-
-java:S2251
-javaS2251MAJOR
 "
 
 java:S1161
@@ -957,36 +1053,16 @@ java:S4925
 javaS4925MAJOR
 "
 
-java:S1656
-javaS1656MAJOR
-"
-
 java:S2639
 javaS2639MAJOR
-"
-
-java:S1872
-javaS1872MAJOR
-"
-
-java:S3824
-javaS3824MAJOR
 "
 
 java:S3631
 javaS3631MAJOR
 "
 
-java:S1217
-javaS1217MAJOR
-"
-
 java:S2677
 javaS2677MAJOR
-"
-
-java:S4973
-javaS4973MAJOR
 "
 
 java:S1223
@@ -1011,10 +1087,6 @@ java:S4738
 
 java:S2885
 javaS2885MAJOR
-"
-
-java:S2886
-javaS2886MAJOR
 "
 
 java:S2761
@@ -1053,18 +1125,6 @@ java:S5164
 javaS5164MAJOR
 "
 
-java:S1854
-javaS1854MAJOR
-"
-
-java:S1862
-javaS1862MAJOR
-"
-
-java:S1860
-javaS1860MAJOR
-"
-
 java:S2718
 javaS2718MAJOR
 "
@@ -1094,33 +1154,14 @@ java:S1844
 
 java:S3039
 javaS3039MAJOR
- 
-	java:S112
-javaS112MAJOR
-"
-
-java:S3034
-javaS3034MAJOR
 "
 
 java:S2185
 javaS2185MAJOR
 "
 
-java:S2061
-javaS2061MAJOR
-?
-	java:S1072
-javaS107MAJOR"
-max7"
-constructorMax7
-"
-
 java:S2060
 javaS2060MAJOR
- 
-	java:S106
-javaS106MAJOR
  
 	java:S108
 javaS108MAJOR
@@ -1142,10 +1183,6 @@ java:S3010
 javaS3010MAJOR
 "
 
-java:S1193
-javaS1193MAJOR
-"
-
 java:S2177
 javaS2177MAJOR
 "
@@ -1154,20 +1191,12 @@ java:S4351
 javaS4351MAJOR
 "
 
-java:S3078
-javaS3078MAJOR
-"
-
 java:S4165
 javaS4165MAJOR
 "
 
 java:S4143
 javaS4143MAJOR
-"
-
-java:S3067
-javaS3067MAJOR
 "
 
 java:S3065
@@ -1179,18 +1208,104 @@ java:S4274
 F
 common-java:DuplicatedBlocks&
 common-javaDuplicatedBlocksMAJOR
+5
+javasecurity:S2631
+javasecurityS2631CRITICAL
+%
+
+java:S5856
+javaS5856CRITICAL
+%
+
+java:S1143
+javaS1143CRITICAL
+%
+
+java:S1114
+javaS1114CRITICAL
+%
+
+java:S1113
+javaS1113CRITICAL
+%
+
+java:S2447
+javaS2447CRITICAL
+%
+
+java:S1174
+javaS1174CRITICAL
+%
+
+java:S5547
+javaS5547CRITICAL
+%
+
+java:S2274
+javaS2274CRITICAL
+%
+
+java:S2151
+javaS2151CRITICAL
 %
 
 java:S5876
 javaS5876CRITICAL
 %
 
-java:S5969
-javaS5969CRITICAL
+java:S5996
+javaS5996CRITICAL
 %
 
-java:S5547
-javaS5547CRITICAL
+java:S5994
+javaS5994CRITICAL
+%
+
+java:S2254
+javaS2254CRITICAL
+%
+
+java:S1163
+javaS1163CRITICAL
+%
+
+java:S3518
+javaS3518CRITICAL
+%
+
+java:S2647
+javaS2647CRITICAL
+%
+
+java:S4830
+javaS4830CRITICAL
+%
+
+java:S2653
+javaS2653CRITICAL
+%
+
+java:S5803
+javaS5803CRITICAL
+%
+
+java:S6002
+javaS6002CRITICAL
+%
+
+java:S6001
+javaS6001CRITICAL
+#
+	java:S131
+javaS131CRITICAL
+%
+
+java:S2093
+javaS2093CRITICAL
+%
+
+java:S5969
+javaS5969CRITICAL
 %
 
 java:S1214
@@ -1199,10 +1314,6 @@ java:S1214
 
 java:S1215
 javaS1215CRITICAL
-%
-
-java:S5803
-javaS5803CRITICAL
 %
 
 java:S5361
@@ -1217,18 +1328,6 @@ java:S5846
 javaS5846CRITICAL
 %
 
-java:S3518
-javaS3518CRITICAL
-%
-
-java:S5856
-javaS5856CRITICAL
-%
-
-java:S5840
-javaS5840CRITICAL
-%
-
 java:S5527
 javaS5527CRITICAL
 %
@@ -1237,24 +1336,12 @@ java:S4970
 javaS4970CRITICAL
 %
 
-java:S2647
-javaS2647CRITICAL
-%
-
-java:S4830
-javaS4830CRITICAL
-%
-
 java:S5344
 javaS5344CRITICAL
 %
 
 java:S2479
 javaS2479CRITICAL
-%
-
-java:S1113
-javaS1113CRITICAL
 %
 
 java:S5826
@@ -1287,9 +1374,6 @@ java:S2186
 
 java:S5790
 javaS5790CRITICAL
-5
-javasecurity:S2631
-javasecurityS2631CRITICAL
 L
 	java:S115?
 javaS115CRITICAL"'
@@ -1315,10 +1399,6 @@ java:S2235
 javaS2235CRITICAL
 %
 
-java:S1143
-javaS1143CRITICAL
-%
-
 java:S2119
 javaS2119CRITICAL
 6
@@ -1330,14 +1410,6 @@ java:S3776(
 
 java:S1598
 javaS1598CRITICAL
-%
-
-java:S1114
-javaS1114CRITICAL
-%
-
-java:S2447
-javaS2447CRITICAL
 %
 
 java:S3422
@@ -1372,16 +1444,8 @@ java:S1175
 javaS1175CRITICAL
 %
 
-java:S1174
-javaS1174CRITICAL
-%
-
 java:S2157
 javaS2157CRITICAL
-%
-
-java:S2274
-javaS2274CRITICAL
 %
 
 java:S1186
@@ -1392,24 +1456,12 @@ java:S4454
 javaS4454CRITICAL
 %
 
-java:S2151
-javaS2151CRITICAL
-%
-
 java:S2390
 javaS2390CRITICAL
 %
 
 java:S2122
 javaS2122CRITICAL
-%
-
-java:S2254
-javaS2254CRITICAL
-%
-
-java:S1163
-javaS1163CRITICAL
 %
 
 java:S1994
@@ -1432,15 +1484,8 @@ java:S3973
 javaS3973CRITICAL
 %
 
-java:S2653
-javaS2653CRITICAL
-%
-
 java:S1948
 javaS1948CRITICAL
-#
-	java:S131
-javaS131CRITICAL
 %
 
 java:S2062
@@ -1466,14 +1511,57 @@ java:S2176
 
 java:S4275
 javaS4275CRITICAL
-%
+4
+javasecurity:S2078
+javasecurityS2078BLOCKER
+4
+javasecurity:S2076
+javasecurityS2076BLOCKER
+4
+javasecurity:S3649
+javasecurityS3649BLOCKER
+4
+javasecurity:S2091
+javasecurityS2091BLOCKER
+$
 
-java:S2093
-javaS2093CRITICAL
+java:S2699
+javaS2699BLOCKER
+$
+
+java:S2276
+javaS2276BLOCKER
 $
 
 java:S5542
 javaS5542BLOCKER
+"
+	java:S128
+javaS128BLOCKER
+$
+
+java:S2189
+javaS2189BLOCKER
+$
+
+java:S2168
+javaS2168BLOCKER
+$
+
+java:S3014
+javaS3014BLOCKER
+$
+
+java:S3374
+javaS3374BLOCKER
+$
+
+java:S2178
+javaS2178BLOCKER
+$
+
+java:S2095
+javaS2095BLOCKER
 $
 
 java:S4426
@@ -1489,22 +1577,11 @@ java:S2187G
 TestClassNamePattern.*(Test|Tests|TestCase)
 $
 
-java:S2095
-javaS2095BLOCKER
-4
-javasecurity:S3649
-javasecurityS3649BLOCKER
-$
-
 java:S2275
 javaS2275BLOCKER
 4
 javasecurity:S5135
 javasecurityS5135BLOCKER
-$
-
-java:S2699
-javaS2699BLOCKER
 $
 
 java:S2188
@@ -1519,13 +1596,6 @@ java:S2975
 4
 javasecurity:S5146
 javasecurityS5146BLOCKER
-$
-
-java:S2168
-javaS2168BLOCKER
-4
-javasecurity:S2076
-javasecurityS2076BLOCKER
 4
 javasecurity:S2083
 javasecurityS2083BLOCKER
@@ -1555,10 +1625,6 @@ java:S2387
 javaS2387BLOCKER
 $
 
-java:S2276
-javaS2276BLOCKER
-$
-
 java:S4434
 javaS4434BLOCKER
 $
@@ -1575,10 +1641,6 @@ java:S3753
 javaS3753BLOCKER
 $
 
-java:S3751
-javaS3751BLOCKER
-$
-
 java:S1219
 javaS1219BLOCKER
 $
@@ -1589,17 +1651,10 @@ $
 
 java:S2437
 javaS2437BLOCKER
-"
-	java:S128
-javaS128BLOCKER
 $
 
 java:S1845
 javaS1845BLOCKER
-$
-
-java:S2189
-javaS2189BLOCKER
 $
 
 java:S3046
@@ -1610,26 +1665,8 @@ java:S3281
 javaS3281BLOCKER
 $
 
-java:S3014
-javaS3014BLOCKER
-$
-
-java:S3374
-javaS3374BLOCKER
-$
-
 java:S1190
 javaS1190BLOCKER
-$
-
-java:S2178
-javaS2178BLOCKER
 4
 javasecurity:S5334
 javasecurityS5334BLOCKER
-4
-javasecurity:S2078
-javasecurityS2078BLOCKER
-4
-javasecurity:S2091
-javasecurityS2091BLOCKER

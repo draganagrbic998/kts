@@ -6,6 +6,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 public class TypeUploadDTO {
 	
+	private Long id;
+
 	@NotBlank
 	private String name;
 	
@@ -18,6 +20,14 @@ public class TypeUploadDTO {
 		super();
 	}
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
 	public String getName() {
 		return name;
 	}

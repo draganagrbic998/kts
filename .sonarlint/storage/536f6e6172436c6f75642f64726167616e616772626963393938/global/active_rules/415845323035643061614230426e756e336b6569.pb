@@ -1,5 +1,9 @@
 
 .
+typescript:S1116
+
+typescriptS1116MINOR
+.
 typescript:S3001
 
 typescriptS3001MINOR
@@ -52,13 +56,45 @@ typescriptS4158MINOR
 
 typescriptS1516MINOR
 .
-typescript:S1116
+typescript:S2688
 
-typescriptS1116MINOR
+typescriptS2688MAJOR
+.
+typescript:S2201
+
+typescriptS2201MAJOR
 .
 typescript:S2681
 
 typescriptS2681MAJOR
+.
+typescript:S1854
+
+typescriptS1854MAJOR
+.
+typescript:S1862
+
+typescriptS1862MAJOR
+.
+typescript:S2251
+
+typescriptS2251MAJOR
+.
+typescript:S1656
+
+typescriptS1656MAJOR
+.
+typescript:S1764
+
+typescriptS1764MAJOR
+.
+typescript:S1763
+
+typescriptS1763MAJOR
+.
+typescript:S4165
+
+typescriptS4165MAJOR
 .
 typescript:S4822
 
@@ -89,21 +125,9 @@ typescriptS2589MAJOR
 
 typescriptS3531MAJOR
 .
-typescript:S1736
-
-typescriptS1736MAJOR
-.
-typescript:S2251
-
-typescriptS2251MAJOR
-.
 typescript:S1788
 
 typescriptS1788MAJOR
-.
-typescript:S1764
-
-typescriptS1764MAJOR
 .
 typescript:S2814
 
@@ -166,10 +190,6 @@ typescriptS2757MAJOR
 
 typescriptS1751MAJOR
 .
-typescript:S2201
-
-typescriptS2201MAJOR
-.
 typescript:S4623
 
 typescriptS4623MAJOR
@@ -177,10 +197,6 @@ typescriptS4623MAJOR
 typescript:S1110
 
 typescriptS1110MAJOR
-.
-typescript:S1854
-
-typescriptS1854MAJOR
 .
 typescript:S2123
 
@@ -217,10 +233,6 @@ typescriptS3799MAJOR
 typescript:S4124
 
 typescriptS4124MAJOR
-.
-typescript:S1656
-
-typescriptS1656MAJOR
 ,
 typescript:S108
 
@@ -230,29 +242,29 @@ typescriptS108MAJOR
 
 typescriptS878MAJOR
 .
-typescript:S2688
-
-typescriptS2688MAJOR
-.
-typescript:S1862
-
-typescriptS1862MAJOR
-.
 typescript:S4140
 
 typescriptS4140MAJOR
+1
+typescript:S1143
+
+typescriptS1143CRITICAL
 1
 typescript:S5659
 
 typescriptS5659CRITICAL
 1
-typescript:S2819
-
-typescriptS2819CRITICAL
-1
 typescript:S5547
 
 typescriptS5547CRITICAL
+/
+typescript:S888
+
+typescriptS888CRITICAL
+1
+typescript:S2819
+
+typescriptS2819CRITICAL
 1
 typescript:S5527
 
@@ -277,10 +289,6 @@ typescriptS4275CRITICAL
 typescript:S3973
 
 typescriptS3973CRITICAL
-/
-typescript:S888
-
-typescriptS888CRITICAL
 1
 typescript:S4123
 
@@ -309,14 +317,30 @@ typescriptS4335CRITICAL
 typescript:S3972
 
 typescriptS3972CRITICAL
-1
-typescript:S1143
-
-typescriptS1143CRITICAL
 0
 typescript:S5542
 
 typescriptS5542BLOCKER
+.
+typescript:S128
+
+typescriptS128BLOCKER
+0
+typescript:S1314
+
+typescriptS1314BLOCKER
+0
+tssecurity:S2083
+
+tssecurityS2083BLOCKER
+0
+tssecurity:S3649
+
+tssecurityS3649BLOCKER
+0
+tssecurity:S6096
+
+tssecurityS6096BLOCKER
 0
 typescript:S4426
 
@@ -326,17 +350,9 @@ typescriptS4426BLOCKER
 
 typescriptS2755BLOCKER
 0
-tssecurity:S3649
-
-tssecurityS3649BLOCKER
-0
 typescript:S1219
 
 typescriptS1219BLOCKER
-.
-typescript:S128
-
-typescriptS128BLOCKER
 0
 typescript:S3516
 

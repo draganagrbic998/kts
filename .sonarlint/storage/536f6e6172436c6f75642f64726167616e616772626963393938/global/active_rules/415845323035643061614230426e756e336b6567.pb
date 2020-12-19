@@ -501,6 +501,9 @@ J
 0
 csharpsquid:S4581
 csharpsquidS4581MAJOR
+]
+&roslyn.sonaranalyzer.security.cs:S26313
+ roslyn.sonaranalyzer.security.csS2631CRITICAL
 3
 csharpsquid:S5034
 csharpsquidS5034CRITICAL
@@ -534,9 +537,6 @@ J
 3
 csharpsquid:S1006
 csharpsquidS1006CRITICAL
-]
-&roslyn.sonaranalyzer.security.cs:S26313
- roslyn.sonaranalyzer.security.csS2631CRITICAL
 3
 csharpsquid:S5659
 csharpsquidS5659CRITICAL
@@ -635,6 +635,18 @@ J
 3
 csharpsquid:S4277
 csharpsquidS4277CRITICAL
+\
+&roslyn.sonaranalyzer.security.cs:S20782
+ roslyn.sonaranalyzer.security.csS2078BLOCKER
+\
+&roslyn.sonaranalyzer.security.cs:S20762
+ roslyn.sonaranalyzer.security.csS2076BLOCKER
+\
+&roslyn.sonaranalyzer.security.cs:S36492
+ roslyn.sonaranalyzer.security.csS3649BLOCKER
+\
+&roslyn.sonaranalyzer.security.cs:S20912
+ roslyn.sonaranalyzer.security.csS2091BLOCKER
 2
 csharpsquid:S2699
 csharpsquidS2699BLOCKER
@@ -660,20 +672,8 @@ J
 &roslyn.sonaranalyzer.security.cs:S51312
  roslyn.sonaranalyzer.security.csS5131BLOCKER
 \
-&roslyn.sonaranalyzer.security.cs:S20782
- roslyn.sonaranalyzer.security.csS2078BLOCKER
-\
-&roslyn.sonaranalyzer.security.cs:S20762
- roslyn.sonaranalyzer.security.csS2076BLOCKER
-\
 &roslyn.sonaranalyzer.security.cs:S20832
  roslyn.sonaranalyzer.security.csS2083BLOCKER
-\
-&roslyn.sonaranalyzer.security.cs:S36492
- roslyn.sonaranalyzer.security.csS3649BLOCKER
-\
-&roslyn.sonaranalyzer.security.cs:S20912
- roslyn.sonaranalyzer.security.csS2091BLOCKER
 2
 csharpsquid:S2857
 csharpsquidS2857BLOCKER

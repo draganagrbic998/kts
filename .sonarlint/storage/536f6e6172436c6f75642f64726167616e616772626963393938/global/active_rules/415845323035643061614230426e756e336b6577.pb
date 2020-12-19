@@ -5,6 +5,12 @@
 
 c:S1133
 cS1133INFO
+L
+c:SingleDeclarationPerStatement)
+cSingleDeclarationPerStatementMINOR
+
+c:S886
+cS886MINOR
 
 c:S5978
 cS5978MINOR
@@ -17,9 +23,6 @@
 
 c:S5381
 cS5381MINOR
-
-c:S886
-cS886MINOR
 
 c:S2193
 cS2193MINOR
@@ -51,9 +54,6 @@
 
 c:S5350
 cS5350MINOR
-L
-c:SingleDeclarationPerStatement)
-cSingleDeclarationPerStatementMINOR
 
 c:S995
 cS995MINOR
@@ -106,6 +106,9 @@ H
 c:S3744
 cS3744MINOR
 
+c:S2259
+cS2259MAJOR
+
 c:S3805
 cS3805MAJOR
 
@@ -123,9 +126,6 @@ H
 
 c:S5832
 cS5832MAJOR
-
-c:S2259
-cS2259MAJOR
 
 c:S2589
 cS2589MAJOR
@@ -346,9 +346,6 @@ N
 @
 common-c:DuplicatedBlocks#
 common-cDuplicatedBlocksMAJOR
-
-c:S859
-cS859CRITICAL
 
 c:S5658
 cS5658CRITICAL
@@ -356,11 +353,20 @@ N
 c:S6069
 cS6069CRITICAL
 
-c:S5547
-cS5547CRITICAL
-
 c:S5527
 cS5527CRITICAL
+-
+c:PPUndefUsage
+cPPUndefUsageCRITICAL
+
+c:S4830
+cS4830CRITICAL
+
+c:S859
+cS859CRITICAL
+
+c:S5547
+cS5547CRITICAL
 
 c:S5570
 cS5570CRITICAL
@@ -371,14 +377,8 @@ N
 c:S1081
 cS1081CRITICAL
 
-c:S4830
-cS4830CRITICAL
-
 c:S5847
 cS5847CRITICAL
--
-c:PPUndefUsage
-cPPUndefUsageCRITICAL
 
 c:S5314
 cS5314CRITICAL
@@ -465,6 +465,16 @@ R
 
 c:S3807
 cS3807CRITICAL
+
+c:NonReentrantFunction’
+cNonReentrantFunctionBLOCKER"∞
+nonReentrantFunctionListìasctime,crypt,ctermid,ctime,fgetgrent,fgetpwent,fgetspent,getgrent,getgrgid,getgrnam,gethostbyaddr,gethostbyname,gethostbyname2,gethostent,getlogin,getnetbyaddr,getnetbyname,getnetent,getnetgrent,getprotobyname,getprotobynumber,getprotoent,getpwent,getpwnam,getpwuid,getrpcbyname,getrpcbynumber,getrpcent,getservbyname,getservbyport,getservent,getspent,getspnam,gmtime,localtime,sgetspent,strtok,ttyname
+
+c:S5798
+cS5798BLOCKER
+
+c:S3520
+cS3520BLOCKER
 
 c:S5542
 cS5542BLOCKER
@@ -474,9 +484,6 @@ R
 
 c:S4426
 cS4426BLOCKER
-
-c:S5798
-cS5798BLOCKER
 
 c:S2755
 cS2755BLOCKER
@@ -501,9 +508,6 @@ D
 
 c:S3519
 cS3519BLOCKER
-
-c:S3520
-cS3520BLOCKER
 
 c:S3529
 cS3529BLOCKER
@@ -558,10 +562,6 @@ $c:SideEffectInRightHandSideOfLogical0
 
 c:S5000
 cS5000BLOCKER
-–
-c:NonReentrantFunctionµ
-cNonReentrantFunctionBLOCKER"ê
-nonReentrantFunctionListÛcrypt,ctermid,ecvt,fcvt,fgetgrent,fgetpwent,fgetspent,gcvt,getgrent,getgrgid,getgrnam,gethostbyaddr,gethostbyname,gethostbyname2,gethostent,getlogin,getnetbyaddr,getnetbyname,getnetgrent,getprotobyname,getpwent,getpwnam,getpwuid,getrpcbyname,getrpcbynumber,getrpcent,getservbyname,getservbyport,getservent,getspent,getspnam,gmtime,localtime,readdir,strtok,tempnam,ttyname
 
 c:S3491
 cS3491BLOCKER

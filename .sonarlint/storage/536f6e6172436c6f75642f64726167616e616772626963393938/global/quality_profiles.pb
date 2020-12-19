@@ -7,13 +7,13 @@ a
 AXE205d0aaB0Bnun3keX	Sonar wayapex"Apex()22020-10-28T14:20:52+0000
 \
 AXE205d0aaB0Bnun3kewD
-AXE205d0aaB0Bnun3kew	Sonar wayc"C(È22020-11-16T08:33:04+0000
+AXE205d0aaB0Bnun3kew	Sonar wayc"C(Ì22020-12-15T08:53:11+0000
 c
 AXE205d0aaB0Bnun3keVK
 AXE205d0aaB0Bnun3keV	Sonar waycobol"COBOL(K22020-10-28T14:22:15+0000
 `
 AXE205d0aaB0Bnun3ketH
-AXE205d0aaB0Bnun3ket	Sonar waycpp"C++(Í22020-11-16T08:32:47+0000
+AXE205d0aaB0Bnun3ket	Sonar waycpp"C++(å22020-12-15T08:52:53+0000
 ^
 AXE205d0aaB0Bnun3kegF
 AXE205d0aaB0Bnun3keg	Sonar waycs"C#(€22020-10-13T14:12:03+0000
@@ -28,15 +28,15 @@ a
 AXE205d0aaB0Bnun3kev	Sonar waygo"Go(22020-10-28T14:21:48+0000
 b
 AXE205d0aaB0Bnun3keYJ
-AXE205d0aaB0Bnun3keY	Sonar wayjava"Java(³22020-10-07T13:02:58+0000
-e
-AXE205d0aaB0Bnun3keeM
+AXE205d0aaB0Bnun3keY	Sonar wayjava"Java(¼22020-12-15T08:51:26+0000
+f
+AXE205d0aaB0Bnun3keeN
 AXE205d0aaB0Bnun3kee	Sonar wayjs"
-JavaScript(~22020-11-16T08:31:07+0000
+JavaScript(€22020-12-15T08:50:25+0000
 r
 AXE205d0aaB0Bnun3kefZ
 AXE205d0aaB0Bnun3kefSonar way Recommendedjs"
-JavaScript(µ22020-11-16T08:31:48+0000
+JavaScript(·22020-12-15T08:51:01+0000
 ]
 AXE205d0aaB0Bnun3keZE
 AXE205d0aaB0Bnun3keZ	Sonar wayjsp"JSP22019-01-31T08:12:02+0000
@@ -45,7 +45,7 @@ e
 AXE205d0aaB0Bnun3kep	Sonar waykotlin"Kotlin(22020-10-28T14:21:41+0000
 i
 AXE205d0aaB0Bnun3keoQ
-AXE205d0aaB0Bnun3keo	Sonar wayobjc"Objective-C(É22020-11-16T08:34:13+0000
+AXE205d0aaB0Bnun3keo	Sonar wayobjc"Objective-C(Í22020-12-15T08:54:09+0000
 \
 AXE205d0aaB0Bnun3keUD
 AXE205d0aaB0Bnun3keUDrupalphp"PHP(22018-11-06T11:21:38+0000
@@ -73,11 +73,11 @@ c
 e
 AXE205d0aaB0Bnun3keiM
 AXE205d0aaB0Bnun3kei	Sonar wayts"
-TypeScript(p22020-11-16T08:33:43+0000
+TypeScript(t22020-12-15T08:53:49+0000
 r
 AXE205d0aaB0Bnun3kesZ
 AXE205d0aaB0Bnun3kesSonar way recommendedts"
-TypeScript(²22020-11-16T08:33:55+0000
+TypeScript(¶22020-12-15T08:53:57+0000
 b
 AXE205d0aaB0Bnun3kejJ
 AXE205d0aaB0Bnun3kej	Sonar waytsql"T-SQL(922020-11-12T08:27:54+0000

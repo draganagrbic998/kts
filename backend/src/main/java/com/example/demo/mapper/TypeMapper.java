@@ -25,6 +25,7 @@ public class TypeMapper {
 	@Transactional(readOnly = true)
 	public Type map(TypeUploadDTO typeDTO) {
 		Type type = new Type();
+		type.setId(typeDTO.getId());
 		type.setName(typeDTO.getName());
 		type.setCategory(this.categoryRepository.findByName(typeDTO.getCategory()));
 		return type;

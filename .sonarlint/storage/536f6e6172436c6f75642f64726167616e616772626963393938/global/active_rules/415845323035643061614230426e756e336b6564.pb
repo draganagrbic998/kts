@@ -184,6 +184,9 @@ $
 &
 python:S1700
 pythonS1700MAJOR
+9
+pythonsecurity:S2631!
+pythonsecurityS2631CRITICAL
 N
 python:S5720>
 pythonS5720CRITICAL"#
@@ -203,9 +206,6 @@ N
 )
 python:S2208
 pythonS2208CRITICAL
-9
-pythonsecurity:S2631!
-pythonsecurityS2631CRITICAL
 )
 python:S2638
 pythonS2638CRITICAL
@@ -270,6 +270,18 @@ Q
 )
 python:S1716
 pythonS1716CRITICAL
+8
+pythonsecurity:S2078 
+pythonsecurityS2078BLOCKER
+8
+pythonsecurity:S2076 
+pythonsecurityS2076BLOCKER
+8
+pythonsecurity:S3649 
+pythonsecurityS3649BLOCKER
+8
+pythonsecurity:S2091 
+pythonsecurityS2091BLOCKER
 (
 python:S5724
 pythonS5724BLOCKER
@@ -325,17 +337,11 @@ Q
 pythonsecurity:S5135 
 pythonsecurityS5135BLOCKER
 8
-pythonsecurity:S2076 
-pythonsecurityS2076BLOCKER
-8
 pythonsecurity:S5334 
 pythonsecurityS5334BLOCKER
 8
 pythonsecurity:S5146 
 pythonsecurityS5146BLOCKER
-8
-pythonsecurity:S3649 
-pythonsecurityS3649BLOCKER
 (
 python:S3516
 pythonS3516BLOCKER
@@ -355,14 +361,8 @@ Q
 python:S3403
 pythonS3403BLOCKER
 8
-pythonsecurity:S2078 
-pythonsecurityS2078BLOCKER
-8
 pythonsecurity:S2083 
 pythonsecurityS2083BLOCKER
-8
-pythonsecurity:S2091 
-pythonsecurityS2091BLOCKER
 (
 python:S2115
 pythonS2115BLOCKER
