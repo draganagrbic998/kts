@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.constants.CulturalOfferConstants;
-import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.Filters;
 import com.example.demo.constants.TypeConstants;
@@ -31,6 +30,7 @@ import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.model.CulturalOffer;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.CulturalOfferRepository;
+import com.example.demo.repository.NewsRepository;
 import com.example.demo.repository.TypeRepository;
 import com.example.demo.service.CulturalOfferService;
 
@@ -49,11 +49,13 @@ public class CulturalOfferServiceTest {
 
 	@Autowired
 	private CommentRepository commentRepository;
+	
+	@Autowired
+	private NewsRepository newsRepository;
 		
 	@Autowired
 	private Filters filters;
-		
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	
@@ -101,7 +103,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterNamesEmpty() {
 		List<String> names = 
 				this.culturalOfferService
-				.filterNames(FilterConstants.FILTER_ALL);
+				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CulturalOfferConstants.NAME_ONE, names.get(0));
 		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(1));
@@ -112,7 +114,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterNamesAll() {
 		List<String> names = 
 				this.culturalOfferService
-				.filterNames(CulturalOfferConstants.FILTER_NAME_ALL);
+				.filterNames(CulturalOfferConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CulturalOfferConstants.NAME_ONE, names.get(0));
 		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(1));
@@ -123,7 +125,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterNamesOne() {
 		List<String> names = 
 				this.culturalOfferService
-				.filterNames(FilterConstants.FILTER_ONE);
+				.filterNames(MainConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, names.size());
 		assertEquals(CulturalOfferConstants.NAME_ONE, names.get(0));
 	}
@@ -132,7 +134,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterNamesNone() {
 		List<String> names = 
 				this.culturalOfferService
-				.filterNames(FilterConstants.FILTER_NONE);
+				.filterNames(MainConstants.FILTER_NONE);
 		assertTrue(names.isEmpty());
 	}
 	
@@ -140,7 +142,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterLocationsEmpty() {
 		List<String> locations = 
 				this.culturalOfferService
-				.filterLocations(FilterConstants.FILTER_ALL);
+				.filterLocations(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, locations.size());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, locations.get(0));
 		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(1));
@@ -151,7 +153,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterLocationsAll() {
 		List<String> locations = 
 				this.culturalOfferService
-				.filterLocations(CulturalOfferConstants.FILTER_LOCATION_ALL);
+				.filterLocations(CulturalOfferConstants.FILTER_LOCATIONS_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, locations.size());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, locations.get(0));
 		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(1));
@@ -162,7 +164,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterLocationsOne() {
 		List<String> locations = 
 				this.culturalOfferService
-				.filterLocations(FilterConstants.FILTER_ONE);
+				.filterLocations(MainConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, locations.size());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, locations.get(0));
 	}
@@ -171,7 +173,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterLocationsNone() {
 		List<String> locations = 
 				this.culturalOfferService
-				.filterLocations(FilterConstants.FILTER_NONE);
+				.filterLocations(MainConstants.FILTER_NONE);
 		assertTrue(locations.isEmpty());
 	}
 	
@@ -179,7 +181,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterTypesEmpty() {
 		List<String> types = 
 				this.culturalOfferService
-				.filterTypes(FilterConstants.FILTER_ALL);
+				.filterTypes(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0));
 		assertEquals(TypeConstants.NAME_THREE, types.get(1));
@@ -190,7 +192,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterTypesAll() {
 		List<String> types = 
 				this.culturalOfferService
-				.filterTypes(CulturalOfferConstants.FILTER_TYPE_ALL);
+				.filterTypes(CulturalOfferConstants.FILTER_TYPES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0));
 		assertEquals(TypeConstants.NAME_THREE, types.get(1));
@@ -201,7 +203,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterTypesOne() {
 		List<String> types = 
 				this.culturalOfferService
-				.filterTypes(FilterConstants.FILTER_ONE);
+				.filterTypes(MainConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, types.size());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0));
 	}
@@ -210,7 +212,7 @@ public class CulturalOfferServiceTest {
 	public void testFilterTypesNone() {
 		List<String> types = 
 				this.culturalOfferService
-				.filterTypes(FilterConstants.FILTER_NONE);
+				.filterTypes(MainConstants.FILTER_NONE);
 		assertTrue(types.isEmpty());
 	}
 		
@@ -219,7 +221,7 @@ public class CulturalOfferServiceTest {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
 		List<CulturalOffer> offers = 
 				this.culturalOfferService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -266,7 +268,7 @@ public class CulturalOfferServiceTest {
 		FilterParamsDTO filters = this.filters.filtersAll();
 		List<CulturalOffer> offers = 
 				this.culturalOfferService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -313,7 +315,7 @@ public class CulturalOfferServiceTest {
 		FilterParamsDTO filters = this.filters.filtersOneName();
 		List<CulturalOffer> offers = 
 				this.culturalOfferService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -326,7 +328,7 @@ public class CulturalOfferServiceTest {
 		FilterParamsDTO filters = this.filters.filtersOneLocation();
 		List<CulturalOffer> offers = 
 				this.culturalOfferService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -339,20 +341,7 @@ public class CulturalOfferServiceTest {
 		FilterParamsDTO filters = this.filters.filtersOneType();
 		List<CulturalOffer> offers = 
 				this.culturalOfferService
-				.filter(filters, this.pageableAll).getContent();
-		assertEquals(MainConstants.ONE_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-	}
-	
-	@Test
-	public void testFilterOneNameLocationType() {
-		FilterParamsDTO filters = this.filters.filtersOne();
-		List<CulturalOffer> offers = 
-				this.culturalOfferService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -365,7 +354,7 @@ public class CulturalOfferServiceTest {
 		FilterParamsDTO filters = this.filters.filtersNone();
 		List<CulturalOffer> offers = 
 				this.culturalOfferService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertTrue(offers.isEmpty());
 	}
 	
@@ -377,8 +366,8 @@ public class CulturalOfferServiceTest {
 		this.culturalOfferService.delete(CulturalOfferConstants.ID_THREE);
 		assertEquals(size - 1, this.culturalOfferRepository.count());
 		assertNull(this.culturalOfferRepository.findById(CulturalOfferConstants.ID_THREE).orElse(null));
-		assertTrue(this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_THREE, this.pageableAll).isEmpty());
-		//treba petar da doda da su i novosti obrisane
+		assertTrue(this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_THREE, this.pageableTotal).isEmpty());
+		assertTrue(this.newsRepository.filter(CulturalOfferConstants.ID_THREE, null, null, this.pageableTotal).isEmpty());
 	}
 	
 	@Test(expected = EmptyResultDataAccessException.class)

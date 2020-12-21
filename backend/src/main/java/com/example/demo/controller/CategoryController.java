@@ -42,7 +42,17 @@ public class CategoryController {
 	@Autowired
 	private CategoryMapper categoryMapper;
 		
-	@GetMapping(value = "")
+	@PostMapping(value = "/has_name")
+	public ResponseEntity<BooleanDTO> hasName(@RequestBody UniqueCheckDTO param) {
+		return new ResponseEntity<>(new BooleanDTO(this.categoryService.hasName(param)), HttpStatus.OK);
+	}
+		
+	@PostMapping(value = "/filter_names")
+	public ResponseEntity<List<String>> filterNames(@RequestBody StringDTO filter){
+		return new ResponseEntity<>(this.categoryService.filterNames(filter.getValue()), HttpStatus.OK);
+	}
+	
+	@GetMapping
 	public ResponseEntity<List<CategoryDTO>> list(@RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
 		Page<Category> categories = this.categoryService.list(pageable);
@@ -52,26 +62,16 @@ public class CategoryController {
 		return new ResponseEntity<>(this.categoryMapper.map(categories.toList()), HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "")
-	public ResponseEntity<Void> save(@Valid @RequestBody CategoryDTO categoryDTO){
-		this.categoryService.save(this.categoryMapper.map(categoryDTO));
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable long id) {
 		this.categoryService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/has_name")
-	public ResponseEntity<BooleanDTO> hasName(@RequestBody UniqueCheckDTO param) {
-		return new ResponseEntity<>(new BooleanDTO(this.categoryService.hasName(param)), HttpStatus.OK);
-	}
-		
-	@PostMapping(value = "/filter_names")
-	public ResponseEntity<List<String>> filterNames(@RequestBody StringDTO filter){
-		return new ResponseEntity<>(this.categoryService.filterNames(filter.getValue()), HttpStatus.OK);
+	@PostMapping
+	public ResponseEntity<Void> save(@Valid @RequestBody CategoryDTO categoryDTO){
+		this.categoryService.save(this.categoryMapper.map(categoryDTO));
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 }

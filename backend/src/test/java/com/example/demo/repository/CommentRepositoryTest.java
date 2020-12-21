@@ -27,7 +27,7 @@ public class CommentRepositoryTest {
 	@Autowired
 	private CommentRepository commentRepository;
 	
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
@@ -37,7 +37,7 @@ public class CommentRepositoryTest {
 		double totalRate = 
 				this.commentRepository
 				.totalRate(CulturalOfferConstants.ID_ONE);
-		assertEquals(MainConstants.TOTAL_SIZE, totalRate);	//oce ovaj double uvek raditi??
+		assertEquals(MainConstants.TOTAL_SIZE, totalRate);
 	}
 	
 	@Test
@@ -45,7 +45,7 @@ public class CommentRepositoryTest {
 		double totalRate = 
 				this.commentRepository
 				.totalRate(CulturalOfferConstants.ID_TWO);
-		assertEquals(MainConstants.ONE_SIZE, totalRate);	//oce ovaj double uvek raditi??
+		assertEquals(MainConstants.ONE_SIZE, totalRate);
 	}
 	
 	@Test
@@ -53,7 +53,7 @@ public class CommentRepositoryTest {
 		double totalRate = 
 				this.commentRepository
 				.totalRate(MainConstants.NON_EXISTING_ID);
-		assertEquals(MainConstants.NONE_SIZE, totalRate);	//oce ovaj double uvek raditi??
+		assertEquals(MainConstants.NONE_SIZE, totalRate);
 	}
 	
 	@Test
@@ -61,7 +61,7 @@ public class CommentRepositoryTest {
 		List<Comment> comments = 
 				this.commentRepository
 				.findByCulturalOfferIdOrderByCreatedAtDesc
-				(CulturalOfferConstants.ID_ONE, this.pageableAll).getContent();
+				(CulturalOfferConstants.ID_ONE, this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_TWO, comments.get(0).getId());
 		assertEquals(CommentConstants.DATE_TWO, this.format.format(comments.get(0).getCreatedAt()));
@@ -100,7 +100,7 @@ public class CommentRepositoryTest {
 	}
 	
 	@Test
-	public void testListMorePaginatedNonExisting() {
+	public void testListMoreNonExistingPage() {
 		List<Comment> comments = 
 				this.commentRepository
 				.findByCulturalOfferIdOrderByCreatedAtDesc
@@ -113,7 +113,7 @@ public class CommentRepositoryTest {
 		List<Comment> comments = 
 				this.commentRepository
 				.findByCulturalOfferIdOrderByCreatedAtDesc
-				(CulturalOfferConstants.ID_TWO, this.pageableAll).getContent();
+				(CulturalOfferConstants.ID_TWO, this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_FOUR, comments.get(0).getId());
 		assertEquals(CommentConstants.DATE_FOUR, this.format.format(comments.get(0).getCreatedAt()));
@@ -127,7 +127,7 @@ public class CommentRepositoryTest {
 		List<Comment> comments = 
 				this.commentRepository
 				.findByCulturalOfferIdOrderByCreatedAtDesc
-				(MainConstants.NON_EXISTING_ID, this.pageableAll).getContent();
+				(MainConstants.NON_EXISTING_ID, this.pageableTotal).getContent();
 		assertTrue(comments.isEmpty());
 	}
 	

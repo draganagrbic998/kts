@@ -45,15 +45,15 @@ public class NewsServiceTest {
 	@Autowired
 	private CulturalOfferRepository culturalOfferRepository;
 
-	private Pageable pageableAll = PageRequest.of(0, 3);
-	private Pageable pageablePart = PageRequest.of(0, 2);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Test
 	public void testListMore() {
 		List<News> news = this.newsService
-				.filter(CulturalOfferConstants.ID_THREE, new FilterParamsNewsDTO(), this.pageableAll).getContent();
+				.filter(CulturalOfferConstants.ID_THREE, new FilterParamsNewsDTO(), this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, news.size());
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
@@ -95,7 +95,7 @@ public class NewsServiceTest {
 	@Test
 	public void testListOne() {
 		List<News> news = this.newsService
-				.filter(CulturalOfferConstants.ID_TWO, new FilterParamsNewsDTO(), this.pageableAll).getContent();
+				.filter(CulturalOfferConstants.ID_TWO, new FilterParamsNewsDTO(), this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, news.size());
 		assertEquals(NewsConstants.ID_ONE, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_ONE, this.format.format(news.get(0).getCreatedAt()));
@@ -106,54 +106,18 @@ public class NewsServiceTest {
 	@Test
 	public void testListNone() {
 		List<News> news = this.newsService
-				.filter(MainConstants.NON_EXISTING_ID, new FilterParamsNewsDTO(), this.pageableAll).getContent();
+				.filter(MainConstants.NON_EXISTING_ID, new FilterParamsNewsDTO(), this.pageableTotal).getContent();
 		assertTrue(news.isEmpty());
-	}
-
-	@Test
-	public void testListNoneDates() throws ParseException {
-		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(this.format.parse(NewsConstants.WRONG_START),
-				this.format.parse(NewsConstants.WRONG_END));
-		List<News> news = this.newsService.filter(MainConstants.NON_EXISTING_ID, filters, this.pageableAll)
-				.getContent();
-		assertTrue(news.isEmpty());
-	}
-
-	@Test
-	public void testListOneDates() throws ParseException {
-		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(this.format.parse(NewsConstants.START_DATE_ONE),
-				this.format.parse(NewsConstants.END_DATE_ONE));
-		List<News> news = this.newsService.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableAll)
-				.getContent();
-		assertEquals(MainConstants.ONE_SIZE, news.size());
-		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
-		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
-	}
-
-	@Test
-	public void testListMoreDatesPaginated() throws ParseException {
-		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(this.format.parse(NewsConstants.START_DATE_MORE),
-				this.format.parse(NewsConstants.END_DATE_MORE));
-		List<News> news = this.newsService.filter(CulturalOfferConstants.ID_THREE, filters, this.pageablePart)
-				.getContent();
-		assertEquals(MainConstants.PART_SIZE, news.size());
-		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
-		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
-		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
-		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
 	}
 
 	@Test
 	public void testListMoreDates() throws ParseException {
-		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(this.format.parse(NewsConstants.START_DATE_MORE),
+		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(
+				this.format.parse(NewsConstants.START_DATE_MORE),
 				this.format.parse(NewsConstants.END_DATE_MORE));
-		List<News> news = this.newsService.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableAll)
+		List<News> news = 
+				this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableTotal)
 				.getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, news.size());
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
@@ -170,6 +134,66 @@ public class NewsServiceTest {
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
 	}
 
+	@Test
+	public void testListMoreDatesPaginated() throws ParseException {
+		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(
+				this.format.parse(NewsConstants.START_DATE_MORE),
+				this.format.parse(NewsConstants.END_DATE_MORE));
+		List<News> news = 
+				this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageablePart)
+				.getContent();
+		assertEquals(MainConstants.PART_SIZE, news.size());
+		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
+		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
+		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
+		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
+	}
+	
+	@Test
+	public void testListMoreDatesNonExistingPage() throws ParseException {
+		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(
+				this.format.parse(NewsConstants.START_DATE_MORE),
+				this.format.parse(NewsConstants.END_DATE_MORE));
+		List<News> news = 
+				this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableNonExisting)
+				.getContent();
+		assertTrue(news.isEmpty());
+	}
+	
+	@Test
+	public void testListOneDates() throws ParseException {
+		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(
+				this.format.parse(NewsConstants.START_DATE_ONE),
+				this.format.parse(NewsConstants.END_DATE_ONE));
+		List<News> news = 
+				this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableTotal)
+				.getContent();
+		assertEquals(MainConstants.ONE_SIZE, news.size());
+		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
+		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
+	}
+
+	@Test
+	public void testListNoneDates() throws ParseException {
+		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(
+				this.format.parse(NewsConstants.WRONG_START),
+				this.format.parse(NewsConstants.WRONG_END));
+		List<News> news = 
+				this.newsService
+				.filter(MainConstants.NON_EXISTING_ID, filters, this.pageableTotal)
+				.getContent();
+		assertTrue(news.isEmpty());
+	}
+	
 	@Test
 	@Transactional
 	@Rollback(true)
@@ -190,105 +214,106 @@ public class NewsServiceTest {
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testSaveValid() {
+	public void testAddValid() {
 		long size = this.newsRepository.count();
-		News n = this.testingNews();
-		n = this.newsService.save(n, null);
+		News news = this.testingNews();
+		news = this.newsService.save(news, null);
 		assertEquals(size + 1, this.newsRepository.count());
-		assertEquals(this.format.format(new Date()), this.format.format(n.getCreatedAt()));
-		assertEquals(CulturalOfferConstants.ID_THREE, n.getCulturalOffer().getId());
-		assertEquals(NewsConstants.TEXT_ONE, n.getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.getCulturalOffer().getId());
+		assertEquals(this.format.format(new Date()), this.format.format(news.getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_ONE, news.getText());
+	}
+
+	@Test(expected = NullPointerException.class)
+	@Transactional
+	@Rollback(true)
+	public void testAddNullOffer() {
+		News news = this.testingNews();
+		news.setCulturalOffer(null);
+		this.newsService.save(news, null);
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testAddNullDate() {
+		News news = this.testingNews();
+		news.setCreatedAt(null);
+		this.newsService.save(news, null);
 	}
 
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullDate() {
-		News n = this.testingNews();
-		n.setCreatedAt(null);
-		this.newsService.save(n, null);
+	public void testAddNullText() {
+		News news = this.testingNews();
+		news.setText(null);
+		this.newsService.save(news, null);
 	}
 
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullOffer() {
-		News n = this.testingNews();
-		n.setCulturalOffer(null);
-		this.newsService.save(n, null);
+	public void testAddEmptyText() {
+		News news = this.testingNews();
+		news.setText("");
+		this.newsService.save(news, null);
 	}
 
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testSaveNullText() {
-		News n = this.testingNews();
-		n.setText(null);
-		this.newsService.save(n, null);
-	}
-
-	@Test(expected = ConstraintViolationException.class)
-	@Transactional
-	@Rollback(true)
-	public void testSaveEmptyText() {
-		News n = this.testingNews();
-		n.setText("");
-		this.newsService.save(n, null);
-	}
-
-	@Test(expected = ConstraintViolationException.class)
-	@Transactional
-	@Rollback(true)
-	public void testSaveBlankText() {
-		News n = this.testingNews();
-		n.setText("  ");
-		this.newsService.save(n, null);
+	public void testAddBlankText() {
+		News news = this.testingNews();
+		news.setText("  ");
+		this.newsService.save(news, null);
 	}
 
 	@Test
 	@Transactional
 	@Rollback(true)
-	public void testUpdate() {
+	public void testUpdateValid() {
 		long size = this.newsRepository.count();
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n = this.newsService.save(n, null);
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news = this.newsService.save(news, null);
 		assertEquals(size, this.newsRepository.count());
-		assertEquals(NewsConstants.ID_ONE, n.getId());
-		assertEquals(this.format.format(new Date()), this.format.format(n.getCreatedAt()));
-		assertEquals(CulturalOfferConstants.ID_THREE, n.getCulturalOffer().getId());
-		assertEquals(NewsConstants.TEXT_ONE, n.getText());
-	}
-
-	@Test(expected = ConstraintViolationException.class)
-	@Transactional
-	@Rollback(true)
-	public void testUpdateNullDate() {
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n.setCreatedAt(null);
-		this.newsService.save(n, null);
-		this.newsRepository.count();
+		assertEquals(NewsConstants.ID_ONE, news.getId());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.getCulturalOffer().getId());
+		assertEquals(this.format.format(new Date()), this.format.format(news.getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_ONE, news.getText());
 	}
 
 	@Test(expected = NullPointerException.class)
 	@Transactional
 	@Rollback(true)
 	public void testUpdateNullOffer() {
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n.setCulturalOffer(null);
-		this.newsService.save(n, null);
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news.setCulturalOffer(null);
+		this.newsService.save(news, null);
+		this.newsRepository.count();
 	}
 
 	@Test(expected = ConstraintViolationException.class)
 	@Transactional
 	@Rollback(true)
+	public void testUpdateNullDate() {
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news.setCreatedAt(null);
+		this.newsService.save(news, null);
+		this.newsRepository.count();
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
 	public void testUpdateNullText() {
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n.setText(null);
-		this.newsService.save(n, null);
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news.setText(null);
+		this.newsService.save(news, null);
 		this.newsRepository.count();
 	}
 
@@ -296,10 +321,10 @@ public class NewsServiceTest {
 	@Transactional
 	@Rollback(true)
 	public void testUpdateEmptyText() {
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n.setText("");
-		this.newsService.save(n, null);
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news.setText("");
+		this.newsService.save(news, null);
 		this.newsRepository.count();
 	}
 
@@ -307,19 +332,18 @@ public class NewsServiceTest {
 	@Transactional
 	@Rollback(true)
 	public void testUpdateBlankText() {
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n.setText("  ");
-		this.newsService.save(n, null);
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news.setText("  ");
+		this.newsService.save(news, null);
 		this.newsRepository.count();
 	}
 	
 	public News testingNews() {
-		News n = new News();
-		n.setCreatedAt(new Date());
-		n.setCulturalOffer(this.culturalOfferRepository.findById(CulturalOfferConstants.ID_THREE).orElse(null));
-		n.setText(NewsConstants.TEXT_ONE);
-		return n;
+		News news = new News();
+		news.setCulturalOffer(this.culturalOfferRepository.findById(CulturalOfferConstants.ID_THREE).orElse(null));
+		news.setText(NewsConstants.TEXT_ONE);
+		return news;
 	}
 
 }

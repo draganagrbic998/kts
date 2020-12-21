@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.Set;
+
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
@@ -22,6 +24,7 @@ import com.example.demo.constants.Constants;
 import com.example.demo.constants.CulturalOfferConstants;
 import com.example.demo.constants.UserConstants;
 import com.example.demo.dto.UniqueCheckDTO;
+import com.example.demo.model.Authority;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.security.AuthToken;
@@ -136,6 +139,15 @@ public class UserServiceTest {
 	public void testAddBlankEmail() {
 		User user = this.testingUser();
 		user.setEmail("  ");
+		this.userService.save(user, null);
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testAddInvalidEmail() {
+		User user = this.testingUser();
+		user.setEmail(UserConstants.NEW_PASSWORD);
 		this.userService.save(user, null);
 	}
 	
@@ -277,6 +289,17 @@ public class UserServiceTest {
 		this.userRepository.count();
 	}
 	
+	@Test(expected = ConstraintViolationException.class)
+	@Transactional
+	@Rollback(true)
+	public void testUpdateInvalidEmail() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setEmail(UserConstants.NEW_PASSWORD);
+		this.userService.save(user, null);
+		this.userRepository.count();
+	}
+	
 	@Test(expected = DataIntegrityViolationException.class)
 	@Transactional
 	@Rollback(true)
@@ -395,12 +418,12 @@ public class UserServiceTest {
 	@Test
 	public void testCurrentUserNotNull() {
 		this.setAuthentication(false);
-		User u = this.userService.currentUser();
-		assertNotNull(u);
-		assertEquals(UserConstants.ID_TWO, u.getId());
-		assertEquals(UserConstants.EMAIL_TWO, u.getEmail());
-		assertEquals(UserConstants.FIRST_NAME_TWO, u.getFirstName());
-		assertEquals(UserConstants.LAST_NAME_TWO, u.getLastName());
+		User user = this.userService.currentUser();
+		assertNotNull(user);
+		assertEquals(UserConstants.ID_TWO, user.getId());
+		assertEquals(UserConstants.EMAIL_TWO, user.getEmail());
+		assertEquals(UserConstants.FIRST_NAME_TWO, user.getFirstName());
+		assertEquals(UserConstants.LAST_NAME_TWO, user.getLastName());
 	}
 	
 	@Test
@@ -437,6 +460,7 @@ public class UserServiceTest {
 	
 	public void setAuthentication(boolean admin) {
 		User user = this.userRepository.findById(UserConstants.ID_TWO).orElse(null);
+		user.setAuthorities(Set.of(new Authority()));
 		if (admin) {
 			user.getAuthority().setName(Constants.ADMIN_AUTHORITY);
 		}

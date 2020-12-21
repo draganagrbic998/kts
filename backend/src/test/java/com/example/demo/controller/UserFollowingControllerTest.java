@@ -51,7 +51,7 @@ public class UserFollowingControllerTest {
 
 	@Autowired
 	private Filters filters;
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 
@@ -60,14 +60,23 @@ public class UserFollowingControllerTest {
 		LoginDTO login = new LoginDTO();
 		login.setEmail(UserConstants.EMAIL_ONE);
 		login.setPassword(UserConstants.LOGIN_PASSWORD);
-		ResponseEntity<ProfileDTO> response = this.restTemplate.postForEntity(AuthAPI.API_LOGIN, login, ProfileDTO.class);
+		ResponseEntity<ProfileDTO> response = 
+				this.restTemplate.postForEntity(
+						AuthAPI.API_LOGIN, 
+						login, 
+						ProfileDTO.class);
 		this.accessToken = response.getBody().getAccessToken();
 	}
 	
 	@Test
 	public void testFilterEmpty() {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
@@ -88,7 +97,12 @@ public class UserFollowingControllerTest {
 	@Test
 	public void testFilterEmptyPaginated() {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageablePart), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageablePart), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
@@ -105,7 +119,12 @@ public class UserFollowingControllerTest {
 	@Test
 	public void testFilterEmptyNonExistingPage() {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableNonExisting), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableNonExisting), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
@@ -113,7 +132,12 @@ public class UserFollowingControllerTest {
 	@Test
 	public void testFilterAll() {
 		FilterParamsDTO filters = this.filters.filtersAll();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
@@ -134,7 +158,12 @@ public class UserFollowingControllerTest {
 	@Test
 	public void testFilterAllPaginated() {
 		FilterParamsDTO filters = this.filters.filtersAll();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageablePart), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageablePart), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
@@ -151,7 +180,12 @@ public class UserFollowingControllerTest {
 	@Test
 	public void testFilterAllNonExistingPage() {
 		FilterParamsDTO filters = this.filters.filtersAll();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableNonExisting), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableNonExisting), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
@@ -159,7 +193,12 @@ public class UserFollowingControllerTest {
 	@Test
 	public void testFilterOneName() {
 		FilterParamsDTO filters = this.filters.filtersOneName();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
@@ -172,7 +211,12 @@ public class UserFollowingControllerTest {
 	@Test
 	public void testFilterOneLocation() {
 		FilterParamsDTO filters = this.filters.filtersOneLocation();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
@@ -185,20 +229,12 @@ public class UserFollowingControllerTest {
 	@Test
 	public void testFilterOneType() {
 		FilterParamsDTO filters = this.filters.filtersOneType();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		List<CulturalOfferDTO> offers = response.getBody();
-		assertEquals(MainConstants.ONE_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.NAME_ONE, offers.get(0).getType());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-	}
-	
-	@Test
-	public void testFilterOneNameLocationType() {
-		FilterParamsDTO filters = this.filters.filtersOne();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
@@ -211,14 +247,24 @@ public class UserFollowingControllerTest {
 	@Test
 	public void testFilterNone() {
 		FilterParamsDTO filters = this.filters.filtersNone();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_FOLLOWINGS(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
 	
 	@Test
 	public void toggleSubscription() {
-		ResponseEntity<Void> response = this.restTemplate.exchange(CulturalOfferAPI.API_TOGGLE_SUBSCRIPTION(CulturalOfferConstants.ID_ONE), HttpMethod.GET, this.httpEntity(null), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_TOGGLE_SUBSCRIPTION(CulturalOfferConstants.ID_ONE), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						Void.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertNull(this.userFollowingRepository.findByUserIdAndCulturalOfferId(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE));
 		response = this.restTemplate.exchange(CulturalOfferAPI.API_TOGGLE_SUBSCRIPTION(CulturalOfferConstants.ID_ONE), HttpMethod.GET, this.httpEntity(null), Void.class);
@@ -228,7 +274,12 @@ public class UserFollowingControllerTest {
 	
 	@Test
 	public void testToggleSubscriptionNonExisting() {
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_TOGGLE_SUBSCRIPTION(MainConstants.NON_EXISTING_ID), HttpMethod.GET, this.httpEntity(null), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_TOGGLE_SUBSCRIPTION(MainConstants.NON_EXISTING_ID), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}

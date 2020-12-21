@@ -29,6 +29,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.example.demo.api.AuthAPI;
 import com.example.demo.api.CommentAPI;
+import com.example.demo.api.CulturalOfferAPI;
 import com.example.demo.constants.CommentConstants;
 import com.example.demo.constants.CulturalOfferConstants;
 import com.example.demo.constants.MainConstants;
@@ -62,7 +63,7 @@ public class CommentControllerTest {
 	@Autowired
 	private CulturalOfferRepository culturalOfferRepository;
 	
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
@@ -72,13 +73,22 @@ public class CommentControllerTest {
 		LoginDTO login = new LoginDTO();
 		login.setEmail(UserConstants.EMAIL_ONE);
 		login.setPassword(UserConstants.LOGIN_PASSWORD);
-		ResponseEntity<ProfileDTO> response = this.restTemplate.postForEntity(AuthAPI.API_LOGIN, login, ProfileDTO.class);
+		ResponseEntity<ProfileDTO> response = 
+				this.restTemplate.postForEntity(
+						AuthAPI.API_LOGIN, 
+						login, 
+						ProfileDTO.class);
 		this.accessToken = response.getBody().getAccessToken();
 	}
 	
 	@Test
 	public void testListMore() {
-		ResponseEntity<List<CommentDTO>> response = this.restTemplate.exchange(CommentAPI.API_LIST(CulturalOfferConstants.ID_ONE, this.pageableAll), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<CommentDTO>>() {});
+		ResponseEntity<List<CommentDTO>> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_LIST(CulturalOfferConstants.ID_ONE, this.pageableTotal), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						new ParameterizedTypeReference<List<CommentDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CommentDTO> comments = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, comments.size());
@@ -102,7 +112,12 @@ public class CommentControllerTest {
 	
 	@Test
 	public void testListMorePaginated() {
-		ResponseEntity<List<CommentDTO>> response = this.restTemplate.exchange(CommentAPI.API_LIST(CulturalOfferConstants.ID_ONE, this.pageablePart), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<CommentDTO>>() {});
+		ResponseEntity<List<CommentDTO>> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_LIST(CulturalOfferConstants.ID_ONE, this.pageablePart), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						new ParameterizedTypeReference<List<CommentDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CommentDTO> comments = response.getBody();
 		assertEquals(MainConstants.PART_SIZE, comments.size());
@@ -120,14 +135,24 @@ public class CommentControllerTest {
 	
 	@Test
 	public void testListMoreNonExistingPage() {
-		ResponseEntity<List<CommentDTO>> response = this.restTemplate.exchange(CommentAPI.API_LIST(CulturalOfferConstants.ID_ONE, this.pageableNonExisting), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<CommentDTO>>() {});
+		ResponseEntity<List<CommentDTO>> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_LIST(CulturalOfferConstants.ID_ONE, this.pageableNonExisting), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						new ParameterizedTypeReference<List<CommentDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
 	
 	@Test
 	public void testListOne() {
-		ResponseEntity<List<CommentDTO>> response = this.restTemplate.exchange(CommentAPI.API_LIST(CulturalOfferConstants.ID_TWO, this.pageableAll), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<CommentDTO>>() {});
+		ResponseEntity<List<CommentDTO>> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_LIST(CulturalOfferConstants.ID_TWO, this.pageableTotal), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						new ParameterizedTypeReference<List<CommentDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CommentDTO> comments = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, comments.size());
@@ -140,7 +165,12 @@ public class CommentControllerTest {
 	
 	@Test
 	public void testListNone() {
-		ResponseEntity<List<CommentDTO>> response = this.restTemplate.exchange(CommentAPI.API_LIST(MainConstants.NON_EXISTING_ID, this.pageableAll), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<CommentDTO>>() {});
+		ResponseEntity<List<CommentDTO>> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_LIST(MainConstants.NON_EXISTING_ID, this.pageableTotal), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						new ParameterizedTypeReference<List<CommentDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
@@ -149,16 +179,26 @@ public class CommentControllerTest {
 	public void testDeleteExisting() {
 		long id = this.commentRepository.save(this.testingComment()).getId();
 		long size = this.commentRepository.count();
-		ResponseEntity<DoubleDTO> response = this.restTemplate.exchange(CommentAPI.API_DELETE(id), HttpMethod.DELETE, this.httpEntity(null), DoubleDTO.class);
+		ResponseEntity<DoubleDTO> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_DELETE(id), 
+						HttpMethod.DELETE, 
+						this.httpEntity(null), 
+						DoubleDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
-		assertEquals(MainConstants.TOTAL_SIZE, response.getBody().getValue());
 		assertEquals(size - 1, this.commentRepository.count());
 		assertNull(this.commentRepository.findById(id).orElse(null));
+		assertEquals(MainConstants.TOTAL_SIZE, response.getBody().getValue());
 	}
 	
 	@Test
 	public void testDeleteNonExisting() {
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CommentAPI.API_DELETE(MainConstants.NON_EXISTING_ID), HttpMethod.DELETE, this.httpEntity(null), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_DELETE(MainConstants.NON_EXISTING_ID), 
+						HttpMethod.DELETE, 
+						this.httpEntity(null), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.INVALID_ID, response.getBody().getMessage());
 	}
@@ -167,9 +207,14 @@ public class CommentControllerTest {
 	public void testAddValid() {
 		long size = this.commentRepository.count();
 		CommentUploadDTO commentDTO = this.testingCommentDTO();
-		ResponseEntity<DoubleDTO> response = this.restTemplate.exchange(CommentAPI.API_BASE, HttpMethod.POST, this.httpEntity(commentDTO), DoubleDTO.class);
+		ResponseEntity<DoubleDTO> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(commentDTO), 
+						DoubleDTO.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		assertEquals(MainConstants.TOTAL_SIZE, response.getBody().getValue());		//oce ovaj double uvek raditi??
+		assertEquals(MainConstants.TOTAL_SIZE, response.getBody().getValue());
 		Comment comment = this.commentRepository.findAll().get((int) (this.commentRepository.count() - 1));
 		assertEquals(size + 1, this.commentRepository.count());
 		assertEquals(UserConstants.ID_ONE, comment.getUser().getId());
@@ -180,20 +225,43 @@ public class CommentControllerTest {
 	}
 	
 	@Test
+	public void testAddNonExistingOffer() {
+		CommentUploadDTO commentDTO = this.testingCommentDTO();
+		commentDTO.setCulturalOfferId(MainConstants.NON_EXISTING_ID);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(commentDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
 	public void testAddNullText() {
 		CommentUploadDTO commentDTO = this.testingCommentDTO();
 		commentDTO.setText(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CommentAPI.API_BASE, HttpMethod.POST, this.httpEntity(commentDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(commentDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
-	
 	
 	@Test
 	public void testAddEmptyText() {
 		CommentUploadDTO commentDTO = this.testingCommentDTO();
 		commentDTO.setText("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CommentAPI.API_BASE, HttpMethod.POST, this.httpEntity(commentDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(commentDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -202,7 +270,12 @@ public class CommentControllerTest {
 	public void testAddBlankText() {
 		CommentUploadDTO commentDTO = this.testingCommentDTO();
 		commentDTO.setText("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CommentAPI.API_BASE, HttpMethod.POST, this.httpEntity(commentDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(commentDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -213,9 +286,14 @@ public class CommentControllerTest {
 		long size = this.commentRepository.count();
 		CommentUploadDTO commentDTO = this.testingCommentDTO();
 		commentDTO.setId(id);
-		ResponseEntity<DoubleDTO> response = this.restTemplate.exchange(CommentAPI.API_BASE, HttpMethod.POST, this.httpEntity(commentDTO), DoubleDTO.class);
+		ResponseEntity<DoubleDTO> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(commentDTO), 
+						DoubleDTO.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		assertEquals(MainConstants.TOTAL_SIZE, response.getBody().getValue());		//oce ovaj double uvek raditi??
+		assertEquals(MainConstants.TOTAL_SIZE, response.getBody().getValue());
 		Comment comment = this.commentRepository.findById(id).orElse(null);
 		assertEquals(size, this.commentRepository.count());
 		assertEquals(id, comment.getId());
@@ -227,11 +305,31 @@ public class CommentControllerTest {
 	}
 	
 	@Test
+	public void testUpdateNonExistingOffer() {
+		CommentUploadDTO commentDTO = this.testingCommentDTO();
+		commentDTO.setId(CulturalOfferConstants.ID_ONE);
+		commentDTO.setCulturalOfferId(MainConstants.NON_EXISTING_ID);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(commentDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
 	public void testUpdateNullText() {
 		CommentUploadDTO commentDTO = this.testingCommentDTO();
 		commentDTO.setId(CulturalOfferConstants.ID_ONE);
 		commentDTO.setText(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CommentAPI.API_BASE, HttpMethod.POST, this.httpEntity(commentDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(commentDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -241,7 +339,12 @@ public class CommentControllerTest {
 		CommentUploadDTO commentDTO = this.testingCommentDTO();
 		commentDTO.setId(CulturalOfferConstants.ID_ONE);
 		commentDTO.setText("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CommentAPI.API_BASE, HttpMethod.POST, this.httpEntity(commentDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(commentDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -251,9 +354,30 @@ public class CommentControllerTest {
 		CommentUploadDTO commentDTO = this.testingCommentDTO();
 		commentDTO.setId(CulturalOfferConstants.ID_ONE);
 		commentDTO.setText("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CommentAPI.API_BASE, HttpMethod.POST, this.httpEntity(commentDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CommentAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(commentDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
+	}
+	
+	private Comment testingComment() {
+		Comment comment = new Comment();
+		comment.setUser(this.userRepository.findById(UserConstants.ID_ONE).orElse(null));
+		comment.setCulturalOffer(this.culturalOfferRepository.findById(CulturalOfferConstants.ID_ONE).orElse(null));
+		comment.setText(CommentConstants.TEXT_ONE);
+		return comment;
+	}
+	
+	private CommentUploadDTO testingCommentDTO() {
+		CommentUploadDTO comment = new CommentUploadDTO();
+		comment.setCulturalOfferId(CulturalOfferConstants.ID_ONE);
+		comment.setRate(MainConstants.TOTAL_SIZE);
+		comment.setText(CommentConstants.NON_EXISTING_TEXT);
+		return comment;
 	}
 	
 	private HttpEntity<Object> httpEntity(Object obj){
@@ -270,23 +394,6 @@ public class CommentControllerTest {
 			return new HttpEntity<Object>(body, headers);
 		}
 		return new HttpEntity<>(obj, headers);
-	}
-	
-	private Comment testingComment() {
-		Comment comment = new Comment();
-		comment.setUser(this.userRepository.findById(UserConstants.ID_ONE).orElse(null));
-		comment.setCulturalOffer(this.culturalOfferRepository.findById(CulturalOfferConstants.ID_ONE).orElse(null));
-		comment.setCreatedAt(new Date());
-		comment.setText(CommentConstants.TEXT_ONE);
-		return comment;
-	}
-	
-	private CommentUploadDTO testingCommentDTO() {
-		CommentUploadDTO comment = new CommentUploadDTO();
-		comment.setCulturalOfferId(CulturalOfferConstants.ID_ONE);
-		comment.setRate(MainConstants.TOTAL_SIZE);
-		comment.setText(CommentConstants.NON_EXISTING_TEXT);
-		return comment;
 	}
 	
 }

@@ -29,7 +29,6 @@ import org.springframework.util.MultiValueMap;
 import com.example.demo.api.AuthAPI;
 import com.example.demo.api.CulturalOfferAPI;
 import com.example.demo.constants.CulturalOfferConstants;
-import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.Filters;
 import com.example.demo.constants.TypeConstants;
@@ -64,7 +63,7 @@ public class CulturalOfferControllerTest {
 
 	@Autowired
 	private Filters filters;
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 
@@ -73,7 +72,11 @@ public class CulturalOfferControllerTest {
 		LoginDTO login = new LoginDTO();
 		login.setEmail(UserConstants.EMAIL_TWO);
 		login.setPassword(UserConstants.LOGIN_PASSWORD);
-		ResponseEntity<ProfileDTO> response = this.restTemplate.postForEntity(AuthAPI.API_LOGIN, login, ProfileDTO.class);
+		ResponseEntity<ProfileDTO> response = 
+				this.restTemplate.postForEntity(
+						AuthAPI.API_LOGIN, 
+						login, 
+						ProfileDTO.class);
 		this.accessToken = response.getBody().getAccessToken();
 	}
 	
@@ -82,7 +85,12 @@ public class CulturalOfferControllerTest {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(CulturalOfferConstants.NON_EXISTING_NAME);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(CulturalOfferAPI.API_HAS_NAME, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_HAS_NAME, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertFalse(response.getBody().isValue());
 	}
@@ -92,7 +100,12 @@ public class CulturalOfferControllerTest {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(CulturalOfferConstants.NAME_ONE);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(CulturalOfferAPI.API_HAS_NAME, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_HAS_NAME, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isValue());
 	}
@@ -102,7 +115,12 @@ public class CulturalOfferControllerTest {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(CulturalOfferConstants.ID_ONE);
 		param.setName(CulturalOfferConstants.NAME_ONE);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(CulturalOfferAPI.API_HAS_NAME, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_HAS_NAME, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertFalse(response.getBody().isValue());
 	}
@@ -112,7 +130,12 @@ public class CulturalOfferControllerTest {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(CulturalOfferConstants.ID_ONE);
 		param.setName(CulturalOfferConstants.NON_EXISTING_NAME);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(CulturalOfferAPI.API_HAS_NAME, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_HAS_NAME, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertFalse(response.getBody().isValue());
 	}
@@ -122,14 +145,24 @@ public class CulturalOfferControllerTest {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(CulturalOfferConstants.ID_ONE);
 		param.setName(CulturalOfferConstants.NAME_TWO);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(CulturalOfferAPI.API_HAS_NAME, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_HAS_NAME, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isValue());
 	}
 	
 	@Test
 	public void testFilterNamesEmpty() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_ALL)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_ALL)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
@@ -140,7 +173,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterNamesAll() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(CulturalOfferConstants.FILTER_NAME_ALL)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(CulturalOfferConstants.FILTER_NAMES_ALL)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
@@ -151,7 +189,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterNamesOne() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_ONE)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_ONE)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, names.size());
@@ -160,7 +203,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterNamesNone() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_NONE)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_NONE)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertTrue(names.isEmpty());
@@ -168,7 +216,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterLocationsEmpty() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_LOCATIONS, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_ALL)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_LOCATIONS, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_ALL)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> locations = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, locations.size());
@@ -179,7 +232,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterLocationsAll() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_LOCATIONS, HttpMethod.POST, this.httpEntity(new StringDTO(CulturalOfferConstants.FILTER_LOCATION_ALL)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_LOCATIONS, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(CulturalOfferConstants.FILTER_LOCATIONS_ALL)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> locations = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, locations.size());
@@ -190,7 +248,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterLocationsOne() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_LOCATIONS, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_ONE)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_LOCATIONS, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_ONE)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> locations = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, locations.size());
@@ -199,7 +262,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterLocationsNone() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_LOCATIONS, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_NONE)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_LOCATIONS, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_NONE)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> locations = response.getBody();
 		assertTrue(locations.isEmpty());
@@ -207,7 +275,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterTypesEmpty() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_TYPES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_ALL)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_TYPES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_ALL)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> types = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
@@ -218,7 +291,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterTypesAll() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_TYPES, HttpMethod.POST, this.httpEntity(new StringDTO(CulturalOfferConstants.FILTER_TYPE_ALL)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_TYPES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(CulturalOfferConstants.FILTER_TYPES_ALL)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> types = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
@@ -229,7 +307,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterTypesOne() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_TYPES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_ONE)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_TYPES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_ONE)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> types = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, types.size());
@@ -238,7 +321,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testFilterTypesNone() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER_TYPES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_NONE)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER_TYPES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_NONE)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> types = response.getBody();
 		assertTrue(types.isEmpty());
@@ -247,7 +335,12 @@ public class CulturalOfferControllerTest {
 	@Test
 	public void testFilterEmpty() {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
@@ -268,7 +361,12 @@ public class CulturalOfferControllerTest {
 	@Test
 	public void testFilterEmptyPaginated() {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageablePart), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER(this.pageablePart), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
@@ -285,7 +383,12 @@ public class CulturalOfferControllerTest {
 	@Test
 	public void testFilterEmptyNonExistingPage() {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageableNonExisting), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER(this.pageableNonExisting), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
@@ -293,7 +396,12 @@ public class CulturalOfferControllerTest {
 	@Test
 	public void testFilterAll() {
 		FilterParamsDTO filters = this.filters.filtersAll();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
@@ -314,7 +422,12 @@ public class CulturalOfferControllerTest {
 	@Test
 	public void testFilterAllPaginated() {
 		FilterParamsDTO filters = this.filters.filtersAll();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageablePart), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER(this.pageablePart), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
@@ -339,7 +452,12 @@ public class CulturalOfferControllerTest {
 	@Test
 	public void testFilterOneName() {
 		FilterParamsDTO filters = this.filters.filtersOneName();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
@@ -352,7 +470,12 @@ public class CulturalOfferControllerTest {
 	@Test
 	public void testFilterOneLocation() {
 		FilterParamsDTO filters = this.filters.filtersOneLocation();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
@@ -365,20 +488,12 @@ public class CulturalOfferControllerTest {
 	@Test
 	public void testFilterOneType() {
 		FilterParamsDTO filters = this.filters.filtersOneType();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		List<CulturalOfferDTO> offers = response.getBody();
-		assertEquals(MainConstants.ONE_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.NAME_ONE, offers.get(0).getType());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-	}
-	
-	@Test
-	public void testFilterOneNameLocationType() {
-		FilterParamsDTO filters = this.filters.filtersOne();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CulturalOfferDTO> offers = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
@@ -391,7 +506,12 @@ public class CulturalOfferControllerTest {
 	@Test
 	public void testFilterNone() {
 		FilterParamsDTO filters = this.filters.filtersNone();
-		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageableAll), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
+		ResponseEntity<List<CulturalOfferDTO>> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_FILTER(this.pageableTotal), 
+						HttpMethod.POST, 
+						this.httpEntity(filters), 
+						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
@@ -400,7 +520,12 @@ public class CulturalOfferControllerTest {
 	public void testDeleteExisting() {
 		long id = this.culturalOfferRepository.save(this.testingOffer()).getId();
 		long size = this.culturalOfferRepository.count();
-		ResponseEntity<Void> response = this.restTemplate.exchange(CulturalOfferAPI.API_DELETE(id), HttpMethod.DELETE, this.httpEntity(null), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_DELETE(id), 
+						HttpMethod.DELETE, 
+						this.httpEntity(null), 
+						Void.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(size - 1, this.culturalOfferRepository.count());
 		assertNull(this.culturalOfferRepository.findById(id).orElse(null));
@@ -408,7 +533,12 @@ public class CulturalOfferControllerTest {
 	
 	@Test
 	public void testDeleteNonExisting() {
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_DELETE(MainConstants.NON_EXISTING_ID), HttpMethod.DELETE, this.httpEntity(null), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_DELETE(MainConstants.NON_EXISTING_ID), 
+						HttpMethod.DELETE, 
+						this.httpEntity(null), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.INVALID_ID, response.getBody().getMessage());
 	}
@@ -417,7 +547,12 @@ public class CulturalOfferControllerTest {
 	public void testAddValid() {
 		long size = this.culturalOfferRepository.count();
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
-		ResponseEntity<CulturalOfferDTO> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), CulturalOfferDTO.class);
+		ResponseEntity<CulturalOfferDTO> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						CulturalOfferDTO.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		CulturalOfferDTO offer = response.getBody();
 		assertEquals(size + 1, this.culturalOfferRepository.count());
@@ -431,7 +566,12 @@ public class CulturalOfferControllerTest {
 	public void testAddNullType() {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setType(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -440,7 +580,12 @@ public class CulturalOfferControllerTest {
 	public void testAddEmptyType() {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setType("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -449,7 +594,26 @@ public class CulturalOfferControllerTest {
 	public void testAddBlankType() {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setType("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testAddNonExistingType() {
+		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
+		offerDTO.setType(TypeConstants.NON_EXISTING_NAME);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -458,7 +622,12 @@ public class CulturalOfferControllerTest {
 	public void testAddNullName() {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setName(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -468,7 +637,12 @@ public class CulturalOfferControllerTest {
 	public void testAddEmptyName() {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setName("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -477,7 +651,12 @@ public class CulturalOfferControllerTest {
 	public void testAddBlankName() {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -486,16 +665,26 @@ public class CulturalOfferControllerTest {
 	public void testAddNonUniqueName() {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setName(CulturalOfferConstants.NAME_ONE);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION));
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_VIOLATION));
 	}
 	
 	@Test
 	public void testAddNullLocation() {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setLocation(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -504,7 +693,12 @@ public class CulturalOfferControllerTest {
 	public void testAddEmptyLocation() {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setLocation("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -513,7 +707,12 @@ public class CulturalOfferControllerTest {
 	public void testAddBlankLocation() {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -524,7 +723,12 @@ public class CulturalOfferControllerTest {
 		long size = this.culturalOfferRepository.count();
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(id);
-		ResponseEntity<CulturalOfferDTO> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), CulturalOfferDTO.class);
+		ResponseEntity<CulturalOfferDTO> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						CulturalOfferDTO.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		CulturalOfferDTO offer = response.getBody();
 		assertEquals(size, this.culturalOfferRepository.count());
@@ -540,7 +744,12 @@ public class CulturalOfferControllerTest {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(CulturalOfferConstants.ID_ONE);
 		offerDTO.setType(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -550,7 +759,12 @@ public class CulturalOfferControllerTest {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(CulturalOfferConstants.ID_ONE);
 		offerDTO.setType("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -560,9 +774,28 @@ public class CulturalOfferControllerTest {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(CulturalOfferConstants.ID_ONE);
 		offerDTO.setType("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testUpdateNonExistingType() {
+		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
+		offerDTO.setId(CulturalOfferConstants.ID_ONE);
+		offerDTO.setType(TypeConstants.NON_EXISTING_NAME);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 	}
 	
 	@Test
@@ -570,7 +803,12 @@ public class CulturalOfferControllerTest {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(CulturalOfferConstants.ID_ONE);
 		offerDTO.setName(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -581,7 +819,12 @@ public class CulturalOfferControllerTest {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(CulturalOfferConstants.ID_ONE);
 		offerDTO.setName("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -591,7 +834,12 @@ public class CulturalOfferControllerTest {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(CulturalOfferConstants.ID_ONE);
 		offerDTO.setName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -601,9 +849,14 @@ public class CulturalOfferControllerTest {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(CulturalOfferConstants.ID_ONE);
 		offerDTO.setName(CulturalOfferConstants.NAME_TWO);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION));
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_VIOLATION));
 	}
 	
 	@Test
@@ -611,7 +864,12 @@ public class CulturalOfferControllerTest {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(CulturalOfferConstants.ID_ONE);
 		offerDTO.setLocation(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -621,7 +879,12 @@ public class CulturalOfferControllerTest {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(CulturalOfferConstants.ID_ONE);
 		offerDTO.setLocation("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -631,25 +894,14 @@ public class CulturalOfferControllerTest {
 		CulturalOfferUploadDTO offerDTO = this.testingOfferDTO();
 		offerDTO.setId(CulturalOfferConstants.ID_ONE);
 		offerDTO.setName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CulturalOfferAPI.API_BASE, HttpMethod.POST, this.httpEntity(offerDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(offerDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
-	}
-	
-	private HttpEntity<Object> httpEntity(Object obj){
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", this.accessToken);			
-		if (obj instanceof CulturalOfferUploadDTO) {
-			CulturalOfferUploadDTO upload = (CulturalOfferUploadDTO) obj;
-			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-			MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
-			body.add("id", upload.getId());
-			body.add("type", upload.getType());
-			body.add("name", upload.getName());
-			body.add("location", upload.getLocation());
-			return new HttpEntity<Object>(body, headers);
-		}
-		return new HttpEntity<>(obj, headers);
 	}
 	
 	private CulturalOfferUploadDTO testingOfferDTO() {
@@ -666,6 +918,22 @@ public class CulturalOfferControllerTest {
 		offer.setName(CulturalOfferConstants.NON_EXISTING_NAME);
 		offer.setLocation(CulturalOfferConstants.LOCATION_ONE);
 		return offer;
+	}
+	
+	private HttpEntity<Object> httpEntity(Object obj){
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", this.accessToken);			
+		if (obj instanceof CulturalOfferUploadDTO) {
+			CulturalOfferUploadDTO upload = (CulturalOfferUploadDTO) obj;
+			headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+			MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
+			body.add("id", upload.getId());
+			body.add("type", upload.getType());
+			body.add("name", upload.getName());
+			body.add("location", upload.getLocation());
+			return new HttpEntity<Object>(body, headers);
+		}
+		return new HttpEntity<>(obj, headers);
 	}
 	
 }

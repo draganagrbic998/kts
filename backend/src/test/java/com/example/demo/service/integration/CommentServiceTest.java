@@ -47,7 +47,7 @@ public class CommentServiceTest {
 	@Autowired
 	private CulturalOfferRepository culturalOfferRepository;
 
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
@@ -57,7 +57,7 @@ public class CommentServiceTest {
 		double totalRate = 
 				this.commentService
 				.totalRate(CulturalOfferConstants.ID_ONE);
-		assertEquals(MainConstants.TOTAL_SIZE, totalRate);	//oce ovaj double uvek raditi??
+		assertEquals(MainConstants.TOTAL_SIZE, totalRate);
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ public class CommentServiceTest {
 		double totalRate = 
 				this.commentService
 				.totalRate(CulturalOfferConstants.ID_TWO);
-		assertEquals(MainConstants.ONE_SIZE, totalRate);	//oce ovaj double uvek raditi??
+		assertEquals(MainConstants.ONE_SIZE, totalRate);
 	}
 		
 	@Test
@@ -73,30 +73,30 @@ public class CommentServiceTest {
 		double totalRate = 
 				this.commentService
 				.totalRate(MainConstants.NON_EXISTING_ID);
-		assertEquals(MainConstants.NONE_SIZE, totalRate);	//oce ovaj double uvek raditi??
+		assertEquals(MainConstants.NONE_SIZE, totalRate);
 	}
 
 	@Test
 	public void testListMore() {
 		List<Comment> comments = 
 				this.commentService
-				.list(CulturalOfferConstants.ID_ONE, this.pageableAll).getContent();
+				.list(CulturalOfferConstants.ID_ONE, this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_TWO, comments.get(0).getId());
-		assertEquals(UserConstants.ID_TWO, comments.get(0).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_TWO, this.format.format(comments.get(0).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_TWO, comments.get(0).getText());
+		assertEquals(UserConstants.ID_TWO, comments.get(0).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.ID_ONE, comments.get(1).getId());
-		assertEquals(UserConstants.ID_ONE, comments.get(1).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_ONE, this.format.format(comments.get(1).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_ONE, comments.get(1).getText());
+		assertEquals(UserConstants.ID_ONE, comments.get(1).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOffer().getId());
 		assertEquals(CommentConstants.ID_THREE, comments.get(2).getId());
-		assertEquals(UserConstants.ID_TWO, comments.get(2).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(2).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_THREE, this.format.format(comments.get(2).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_THREE, comments.get(2).getText());
+		assertEquals(UserConstants.ID_TWO, comments.get(2).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(2).getCulturalOffer().getId());
 	}
 	
 	@Test
@@ -106,15 +106,15 @@ public class CommentServiceTest {
 				.list(CulturalOfferConstants.ID_ONE, this.pageablePart).getContent();
 		assertEquals(MainConstants.PART_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_TWO, comments.get(0).getId());
-		assertEquals(UserConstants.ID_TWO, comments.get(0).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_TWO, this.format.format(comments.get(0).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_TWO, comments.get(0).getText());
+		assertEquals(UserConstants.ID_TWO, comments.get(0).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.ID_ONE, comments.get(1).getId());
-		assertEquals(UserConstants.ID_ONE, comments.get(1).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_ONE, this.format.format(comments.get(1).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_ONE, comments.get(1).getText());
+		assertEquals(UserConstants.ID_ONE, comments.get(1).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOffer().getId());
 	}
 	
 	@Test
@@ -129,20 +129,20 @@ public class CommentServiceTest {
 	public void testListOne() {
 		List<Comment> comments = 
 				this.commentService
-				.list(CulturalOfferConstants.ID_TWO, this.pageableAll).getContent();
+				.list(CulturalOfferConstants.ID_TWO, this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_FOUR, comments.get(0).getId());
-		assertEquals(UserConstants.ID_ONE, comments.get(0).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_TWO, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_FOUR, this.format.format(comments.get(0).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_FOUR, comments.get(0).getText());
+		assertEquals(UserConstants.ID_ONE, comments.get(0).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_TWO, comments.get(0).getCulturalOffer().getId());
 	}
 	
 	@Test
 	public void testListNone() {
 		List<Comment> comments = 
 				this.commentService
-				.list(MainConstants.NON_EXISTING_ID, this.pageableAll).getContent();
+				.list(MainConstants.NON_EXISTING_ID, this.pageableTotal).getContent();
 		assertTrue(comments.isEmpty());
 	}
 	

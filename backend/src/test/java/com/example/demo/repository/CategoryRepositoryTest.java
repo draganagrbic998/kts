@@ -14,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.constants.CategoryConstants;
-import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.model.Category;
 
@@ -47,7 +46,7 @@ public class CategoryRepositoryTest {
 	public void testFilterNamesEmpty() {
 		List<String> names = 
 				this.categoryRepository
-				.filterNames(FilterConstants.FILTER_ALL);
+				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
 		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
@@ -58,7 +57,7 @@ public class CategoryRepositoryTest {
 	public void testFilterNamesAll() {
 		List<String> names = 
 				this.categoryRepository
-				.filterNames(CategoryConstants.FILTER_NAME_ALL);
+				.filterNames(CategoryConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
 		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
@@ -69,7 +68,7 @@ public class CategoryRepositoryTest {
 	public void testFilterNamesOne() {
 		List<String> names = 
 				this.categoryRepository
-				.filterNames(FilterConstants.FILTER_ONE);
+				.filterNames(MainConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
 	}
@@ -78,7 +77,7 @@ public class CategoryRepositoryTest {
 	public void testFilterNamesNone() {
 		List<String> names = 
 				this.categoryRepository
-				.filterNames(FilterConstants.FILTER_NONE);
+				.filterNames(MainConstants.FILTER_NONE);
 		assertTrue(names.isEmpty());
 	}
 

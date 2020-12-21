@@ -1,5 +1,6 @@
 package com.example.demo.service.integration;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
@@ -33,30 +34,6 @@ public class ImageServiceTest {
 	
 	@Autowired
 	private ImageRepository imageRepository;
-	
-	@Test
-	public void testStoreValid() throws IOException {
-		MultipartFile mpf = this.testingMultipartValid();
-		String path = this.imageService.store(mpf);
-		long size = this.imageRepository.count();
-		assertEquals(Constants.BACKEND_URL + "/image" + size + ".jpg", path);
-		File f = new File(Constants.STATIC_FOLDER + File.separatorChar + "image" + size + ".jpg");
-		f.delete();
-	}
-	
-	@Test
-	public void testStoreInvalidNullOrigName() throws IOException {
-		MultipartFile mpf = this.testingMultipartInvalidNullOrigName();
-		String path = this.imageService.store(mpf);
-		assertEquals(null, path);
-	}
-	
-	@Test
-	public void testStoreInvalidBlankOrigName() throws IOException {
-		MultipartFile mpf = this.testingMultipartInvalidBlankOrigName();
-		String path = this.imageService.store(mpf);
-		assertEquals(null, path);
-	}
 	
 	@Test
 	@Transactional
@@ -105,6 +82,7 @@ public class ImageServiceTest {
 		image.setId(ImageConstants.ID_ONE);
 		image = this.imageService.save(image);
 		assertEquals(size, this.imageRepository.count());
+		assertEquals(ImageConstants.ID_ONE, image.getId());
 		assertEquals(ImageConstants.NON_EXISTING_PATH, image.getPath());
 	}
 	
@@ -141,6 +119,37 @@ public class ImageServiceTest {
 		this.imageRepository.count();
 	}
 	
+	@Test
+	public void testStoreValid() throws IOException {
+		MultipartFile mpf = this.testingMultipartValid();
+		String path = this.imageService.store(mpf);
+		long size = this.imageRepository.count();
+		assertEquals(Constants.BACKEND_URL + "/image" + size + ".jpg", path);
+		File f = new File(Constants.STATIC_FOLDER + File.separatorChar + "image" + size + ".jpg");
+		f.delete();
+	}
+	
+	@Test
+	public void testStoreNullName() throws IOException {
+		MultipartFile mpf = this.testingMultipartNullName();
+		String path = this.imageService.store(mpf);
+		assertNull(path);
+	}
+	
+	@Test
+	public void testStoreEmptyName() throws IOException {
+		MultipartFile mpf = this.testingMultipartEmptyName();
+		String path = this.imageService.store(mpf);
+		assertNull(path);
+	}
+	
+	@Test
+	public void testStoreBlankName() throws IOException {
+		MultipartFile mpf = this.testingMultipartBlankName();
+		String path = this.imageService.store(mpf);
+		assertNull(path);
+	}
+	
 	private Image testingImage() {
 		Image image = new Image();
 		image.setPath(ImageConstants.NON_EXISTING_PATH);
@@ -153,15 +162,22 @@ public class ImageServiceTest {
 	            "This is a dummy file content".getBytes(StandardCharsets.UTF_8));
 	}
 	
-	public MultipartFile testingMultipartInvalidBlankOrigName() throws IOException {
+	public MultipartFile testingMultipartNullName() throws IOException {
+		return new MockMultipartFile(ImageConstants.PATH_ONE, null,
+	            "image/jpeg",
+	            "This is a dummy file content".getBytes(StandardCharsets.UTF_8));
+	}
+	
+	public MultipartFile testingMultipartEmptyName() throws IOException {
 		return new MockMultipartFile(ImageConstants.PATH_ONE, "",
 	            "image/jpeg",
 	            "This is a dummy file content".getBytes(StandardCharsets.UTF_8));
 	}
 	
-	public MultipartFile testingMultipartInvalidNullOrigName() throws IOException {
-		return new MockMultipartFile(ImageConstants.PATH_ONE, null,
+	public MultipartFile testingMultipartBlankName() throws IOException {
+		return new MockMultipartFile(ImageConstants.PATH_ONE, "  ",
 	            "image/jpeg",
 	            "This is a dummy file content".getBytes(StandardCharsets.UTF_8));
 	}
+	
 }

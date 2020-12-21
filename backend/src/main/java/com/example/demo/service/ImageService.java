@@ -2,7 +2,6 @@ package com.example.demo.service;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class ImageService {
 		FileOutputStream fout = null;
 		try {
 			String fileName = data.getOriginalFilename();
-			if (fileName == null || fileName.equalsIgnoreCase("")) {
+			if (fileName == null || fileName.trim().equalsIgnoreCase("")) {
 				return null;
 			}
 			String[] array = fileName.split("\\.");
@@ -41,7 +40,7 @@ public class ImageService {
 			fout.close();
 			return Constants.BACKEND_URL + "/" + fileName;
 		}
-		catch(IOException e) {
+		catch(Exception e) {
 			if (fout != null) {
 				try {
 					fout.close();

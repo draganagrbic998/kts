@@ -26,7 +26,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.example.demo.api.AuthAPI;
 import com.example.demo.api.CategoryAPI;
 import com.example.demo.constants.CategoryConstants;
-import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.UserConstants;
 import com.example.demo.dto.BooleanDTO;
@@ -50,8 +49,7 @@ public class CategoryControllerTest {
 	
 	@Autowired 
 	private CategoryRepository categoryRepository;
-	
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	
@@ -60,33 +58,51 @@ public class CategoryControllerTest {
 		LoginDTO login = new LoginDTO();
 		login.setEmail(UserConstants.EMAIL_TWO);
 		login.setPassword(UserConstants.LOGIN_PASSWORD);
-		ResponseEntity<ProfileDTO> response = this.restTemplate.postForEntity(AuthAPI.API_LOGIN, login, ProfileDTO.class);
+		ResponseEntity<ProfileDTO> response = 
+				this.restTemplate.postForEntity(
+						AuthAPI.API_LOGIN, 
+						login, 
+						ProfileDTO.class);
 		this.accessToken = response.getBody().getAccessToken();
-		System.out.println(this.accessToken);
 	}
 	
 	@Test
-	public void testHasNameNewCatgoryNonExisting() {
+	public void testHasNameNonExisting() {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setName(CategoryConstants.NON_EXISTING_NAME);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(CategoryAPI.API_HAS_NAME, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_HAS_NAME, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertFalse(response.getBody().isValue());
 	}
 	
 	@Test
-	public void testHasNameNewCatgoryExisting() {
+	public void testHasNameExisting() {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(CategoryConstants.NAME_ONE);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(CategoryAPI.API_HAS_NAME, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_HAS_NAME, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isValue());
 	}
 	
 	@Test
 	public void testFilterNamesEmpty() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CategoryAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_ALL)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_ALL)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
@@ -97,7 +113,12 @@ public class CategoryControllerTest {
 	
 	@Test
 	public void testFilterNamesAll() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CategoryAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(CategoryConstants.FILTER_NAME_ALL)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(CategoryConstants.FILTER_NAMES_ALL)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
@@ -108,7 +129,12 @@ public class CategoryControllerTest {
 	
 	@Test
 	public void testFilterNamesOne() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CategoryAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_ONE)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_ONE)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, names.size());
@@ -117,7 +143,12 @@ public class CategoryControllerTest {
 	
 	@Test
 	public void testFilterNamesNone() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(CategoryAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_NONE)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_NONE)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertTrue(names.isEmpty());
@@ -125,7 +156,12 @@ public class CategoryControllerTest {
 	
 	@Test
 	public void testListAll() {
-		ResponseEntity<List<CategoryDTO>> response = this.restTemplate.exchange(CategoryAPI.API_LIST(this.pageableAll), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<CategoryDTO>>() {});
+		ResponseEntity<List<CategoryDTO>> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_LIST(this.pageableTotal), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						new ParameterizedTypeReference<List<CategoryDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CategoryDTO> categories = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, categories.size());
@@ -139,7 +175,12 @@ public class CategoryControllerTest {
 	
 	@Test
 	public void testListPaginated() {
-		ResponseEntity<List<CategoryDTO>> response = this.restTemplate.exchange(CategoryAPI.API_LIST(this.pageablePart), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<CategoryDTO>>() {});
+		ResponseEntity<List<CategoryDTO>> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_LIST(this.pageablePart), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						new ParameterizedTypeReference<List<CategoryDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<CategoryDTO> categories = response.getBody();
 		assertEquals(MainConstants.PART_SIZE, categories.size());
@@ -151,31 +192,50 @@ public class CategoryControllerTest {
 	
 	@Test
 	public void testListAllNonExistingPage() {
-		ResponseEntity<List<CategoryDTO>> response = this.restTemplate.exchange(CategoryAPI.API_LIST(this.pageableNonExisting), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<CategoryDTO>>() {});
+		ResponseEntity<List<CategoryDTO>> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_LIST(this.pageableNonExisting), 
+						HttpMethod.GET, this.httpEntity(null), 
+						new ParameterizedTypeReference<List<CategoryDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
 	
 	@Test
-	public void testDeleteExistingWithoutCulturalOffer() {
+	public void testDeleteExisting() {
 		long id = this.categoryRepository.save(this.testingCategory()).getId();
 		long size = this.categoryRepository.count();
-		ResponseEntity<Void> response = this.restTemplate.exchange(CategoryAPI.API_DELETE(id), HttpMethod.DELETE, this.httpEntity(null), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_DELETE(id), 
+						HttpMethod.DELETE, 
+						this.httpEntity(null), 
+						Void.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(size - 1, this.categoryRepository.count());
 		assertNull(this.categoryRepository.findById(id).orElse(null));
 	}
 	
 	@Test
-	public void testExistingWithCulturalOffer() {
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CategoryAPI.API_DELETE(CategoryConstants.ID_ONE), HttpMethod.DELETE, this.httpEntity(null), ExceptionMessage.class);
+	public void testDeleteWithType() {
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_DELETE(CategoryConstants.ID_ONE), 
+						HttpMethod.DELETE, 
+						this.httpEntity(null), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertEquals(ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION, response.getBody().getMessage());
+		assertEquals(ExceptionConstants.UNIQUE_VIOLATION, response.getBody().getMessage());
 	}
 	
 	@Test
 	public void testDeleteNonExisting() {
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CategoryAPI.API_DELETE(MainConstants.NON_EXISTING_ID), HttpMethod.DELETE, this.httpEntity(null), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_DELETE(MainConstants.NON_EXISTING_ID), 
+						HttpMethod.DELETE, 
+						this.httpEntity(null), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.INVALID_ID, response.getBody().getMessage());
 	}
@@ -184,19 +244,29 @@ public class CategoryControllerTest {
 	public void testAddValid() {
 		long size = this.categoryRepository.count();
 		CategoryDTO categoryDTO = this.testingCategoryDTO();
-		ResponseEntity<Void> response = this.restTemplate.exchange(CategoryAPI.API_BASE, HttpMethod.POST, this.httpEntity(categoryDTO), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(categoryDTO), 
+						Void.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertEquals(size + 1, this.categoryRepository.count());
-		Category added = this.categoryRepository.findByName(categoryDTO.getName());
-		assertEquals(CategoryConstants.NON_EXISTING_NAME, added.getName());
-		this.categoryRepository.deleteById(added.getId());
+		Category category = this.categoryRepository.findByName(categoryDTO.getName());
+		assertEquals(CategoryConstants.NON_EXISTING_NAME, category.getName());
+		this.categoryRepository.deleteById(category.getId());
 	}
 	
 	@Test
 	public void testAddNullName() {
 		CategoryDTO categoryDTO = this.testingCategoryDTO();
 		categoryDTO.setName(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CategoryAPI.API_BASE, HttpMethod.POST, this.httpEntity(categoryDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(categoryDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -205,7 +275,12 @@ public class CategoryControllerTest {
 	public void testAddEmptyName() {
 		CategoryDTO categoryDTO = this.testingCategoryDTO();
 		categoryDTO.setName("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CategoryAPI.API_BASE, HttpMethod.POST, this.httpEntity(categoryDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(categoryDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -214,7 +289,12 @@ public class CategoryControllerTest {
 	public void testAddBlankName() {
 		CategoryDTO categoryDTO = this.testingCategoryDTO();
 		categoryDTO.setName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CategoryAPI.API_BASE, HttpMethod.POST, this.httpEntity(categoryDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(categoryDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -223,9 +303,14 @@ public class CategoryControllerTest {
 	public void testAddNonUniqueName() {
 		CategoryDTO categoryDTO = this.testingCategoryDTO();
 		categoryDTO.setName(CategoryConstants.NAME_ONE);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CategoryAPI.API_BASE, HttpMethod.POST, this.httpEntity(categoryDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(categoryDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION));
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_VIOLATION));
 	}
 	
 	@Test
@@ -234,12 +319,17 @@ public class CategoryControllerTest {
 		long size = this.categoryRepository.count();
 		CategoryDTO categoryDTO = this.testingCategoryDTO();
 		categoryDTO.setId(id);
-		ResponseEntity<Void> response = this.restTemplate.exchange(CategoryAPI.API_BASE, HttpMethod.POST, this.httpEntity(categoryDTO), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(categoryDTO), 
+						Void.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		Category updated = this.categoryRepository.findByName(categoryDTO.getName());
+		Category category = this.categoryRepository.findByName(categoryDTO.getName());
 		assertEquals(size, this.categoryRepository.count());
-		assertEquals(id, updated.getId());
-		assertEquals(CategoryConstants.NON_EXISTING_NAME, updated.getName());
+		assertEquals(id, category.getId());
+		assertEquals(CategoryConstants.NON_EXISTING_NAME, category.getName());
 		this.categoryRepository.deleteById(id);
 	}
 	
@@ -248,7 +338,12 @@ public class CategoryControllerTest {
 		CategoryDTO categoryDTO = this.testingCategoryDTO();
 		categoryDTO.setId(CategoryConstants.ID_ONE);
 		categoryDTO.setName(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CategoryAPI.API_BASE, HttpMethod.POST, this.httpEntity(categoryDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(categoryDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -258,7 +353,12 @@ public class CategoryControllerTest {
 		CategoryDTO categoryDTO = this.testingCategoryDTO();
 		categoryDTO.setId(CategoryConstants.ID_ONE);
 		categoryDTO.setName("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CategoryAPI.API_BASE, HttpMethod.POST, this.httpEntity(categoryDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(categoryDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -268,7 +368,12 @@ public class CategoryControllerTest {
 		CategoryDTO categoryDTO = this.testingCategoryDTO();
 		categoryDTO.setId(CategoryConstants.ID_ONE);
 		categoryDTO.setName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CategoryAPI.API_BASE, HttpMethod.POST, this.httpEntity(categoryDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(categoryDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -278,15 +383,20 @@ public class CategoryControllerTest {
 		CategoryDTO categoryDTO = this.testingCategoryDTO();
 		categoryDTO.setId(CategoryConstants.ID_ONE);
 		categoryDTO.setName(CategoryConstants.NAME_TWO);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(CategoryAPI.API_BASE, HttpMethod.POST, this.httpEntity(categoryDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CategoryAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(categoryDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION));
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_VIOLATION));
 	}
 	
-	private HttpEntity<Object> httpEntity(Object obj){
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", this.accessToken);			
-		return new HttpEntity<>(obj, headers);
+	private Category testingCategory() {
+		Category category = new Category();
+		category.setName(CategoryConstants.NON_EXISTING_NAME);
+		return category;
 	}
 	
 	private CategoryDTO testingCategoryDTO() {
@@ -295,10 +405,10 @@ public class CategoryControllerTest {
 		return category;
 	}
 	
-	private Category testingCategory() {
-		Category category = new Category();
-		category.setName(CategoryConstants.NON_EXISTING_NAME);
-		return category;
+	private HttpEntity<Object> httpEntity(Object obj){
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", this.accessToken);			
+		return new HttpEntity<>(obj, headers);
 	}
 
 }
