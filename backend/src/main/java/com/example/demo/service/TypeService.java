@@ -44,11 +44,11 @@ public class TypeService {
 	}
 
 	@Transactional(readOnly = false)
-	public void save(Type type, MultipartFile upload) {
+	public Type save(Type type, MultipartFile upload) {
 		if(upload != null) {
-			type.setPlacemarkIcon(imageService.store(upload));
+			type.setPlacemarkIcon(this.imageService.store(upload));
 		}
-		this.typeRepository.save(type);
+		return this.typeRepository.save(type);
 	}
 		
 }

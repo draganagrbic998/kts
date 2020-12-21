@@ -1,11 +1,13 @@
 package com.example.demo.dto;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProfileUploadDTO {
 	
+	@Email
 	@NotBlank
 	private String email;
 	

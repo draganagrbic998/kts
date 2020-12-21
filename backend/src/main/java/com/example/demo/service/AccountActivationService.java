@@ -17,11 +17,11 @@ public class AccountActivationService {
 	private AccountActivationRepository accountRepository;
 	
 	@Autowired
-	private EmailService emailService;
-	
-	@Autowired
 	private UserService userService;
-	
+
+	@Autowired
+	private EmailService emailService;
+		
 	@Transactional(readOnly = false)
 	public User activate(String code) {
 		User user =  this.accountRepository.findByCode(code).getUser();

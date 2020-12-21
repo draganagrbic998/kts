@@ -43,7 +43,7 @@ public class CommentServiceTest {
 	@MockBean
 	private CommentRepository commentRepository;
 
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
@@ -55,7 +55,7 @@ public class CommentServiceTest {
 		double totalRate = 
 				this.commentService
 				.totalRate(CulturalOfferConstants.ID_ONE);
-		assertEquals(MainConstants.TOTAL_SIZE, totalRate);	//oce ovaj double uvek raditi??
+		assertEquals(MainConstants.TOTAL_SIZE, totalRate);
 	}
 	
 	@Test
@@ -65,7 +65,7 @@ public class CommentServiceTest {
 		double totalRate = 
 				this.commentService
 				.totalRate(CulturalOfferConstants.ID_TWO);
-		assertEquals(MainConstants.ONE_SIZE, totalRate);	//oce ovaj double uvek raditi??
+		assertEquals(MainConstants.ONE_SIZE, totalRate);
 	}
 		
 	@Test
@@ -75,119 +75,66 @@ public class CommentServiceTest {
 		double totalRate = 
 				this.commentService
 				.totalRate(MainConstants.NON_EXISTING_ID);
-		assertEquals(MainConstants.NONE_SIZE, totalRate);	//oce ovaj double uvek raditi??
-	}
-	
-	private Comment filterComment(int index) {
-		if (index == 1) {
-			Comment comment = new Comment();
-			comment.setId(CommentConstants.ID_ONE);
-			User user = new User();
-			user.setId(UserConstants.ID_ONE);
-			comment.setUser(user);
-			CulturalOffer offer = new CulturalOffer();
-			offer.setId(CulturalOfferConstants.ID_ONE);
-			comment.setCulturalOffer(offer);
-			try {
-				comment.setCreatedAt(this.format.parse(CommentConstants.DATE_ONE));				
-			}catch(Exception e) {};
-			comment.setText(CommentConstants.TEXT_ONE);
-			return comment;
-		}
-		if (index == 2) {
-			Comment comment = new Comment();
-			comment.setId(CommentConstants.ID_TWO);
-			User user = new User();
-			user.setId(UserConstants.ID_TWO);
-			comment.setUser(user);
-			CulturalOffer offer = new CulturalOffer();
-			offer.setId(CulturalOfferConstants.ID_ONE);
-			comment.setCulturalOffer(offer);
-			try {
-				comment.setCreatedAt(this.format.parse(CommentConstants.DATE_TWO));				
-			}catch(Exception e) {};
-			comment.setText(CommentConstants.TEXT_TWO);
-			return comment;
-		}
-		if (index == 3) {
-			Comment comment = new Comment();
-			comment.setId(CommentConstants.ID_THREE);
-			User user = new User();
-			user.setId(UserConstants.ID_TWO);
-			comment.setUser(user);
-			CulturalOffer offer = new CulturalOffer();
-			offer.setId(CulturalOfferConstants.ID_ONE);
-			comment.setCulturalOffer(offer);
-			try {
-				comment.setCreatedAt(this.format.parse(CommentConstants.DATE_THREE));				
-			}catch(Exception e) {};
-			comment.setText(CommentConstants.TEXT_THREE);
-			return comment;
-		}
-		Comment comment = new Comment();
-		comment.setId(CommentConstants.ID_FOUR);
-		User user = new User();
-		user.setId(UserConstants.ID_ONE);
-		comment.setUser(user);
-		CulturalOffer offer = new CulturalOffer();
-		offer.setId(CulturalOfferConstants.ID_TWO);
-		comment.setCulturalOffer(offer);
-		try {
-			comment.setCreatedAt(this.format.parse(CommentConstants.DATE_FOUR));				
-		}catch(Exception e) {};
-		comment.setText(CommentConstants.TEXT_FOUR);
-		return comment;
+		assertEquals(MainConstants.NONE_SIZE, totalRate);
 	}
 
 	@Test
 	public void testListMore() {
-		Mockito.when(this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_ONE, this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of(this.filterComment(2), this.filterComment(1), this.filterComment(3))));
+		Mockito.when(this.commentRepository
+				.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_ONE, this.pageableTotal))
+				.thenReturn(new PageImpl<>(List.of(
+						this.filterComment(2), 
+						this.filterComment(1), 
+						this.filterComment(3))));
 		List<Comment> comments = 
 				this.commentService
-				.list(CulturalOfferConstants.ID_ONE, this.pageableAll).getContent();
+				.list(CulturalOfferConstants.ID_ONE, this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_TWO, comments.get(0).getId());
-		assertEquals(UserConstants.ID_TWO, comments.get(0).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_TWO, this.format.format(comments.get(0).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_TWO, comments.get(0).getText());
+		assertEquals(UserConstants.ID_TWO, comments.get(0).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.ID_ONE, comments.get(1).getId());
-		assertEquals(UserConstants.ID_ONE, comments.get(1).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_ONE, this.format.format(comments.get(1).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_ONE, comments.get(1).getText());
+		assertEquals(UserConstants.ID_ONE, comments.get(1).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOffer().getId());
 		assertEquals(CommentConstants.ID_THREE, comments.get(2).getId());
-		assertEquals(UserConstants.ID_TWO, comments.get(2).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(2).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_THREE, this.format.format(comments.get(2).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_THREE, comments.get(2).getText());
+		assertEquals(UserConstants.ID_TWO, comments.get(2).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(2).getCulturalOffer().getId());
 	}
 	
 	@Test
 	public void testListMorePaginated() {
-		Mockito.when(this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_ONE, this.pageablePart))
-		.thenReturn(new PageImpl<>(List.of(this.filterComment(2), this.filterComment(1))));
+		Mockito.when(this.commentRepository
+				.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_ONE, this.pageablePart))
+				.thenReturn(new PageImpl<>(List.of(
+						this.filterComment(2), 
+						this.filterComment(1))));
 		List<Comment> comments = 
 				this.commentService
 				.list(CulturalOfferConstants.ID_ONE, this.pageablePart).getContent();
 		assertEquals(MainConstants.PART_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_TWO, comments.get(0).getId());
-		assertEquals(UserConstants.ID_TWO, comments.get(0).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_TWO, this.format.format(comments.get(0).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_TWO, comments.get(0).getText());
+		assertEquals(UserConstants.ID_TWO, comments.get(0).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.ID_ONE, comments.get(1).getId());
-		assertEquals(UserConstants.ID_ONE, comments.get(1).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_ONE, this.format.format(comments.get(1).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_ONE, comments.get(1).getText());
+		assertEquals(UserConstants.ID_ONE, comments.get(1).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOffer().getId());
 	}
 	
 	@Test
 	public void testListMoreNonExistingPage() {
-		Mockito.when(this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_ONE, this.pageableNonExisting))
-		.thenReturn(new PageImpl<>(List.of()));
+		Mockito.when(this.commentRepository
+				.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_ONE, this.pageableNonExisting))
+				.thenReturn(new PageImpl<>(List.of()));
 		List<Comment> comments = 
 				this.commentService
 				.list(CulturalOfferConstants.ID_ONE, this.pageableNonExisting).getContent();
@@ -196,35 +143,45 @@ public class CommentServiceTest {
 	
 	@Test
 	public void testListOne() {
-		Mockito.when(this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_TWO, this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of(this.filterComment(4))));
+		Mockito.when(this.commentRepository
+				.findByCulturalOfferIdOrderByCreatedAtDesc(CulturalOfferConstants.ID_TWO, this.pageableTotal))
+				.thenReturn(new PageImpl<>(List.of(this.filterComment(4))));
 		List<Comment> comments = 
 				this.commentService
-				.list(CulturalOfferConstants.ID_TWO, this.pageableAll).getContent();
+				.list(CulturalOfferConstants.ID_TWO, this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, comments.size());
 		assertEquals(CommentConstants.ID_FOUR, comments.get(0).getId());
-		assertEquals(UserConstants.ID_ONE, comments.get(0).getUser().getId());
-		assertEquals(CulturalOfferConstants.ID_TWO, comments.get(0).getCulturalOffer().getId());
 		assertEquals(CommentConstants.DATE_FOUR, this.format.format(comments.get(0).getCreatedAt()));
 		assertEquals(CommentConstants.TEXT_FOUR, comments.get(0).getText());
+		assertEquals(UserConstants.ID_ONE, comments.get(0).getUser().getId());
+		assertEquals(CulturalOfferConstants.ID_TWO, comments.get(0).getCulturalOffer().getId());
 	}
 	
 	@Test
 	public void testListNone() {
-		Mockito.when(this.commentRepository.findByCulturalOfferIdOrderByCreatedAtDesc(MainConstants.NON_EXISTING_ID, this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of()));
+		Mockito.when(this.commentRepository
+				.findByCulturalOfferIdOrderByCreatedAtDesc(MainConstants.NON_EXISTING_ID, this.pageableTotal))
+				.thenReturn(new PageImpl<>(List.of()));
 		List<Comment> comments = 
 				this.commentService
-				.list(MainConstants.NON_EXISTING_ID, this.pageableAll).getContent();
+				.list(MainConstants.NON_EXISTING_ID, this.pageableTotal).getContent();
 		assertTrue(comments.isEmpty());
 	}
 	
 	@Test
 	public void testDeleteExisting() {
-		Mockito.when(this.commentRepository.count()).thenReturn((long) (MainConstants.TOTAL_SIZE + 1));
+		Comment comment = new Comment();
+		CulturalOffer offer = new CulturalOffer();
+		offer.setId(MainConstants.NON_EXISTING_ID);
+		comment.setCulturalOffer(offer);
+		Mockito.when(this.commentRepository.findById(CommentConstants.ID_ONE))
+		.thenReturn(Optional.of(comment));
+		Mockito.when(this.commentRepository.count())
+		.thenReturn((long) (MainConstants.TOTAL_SIZE + 1));
 		long size = this.commentRepository.count();
 		this.commentService.delete(CommentConstants.ID_ONE);
-		Mockito.when(this.commentRepository.count()).thenReturn((long) MainConstants.TOTAL_SIZE);
+		Mockito.when(this.commentRepository.count())
+		.thenReturn(size - 1);
 		Mockito.when(this.commentRepository.findById(CulturalOfferConstants.ID_ONE))
 		.thenReturn(Optional.empty());
 		assertEquals(size - 1, this.commentRepository.count());
@@ -233,6 +190,12 @@ public class CommentServiceTest {
 	
 	@Test(expected = EmptyResultDataAccessException.class)
 	public void testDeleteNonExisting() {
+		Comment comment = new Comment();
+		CulturalOffer offer = new CulturalOffer();
+		offer.setId(MainConstants.NON_EXISTING_ID);
+		comment.setCulturalOffer(offer);
+		Mockito.when(this.commentRepository.findById(MainConstants.NON_EXISTING_ID))
+		.thenReturn(Optional.of(comment));
 		Mockito.doThrow(EmptyResultDataAccessException.class).when(this.commentRepository)
 		.deleteById(MainConstants.NON_EXISTING_ID);
 		this.commentService.delete(MainConstants.NON_EXISTING_ID);
@@ -240,12 +203,14 @@ public class CommentServiceTest {
 	
 	@Test
 	public void testAddValid() {
-		Mockito.when(this.commentRepository.count()).thenReturn((long) (MainConstants.TOTAL_SIZE + 1));
+		Mockito.when(this.commentRepository.count())
+		.thenReturn((long) (MainConstants.TOTAL_SIZE + 1));
 		long size = this.commentRepository.count();
 		Comment comment = this.testingComment();
 		Mockito.when(this.commentRepository.save(comment)).thenReturn(comment);
 		comment = this.commentService.save(comment, null);
-		Mockito.when(this.commentRepository.count()).thenReturn(size + 1);
+		Mockito.when(this.commentRepository.count())
+		.thenReturn(size + 1);
 		assertEquals(size + 1, this.commentRepository.count());
 		assertEquals(UserConstants.ID_ONE, comment.getUser().getId());
 		assertEquals(CulturalOfferConstants.ID_ONE, comment.getCulturalOffer().getId());
@@ -309,11 +274,13 @@ public class CommentServiceTest {
 	
 	@Test
 	public void testUpdateValid() {
-		Mockito.when(this.commentRepository.count()).thenReturn((long) (MainConstants.TOTAL_SIZE + 1));
+		Mockito.when(this.commentRepository.count())
+		.thenReturn((long) (MainConstants.TOTAL_SIZE + 1));
 		long size = this.commentRepository.count();
 		Comment comment = this.testingComment();
 		comment.setId(CommentConstants.ID_ONE);
-		Mockito.when(this.commentRepository.save(comment)).thenReturn(comment);
+		Mockito.when(this.commentRepository.save(comment))
+		.thenReturn(comment);
 		comment = this.commentService.save(comment, null);
 		assertEquals(size, this.commentRepository.count());
 		assertEquals(CommentConstants.ID_ONE, comment.getId());
@@ -393,6 +360,67 @@ public class CommentServiceTest {
 		comment.setCulturalOffer(offer);
 		comment.setCreatedAt(new Date());
 		comment.setText(CommentConstants.TEXT_ONE);
+		return comment;
+	}
+	
+	private Comment filterComment(int index) {
+		if (index == 1) {
+			Comment comment = new Comment();
+			comment.setId(CommentConstants.ID_ONE);
+			User user = new User();
+			user.setId(UserConstants.ID_ONE);
+			comment.setUser(user);
+			CulturalOffer offer = new CulturalOffer();
+			offer.setId(CulturalOfferConstants.ID_ONE);
+			comment.setCulturalOffer(offer);
+			try {
+				comment.setCreatedAt(this.format.parse(CommentConstants.DATE_ONE));				
+			}catch(Exception e) {};
+			comment.setText(CommentConstants.TEXT_ONE);
+			return comment;
+		}
+		if (index == 2) {
+			Comment comment = new Comment();
+			comment.setId(CommentConstants.ID_TWO);
+			User user = new User();
+			user.setId(UserConstants.ID_TWO);
+			comment.setUser(user);
+			CulturalOffer offer = new CulturalOffer();
+			offer.setId(CulturalOfferConstants.ID_ONE);
+			comment.setCulturalOffer(offer);
+			try {
+				comment.setCreatedAt(this.format.parse(CommentConstants.DATE_TWO));				
+			}catch(Exception e) {};
+			comment.setText(CommentConstants.TEXT_TWO);
+			return comment;
+		}
+		if (index == 3) {
+			Comment comment = new Comment();
+			comment.setId(CommentConstants.ID_THREE);
+			User user = new User();
+			user.setId(UserConstants.ID_TWO);
+			comment.setUser(user);
+			CulturalOffer offer = new CulturalOffer();
+			offer.setId(CulturalOfferConstants.ID_ONE);
+			comment.setCulturalOffer(offer);
+			try {
+				comment.setCreatedAt(this.format.parse(CommentConstants.DATE_THREE));				
+			}catch(Exception e) {};
+			comment.setText(CommentConstants.TEXT_THREE);
+			return comment;
+		}
+		Comment comment = new Comment();
+		comment.setId(CommentConstants.ID_FOUR);
+		User user = new User();
+		user.setId(UserConstants.ID_ONE);
+		comment.setUser(user);
+		CulturalOffer offer = new CulturalOffer();
+		offer.setId(CulturalOfferConstants.ID_TWO);
+		comment.setCulturalOffer(offer);
+		try {
+			comment.setCreatedAt(this.format.parse(CommentConstants.DATE_FOUR));				
+		}catch(Exception e) {};
+		comment.setText(CommentConstants.TEXT_FOUR);
 		return comment;
 	}
 

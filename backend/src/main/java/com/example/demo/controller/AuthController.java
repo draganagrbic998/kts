@@ -62,7 +62,7 @@ public class AuthController {
 	public ResponseEntity<Void> register(@Valid @RequestBody RegisterDTO registerDTO){
 		User user = this.userService.save(this.userMapper.map(registerDTO), null);
 		this.accountActivationService.save(user);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "/login")

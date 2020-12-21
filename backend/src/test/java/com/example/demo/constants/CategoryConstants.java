@@ -11,7 +11,7 @@ public class CategoryConstants {
 	public static final long ID_THREE = 3;
 	public static final String NAME_THREE = "category_three";
 	
-	public static final String FILTER_NAME_ALL = "category";
+	public static final String FILTER_NAMES_ALL = "category";
 	public static final String NON_EXISTING_NAME = "category_none";
 	
 }

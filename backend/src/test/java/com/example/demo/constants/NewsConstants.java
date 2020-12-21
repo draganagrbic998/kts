@@ -1,15 +1,6 @@
 package com.example.demo.constants;
 
 public class NewsConstants {
-
-	public static final String WRONG_START = "2020-10-10";
-	public static final String WRONG_END = "2020-10-12";
-
-	public static final String START_DATE_ONE = "2020-09-15";
-	public static final String END_DATE_ONE = "2020-09-17";
-	
-	public static final String START_DATE_MORE = "2020-09-09";
-	public static final String END_DATE_MORE = "2020-09-19";
 	
 	public static final long ID_ONE = 1;
 	public static final String DATE_ONE = "2020-09-12";
@@ -28,4 +19,14 @@ public class NewsConstants {
 	public static final String TEXT_FOUR = "news_four";
 	
 	public static final String NON_EXISTING_TEXT = "news_none";
+	
+	public static final String WRONG_START = "2020-10-10";
+	public static final String WRONG_END = "2020-10-12";
+
+	public static final String START_DATE_ONE = "2020-09-15";
+	public static final String END_DATE_ONE = "2020-09-17";
+	
+	public static final String START_DATE_MORE = "2020-09-09";
+	public static final String END_DATE_MORE = "2020-09-19";
+
 }

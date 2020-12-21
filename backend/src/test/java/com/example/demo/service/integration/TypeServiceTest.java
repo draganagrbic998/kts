@@ -22,7 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.constants.CategoryConstants;
-import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.TypeConstants;
 import com.example.demo.dto.UniqueCheckDTO;
@@ -44,7 +43,7 @@ public class TypeServiceTest {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 
@@ -68,7 +67,7 @@ public class TypeServiceTest {
 	public void testFilterNamesEmpty() {
 		List<String> names = 
 				this.typeService
-				.filterNames(FilterConstants.FILTER_ALL);
+				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
 		assertEquals(TypeConstants.NAME_THREE, names.get(1));
@@ -79,7 +78,7 @@ public class TypeServiceTest {
 	public void testFilterNamesAll() {
 		List<String> names = 
 				this.typeService
-				.filterNames(TypeConstants.FILTER_NAME_ALL);
+				.filterNames(TypeConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
 		assertEquals(TypeConstants.NAME_THREE, names.get(1));
@@ -90,7 +89,7 @@ public class TypeServiceTest {
 	public void testFilterNamesOne() {
 		List<String> names = 
 				this.typeService
-				.filterNames(FilterConstants.FILTER_ONE);
+				.filterNames(MainConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
 	}
@@ -99,7 +98,7 @@ public class TypeServiceTest {
 	public void testFilterNamesNone() {
 		List<String> names = 
 				this.typeService
-				.filterNames(FilterConstants.FILTER_NONE);
+				.filterNames(MainConstants.FILTER_NONE);
 		assertTrue(names.isEmpty());
 	}
 	
@@ -107,7 +106,7 @@ public class TypeServiceTest {
 	public void testListAll() {
 		List<Type> types = 
 				this.typeService
-				.list(this.pageableAll).getContent();
+				.list(this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.ID_ONE, types.get(0).getId());
 		assertEquals(CategoryConstants.ID_ONE, types.get(0).getCategory().getId());
@@ -156,7 +155,7 @@ public class TypeServiceTest {
 	@Test(expected = DataIntegrityViolationException.class)
 	@Transactional
 	@Rollback(true)
-	public void testDeleteExistingWithCulturalOffer() {
+	public void testDeleteWithCulturalOffer() {
 		this.typeService.delete(CategoryConstants.ID_ONE);
 		this.typeRepository.count();
 	}
@@ -174,7 +173,7 @@ public class TypeServiceTest {
 	public void testAddValid() {
 		long size = this.typeRepository.count();
 		Type type = this.testingType();
-		this.typeService.save(type, null);
+		type = this.typeService.save(type, null);
 		assertEquals(size + 1, this.typeRepository.count());
 		assertEquals(CategoryConstants.ID_ONE, type.getCategory().getId());
 		assertEquals(TypeConstants.NON_EXISTING_NAME, type.getName());
@@ -232,7 +231,7 @@ public class TypeServiceTest {
 		long size = this.typeRepository.count();
 		Type type = this.testingType();
 		type.setId(TypeConstants.ID_ONE);
-		this.typeService.save(type, null);
+		type = this.typeService.save(type, null);
 		assertEquals(size, this.typeRepository.count());
 		assertEquals(TypeConstants.ID_ONE, type.getId());
 		assertEquals(CategoryConstants.ID_ONE, type.getCategory().getId());

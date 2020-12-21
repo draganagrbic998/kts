@@ -44,6 +44,16 @@ public class TypeController {
 	@Autowired
 	private TypeMapper typeMapper;
 	
+	@PostMapping(value = "/has_name")
+	public ResponseEntity<BooleanDTO> hasName(@RequestBody UniqueCheckDTO param) {
+		return new ResponseEntity<>(new BooleanDTO(this.typeService.hasName(param)), HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/filter_names")
+	public ResponseEntity<List<String>> filterNames(@RequestBody StringDTO filter){
+		return new ResponseEntity<>(this.typeService.filterNames(filter.getValue()), HttpStatus.OK);
+	}
+	
 	@GetMapping
 	public ResponseEntity<List<TypeDTO>> list(@RequestParam int page, @RequestParam int size, HttpServletResponse response){
 		Pageable pageable = PageRequest.of(page, size);
@@ -54,27 +64,17 @@ public class TypeController {
 		return new ResponseEntity<>(this.typeMapper.map(types.toList()), HttpStatus.OK);
 	}
 	
-	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity<Void> save(@Valid @ModelAttribute TypeUploadDTO typeDTO) {
-		Type type = this.typeMapper.map(typeDTO);
-		this.typeService.save(type,typeDTO.getPlacemarkIcon());
-		return new ResponseEntity<>(HttpStatus.CREATED);
-	}
-	
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable long id) {
 		this.typeService.delete(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
-	@PostMapping(value = "/has_name")
-	public ResponseEntity<BooleanDTO> hasName(@RequestBody UniqueCheckDTO param) {
-		return new ResponseEntity<>(new BooleanDTO(this.typeService.hasName(param)), HttpStatus.OK);
-	}
-	
-	@PostMapping(value = "/filter_names")
-	public ResponseEntity<List<String>> filterNames(@RequestBody StringDTO filter){
-		return new ResponseEntity<>(this.typeService.filterNames(filter.getValue()), HttpStatus.OK);
+	@PostMapping
+	public ResponseEntity<Void> save(@Valid @ModelAttribute TypeUploadDTO typeDTO) {
+		Type type = this.typeMapper.map(typeDTO);
+		this.typeService.save(type,typeDTO.getPlacemarkIcon());
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 }

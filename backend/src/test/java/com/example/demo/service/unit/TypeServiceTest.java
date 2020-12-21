@@ -22,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.constants.CategoryConstants;
-import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.TypeConstants;
 import com.example.demo.dto.UniqueCheckDTO;
@@ -45,63 +44,40 @@ public class TypeServiceTest {
 	@MockBean
 	private CategoryRepository categoryRepository;
 	
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	
-	private Type listType(int index) {
-		if (index == 1) {
-			Type type = new Type();
-			type.setId(TypeConstants.ID_ONE);
-			type.setName(TypeConstants.NAME_ONE);
-			Category category = new Category();
-			category.setId(CategoryConstants.ID_ONE);
-			type.setCategory(category);
-			return type;
-		}
-		if (index == 2) {
-			Type type = new Type();
-			type.setId(TypeConstants.ID_TWO);
-			type.setName(TypeConstants.NAME_TWO);
-			Category category = new Category();
-			category.setId(CategoryConstants.ID_TWO);
-			type.setCategory(category);
-			return type;
-		}
-		Type type = new Type();
-		type.setId(TypeConstants.ID_THREE);
-		type.setName(TypeConstants.NAME_THREE);
-		Category category = new Category();
-		category.setId(CategoryConstants.ID_THREE);
-		type.setCategory(category);
-		return type;
-	}
-	
 	@Test
-	public void testHasNameNewCategoryExisting() {
+	public void testHasNameExisting() {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(TypeConstants.NAME_ONE);
-		Mockito.when(this.typeRepository.findByName(param.getName())).thenReturn(new Type());
+		Mockito.when(this.typeRepository.findByName(param.getName()))
+		.thenReturn(new Type());
 		assertTrue(this.typeService.hasName(param));
 	}
 	
 	@Test
-	public void testHasNameNewCategoryNonExisting() {
+	public void testHasNameNonExisting() {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(TypeConstants.NON_EXISTING_NAME);
-		Mockito.when(this.typeRepository.findByName(param.getName())).thenReturn(null);
+		Mockito.when(this.typeRepository.findByName(param.getName()))
+		.thenReturn(null);
 		assertFalse(this.typeService.hasName(param));
 	}
 	
 	@Test
 	public void testFilterNamesEmpty() {
-		Mockito.when(this.typeRepository.filterNames(FilterConstants.FILTER_ALL))
-		.thenReturn(List.of(TypeConstants.NAME_ONE, TypeConstants.NAME_THREE, TypeConstants.NAME_TWO));
+		Mockito.when(this.typeRepository.filterNames(MainConstants.FILTER_ALL))
+		.thenReturn(List.of(
+				TypeConstants.NAME_ONE, 
+				TypeConstants.NAME_THREE, 
+				TypeConstants.NAME_TWO));
 		List<String> names = 
 				this.typeService
-				.filterNames(FilterConstants.FILTER_ALL);
+				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
 		assertEquals(TypeConstants.NAME_THREE, names.get(1));
@@ -110,11 +86,14 @@ public class TypeServiceTest {
 	
 	@Test
 	public void testFilterNamesAll() {
-		Mockito.when(this.typeRepository.filterNames(TypeConstants.FILTER_NAME_ALL))
-		.thenReturn(List.of(TypeConstants.NAME_ONE, TypeConstants.NAME_THREE, TypeConstants.NAME_TWO));
+		Mockito.when(this.typeRepository.filterNames(TypeConstants.FILTER_NAMES_ALL))
+		.thenReturn(List.of(
+				TypeConstants.NAME_ONE, 
+				TypeConstants.NAME_THREE, 
+				TypeConstants.NAME_TWO));
 		List<String> names = 
 				this.typeService
-				.filterNames(TypeConstants.FILTER_NAME_ALL);
+				.filterNames(TypeConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
 		assertEquals(TypeConstants.NAME_THREE, names.get(1));
@@ -123,32 +102,35 @@ public class TypeServiceTest {
 	
 	@Test
 	public void testFilterNamesOne() {
-		Mockito.when(this.typeRepository.filterNames(FilterConstants.FILTER_ONE))
+		Mockito.when(this.typeRepository.filterNames(MainConstants.FILTER_ONE))
 		.thenReturn(List.of(TypeConstants.NAME_ONE));
 		List<String> names = 
 				this.typeService
-				.filterNames(FilterConstants.FILTER_ONE);
+				.filterNames(MainConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
 	}
 	
 	@Test
 	public void testFilterNamesNone() {
-		Mockito.when(this.categoryRepository.filterNames(FilterConstants.FILTER_NONE))
+		Mockito.when(this.categoryRepository.filterNames(MainConstants.FILTER_NONE))
 		.thenReturn(List.of());
 		List<String> names = 
 				this.typeService
-				.filterNames(FilterConstants.FILTER_NONE);
+				.filterNames(MainConstants.FILTER_NONE);
 		assertTrue(names.isEmpty());
 	}
 	
 	@Test
 	public void testListAll() {
-		Mockito.when(this.typeRepository.findAll(this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of(this.listType(1), this.listType(2), this.listType(3))));
+		Mockito.when(this.typeRepository.findAll(this.pageableTotal))
+		.thenReturn(new PageImpl<>(List.of(
+				this.listType(1), 
+				this.listType(2), 
+				this.listType(3))));
 		List<Type> types = 
 				this.typeService
-				.list(this.pageableAll).getContent();
+				.list(this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.ID_ONE, types.get(0).getId());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0).getName());
@@ -161,7 +143,9 @@ public class TypeServiceTest {
 	@Test
 	public void testListAllPaginated() {
 		Mockito.when(this.typeRepository.findAll(this.pageablePart))
-		.thenReturn(new PageImpl<>(List.of(this.listType(1), this.listType(2))));
+		.thenReturn(new PageImpl<>(List.of(
+				this.listType(1), 
+				this.listType(2))));
 		List<Type> types = 
 				this.typeService
 				.list(this.pageablePart).getContent();
@@ -182,40 +166,48 @@ public class TypeServiceTest {
 		assertTrue(types.isEmpty());
 	}
 	
-	@Test(expected = ConstraintViolationException.class)
-	public void testDeleteExistingWithCulturalOffer() {
-		Mockito.doThrow(ConstraintViolationException.class).when(this.typeRepository).deleteById(TypeConstants.ID_THREE);
-		this.typeService.delete(CategoryConstants.ID_THREE);
-	}
-	
 	@Test
-	public void testDeleteExistingWithoutCulturalOffer() {
-		Mockito.when(this.typeRepository.count()).thenReturn((long) MainConstants.TOTAL_SIZE);
+	public void testDeleteExisting() {
+		Mockito.when(this.typeRepository.count())
+		.thenReturn((long) MainConstants.TOTAL_SIZE);
 		long size = this.typeRepository.count();
 		Type type = this.testingType();
-		Mockito.doReturn(type).when(this.typeRepository).save(type);
-		this.typeService.save(type,null);
-		Mockito.when(this.typeRepository.count()).thenReturn(size + 1);
+		Mockito.when(this.typeRepository.save(type))
+		.thenReturn(type);
+		type = this.typeService.save(type, null);
+		Mockito.when(this.typeRepository.count())
+		.thenReturn(size + 1);
 		assertEquals(size + 1, this.typeRepository.count());
-		this.typeService.delete((long) MainConstants.TOTAL_SIZE + 1);
-		Mockito.when(this.typeRepository.count()).thenReturn((long) MainConstants.TOTAL_SIZE);
+		this.typeService.delete(size + 1);
+		Mockito.when(this.typeRepository.count())
+		.thenReturn(size);
 		assertEquals(size, this.typeRepository.count());
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testDeleteWithCulturalOffer() {
+		Mockito.doThrow(ConstraintViolationException.class)
+		.when(this.typeRepository).deleteById(TypeConstants.ID_THREE);
+		this.typeService.delete(CategoryConstants.ID_THREE);
 	}
 	
 	@Test(expected = EmptyResultDataAccessException.class)
 	public void testDeleteNonExisting() {
-		Mockito.doThrow(EmptyResultDataAccessException.class).when(this.typeRepository).deleteById(MainConstants.NON_EXISTING_ID);
+		Mockito.doThrow(EmptyResultDataAccessException.class)
+		.when(this.typeRepository).deleteById(MainConstants.NON_EXISTING_ID);
 		this.typeService.delete(MainConstants.NON_EXISTING_ID);
 	}
 	
 	@Test
 	public void testAddValid() {
-		Mockito.when(this.typeRepository.count()).thenReturn((long) MainConstants.TOTAL_SIZE);
+		Mockito.when(this.typeRepository.count())
+		.thenReturn((long) MainConstants.TOTAL_SIZE);
 		long size = this.typeRepository.count();
 		Type type = this.testingType();
 		Mockito.when(this.typeRepository.save(type)).thenReturn(type);
 		type = this.typeRepository.save(type);
-		Mockito.when(this.typeRepository.count()).thenReturn(size + 1);
+		Mockito.when(this.typeRepository.count())
+		.thenReturn(size + 1);
 		assertEquals(size + 1, this.typeRepository.count());
 		assertEquals(TypeConstants.NON_EXISTING_NAME, type.getName());
 	}
@@ -224,7 +216,8 @@ public class TypeServiceTest {
 	public void testAddNullCategory() {
 		Type type = this.testingType();
 		type.setCategory(null);
-		Mockito.when(this.typeRepository.save(type)).thenThrow(ConstraintViolationException.class);
+		Mockito.when(this.typeRepository.save(type))
+		.thenThrow(ConstraintViolationException.class);
 		this.typeService.save(type, null);
 	}
 	
@@ -232,7 +225,8 @@ public class TypeServiceTest {
 	public void testAddNullName() {
 		Type type = this.testingType();
 		type.setName(null);
-		Mockito.when(this.typeRepository.save(type)).thenThrow(ConstraintViolationException.class);
+		Mockito.when(this.typeRepository.save(type))
+		.thenThrow(ConstraintViolationException.class);
 		this.typeService.save(type, null);
 	}
 	
@@ -240,7 +234,8 @@ public class TypeServiceTest {
 	public void testAddEmptyName() {
 		Type type = this.testingType();
 		type.setName("");
-		Mockito.when(this.typeRepository.save(type)).thenThrow(ConstraintViolationException.class);
+		Mockito.when(this.typeRepository.save(type))
+		.thenThrow(ConstraintViolationException.class);
 		this.typeService.save(type, null);
 	}
 	
@@ -248,7 +243,8 @@ public class TypeServiceTest {
 	public void testAddBlankName() {
 		Type type = this.testingType();
 		type.setName("  ");
-		Mockito.when(this.typeRepository.save(type)).thenThrow(ConstraintViolationException.class);
+		Mockito.when(this.typeRepository.save(type))
+		.thenThrow(ConstraintViolationException.class);
 		this.typeService.save(type, null);
 	}
 	
@@ -256,17 +252,20 @@ public class TypeServiceTest {
 	public void testAddNonUniqueName() {
 		Type type = this.testingType();
 		type.setName(TypeConstants.NAME_ONE);
-		Mockito.when(this.typeRepository.save(type)).thenThrow(DataIntegrityViolationException.class);
+		Mockito.when(this.typeRepository.save(type))
+		.thenThrow(DataIntegrityViolationException.class);
 		this.typeService.save(type, null);
 	}
 	
 	@Test
 	public void testUpdateValid() {
-		Mockito.when(this.typeRepository.count()).thenReturn((long) MainConstants.TOTAL_SIZE);
+		Mockito.when(this.typeRepository.count())
+		.thenReturn((long) MainConstants.TOTAL_SIZE);
 		long size = this.typeRepository.count();
 		Type type = this.testingType();
 		type.setId(TypeConstants.ID_ONE);
-		Mockito.when(this.typeRepository.save(type)).thenReturn(type);
+		Mockito.when(this.typeRepository.save(type))
+		.thenReturn(type);
 		type = this.typeRepository.save(type);
 		assertEquals(size, this.typeRepository.count());
 		assertEquals(TypeConstants.ID_ONE, type.getId());
@@ -278,7 +277,8 @@ public class TypeServiceTest {
 		Type type = this.testingType();
 		type.setId(TypeConstants.ID_ONE);
 		type.setCategory(null);
-		Mockito.when(this.typeRepository.save(type)).thenThrow(ConstraintViolationException.class);
+		Mockito.when(this.typeRepository.save(type))
+		.thenThrow(ConstraintViolationException.class);
 		this.typeService.save(type, null);
 	}
 	
@@ -287,7 +287,8 @@ public class TypeServiceTest {
 		Type type = this.testingType();
 		type.setId(TypeConstants.ID_ONE);
 		type.setName(null);
-		Mockito.when(this.typeRepository.save(type)).thenThrow(ConstraintViolationException.class);
+		Mockito.when(this.typeRepository.save(type))
+		.thenThrow(ConstraintViolationException.class);
 		this.typeService.save(type, null);
 	}
 	
@@ -296,7 +297,8 @@ public class TypeServiceTest {
 		Type type = this.testingType();
 		type.setId(TypeConstants.ID_ONE);
 		type.setName("");
-		Mockito.when(this.typeRepository.save(type)).thenThrow(ConstraintViolationException.class);
+		Mockito.when(this.typeRepository.save(type))
+		.thenThrow(ConstraintViolationException.class);
 		this.typeService.save(type, null);
 	}
 	
@@ -305,7 +307,8 @@ public class TypeServiceTest {
 		Type type = this.testingType();
 		type.setId(TypeConstants.ID_ONE);
 		type.setName("  ");
-		Mockito.when(this.typeRepository.save(type)).thenThrow(ConstraintViolationException.class);
+		Mockito.when(this.typeRepository.save(type))
+		.thenThrow(ConstraintViolationException.class);
 		this.typeService.save(type, null);
 	}
 	
@@ -314,7 +317,8 @@ public class TypeServiceTest {
 		Type type = this.testingType();
 		type.setId(TypeConstants.ID_ONE);
 		type.setName(TypeConstants.NAME_TWO);
-		Mockito.when(this.typeRepository.save(type)).thenThrow(DataIntegrityViolationException.class);
+		Mockito.when(this.typeRepository.save(type))
+		.thenThrow(DataIntegrityViolationException.class);
 		this.typeService.save(type, null);
 	}
 	
@@ -322,6 +326,34 @@ public class TypeServiceTest {
 		Type type = new Type();
 		type.setCategory(this.categoryRepository.findById(CategoryConstants.ID_ONE).orElse(null));
 		type.setName(TypeConstants.NON_EXISTING_NAME);
+		return type;
+	}
+	
+	private Type listType(int index) {
+		if (index == 1) {
+			Type type = new Type();
+			type.setId(TypeConstants.ID_ONE);
+			Category category = new Category();
+			category.setId(CategoryConstants.ID_ONE);
+			type.setCategory(category);
+			type.setName(TypeConstants.NAME_ONE);
+			return type;
+		}
+		if (index == 2) {
+			Type type = new Type();
+			type.setId(TypeConstants.ID_TWO);
+			Category category = new Category();
+			category.setId(CategoryConstants.ID_TWO);
+			type.setCategory(category);
+			type.setName(TypeConstants.NAME_TWO);
+			return type;
+		}
+		Type type = new Type();
+		type.setId(TypeConstants.ID_THREE);
+		Category category = new Category();
+		category.setId(CategoryConstants.ID_THREE);
+		type.setCategory(category);
+		type.setName(TypeConstants.NAME_THREE);
 		return type;
 	}
 

@@ -54,7 +54,12 @@ public class AuthControllerTest {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(UserConstants.NON_EXISTING_EMAIL);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(AuthAPI.API_HAS_EMAIL, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_HAS_EMAIL, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertFalse(response.getBody().isValue());
 	}
@@ -64,7 +69,12 @@ public class AuthControllerTest {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(UserConstants.EMAIL_ONE);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(AuthAPI.API_HAS_EMAIL, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_HAS_EMAIL, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isValue());
 	}
@@ -74,7 +84,12 @@ public class AuthControllerTest {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(UserConstants.ID_ONE);
 		param.setName(UserConstants.EMAIL_ONE);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(AuthAPI.API_HAS_EMAIL, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_HAS_EMAIL, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertFalse(response.getBody().isValue());
 	}
@@ -84,7 +99,12 @@ public class AuthControllerTest {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(UserConstants.ID_ONE);
 		param.setName(UserConstants.NON_EXISTING_EMAIL);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(AuthAPI.API_HAS_EMAIL, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_HAS_EMAIL, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertFalse(response.getBody().isValue());
 	}
@@ -94,21 +114,36 @@ public class AuthControllerTest {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(UserConstants.ID_ONE);
 		param.setName(UserConstants.EMAIL_TWO);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(AuthAPI.API_HAS_EMAIL, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_HAS_EMAIL, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isValue());
 	}
 	
 	@Test
 	public void testActivateExisting() {
-		ResponseEntity<Void> response = this.restTemplate.exchange(AuthAPI.API_ACTIVATE(AccountActivationConstants.CODE_ONE), HttpMethod.GET, this.httpEntity(null), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_ACTIVATE(AccountActivationConstants.CODE_ONE), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						Void.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(this.userRepository.findById(UserConstants.ID_ONE).orElse(null).isEnabled());
 	}
 	
 	@Test
 	public void testActivateNonExisting() {
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_ACTIVATE(AccountActivationConstants.NON_EXISTING_CODE), HttpMethod.GET, this.httpEntity(null), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_ACTIVATE(AccountActivationConstants.NON_EXISTING_CODE), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_FOUND, response.getBody().getMessage());
 	}
@@ -117,10 +152,17 @@ public class AuthControllerTest {
 	public void testRegisterValid() {
 		long size = this.userRepository.count();
 		RegisterDTO registration = this.testingRegistration();
-		ResponseEntity<Void> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), Void.class);
-		assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						Void.class);
+		assertEquals(HttpStatus.OK, response.getStatusCode());
 		User user = this.userRepository.findAll().get((int) (this.userRepository.count() - 1));
-		AccountActivation accountActivation = this.accountActivationRepository.findAll().get((int) (this.accountActivationRepository.count() - 1));
+		AccountActivation accountActivation = 
+				this.accountActivationRepository
+				.findAll().get((int) (this.accountActivationRepository.count() - 1));
 		assertEquals(size + 1, this.userRepository.count());
 		assertEquals(UserConstants.NON_EXISTING_EMAIL, user.getEmail());
 		assertTrue(this.passwordEncoder.matches(UserConstants.LOGIN_PASSWORD, user.getPassword()));
@@ -135,7 +177,12 @@ public class AuthControllerTest {
 	public void testRegisterNullEmail() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setEmail(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -144,7 +191,12 @@ public class AuthControllerTest {
 	public void testRegisterEmptyEmail() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setEmail("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -153,25 +205,54 @@ public class AuthControllerTest {
 	public void testRegisterBlankEmail() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setEmail("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
+	}
+	
+	@Test
+	public void testRegisterInvalidEmail() {
+		RegisterDTO registration = this.testingRegistration();
+		registration.setEmail(UserConstants.NEW_PASSWORD);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(ExceptionConstants.INVALID_EMAIL, response.getBody().getMessage());
 	}
 	
 	@Test
 	public void testRegisterNonUniqueEmail() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setEmail(UserConstants.LOGIN_EMAIL);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertEquals(ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION, response.getBody().getMessage());
+		assertEquals(ExceptionConstants.UNIQUE_VIOLATION, response.getBody().getMessage());
 	}
 	
 	@Test
 	public void testRegisterNullPassword() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setPassword(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -180,7 +261,12 @@ public class AuthControllerTest {
 	public void testRegisterEmptyPassword() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setPassword("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -189,7 +275,12 @@ public class AuthControllerTest {
 	public void testRegisterBlankPassword() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setPassword("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -198,7 +289,12 @@ public class AuthControllerTest {
 	public void testRegisterNullFirstName() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setFirstName(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -207,7 +303,12 @@ public class AuthControllerTest {
 	public void testRegisterEmptyFirstName() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setFirstName("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -216,7 +317,12 @@ public class AuthControllerTest {
 	public void testRegisterBlankFirstName() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setFirstName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -225,7 +331,12 @@ public class AuthControllerTest {
 	public void testRegisterNullLastName() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setLastName(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -234,7 +345,12 @@ public class AuthControllerTest {
 	public void testRegisterEmptyLastName() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setLastName("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -243,7 +359,12 @@ public class AuthControllerTest {
 	public void testRegisterBlanklLastName() {
 		RegisterDTO registration = this.testingRegistration();
 		registration.setLastName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_REGISTER, HttpMethod.POST, this.httpEntity(registration), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_REGISTER, 
+						HttpMethod.POST, 
+						this.httpEntity(registration), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -251,7 +372,12 @@ public class AuthControllerTest {
 	@Test
 	public void testLoginExisting() {
 		LoginDTO login = this.testingLogin();
-		ResponseEntity<ProfileDTO> response = this.restTemplate.exchange(AuthAPI.API_LOGIN, HttpMethod.POST, this.httpEntity(login), ProfileDTO.class);
+		ResponseEntity<ProfileDTO> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_LOGIN, 
+						HttpMethod.POST, 
+						this.httpEntity(login), 
+						ProfileDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		ProfileDTO profile = response.getBody();
 		assertEquals(UserConstants.LOGIN_ID, profile.getId());
@@ -265,7 +391,12 @@ public class AuthControllerTest {
 	public void testLoginNonExisting() {
 		LoginDTO login = this.testingLogin();
 		login.setPassword(UserConstants.NEW_PASSWORD);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_LOGIN, HttpMethod.POST, this.httpEntity(login), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_LOGIN, 
+						HttpMethod.POST, 
+						this.httpEntity(login), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.BAD_CREDENTIALS, response.getBody().getMessage());
 	}
@@ -274,7 +405,12 @@ public class AuthControllerTest {
 	public void testLoginNullEmail() {
 		LoginDTO login = this.testingLogin();
 		login.setEmail(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_LOGIN, HttpMethod.POST, this.httpEntity(login), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_LOGIN, 
+						HttpMethod.POST, 
+						this.httpEntity(login), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -283,7 +419,12 @@ public class AuthControllerTest {
 	public void testLoginEmptyEmail() {
 		LoginDTO login = this.testingLogin();
 		login.setEmail("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_LOGIN, HttpMethod.POST, this.httpEntity(login), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_LOGIN, 
+						HttpMethod.POST, 
+						this.httpEntity(login), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -292,16 +433,40 @@ public class AuthControllerTest {
 	public void testLoginBlankEmail() {
 		LoginDTO login = this.testingLogin();
 		login.setEmail("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_LOGIN, HttpMethod.POST, this.httpEntity(login), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_LOGIN, 
+						HttpMethod.POST, 
+						this.httpEntity(login), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
+	}
+	
+	@Test
+	public void testLoginInvalidEmail() {
+		LoginDTO login = this.testingLogin();
+		login.setEmail(UserConstants.NEW_PASSWORD);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_LOGIN, 
+						HttpMethod.POST, 
+						this.httpEntity(login), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(ExceptionConstants.INVALID_EMAIL, response.getBody().getMessage());
 	}
 	
 	@Test
 	public void testLoginNullPassword() {
 		LoginDTO login = this.testingLogin();
 		login.setPassword(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_LOGIN, HttpMethod.POST, this.httpEntity(login), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_LOGIN, 
+						HttpMethod.POST, 
+						this.httpEntity(login), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -310,7 +475,12 @@ public class AuthControllerTest {
 	public void testLoginEmptyPassword() {
 		LoginDTO login = this.testingLogin();
 		login.setPassword("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_LOGIN, HttpMethod.POST, this.httpEntity(login), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_LOGIN, 
+						HttpMethod.POST, 
+						this.httpEntity(login), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -319,14 +489,14 @@ public class AuthControllerTest {
 	public void testLoginBlankPassword() {
 		LoginDTO login = this.testingLogin();
 		login.setPassword("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(AuthAPI.API_LOGIN, HttpMethod.POST, this.httpEntity(login), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						AuthAPI.API_LOGIN, 
+						HttpMethod.POST, 
+						this.httpEntity(login), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
-	}
-	
-	private HttpEntity<Object> httpEntity(Object obj){
-		HttpHeaders headers = new HttpHeaders();
-		return new HttpEntity<Object>(obj, headers);
 	}
 	
 	private RegisterDTO testingRegistration() {
@@ -343,6 +513,11 @@ public class AuthControllerTest {
 		login.setEmail(UserConstants.LOGIN_EMAIL);
 		login.setPassword(UserConstants.LOGIN_PASSWORD);
 		return login;
+	}
+	
+	private HttpEntity<Object> httpEntity(Object obj){
+		HttpHeaders headers = new HttpHeaders();
+		return new HttpEntity<Object>(obj, headers);
 	}
 	
 }

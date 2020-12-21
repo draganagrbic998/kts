@@ -29,7 +29,6 @@ import org.springframework.util.MultiValueMap;
 import com.example.demo.api.AuthAPI;
 import com.example.demo.api.TypeAPI;
 import com.example.demo.constants.CategoryConstants;
-import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.TypeConstants;
 import com.example.demo.constants.UserConstants;
@@ -60,7 +59,7 @@ public class TypeControllerTest {
 	@Autowired 
 	private CategoryRepository categoryRepository;
 	
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	
@@ -69,33 +68,51 @@ public class TypeControllerTest {
 		LoginDTO login = new LoginDTO();
 		login.setEmail(UserConstants.EMAIL_TWO);
 		login.setPassword(UserConstants.LOGIN_PASSWORD);
-		ResponseEntity<ProfileDTO> response = this.restTemplate.postForEntity(AuthAPI.API_LOGIN, login, ProfileDTO.class);
+		ResponseEntity<ProfileDTO> response = 
+				this.restTemplate.postForEntity(
+						AuthAPI.API_LOGIN, 
+						login, 
+						ProfileDTO.class);
 		this.accessToken = response.getBody().getAccessToken();
-		System.out.println(this.accessToken);
 	}
 	
 	@Test
-	public void testHasNameNewTypeNonExisting() {
+	public void testHasNameNonExisting() {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setName(TypeConstants.NON_EXISTING_NAME);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(TypeAPI.API_HAS_NAME, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_HAS_NAME, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertFalse(response.getBody().isValue());
 	}
 	
 	@Test
-	public void testHasNameNewTypeExisting() {
+	public void testHasNameExisting() {
 		UniqueCheckDTO param = new UniqueCheckDTO();
 		param.setId(null);
 		param.setName(TypeConstants.NAME_ONE);
-		ResponseEntity<BooleanDTO> response = this.restTemplate.exchange(TypeAPI.API_HAS_NAME, HttpMethod.POST, this.httpEntity(param), BooleanDTO.class);
+		ResponseEntity<BooleanDTO> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_HAS_NAME, 
+						HttpMethod.POST, 
+						this.httpEntity(param), 
+						BooleanDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isValue());
 	}
 	
 	@Test
 	public void testFilterNamesEmpty() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(TypeAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_ALL)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_ALL)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
@@ -106,7 +123,12 @@ public class TypeControllerTest {
 	
 	@Test
 	public void testFilterNamesAll() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(TypeAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(TypeConstants.FILTER_NAME_ALL)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(TypeConstants.FILTER_NAMES_ALL)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
@@ -117,7 +139,12 @@ public class TypeControllerTest {
 	
 	@Test
 	public void testFilterNamesOne() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(TypeAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_ONE)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_ONE)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, names.size());
@@ -126,7 +153,12 @@ public class TypeControllerTest {
 	
 	@Test
 	public void testFilterNamesNone() {
-		ResponseEntity<List<String>> response = this.restTemplate.exchange(TypeAPI.API_FILTER_NAMES, HttpMethod.POST, this.httpEntity(new StringDTO(FilterConstants.FILTER_NONE)), new ParameterizedTypeReference<List<String>>() {});
+		ResponseEntity<List<String>> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_FILTER_NAMES, 
+						HttpMethod.POST, 
+						this.httpEntity(new StringDTO(MainConstants.FILTER_NONE)), 
+						new ParameterizedTypeReference<List<String>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<String> names = response.getBody();
 		assertTrue(names.isEmpty());
@@ -134,57 +166,92 @@ public class TypeControllerTest {
 	
 	@Test
 	public void testListAll() {
-		ResponseEntity<List<TypeDTO>> response = this.restTemplate.exchange(TypeAPI.API_LIST(this.pageableAll), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<TypeDTO>>() {});
+		ResponseEntity<List<TypeDTO>> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_LIST(this.pageableTotal), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						new ParameterizedTypeReference<List<TypeDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<TypeDTO> types = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.ID_ONE, types.get(0).getId());
+		assertEquals(CategoryConstants.NAME_ONE, types.get(0).getCategory());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0).getName());
 		assertEquals(TypeConstants.ID_TWO, types.get(1).getId());
+		assertEquals(CategoryConstants.NAME_TWO, types.get(1).getCategory());
 		assertEquals(TypeConstants.NAME_TWO, types.get(1).getName());
 		assertEquals(TypeConstants.ID_THREE, types.get(2).getId());
+		assertEquals(CategoryConstants.NAME_THREE, types.get(2).getCategory());
 		assertEquals(TypeConstants.NAME_THREE, types.get(2).getName());
 	}
 	
 	@Test
 	public void testListPaginated() {
-		ResponseEntity<List<TypeDTO>> response = this.restTemplate.exchange(TypeAPI.API_LIST(this.pageablePart), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<TypeDTO>>() {});
+		ResponseEntity<List<TypeDTO>> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_LIST(this.pageablePart), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						new ParameterizedTypeReference<List<TypeDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<TypeDTO> types = response.getBody();
 		assertEquals(MainConstants.PART_SIZE, types.size());
 		assertEquals(TypeConstants.ID_ONE, types.get(0).getId());
+		assertEquals(CategoryConstants.NAME_ONE, types.get(0).getCategory());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0).getName());
 		assertEquals(TypeConstants.ID_TWO, types.get(1).getId());
+		assertEquals(CategoryConstants.NAME_TWO, types.get(1).getCategory());
 		assertEquals(TypeConstants.NAME_TWO, types.get(1).getName());
 	}
 	
 	@Test
 	public void testListAllNonExistingPage() {
-		ResponseEntity<List<TypeDTO>> response = this.restTemplate.exchange(TypeAPI.API_LIST(this.pageableNonExisting), HttpMethod.GET, this.httpEntity(null), new ParameterizedTypeReference<List<TypeDTO>>() {});
+		ResponseEntity<List<TypeDTO>> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_LIST(this.pageableNonExisting), 
+						HttpMethod.GET, 
+						this.httpEntity(null), 
+						new ParameterizedTypeReference<List<TypeDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
 	
 	@Test
-	public void testDeleteExistingWithoutCulturalOffer() {
+	public void testDeleteExisting() {
 		long id = this.typeRepository.save(this.testingType()).getId();
 		long size = this.typeRepository.count();
-		ResponseEntity<Void> response = this.restTemplate.exchange(TypeAPI.API_DELETE(id), HttpMethod.DELETE, this.httpEntity(null), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_DELETE(id), 
+						HttpMethod.DELETE, 
+						this.httpEntity(null), 
+						Void.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(size - 1, this.typeRepository.count());
 		assertNull(this.typeRepository.findById(id).orElse(null));
 	}
 	
 	@Test
-	public void testExistingWithCulturalOffer() {
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_DELETE(TypeConstants.ID_ONE), HttpMethod.DELETE, this.httpEntity(null), ExceptionMessage.class);
+	public void testDeleteWithType() {
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_DELETE(TypeConstants.ID_ONE), 
+						HttpMethod.DELETE, 
+						this.httpEntity(null), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertEquals(ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION, response.getBody().getMessage());
+		assertEquals(ExceptionConstants.UNIQUE_VIOLATION, response.getBody().getMessage());
 	}
 	
 	@Test
 	public void testDeleteNonExisting() {
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_DELETE(MainConstants.NON_EXISTING_ID), HttpMethod.DELETE, this.httpEntity(null), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_DELETE(MainConstants.NON_EXISTING_ID), 
+						HttpMethod.DELETE, 
+						this.httpEntity(null), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.INVALID_ID, response.getBody().getMessage());
 	}
@@ -193,55 +260,30 @@ public class TypeControllerTest {
 	public void testAddValid() {
 		long size = this.typeRepository.count();
 		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
-		ResponseEntity<Void> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						Void.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		assertEquals(size + 1, this.typeRepository.count());
-		Type added = this.typeRepository.findByName(typeDTO.getName());
-		assertEquals(TypeConstants.NON_EXISTING_NAME, added.getName());
-		this.typeRepository.deleteById(added.getId());
-	}
-	
-	@Test
-	public void testAddNullName() {
-		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
-		typeDTO.setName(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
-	}
-	
-	@Test
-	public void testAddEmptyName() {
-		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
-		typeDTO.setName("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
-	}
-	
-	@Test
-	public void testAddBlankName() {
-		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
-		typeDTO.setName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
-	}
-	
-	@Test
-	public void testAddNonUniqueName() {
-		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
-		typeDTO.setName(TypeConstants.NAME_ONE);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION));
+		Type type = this.typeRepository.findByName(typeDTO.getName());
+		assertEquals(CategoryConstants.ID_ONE, type.getCategory().getId());
+		assertEquals(TypeConstants.NON_EXISTING_NAME, type.getName());
+		this.typeRepository.deleteById(type.getId());
 	}
 	
 	@Test
 	public void testAddNullCategory() {
 		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
 		typeDTO.setCategory(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -250,7 +292,12 @@ public class TypeControllerTest {
 	public void testAddEmptyCategory() {
 		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
 		typeDTO.setCategory("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -259,9 +306,84 @@ public class TypeControllerTest {
 	public void testAddBlankCategory() {
 		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
 		typeDTO.setCategory("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testAddNonExistingCategory() {
+		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
+		typeDTO.setCategory(CategoryConstants.NON_EXISTING_NAME);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testAddNullName() {
+		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
+		typeDTO.setName(null);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testAddEmptyName() {
+		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
+		typeDTO.setName("");
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testAddBlankName() {
+		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
+		typeDTO.setName("  ");
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testAddNonUniqueName() {
+		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
+		typeDTO.setName(TypeConstants.NAME_ONE);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_VIOLATION));
 	}
 	
 	@Test
@@ -270,54 +392,18 @@ public class TypeControllerTest {
 		long size = this.typeRepository.count();
 		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
 		typeDTO.setId(id);
-		ResponseEntity<Void> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), Void.class);
-		System.out.println(response.getStatusCode());
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						Void.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
-		Type updated = this.typeRepository.findByName(typeDTO.getName());
+		Type type = this.typeRepository.findByName(typeDTO.getName());
 		assertEquals(size, this.typeRepository.count());
-		assertEquals(id, updated.getId());
-		assertEquals(TypeConstants.NON_EXISTING_NAME, updated.getName());
+		assertEquals(id, type.getId());
+		assertEquals(TypeConstants.NON_EXISTING_NAME, type.getName());
 		this.typeRepository.deleteById(id);
-	}
-	
-	@Test
-	public void testUpdateNullName() {
-		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
-		typeDTO.setId(TypeConstants.ID_ONE);
-		typeDTO.setName(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
-	}
-	
-	@Test
-	public void testUpdateEmptyName() {
-		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
-		typeDTO.setId(TypeConstants.ID_ONE);
-		typeDTO.setName("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
-	}
-	
-	@Test
-	public void testUpdateBlankName() {
-		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
-		typeDTO.setId(TypeConstants.ID_ONE);
-		typeDTO.setName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
-	}
-	
-	@Test
-	public void testUpdateNonUniqueName() {
-		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
-		typeDTO.setId(TypeConstants.ID_ONE);
-		typeDTO.setName(TypeConstants.NAME_TWO);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION));
 	}
 	
 	@Test
@@ -325,7 +411,12 @@ public class TypeControllerTest {
 		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
 		typeDTO.setId(TypeConstants.ID_ONE);
 		typeDTO.setCategory(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -335,7 +426,12 @@ public class TypeControllerTest {
 		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
 		typeDTO.setId(TypeConstants.ID_ONE);
 		typeDTO.setCategory("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
@@ -345,9 +441,102 @@ public class TypeControllerTest {
 		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
 		typeDTO.setId(TypeConstants.ID_ONE);
 		typeDTO.setCategory("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(TypeAPI.API_BASE, HttpMethod.POST, this.httpEntity(typeDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testUpdateNonExistingCategory() {
+		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
+		typeDTO.setId(TypeConstants.ID_ONE);
+		typeDTO.setCategory(CategoryConstants.NON_EXISTING_NAME);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+	}
+	
+	@Test
+	public void testUpdateNullName() {
+		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
+		typeDTO.setId(TypeConstants.ID_ONE);
+		typeDTO.setName(null);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testUpdateEmptyName() {
+		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
+		typeDTO.setId(TypeConstants.ID_ONE);
+		typeDTO.setName("");
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testUpdateBlankName() {
+		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
+		typeDTO.setId(TypeConstants.ID_ONE);
+		typeDTO.setName("  ");
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
+	
+	@Test
+	public void testUpdateNonUniqueName() {
+		TypeUploadDTO typeDTO = this.testingTypeUploadDTO();
+		typeDTO.setId(TypeConstants.ID_ONE);
+		typeDTO.setName(TypeConstants.NAME_TWO);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						TypeAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(typeDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_VIOLATION));
+	}
+	
+	private Type testingType() {
+		Type type = new Type();
+		type.setCategory(categoryRepository.findByName(CategoryConstants.NAME_ONE));
+		type.setName(TypeConstants.NON_EXISTING_NAME);
+		return type;
+	}
+	
+	private TypeUploadDTO testingTypeUploadDTO() {
+		TypeUploadDTO type = new TypeUploadDTO();
+		type.setCategory(CategoryConstants.NAME_ONE);
+		type.setName(TypeConstants.NON_EXISTING_NAME);
+		return type;
 	}
 	
 	private HttpEntity<Object> httpEntity(Object obj){
@@ -363,20 +552,6 @@ public class TypeControllerTest {
 			return new HttpEntity<Object>(body, headers);
 		}
 		return new HttpEntity<>(obj, headers);
-	}
-	
-	private TypeUploadDTO testingTypeUploadDTO() {
-		TypeUploadDTO type = new TypeUploadDTO();
-		type.setName(TypeConstants.NON_EXISTING_NAME);
-		type.setCategory(CategoryConstants.NAME_ONE);
-		return type;
-	}
-	
-	private Type testingType() {
-		Type type = new Type();
-		type.setName(TypeConstants.NON_EXISTING_NAME);
-		type.setCategory(categoryRepository.findByName(CategoryConstants.NAME_ONE));
-		return type;
 	}
 
 }

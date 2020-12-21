@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+import javax.validation.ConstraintViolationException;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -18,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.constants.Constants;
 import com.example.demo.constants.ImageConstants;
+import com.example.demo.constants.MainConstants;
+import com.example.demo.model.Image;
 import com.example.demo.repository.ImageRepository;
 import com.example.demo.service.ImageService;
 
@@ -32,11 +36,98 @@ public class ImageServiceTest {
 	private ImageRepository imageRepository;
 	
 	@Test
+	public void testAddValid() {
+		Mockito.when(this.imageRepository.count())
+		.thenReturn((long) MainConstants.ONE_SIZE);
+		long size = this.imageRepository.count();
+		Image image = this.testingImage();
+		Mockito.when(this.imageRepository.save(image))
+		.thenReturn(image);
+		image = this.imageService.save(image);
+		Mockito.when(this.imageRepository.count())
+		.thenReturn(size + 1);
+		assertEquals(size + 1, this.imageRepository.count());
+		assertEquals(ImageConstants.NON_EXISTING_PATH, image.getPath());
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testAddNullPath() {
+		Image image = this.testingImage();
+		image.setPath(null);
+		Mockito.when(this.imageRepository.save(image))
+		.thenThrow(ConstraintViolationException.class);
+		this.imageService.save(image);
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testAddEmptyPath() {
+		Image image = this.testingImage();
+		image.setPath("");
+		Mockito.when(this.imageRepository.save(image))
+		.thenThrow(ConstraintViolationException.class);
+		this.imageService.save(image);
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testAddBlankPath() {
+		Image image = this.testingImage();
+		image.setPath("  ");
+		Mockito.when(this.imageRepository.save(image))
+		.thenThrow(ConstraintViolationException.class);
+		this.imageService.save(image);
+	}
+	
+	@Test
+	public void testUpdateValid() {
+		Mockito.when(this.imageRepository.count())
+		.thenReturn((long) MainConstants.ONE_SIZE);
+		long size = this.imageRepository.count();
+		Image image = this.testingImage();
+		image.setId(ImageConstants.ID_ONE);
+		Mockito.when(this.imageRepository.save(image))
+		.thenReturn(image);
+		image = this.imageService.save(image);
+		assertEquals(size, this.imageRepository.count());
+		assertEquals(ImageConstants.ID_ONE, image.getId());
+		assertEquals(ImageConstants.NON_EXISTING_PATH, image.getPath());
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testUpdateNullPath() {
+		Image image = this.testingImage();
+		image.setId(ImageConstants.ID_ONE);
+		image.setPath(null);
+		Mockito.when(this.imageRepository.save(image))
+		.thenThrow(ConstraintViolationException.class);
+		this.imageService.save(image);
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testUpdateEmptyPath() {
+		Image image = this.testingImage();
+		image.setId(ImageConstants.ID_ONE);
+		image.setPath("");
+		Mockito.when(this.imageRepository.save(image))
+		.thenThrow(ConstraintViolationException.class);
+		this.imageService.save(image);
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testUpdateBlankPath() {
+		Image image = this.testingImage();
+		image.setId(ImageConstants.ID_ONE);
+		image.setPath("  ");
+		Mockito.when(this.imageRepository.save(image))
+		.thenThrow(ConstraintViolationException.class);
+		this.imageService.save(image);
+	}
+	
+	@Test
 	public void testStoreValid() throws IOException {
 		MultipartFile mpf = this.testingMultipartValid();
-		Mockito.when(this.imageRepository.count()).thenReturn((long) ImageConstants.IMAGE_NUM);
+		Mockito.when(this.imageRepository.count())
+		.thenReturn((long) MainConstants.ONE_SIZE);
 		String path = this.imageService.store(mpf);
-		Mockito.when(this.imageRepository.count()).thenReturn((long) ImageConstants.IMAGE_NUM);
 		long size = this.imageRepository.count();
 		assertEquals(Constants.BACKEND_URL + "/image" + size + ".jpg", path);
 		File f = new File(Constants.STATIC_FOLDER + File.separatorChar + "image" + size + ".jpg");
@@ -44,19 +135,30 @@ public class ImageServiceTest {
 	}
 	
 	@Test
-	public void testStoreInvalidNullOrigName() throws IOException {
-		MultipartFile mpf = this.testingMultipartInvalidNullOrigName();
-		Mockito.when(this.imageRepository.count()).thenReturn((long) ImageConstants.IMAGE_NUM);
+	public void testStoreNullName() throws IOException {
+		MultipartFile mpf = this.testingMultipartNullName();
 		String path = this.imageService.store(mpf);
 		assertEquals(null, path);
 	}
 	
 	@Test
-	public void testStoreInvalidBlankOrigName() throws IOException {
-		MultipartFile mpf = this.testingMultipartInvalidBlankOrigName();
-		Mockito.when(this.imageRepository.count()).thenReturn((long) ImageConstants.IMAGE_NUM);
+	public void testStoreEmptyName() throws IOException {
+		MultipartFile mpf = this.testingMultipartEmptyName();
 		String path = this.imageService.store(mpf);
 		assertEquals(null, path);
+	}
+	
+	@Test
+	public void testStoreBlankName() throws IOException {
+		MultipartFile mpf = this.testingMultipartBlankName();
+		String path = this.imageService.store(mpf);
+		assertEquals(null, path);
+	}
+	
+	private Image testingImage() {
+		Image image = new Image();
+		image.setPath(ImageConstants.NON_EXISTING_PATH);
+		return image;
 	}
 	
 	public MultipartFile testingMultipartValid() throws IOException {
@@ -64,16 +166,23 @@ public class ImageServiceTest {
 	            "image/jpeg",
 	            "This is a dummy file content".getBytes(StandardCharsets.UTF_8));
 	}
+
+	public MultipartFile testingMultipartNullName() throws IOException {
+		return new MockMultipartFile(ImageConstants.PATH_ONE, null,
+	            "image/jpeg",
+	            "This is a dummy file content".getBytes(StandardCharsets.UTF_8));
+	}
 	
-	public MultipartFile testingMultipartInvalidBlankOrigName() throws IOException {
+	public MultipartFile testingMultipartEmptyName() throws IOException {
 		return new MockMultipartFile(ImageConstants.PATH_ONE, "",
 	            "image/jpeg",
 	            "This is a dummy file content".getBytes(StandardCharsets.UTF_8));
 	}
 	
-	public MultipartFile testingMultipartInvalidNullOrigName() throws IOException {
-		return new MockMultipartFile(ImageConstants.PATH_ONE, null,
+	public MultipartFile testingMultipartBlankName() throws IOException {
+		return new MockMultipartFile(ImageConstants.PATH_ONE, "  ",
 	            "image/jpeg",
 	            "This is a dummy file content".getBytes(StandardCharsets.UTF_8));
 	}
+
 }

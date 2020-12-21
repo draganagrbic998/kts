@@ -17,7 +17,7 @@ import com.example.demo.service.unit.UserServiceTest;
 
 @RunWith(Suite.class)
 @SuiteClasses({ AccountActivationServiceTest.class, CategoryServiceTest.class, CommentServiceTest.class,
-		CulturalOfferServiceTest.class, EmailServiceTest.class, NewsServiceTest.class, ImageServiceTest.class,
+		CulturalOfferServiceTest.class, EmailServiceTest.class, ImageServiceTest.class, NewsServiceTest.class,
 		TypeServiceTest.class, UserFollowingServiceTest.class, UserServiceTest.class })
 public class ServiceUnitTests {
 

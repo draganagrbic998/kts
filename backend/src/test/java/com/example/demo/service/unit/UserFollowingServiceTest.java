@@ -50,17 +50,266 @@ public class UserFollowingServiceTest {
 	
 	@Autowired
 	private Filters filters;
-
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	
 	@Before
-	public void setAuthentication() {
+	public void setUp() {
 		User user = new User();
 		user.setId(UserConstants.ID_ONE);
 		Mockito.when(this.userService.currentUser())
 		.thenReturn(user);
+	}
+	
+	@Test
+	public void testFilterEmpty() {
+		FilterParamsDTO filters = this.filters.filtersEmpty();
+		Mockito.when(this.userFollowingRepository.filter(
+				UserConstants.ID_ONE, 
+				filters.getName(), 
+				filters.getLocation(), 
+				filters.getType(), 
+				this.pageableTotal))
+		.thenReturn(new PageImpl<>(List.of(
+				this.filterOffer(1), 
+				this.filterOffer(3), 
+				this.filterOffer(2))));
+		List<CulturalOffer> offers = 
+				this.userFollowingService
+				.filter(filters, this.pageableTotal).getContent();
+		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
+		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
+		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(2).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
+	}
+	
+	@Test
+	public void testFilterEmptyPaginated() {
+		FilterParamsDTO filters = this.filters.filtersEmpty();
+		Mockito.when(this.userFollowingRepository.filter(
+				UserConstants.ID_ONE, 
+				filters.getName(), 
+				filters.getLocation(), 
+				filters.getType(), 
+				this.pageablePart))
+		.thenReturn(new PageImpl<>(List.of(
+				this.filterOffer(1), 
+				this.filterOffer(3))));
+		List<CulturalOffer> offers = 
+				this.userFollowingService
+				.filter(filters, this.pageablePart).getContent();
+		assertEquals(MainConstants.PART_SIZE, offers.size());
+		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
+		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+	}
+	
+	@Test
+	public void testFilterEmptyNonExistingPage() {
+		FilterParamsDTO filters = this.filters.filtersEmpty();
+		Mockito.when(this.userFollowingRepository.filter(
+				UserConstants.ID_ONE, 
+				filters.getName(), 
+				filters.getLocation(), 
+				filters.getType(), 
+				this.pageableNonExisting))
+		.thenReturn(new PageImpl<>(List.of()));
+		List<CulturalOffer> offers = 
+				this.userFollowingService
+				.filter(filters, this.pageableNonExisting).getContent();
+		assertTrue(offers.isEmpty());
+	}
+	
+	@Test
+	public void testFilterAll() {
+		FilterParamsDTO filters = this.filters.filtersAll();
+		Mockito.when(this.userFollowingRepository.filter(
+				UserConstants.ID_ONE, 
+				filters.getName(), 
+				filters.getLocation(), 
+				filters.getType(), 
+				this.pageableTotal))
+		.thenReturn(new PageImpl<>(List.of(
+				this.filterOffer(1), 
+				this.filterOffer(3), 
+				this.filterOffer(2))));
+		List<CulturalOffer> offers = 
+				this.userFollowingService
+				.filter(filters, this.pageableTotal).getContent();
+		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
+		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
+		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(2).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
+	}
+	
+	@Test
+	public void testFilterAllPaginated() {
+		FilterParamsDTO filters = this.filters.filtersAll();
+		Mockito.when(this.userFollowingRepository.filter(
+				UserConstants.ID_ONE, 
+				filters.getName(), 
+				filters.getLocation(), 
+				filters.getType(), 
+				this.pageablePart))
+		.thenReturn(new PageImpl<>(List.of(
+				this.filterOffer(1), 
+				this.filterOffer(3))));
+		List<CulturalOffer> offers = 
+				this.userFollowingService
+				.filter(filters, this.pageablePart).getContent();
+		assertEquals(MainConstants.PART_SIZE, offers.size());
+		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
+		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+	}
+	
+	@Test
+	public void testFilterAllNonExistingPage() {
+		FilterParamsDTO filters = this.filters.filtersAll();
+		Mockito.when(this.userFollowingRepository.filter(
+				UserConstants.ID_ONE, 
+				filters.getName(), 
+				filters.getLocation(), 
+				filters.getType(), 
+				this.pageableNonExisting))
+		.thenReturn(new PageImpl<>(List.of()));
+		List<CulturalOffer> offers = 
+				this.userFollowingService
+				.filter(filters, this.pageableNonExisting).getContent();
+		assertTrue(offers.isEmpty());
+	}
+	
+	@Test
+	public void testFilterOneName() {
+		FilterParamsDTO filters = this.filters.filtersOneName();
+		Mockito.when(this.userFollowingRepository.filter(
+				UserConstants.ID_ONE, 
+				filters.getName(), 
+				filters.getLocation(), 
+				filters.getType(), 
+				this.pageableTotal))
+		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1))));
+		List<CulturalOffer> offers = 
+				this.userFollowingService
+				.filter(filters, this.pageableTotal).getContent();
+		assertEquals(MainConstants.ONE_SIZE, offers.size());
+		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
+		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+	}
+	
+	@Test
+	public void testFilterOneLocation() {
+		FilterParamsDTO filters = this.filters.filtersOneLocation();
+		Mockito.when(this.userFollowingRepository.filter(
+				UserConstants.ID_ONE, 
+				filters.getName(), 
+				filters.getLocation(), 
+				filters.getType(), 
+				this.pageableTotal))
+		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1))));
+		List<CulturalOffer> offers = 
+				this.userFollowingService
+				.filter(filters, this.pageableTotal).getContent();
+		assertEquals(MainConstants.ONE_SIZE, offers.size());
+		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
+		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+	}
+	
+	@Test
+	public void testFilterOneType() {
+		FilterParamsDTO filters = this.filters.filtersOneType();
+		Mockito.when(this.userFollowingRepository.filter(
+				UserConstants.ID_ONE, 
+				filters.getName(), 
+				filters.getLocation(), 
+				filters.getType(), 
+				this.pageableTotal))
+		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1))));
+		List<CulturalOffer> offers = 
+				this.userFollowingService
+				.filter(filters, this.pageableTotal).getContent();
+		assertEquals(MainConstants.ONE_SIZE, offers.size());
+		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
+		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+	}
+	
+	@Test
+	public void testFilterNone() {
+		FilterParamsDTO filters = this.filters.filtersNone();
+		Mockito.when(this.userFollowingRepository.filter(
+				UserConstants.ID_ONE, 
+				filters.getName(), 
+				filters.getLocation(), 
+				filters.getType(), 
+				this.pageableTotal))
+		.thenReturn(new PageImpl<>(List.of()));
+		List<CulturalOffer> offers = 
+				this.userFollowingService
+				.filter(filters, this.pageableTotal).getContent();
+		assertTrue(offers.isEmpty());
+	}
+	
+	@Test
+	public void testToggleSubscriptionExisting() {
+		Mockito.when(this.userFollowingRepository
+				.findByUserIdAndCulturalOfferId(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE))
+				.thenReturn(new UserFollowing());
+		this.userFollowingService.toggleSubscription(CulturalOfferConstants.ID_ONE);
+		Mockito.when(this.userFollowingRepository
+				.findByUserIdAndCulturalOfferId(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE))
+				.thenReturn(null);
+		assertNull(this.userFollowingRepository
+				.findByUserIdAndCulturalOfferId
+				(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE));
+		this.userFollowingService.toggleSubscription(CulturalOfferConstants.ID_ONE);
+		Mockito.when(this.userFollowingRepository
+				.findByUserIdAndCulturalOfferId(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE))
+				.thenReturn(new UserFollowing());
+		assertNotNull(this.userFollowingRepository
+				.findByUserIdAndCulturalOfferId
+				(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE));
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testToggleSubscriptionNonExisting() {
+		Mockito.when(this.userFollowingRepository.findByUserIdAndCulturalOfferId(UserConstants.ID_ONE, MainConstants.NON_EXISTING_ID))
+		.thenThrow(ConstraintViolationException.class);
+		this.userFollowingService.toggleSubscription(MainConstants.NON_EXISTING_ID);
 	}
 	
 	private CulturalOffer filterOffer(int index) {
@@ -92,208 +341,6 @@ public class UserFollowingServiceTest {
 		offer.setName(CulturalOfferConstants.NAME_THREE);
 		offer.setLocation(CulturalOfferConstants.LOCATION_THREE);
 		return offer;
-	}
-	
-	@Test
-	public void testFilterEmpty() {
-		FilterParamsDTO filters = this.filters.filtersEmpty();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1), this.filterOffer(3), this.filterOffer(2))));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
-		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
-		assertEquals(TypeConstants.ID_TWO, offers.get(2).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
-	}
-	
-	@Test
-	public void testFilterEmptyPaginated() {
-		FilterParamsDTO filters = this.filters.filtersEmpty();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageablePart))
-		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1), this.filterOffer(3))));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageablePart).getContent();
-		assertEquals(MainConstants.PART_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-	}
-	
-	@Test
-	public void testFilterEmptyNonExistingPage() {
-		FilterParamsDTO filters = this.filters.filtersEmpty();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageableNonExisting))
-		.thenReturn(new PageImpl<>(List.of()));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageableNonExisting).getContent();
-		assertTrue(offers.isEmpty());
-	}
-	
-	@Test
-	public void testFilterAll() {
-		FilterParamsDTO filters = this.filters.filtersAll();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1), this.filterOffer(3), this.filterOffer(2))));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
-		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
-		assertEquals(TypeConstants.ID_TWO, offers.get(2).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
-	}
-	
-	@Test
-	public void testFilterAllPaginated() {
-		FilterParamsDTO filters = this.filters.filtersAll();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageablePart))
-		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1), this.filterOffer(3))));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageablePart).getContent();
-		assertEquals(MainConstants.PART_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-	}
-	
-	@Test
-	public void testFilterAllNonExistingPage() {
-		FilterParamsDTO filters = this.filters.filtersAll();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageableNonExisting))
-		.thenReturn(new PageImpl<>(List.of()));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageableNonExisting).getContent();
-		assertTrue(offers.isEmpty());
-	}
-	
-	@Test
-	public void testFilterOneName() {
-		FilterParamsDTO filters = this.filters.filtersOneName();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1))));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
-		assertEquals(MainConstants.ONE_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-	}
-	
-	@Test
-	public void testFilterOneLocation() {
-		FilterParamsDTO filters = this.filters.filtersOneLocation();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1))));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
-		assertEquals(MainConstants.ONE_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-	}
-	
-	@Test
-	public void testFilterOneType() {
-		FilterParamsDTO filters = this.filters.filtersOneType();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1))));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
-		assertEquals(MainConstants.ONE_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-	}
-	
-	@Test
-	public void testFilterOneNameLocationType() {
-		FilterParamsDTO filters = this.filters.filtersOne();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of(this.filterOffer(1))));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
-		assertEquals(MainConstants.ONE_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-	}
-	
-	@Test
-	public void testFilterNone() {
-		FilterParamsDTO filters = this.filters.filtersNone();
-		Mockito.when(this.userFollowingRepository.filter(UserConstants.ID_ONE, filters.getName(), filters.getLocation(), filters.getType(), this.pageableAll))
-		.thenReturn(new PageImpl<>(List.of()));
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
-		assertTrue(offers.isEmpty());
-	}
-	
-	@Test
-	public void testToggleSubscriptionExisting() {
-		Mockito.when(this.userFollowingRepository.findByUserIdAndCulturalOfferId(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE))
-		.thenReturn(new UserFollowing());
-		this.userFollowingService.toggleSubscription(CulturalOfferConstants.ID_ONE);
-		Mockito.when(this.userFollowingRepository.findByUserIdAndCulturalOfferId(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE))
-		.thenReturn(null);
-		assertNull(this.userFollowingRepository
-				.findByUserIdAndCulturalOfferId
-				(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE));
-		this.userFollowingService.toggleSubscription(CulturalOfferConstants.ID_ONE);
-		Mockito.when(this.userFollowingRepository.findByUserIdAndCulturalOfferId(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE))
-		.thenReturn(new UserFollowing());
-		assertNotNull(this.userFollowingRepository
-				.findByUserIdAndCulturalOfferId
-				(UserConstants.ID_ONE, CulturalOfferConstants.ID_ONE));
-	}
-	
-	@Test(expected = ConstraintViolationException.class)
-	public void testToggleSubscriptionNonExisting() {
-		Mockito.when(this.userFollowingRepository.findByUserIdAndCulturalOfferId(UserConstants.ID_ONE, MainConstants.NON_EXISTING_ID))
-		.thenThrow(ConstraintViolationException.class);
-		this.userFollowingService.toggleSubscription(MainConstants.NON_EXISTING_ID);
 	}
 	
 }

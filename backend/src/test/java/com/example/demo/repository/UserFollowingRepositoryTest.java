@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.constants.CulturalOfferConstants;
-import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.TypeConstants;
 import com.example.demo.constants.UserConstants;
@@ -30,7 +29,7 @@ public class UserFollowingRepositoryTest {
 	@Autowired
 	private UserFollowingRepository userFollowingRepository;
 	
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 
@@ -57,10 +56,10 @@ public class UserFollowingRepositoryTest {
 		List<CulturalOffer> offers = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
-						this.pageableAll).getContent();
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -81,9 +80,9 @@ public class UserFollowingRepositoryTest {
 		List<CulturalOffer> offers = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
 						this.pageablePart).getContent();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
@@ -97,13 +96,13 @@ public class UserFollowingRepositoryTest {
 	}
 	
 	@Test
-	public void testFilterEmptyPaginatedNonExisting() {
+	public void testFilterEmptyNonExistingPage() {
 		List<CulturalOffer> offers = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
 						this.pageableNonExisting).getContent();
 		assertTrue(offers.isEmpty());
 	}
@@ -113,10 +112,10 @@ public class UserFollowingRepositoryTest {
 		List<CulturalOffer> offers = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
-						CulturalOfferConstants.FILTER_NAME_ALL, 
-						CulturalOfferConstants.FILTER_LOCATION_ALL, 
-						CulturalOfferConstants.FILTER_TYPE_ALL, 
-						this.pageableAll).getContent();
+						CulturalOfferConstants.FILTER_NAMES_ALL, 
+						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
+						CulturalOfferConstants.FILTER_TYPES_ALL, 
+						this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -137,9 +136,9 @@ public class UserFollowingRepositoryTest {
 		List<CulturalOffer> offers = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
-						CulturalOfferConstants.FILTER_NAME_ALL, 
-						CulturalOfferConstants.FILTER_LOCATION_ALL, 
-						CulturalOfferConstants.FILTER_TYPE_ALL, 
+						CulturalOfferConstants.FILTER_NAMES_ALL, 
+						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
+						CulturalOfferConstants.FILTER_TYPES_ALL, 
 						this.pageablePart).getContent();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
@@ -153,13 +152,13 @@ public class UserFollowingRepositoryTest {
 	}
 	
 	@Test
-	public void testFilterAllPaginatedNonExisting() {
+	public void testFilterAllNonExistingPage() {
 		List<CulturalOffer> offers = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
-						CulturalOfferConstants.FILTER_NAME_ALL, 
-						CulturalOfferConstants.FILTER_LOCATION_ALL, 
-						CulturalOfferConstants.FILTER_TYPE_ALL, 
+						CulturalOfferConstants.FILTER_NAMES_ALL, 
+						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
+						CulturalOfferConstants.FILTER_TYPES_ALL, 
 						this.pageableNonExisting).getContent();
 		assertTrue(offers.isEmpty());
 	}
@@ -169,10 +168,10 @@ public class UserFollowingRepositoryTest {
 		List<CulturalOffer> offers = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
-						FilterConstants.FILTER_ONE, 
-						CulturalOfferConstants.FILTER_LOCATION_ALL, 
-						CulturalOfferConstants.FILTER_TYPE_ALL, 
-						this.pageableAll).getContent();
+						MainConstants.FILTER_ONE, 
+						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
+						CulturalOfferConstants.FILTER_TYPES_ALL, 
+						this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -185,10 +184,10 @@ public class UserFollowingRepositoryTest {
 		List<CulturalOffer> offers = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
-						CulturalOfferConstants.FILTER_NAME_ALL, 
-						FilterConstants.FILTER_ONE, 
-						CulturalOfferConstants.FILTER_TYPE_ALL, 
-						this.pageableAll).getContent();
+						CulturalOfferConstants.FILTER_NAMES_ALL, 
+						MainConstants.FILTER_ONE, 
+						CulturalOfferConstants.FILTER_TYPES_ALL, 
+						this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -201,26 +200,10 @@ public class UserFollowingRepositoryTest {
 		List<CulturalOffer> offers = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
-						CulturalOfferConstants.FILTER_NAME_ALL, 
-						CulturalOfferConstants.FILTER_LOCATION_ALL, 
-						FilterConstants.FILTER_ONE, 
-						this.pageableAll).getContent();
-		assertEquals(MainConstants.ONE_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-	}
-	
-	@Test
-	public void testFilterOneNameLocationType() {
-		List<CulturalOffer> offers = 
-				this.userFollowingRepository
-				.filter(UserConstants.ID_ONE, 
-						FilterConstants.FILTER_ONE, 
-						FilterConstants.FILTER_ONE, 
-						FilterConstants.FILTER_ONE, 
-						this.pageableAll).getContent();
+						CulturalOfferConstants.FILTER_NAMES_ALL, 
+						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
+						MainConstants.FILTER_ONE, 
+						this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -233,10 +216,10 @@ public class UserFollowingRepositoryTest {
 		List<CulturalOffer> offers = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_NONE, 
-						this.pageableAll).getContent();
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_NONE, 
+						this.pageableTotal).getContent();
 		assertTrue(offers.isEmpty());
 	}
 	

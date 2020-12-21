@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.constants.CategoryConstants;
 import com.example.demo.constants.CulturalOfferConstants;
-import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.model.Category;
@@ -40,7 +39,7 @@ public class CategoryServiceTest {
 	@Autowired
 	private CategoryRepository categoryRepository;
 		
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	
@@ -64,7 +63,7 @@ public class CategoryServiceTest {
 	public void testFilterNamesEmpty() {
 		List<String> names = 
 				this.categoryService
-				.filterNames(FilterConstants.FILTER_ALL);
+				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
 		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
@@ -75,7 +74,7 @@ public class CategoryServiceTest {
 	public void testFilterNamesAll() {
 		List<String> names = 
 				this.categoryService
-				.filterNames(CategoryConstants.FILTER_NAME_ALL);
+				.filterNames(CategoryConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
 		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
@@ -86,7 +85,7 @@ public class CategoryServiceTest {
 	public void testFilterNamesOne() {
 		List<String> names = 
 				this.categoryService
-				.filterNames(FilterConstants.FILTER_ONE);
+				.filterNames(MainConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
 	}
@@ -95,7 +94,7 @@ public class CategoryServiceTest {
 	public void testFilterNamesNone() {
 		List<String> names = 
 				this.categoryService
-				.filterNames(FilterConstants.FILTER_NONE);
+				.filterNames(MainConstants.FILTER_NONE);
 		assertTrue(names.isEmpty());
 	}
 	
@@ -103,7 +102,7 @@ public class CategoryServiceTest {
 	public void testListAll() {
 		List<Category> categories = 
 				this.categoryService
-				.list(this.pageableAll).getContent();
+				.list(this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, categories.size());
 		assertEquals(CategoryConstants.ID_ONE, categories.get(0).getId());
 		assertEquals(CategoryConstants.NAME_ONE, categories.get(0).getName());
@@ -165,7 +164,7 @@ public class CategoryServiceTest {
 	public void testAddValid() {
 		long size = this.categoryRepository.count();
 		Category category = this.testingCategory();
-		this.categoryService.save(category);
+		category = this.categoryService.save(category);
 		assertEquals(size + 1, this.categoryRepository.count());
 		assertEquals(CategoryConstants.NON_EXISTING_NAME, category.getName());
 	}
@@ -213,7 +212,7 @@ public class CategoryServiceTest {
 		long size = this.categoryRepository.count();
 		Category category = this.testingCategory();
 		category.setId(CulturalOfferConstants.ID_ONE);
-		this.categoryRepository.save(category);
+		category = this.categoryRepository.save(category);
 		assertEquals(size, this.categoryRepository.count());
 		assertEquals(CategoryConstants.ID_ONE, category.getId());
 		assertEquals(CategoryConstants.NON_EXISTING_NAME, category.getName());

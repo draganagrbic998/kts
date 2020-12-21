@@ -48,12 +48,10 @@ public class EmailServiceTest {
 		email.setTo("recipient@example.org");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
 		email.setText("We show how to write Integration Tests using Spring and GreenMail.");
-
-		emailService.sendEmail(email);
+		this.emailService.sendEmail(email);
 
 		assertTrue(testSmtp.waitForIncomingEmail(5000, 1));
 		MimeMessage[] receivedMessages = testSmtp.getReceivedMessages();
-
 		MimeMessage current = receivedMessages[0];
 		String body = GreenMailUtil.getBody(current).replaceAll("=\r?\n", "");
 
@@ -68,18 +66,16 @@ public class EmailServiceTest {
 		email.setTo("recipient@example.org");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
 		email.setText("We show how to write Integration Tests using Spring and GreenMail.");
-
 		Set<Image> imgs = new HashSet<Image>();
 		imgs.add(new Image("/image_fair.png"));
 		email.setImages(imgs);
-
-		emailService.sendEmailWithAttachments(email);
+		this.emailService.sendEmailWithAttachments(email);
 
 		assertTrue(testSmtp.waitForIncomingEmail(5000, 1));
 		MimeMessage[] receivedMessages = testSmtp.getReceivedMessages();
 		MimeMessage current = receivedMessages[0];
-
 		String body = GreenMailUtil.getBody(current).replaceAll("=\r?\n", "");
+		
 		assertEquals(email.getSubject(), current.getSubject());
 		assertEquals(email.getTo(), current.getAllRecipients()[0].toString());
 		assertEquals(email.getText(), body);
@@ -92,7 +88,7 @@ public class EmailServiceTest {
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
 		email.setText("We show how to write Integration Tests using Spring and GreenMail.");
 
-		emailService.sendEmail(email);
+		this.emailService.sendEmail(email);
 		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
@@ -103,7 +99,7 @@ public class EmailServiceTest {
 		email.setSubject("");
 		email.setText("We show how to write Integration Tests using Spring and GreenMail.");
 
-		emailService.sendEmail(email);
+		this.emailService.sendEmail(email);
 		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
@@ -114,7 +110,7 @@ public class EmailServiceTest {
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
 		email.setText("");
 
-		emailService.sendEmail(email);
+		this.emailService.sendEmail(email);
 		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
@@ -124,12 +120,11 @@ public class EmailServiceTest {
 		email.setTo("");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
 		email.setText("We show how to write Integration Tests using Spring and GreenMail.");
-
 		Set<Image> imgs = new HashSet<Image>();
 		imgs.add(new Image("/image_fair.png"));
 		email.setImages(imgs);
 
-		emailService.sendEmailWithAttachments(email);
+		this.emailService.sendEmailWithAttachments(email);
 		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
@@ -139,12 +134,11 @@ public class EmailServiceTest {
 		email.setTo("recipient@example.org");
 		email.setSubject("");
 		email.setText("We show how to write Integration Tests using Spring and GreenMail.");
-
 		Set<Image> imgs = new HashSet<Image>();
 		imgs.add(new Image("/image_fair.png"));
 		email.setImages(imgs);
 
-		emailService.sendEmailWithAttachments(email);
+		this.emailService.sendEmailWithAttachments(email);
 		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
@@ -154,12 +148,11 @@ public class EmailServiceTest {
 		email.setTo("recipient@example.org");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
 		email.setText("");
-
 		Set<Image> imgs = new HashSet<Image>();
 		imgs.add(new Image("/image_fair.png"));
 		email.setImages(imgs);
 
-		emailService.sendEmailWithAttachments(email);
+		this.emailService.sendEmailWithAttachments(email);
 		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
@@ -169,12 +162,11 @@ public class EmailServiceTest {
 		email.setTo("recipient@example.org");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
 		email.setText("We show how to write Integration Tests using Spring and GreenMail.");
-
 		Set<Image> imgs = new HashSet<Image>();
 		imgs.add(new Image("/awdwadawdawdaw.png"));
 		email.setImages(imgs);
 
-		emailService.sendEmailWithAttachments(email);
+		this.emailService.sendEmailWithAttachments(email);
 		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 

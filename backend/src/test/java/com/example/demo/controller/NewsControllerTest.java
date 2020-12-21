@@ -30,6 +30,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClientException;
 
 import com.example.demo.api.AuthAPI;
+import com.example.demo.api.CulturalOfferAPI;
 import com.example.demo.api.NewsAPI;
 import com.example.demo.constants.CulturalOfferConstants;
 import com.example.demo.constants.MainConstants;
@@ -60,8 +61,8 @@ public class NewsControllerTest {
 	@Autowired
 	private CulturalOfferRepository culturalOfferRepository;
 
-	private Pageable pageableAll = PageRequest.of(0, 3);
-	private Pageable pageablePart = PageRequest.of(0, 2);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
 
@@ -70,42 +71,23 @@ public class NewsControllerTest {
 		LoginDTO login = new LoginDTO();
 		login.setEmail(UserConstants.EMAIL_TWO);
 		login.setPassword(UserConstants.LOGIN_PASSWORD);
-		ResponseEntity<ProfileDTO> response = this.restTemplate.postForEntity(AuthAPI.API_LOGIN, login,
-				ProfileDTO.class);
+		ResponseEntity<ProfileDTO> response = 
+				this.restTemplate.postForEntity(
+						AuthAPI.API_LOGIN, 
+						login, 
+						ProfileDTO.class);
 		this.accessToken = response.getBody().getAccessToken();
 	}
 
 	@Test
 	public void testListMore() {
-		ResponseEntity<List<NewsDTO>> response = this.restTemplate.exchange(
-				NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageableAll), HttpMethod.POST,
-				this.httpEntity(new FilterParamsNewsDTO()), new ParameterizedTypeReference<List<NewsDTO>>() {
-				});
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		List<NewsDTO> news = response.getBody();
-		assertEquals(MainConstants.TOTAL_SIZE, news.size());
-		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
-		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOfferId());
-		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
-		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOfferId());
-		assertEquals(NewsConstants.ID_THREE, news.get(2).getId());
-		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOfferId());
-	}
-
-	@Test
-	public void testListMoreDates() throws RestClientException, ParseException {
-		ResponseEntity<List<NewsDTO>> response = this.restTemplate
-				.exchange(NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageableAll), HttpMethod.POST,
-						this.httpEntity(new FilterParamsNewsDTO(format.parse(NewsConstants.START_DATE_MORE),
-								format.parse(NewsConstants.END_DATE_MORE))),
-						new ParameterizedTypeReference<List<NewsDTO>>() {
-						});
+		ResponseEntity<List<NewsDTO>> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, 
+						this.pageableTotal), 
+						HttpMethod.POST,
+						this.httpEntity(new FilterParamsNewsDTO()), 
+						new ParameterizedTypeReference<List<NewsDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<NewsDTO> news = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, news.size());
@@ -125,31 +107,11 @@ public class NewsControllerTest {
 
 	@Test
 	public void testListMorePaginated() throws RestClientException, ParseException {
-		ResponseEntity<List<NewsDTO>> response = this.restTemplate.exchange(
+		ResponseEntity<List<NewsDTO>> response = 
+				this.restTemplate.exchange(
 				NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageablePart), HttpMethod.POST,
-				this.httpEntity(new FilterParamsNewsDTO()), new ParameterizedTypeReference<List<NewsDTO>>() {
-				});
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		List<NewsDTO> news = response.getBody();
-		assertEquals(MainConstants.PART_SIZE, news.size());
-		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
-		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOfferId());
-		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
-		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOfferId());
-	}
-
-	@Test
-	public void testListMoreDatesPaginated() throws RestClientException, ParseException {
-		ResponseEntity<List<NewsDTO>> response = this.restTemplate
-				.exchange(NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageablePart), HttpMethod.POST,
-						this.httpEntity(new FilterParamsNewsDTO(format.parse(NewsConstants.START_DATE_MORE),
-								format.parse(NewsConstants.END_DATE_MORE))),
-						new ParameterizedTypeReference<List<NewsDTO>>() {
-						});
+				this.httpEntity(new FilterParamsNewsDTO()), 
+				new ParameterizedTypeReference<List<NewsDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<NewsDTO> news = response.getBody();
 		assertEquals(MainConstants.PART_SIZE, news.size());
@@ -165,36 +127,23 @@ public class NewsControllerTest {
 
 	@Test
 	public void testListMoreNonExistingPage() throws RestClientException, ParseException {
-		ResponseEntity<List<NewsDTO>> response = this.restTemplate
-				.exchange(NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageableNonExisting),
+		ResponseEntity<List<NewsDTO>> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageableNonExisting),
 						HttpMethod.POST,
-						this.httpEntity(new FilterParamsNewsDTO(format.parse(NewsConstants.START_DATE_MORE),
-								format.parse(NewsConstants.END_DATE_MORE))),
-						new ParameterizedTypeReference<List<NewsDTO>>() {
-						});
+						this.httpEntity(new FilterParamsNewsDTO(format.parse(NewsConstants.START_DATE_MORE),format.parse(NewsConstants.END_DATE_MORE))),
+						new ParameterizedTypeReference<List<NewsDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
-
-	@Test
-	public void testListMoreNonExistingPageDates() throws RestClientException, ParseException {
-		ResponseEntity<List<NewsDTO>> response = this.restTemplate
-				.exchange(NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageableNonExisting),
-						HttpMethod.POST,
-						this.httpEntity(new FilterParamsNewsDTO(format.parse(NewsConstants.START_DATE_MORE),
-								format.parse(NewsConstants.END_DATE_MORE))),
-						new ParameterizedTypeReference<List<NewsDTO>>() {
-						});
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		assertTrue(response.getBody().isEmpty());
-	}
-
+	
 	@Test
 	public void testListOne() {
-		ResponseEntity<List<NewsDTO>> response = this.restTemplate.exchange(
-				NewsAPI.API_FILTER(CulturalOfferConstants.ID_TWO, this.pageableAll), HttpMethod.POST,
-				this.httpEntity(new FilterParamsNewsDTO()), new ParameterizedTypeReference<List<NewsDTO>>() {
-				});
+		ResponseEntity<List<NewsDTO>> response = 
+				this.restTemplate.exchange(
+				NewsAPI.API_FILTER(CulturalOfferConstants.ID_TWO, this.pageableTotal), HttpMethod.POST,
+				this.httpEntity(new FilterParamsNewsDTO()), 
+				new ParameterizedTypeReference<List<NewsDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<NewsDTO> news = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, news.size());
@@ -203,15 +152,83 @@ public class NewsControllerTest {
 		assertEquals(NewsConstants.TEXT_ONE, news.get(0).getText());
 		assertEquals(CulturalOfferConstants.ID_TWO, news.get(0).getCulturalOfferId());
 	}
+	
+	@Test
+	public void testListNone() {
+		ResponseEntity<List<NewsDTO>> response = 
+				this.restTemplate.exchange(
+				NewsAPI.API_FILTER(MainConstants.NON_EXISTING_ID, this.pageableTotal), HttpMethod.POST,
+				this.httpEntity(new FilterParamsNewsDTO()), 
+				new ParameterizedTypeReference<List<NewsDTO>>() {});
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertTrue(response.getBody().isEmpty());
+	}
+	
+	@Test
+	public void testListMoreDates() throws RestClientException, ParseException {
+		ResponseEntity<List<NewsDTO>> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageableTotal), 
+						HttpMethod.POST,
+						this.httpEntity(new FilterParamsNewsDTO(format.parse(NewsConstants.START_DATE_MORE),format.parse(NewsConstants.END_DATE_MORE))),
+						new ParameterizedTypeReference<List<NewsDTO>>() {});
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		List<NewsDTO> news = response.getBody();
+		assertEquals(MainConstants.TOTAL_SIZE, news.size());
+		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
+		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOfferId());
+		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
+		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOfferId());
+		assertEquals(NewsConstants.ID_THREE, news.get(2).getId());
+		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOfferId());
+	}
+
+	@Test
+	public void testListMoreDatesPaginated() throws RestClientException, ParseException {
+		ResponseEntity<List<NewsDTO>> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageablePart), 
+						HttpMethod.POST,
+						this.httpEntity(new FilterParamsNewsDTO(format.parse(NewsConstants.START_DATE_MORE),format.parse(NewsConstants.END_DATE_MORE))),
+						new ParameterizedTypeReference<List<NewsDTO>>() {});
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		List<NewsDTO> news = response.getBody();
+		assertEquals(MainConstants.PART_SIZE, news.size());
+		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
+		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOfferId());
+		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
+		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOfferId());
+	}
+
+	@Test
+	public void testListMoreDatesNonExistingPage() throws RestClientException, ParseException {
+		ResponseEntity<List<NewsDTO>> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageableNonExisting),
+						HttpMethod.POST,
+						this.httpEntity(new FilterParamsNewsDTO(format.parse(NewsConstants.START_DATE_MORE), format.parse(NewsConstants.END_DATE_MORE))),
+						new ParameterizedTypeReference<List<NewsDTO>>() {});
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertTrue(response.getBody().isEmpty());
+	}
 
 	@Test
 	public void testListOneDates() throws RestClientException, ParseException {
-		ResponseEntity<List<NewsDTO>> response = this.restTemplate.exchange(
-				NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageableAll), HttpMethod.POST,
-				this.httpEntity(new FilterParamsNewsDTO(this.format.parse(NewsConstants.START_DATE_ONE),
-						this.format.parse(NewsConstants.END_DATE_ONE))),
-				new ParameterizedTypeReference<List<NewsDTO>>() {
-				});
+		ResponseEntity<List<NewsDTO>> response = 
+				this.restTemplate.exchange(
+				NewsAPI.API_FILTER(CulturalOfferConstants.ID_THREE, this.pageableTotal), HttpMethod.POST,
+				this.httpEntity(new FilterParamsNewsDTO(this.format.parse(NewsConstants.START_DATE_ONE), this.format.parse(NewsConstants.END_DATE_ONE))),
+				new ParameterizedTypeReference<List<NewsDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		List<NewsDTO> news = response.getBody();
 		assertEquals(MainConstants.ONE_SIZE, news.size());
@@ -222,23 +239,13 @@ public class NewsControllerTest {
 	}
 
 	@Test
-	public void testListNone() {
-		ResponseEntity<List<NewsDTO>> response = this.restTemplate.exchange(
-				NewsAPI.API_FILTER(MainConstants.NON_EXISTING_ID, this.pageableAll), HttpMethod.POST,
-				this.httpEntity(new FilterParamsNewsDTO()), new ParameterizedTypeReference<List<NewsDTO>>() {
-				});
-		assertEquals(HttpStatus.OK, response.getStatusCode());
-		assertTrue(response.getBody().isEmpty());
-	}
-
-	@Test
 	public void testListNoneDates() throws RestClientException, ParseException {
-		ResponseEntity<List<NewsDTO>> response = this.restTemplate
-				.exchange(NewsAPI.API_FILTER(MainConstants.NON_EXISTING_ID, this.pageableAll), HttpMethod.POST,
-						this.httpEntity(new FilterParamsNewsDTO(this.format.parse(NewsConstants.WRONG_START),
-								this.format.parse(NewsConstants.WRONG_END))),
-						new ParameterizedTypeReference<List<NewsDTO>>() {
-						});
+		ResponseEntity<List<NewsDTO>> response = 
+				this.restTemplate.exchange(NewsAPI.API_FILTER(
+						MainConstants.NON_EXISTING_ID, this.pageableTotal), 
+						HttpMethod.POST,
+						this.httpEntity(new FilterParamsNewsDTO(this.format.parse(NewsConstants.WRONG_START), this.format.parse(NewsConstants.WRONG_END))),
+						new ParameterizedTypeReference<List<NewsDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
 	}
@@ -247,8 +254,12 @@ public class NewsControllerTest {
 	public void testDeleteExisting() {
 		long id = this.newsRepository.save(this.testingNews()).getId();
 		long size = this.newsRepository.count();
-		ResponseEntity<Void> response = this.restTemplate.exchange(NewsAPI.API_DELETE(id), HttpMethod.DELETE,
-				this.httpEntity(null), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_DELETE(id), 
+						HttpMethod.DELETE,
+						this.httpEntity(null), 
+						Void.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertEquals(size - 1, this.newsRepository.count());
 		assertNull(this.newsRepository.findById(id).orElse(null));
@@ -256,8 +267,11 @@ public class NewsControllerTest {
 
 	@Test
 	public void testDeleteNonExisting() {
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(
-				NewsAPI.API_DELETE(MainConstants.NON_EXISTING_ID), HttpMethod.DELETE, this.httpEntity(null),
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+				NewsAPI.API_DELETE(MainConstants.NON_EXISTING_ID), 
+				HttpMethod.DELETE, 
+				this.httpEntity(null),
 				ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.INVALID_ID, response.getBody().getMessage());
@@ -267,8 +281,12 @@ public class NewsControllerTest {
 	public void testAddValid() {
 		long size = this.newsRepository.count();
 		NewsUploadDTO newsDTO = this.testingNewsDTO();
-		ResponseEntity<Void> response = this.restTemplate.exchange(NewsAPI.API_BASE, HttpMethod.POST,
-				this.httpEntity(newsDTO), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_BASE, 
+						HttpMethod.POST,
+						this.httpEntity(newsDTO), 
+						Void.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		News news = this.newsRepository.findAll().get((int) (this.newsRepository.count() - 1));
 		assertEquals(size + 1, this.newsRepository.count());
@@ -277,13 +295,31 @@ public class NewsControllerTest {
 		assertEquals(NewsConstants.NON_EXISTING_TEXT, news.getText());
 		this.newsRepository.deleteById(news.getId());
 	}
+	
+	@Test
+	public void testAddNonExistingOffer() {
+		NewsUploadDTO newsDTO = this.testingNewsDTO();
+		newsDTO.setCulturalOfferId(MainConstants.NON_EXISTING_ID);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(newsDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
 
 	@Test
 	public void testAddNullText() {
 		NewsUploadDTO newsDTO = this.testingNewsDTO();
 		newsDTO.setText(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(NewsAPI.API_BASE, HttpMethod.POST,
-				this.httpEntity(newsDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_BASE, 
+						HttpMethod.POST,
+						this.httpEntity(newsDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -292,8 +328,12 @@ public class NewsControllerTest {
 	public void testAddEmptyText() {
 		NewsUploadDTO newsDTO = this.testingNewsDTO();
 		newsDTO.setText("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(NewsAPI.API_BASE, HttpMethod.POST,
-				this.httpEntity(newsDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_BASE, 
+						HttpMethod.POST,
+						this.httpEntity(newsDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -302,8 +342,12 @@ public class NewsControllerTest {
 	public void testAddBlankText() {
 		NewsUploadDTO newsDTO = this.testingNewsDTO();
 		newsDTO.setText("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(NewsAPI.API_BASE, HttpMethod.POST,
-				this.httpEntity(newsDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_BASE, 
+						HttpMethod.POST,
+						this.httpEntity(newsDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -314,8 +358,12 @@ public class NewsControllerTest {
 		long size = this.newsRepository.count();
 		NewsUploadDTO newsDTO = this.testingNewsDTO();
 		newsDTO.setId(id);
-		ResponseEntity<Void> response = this.restTemplate.exchange(NewsAPI.API_BASE, HttpMethod.POST,
-				this.httpEntity(newsDTO), Void.class);
+		ResponseEntity<Void> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_BASE, 
+						HttpMethod.POST,
+						this.httpEntity(newsDTO), 
+						Void.class);
 		assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		News news = this.newsRepository.findById(id).orElse(null);
 		assertEquals(size, this.newsRepository.count());
@@ -325,14 +373,33 @@ public class NewsControllerTest {
 		assertEquals(NewsConstants.NON_EXISTING_TEXT, news.getText());
 		this.newsRepository.deleteById(id);
 	}
+	
+	@Test
+	public void testUpdateNonExistingOffer() {
+		NewsUploadDTO newsDTO = this.testingNewsDTO();
+		newsDTO.setId(CulturalOfferConstants.ID_ONE);
+		newsDTO.setCulturalOfferId(MainConstants.NON_EXISTING_ID);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						CulturalOfferAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(newsDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
+	}
 
 	@Test
 	public void testUpdateNullText() {
 		NewsUploadDTO newsDTO = this.testingNewsDTO();
 		newsDTO.setId(CulturalOfferConstants.ID_TWO);
 		newsDTO.setText(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(NewsAPI.API_BASE, HttpMethod.POST,
-				this.httpEntity(newsDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_BASE, 
+						HttpMethod.POST,
+						this.httpEntity(newsDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -342,8 +409,12 @@ public class NewsControllerTest {
 		NewsUploadDTO newsDTO = this.testingNewsDTO();
 		newsDTO.setId(CulturalOfferConstants.ID_TWO);
 		newsDTO.setText("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(NewsAPI.API_BASE, HttpMethod.POST,
-				this.httpEntity(newsDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_BASE, 
+						HttpMethod.POST,
+						this.httpEntity(newsDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -353,18 +424,21 @@ public class NewsControllerTest {
 		NewsUploadDTO newsDTO = this.testingNewsDTO();
 		newsDTO.setId(CulturalOfferConstants.ID_TWO);
 		newsDTO.setText("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(NewsAPI.API_BASE, HttpMethod.POST,
-				this.httpEntity(newsDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						NewsAPI.API_BASE, 
+						HttpMethod.POST,
+						this.httpEntity(newsDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 
 	public News testingNews() {
-		News n = new News();
-		n.setCreatedAt(new Date());
-		n.setCulturalOffer(this.culturalOfferRepository.findById(CulturalOfferConstants.ID_THREE).orElse(null));
-		n.setText(NewsConstants.TEXT_ONE);
-		return n;
+		News news = new News();
+		news.setCulturalOffer(this.culturalOfferRepository.findById(CulturalOfferConstants.ID_THREE).orElse(null));
+		news.setText(NewsConstants.TEXT_ONE);
+		return news;
 	}
 
 	private NewsUploadDTO testingNewsDTO() {

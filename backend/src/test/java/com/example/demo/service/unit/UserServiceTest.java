@@ -44,12 +44,12 @@ public class UserServiceTest {
 	@MockBean
 	private UserRepository userRepository;
 	
-	@Autowired
-	private TokenUtils tokenUtils;
-	
 	@MockBean
 	private UserFollowingRepository userFollowingRepository;
-	
+
+	@Autowired
+	private TokenUtils tokenUtils;
+		
 	@Test
 	public void testloadUserByUsernameExisting() {
 		User user = new User();
@@ -59,8 +59,7 @@ public class UserServiceTest {
 		user.setLastName(UserConstants.LAST_NAME_ONE);
 		Mockito.when(this.userRepository.findByEmail(UserConstants.EMAIL_ONE))
 		.thenReturn(user);
-		user = (User) this.userService
-				.loadUserByUsername(UserConstants.EMAIL_ONE);
+		user = (User) this.userService.loadUserByUsername(UserConstants.EMAIL_ONE);
 		assertNotNull(user);
 		assertEquals(UserConstants.ID_ONE, user.getId());
 		assertEquals(UserConstants.EMAIL_ONE, user.getEmail());
@@ -72,8 +71,7 @@ public class UserServiceTest {
 	public void testloadUserByUsernameNonExisting() {
 		Mockito.when(this.userRepository.findByEmail(UserConstants.NON_EXISTING_EMAIL))
 		.thenReturn(null);
-		User user = (User) this.userService
-				.loadUserByUsername(UserConstants.NON_EXISTING_EMAIL);
+		User user = (User) this.userService.loadUserByUsername(UserConstants.NON_EXISTING_EMAIL);
 		assertNull(user);
 	}
 	
@@ -166,6 +164,15 @@ public class UserServiceTest {
 	public void testAddBlankEmail() {
 		User user = this.testingUser();
 		user.setEmail("  ");
+		Mockito.when(this.userRepository.save(user))
+		.thenThrow(ConstraintViolationException.class);
+		this.userService.save(user, null);
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testAddInvalidEmail() {
+		User user = this.testingUser();
+		user.setEmail(UserConstants.NEW_PASSWORD);
 		Mockito.when(this.userRepository.save(user))
 		.thenThrow(ConstraintViolationException.class);
 		this.userService.save(user, null);
@@ -308,6 +315,16 @@ public class UserServiceTest {
 		this.userService.save(user, null);
 	}
 	
+	@Test(expected = ConstraintViolationException.class)
+	public void testUpdateInvalidEmail() {
+		User user = this.testingUser();
+		user.setId(UserConstants.ID_ONE);
+		user.setEmail(UserConstants.NEW_PASSWORD);
+		Mockito.when(this.userRepository.save(user))
+		.thenThrow(ConstraintViolationException.class);
+		this.userService.save(user, null);
+	}
+	
 	@Test(expected = DataIntegrityViolationException.class)
 	public void testUpdateNonUniqueEmail() {
 		User user = this.testingUser();
@@ -416,12 +433,12 @@ public class UserServiceTest {
 	@Test
 	public void testCurrentUserNotNull() {
 		this.setAuthentication(false);
-		User u = this.userService.currentUser();
-		assertNotNull(u);
-		assertEquals(UserConstants.ID_TWO, u.getId());
-		assertEquals(UserConstants.EMAIL_TWO, u.getEmail());
-		assertEquals(UserConstants.FIRST_NAME_TWO, u.getFirstName());
-		assertEquals(UserConstants.LAST_NAME_TWO, u.getLastName());
+		User user = this.userService.currentUser();
+		assertNotNull(user);
+		assertEquals(UserConstants.ID_TWO, user.getId());
+		assertEquals(UserConstants.EMAIL_TWO, user.getEmail());
+		assertEquals(UserConstants.FIRST_NAME_TWO, user.getFirstName());
+		assertEquals(UserConstants.LAST_NAME_TWO, user.getLastName());
 	}
 	
 	@Test

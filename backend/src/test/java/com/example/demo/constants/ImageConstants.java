@@ -6,5 +6,4 @@ public class ImageConstants {
 	public static final String PATH_ONE = "image_one";
 	public static final String NON_EXISTING_PATH = "image_none";
 	
-	public static final long IMAGE_NUM = 1;
 }

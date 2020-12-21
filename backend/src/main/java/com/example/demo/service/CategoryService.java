@@ -40,8 +40,8 @@ public class CategoryService {
 	}
 	
 	@Transactional(readOnly = false)
-	public void save(Category category) {
-		this.categoryRepository.save(category);
+	public Category save(Category category) {
+		return this.categoryRepository.save(category);
 	}
 		
 }

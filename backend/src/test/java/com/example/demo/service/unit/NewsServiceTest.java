@@ -22,7 +22,6 @@ import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.NewsConstants;
 import com.example.demo.model.CulturalOffer;
 import com.example.demo.model.News;
-import com.example.demo.repository.CulturalOfferRepository;
 import com.example.demo.repository.NewsRepository;
 import com.example.demo.repository.UserFollowingRepository;
 import com.example.demo.service.NewsService;
@@ -40,142 +39,151 @@ public class NewsServiceTest {
 	@MockBean
 	private UserFollowingRepository userFollowingRepository;
 	
-	@MockBean
-	private CulturalOfferRepository culturalOfferRepository;
-
 	private SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
 	@Test
-	public void testSaveValid() {
-		Mockito.when(this.newsRepository.count()).thenReturn((long) (MainConstants.TOTAL_SIZE + 1));
+	public void testAddValid() {
+		Mockito.when(this.newsRepository.count())
+		.thenReturn((long) (MainConstants.TOTAL_SIZE + 1));
 		long size = this.newsRepository.count();
-		News n = this.testingNews();
-		Mockito.when(this.newsRepository.save(n)).thenReturn(n);
+		News news = this.testingNews();
+		Mockito.when(this.newsRepository.save(news)).thenReturn(news);
 		List<String> emails = new ArrayList<String>();
 		emails.add("nikolicpetar91@yahoo.com");
 		emails.add("nikolicpetar91@gmail.com");
-		Mockito.when(this.userFollowingRepository.subscribedEmails(n.getCulturalOffer().getId())).thenReturn(emails);
-		n = this.newsService.save(n, null);
-		Mockito.when(this.newsRepository.count()).thenReturn(size + 1);
+		Mockito.when(this.userFollowingRepository.subscribedEmails(news.getCulturalOffer().getId()))
+		.thenReturn(emails);
+		news = this.newsService.save(news, null);
+		Mockito.when(this.newsRepository.count())
+		.thenReturn(size + 1);
 		assertEquals(size + 1, this.newsRepository.count());
-		assertEquals(this.format.format(new Date()), this.format.format(n.getCreatedAt()));
-		assertEquals(CulturalOfferConstants.ID_THREE, n.getCulturalOffer().getId());
-		assertEquals(NewsConstants.TEXT_ONE, n.getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.getCulturalOffer().getId());
+		assertEquals(this.format.format(new Date()), this.format.format(news.getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_ONE, news.getText());
+	}
+
+	@Test(expected = NullPointerException.class)
+	public void testAddNullOffer() {
+		News news = this.testingNews();
+		news.setCulturalOffer(null);
+		this.newsService.save(news, null);
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testAddNullDate() {
+		News news = this.testingNews();
+		news.setCreatedAt(null);
+		Mockito.when(this.newsRepository.save(news))
+		.thenThrow(ConstraintViolationException.class);
+		this.newsService.save(news, null);
 	}
 
 	@Test(expected = ConstraintViolationException.class)
-	public void testSaveNullDate() {
-		News n = this.testingNews();
-		n.setCreatedAt(null);
-		Mockito.when(this.newsRepository.save(n)).thenThrow(ConstraintViolationException.class);
-		this.newsService.save(n, null);
+	public void testAddNullText() {
+		News news = this.testingNews();
+		news.setText(null);
+		Mockito.when(this.newsRepository.save(news))
+		.thenThrow(ConstraintViolationException.class);
+		this.newsService.save(news, null);
 	}
 
 	@Test(expected = ConstraintViolationException.class)
-	public void testSaveNullOffer() {
-		News n = this.testingNews();
-		n.setCulturalOffer(null);
-		Mockito.when(this.newsRepository.save(n)).thenThrow(ConstraintViolationException.class);
-		this.newsService.save(n, null);
+	public void testAddEmptyText() {
+		News news = this.testingNews();
+		news.setText("");
+		Mockito.when(this.newsRepository.save(news))
+		.thenThrow(ConstraintViolationException.class);
+		this.newsService.save(news, null);
 	}
 
 	@Test(expected = ConstraintViolationException.class)
-	public void testSaveNullText() {
-		News n = this.testingNews();
-		n.setText(null);
-		Mockito.when(this.newsRepository.save(n)).thenThrow(ConstraintViolationException.class);
-		this.newsService.save(n, null);
-	}
-
-	@Test(expected = ConstraintViolationException.class)
-	public void testSaveEmptyText() {
-		News n = this.testingNews();
-		n.setText("");
-		Mockito.when(this.newsRepository.save(n)).thenThrow(ConstraintViolationException.class);
-		this.newsService.save(n, null);
-	}
-
-	@Test(expected = ConstraintViolationException.class)
-	public void testSaveBlankText() {
-		News n = this.testingNews();
-		n.setText("  ");
-		Mockito.when(this.newsRepository.save(n)).thenThrow(ConstraintViolationException.class);
-		this.newsService.save(n, null);
+	public void testAddBlankText() {
+		News news = this.testingNews();
+		news.setText("  ");
+		Mockito.when(this.newsRepository.save(news))
+		.thenThrow(ConstraintViolationException.class);
+		this.newsService.save(news, null);
 	}
 
 	@Test
 	public void testUpdate() {
-		Mockito.when(this.newsRepository.count()).thenReturn((long) (MainConstants.TOTAL_SIZE + 1));
+		Mockito.when(this.newsRepository.count())
+		.thenReturn((long) (MainConstants.TOTAL_SIZE + 1));
 		long size = this.newsRepository.count();
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		Mockito.when(this.newsRepository.save(n)).thenReturn(n);
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		Mockito.when(this.newsRepository.save(news))
+		.thenReturn(news);
 		List<String> emails = new ArrayList<String>();
 		emails.add("nikolicpetar91@yahoo.com");
 		emails.add("nikolicpetar91@gmail.com");
-		Mockito.when(this.userFollowingRepository.subscribedEmails(n.getCulturalOffer().getId())).thenReturn(emails);
-		n = this.newsService.save(n, null);
-		Mockito.when(this.newsRepository.count()).thenReturn(size);
+		Mockito.when(this.userFollowingRepository.subscribedEmails(news.getCulturalOffer().getId()))
+		.thenReturn(emails);
+		news = this.newsService.save(news, null);
 		assertEquals(size, this.newsRepository.count());
-		assertEquals(NewsConstants.ID_ONE, n.getId());
-		assertEquals(this.format.format(new Date()), this.format.format(n.getCreatedAt()));
-		assertEquals(CulturalOfferConstants.ID_THREE, n.getCulturalOffer().getId());
-		assertEquals(NewsConstants.TEXT_ONE, n.getText());
-	}
-
-	@Test(expected = ConstraintViolationException.class)
-	public void testUpdateNullDate() {
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n.setCreatedAt(null);
-		Mockito.when(this.newsRepository.save(n)).thenThrow(ConstraintViolationException.class);
-		this.newsService.save(n, null);
+		assertEquals(NewsConstants.ID_ONE, news.getId());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.getCulturalOffer().getId());
+		assertEquals(this.format.format(new Date()), this.format.format(news.getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_ONE, news.getText());
 	}
 
 	@Test(expected = NullPointerException.class)
 	public void testUpdateNullOffer() {
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n.setCulturalOffer(null);
-		Mockito.when(this.newsRepository.save(n)).thenThrow(NullPointerException.class);
-		this.newsService.save(n, null);
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news.setCulturalOffer(null);
+		Mockito.when(this.newsRepository.save(news))
+		.thenThrow(NullPointerException.class);
+		this.newsService.save(news, null);
+	}
+	
+	@Test(expected = ConstraintViolationException.class)
+	public void testUpdateNullDate() {
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news.setCreatedAt(null);
+		Mockito.when(this.newsRepository.save(news))
+		.thenThrow(ConstraintViolationException.class);
+		this.newsService.save(news, null);
 	}
 
 	@Test(expected = ConstraintViolationException.class)
 	public void testUpdateNullText() {
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n.setText(null);
-		Mockito.when(this.newsRepository.save(n)).thenThrow(ConstraintViolationException.class);
-		this.newsService.save(n, null);
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news.setText(null);
+		Mockito.when(this.newsRepository.save(news))
+		.thenThrow(ConstraintViolationException.class);
+		this.newsService.save(news, null);
 	}
 
 	@Test(expected = ConstraintViolationException.class)
 	public void testUpdateEmptyText() {
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n.setText("");
-		Mockito.when(this.newsRepository.save(n)).thenThrow(ConstraintViolationException.class);
-		this.newsService.save(n, null);
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news.setText("");
+		Mockito.when(this.newsRepository.save(news))
+		.thenThrow(ConstraintViolationException.class);
+		this.newsService.save(news, null);
 	}
 
 	@Test(expected = ConstraintViolationException.class)
 	public void testUpdateBlankText() {
-		News n = this.testingNews();
-		n.setId(NewsConstants.ID_ONE);
-		n.setText("  ");
-		Mockito.when(this.newsRepository.save(n)).thenThrow(ConstraintViolationException.class);
-		this.newsService.save(n, null);
+		News news = this.testingNews();
+		news.setId(NewsConstants.ID_ONE);
+		news.setText("  ");
+		Mockito.when(this.newsRepository.save(news))
+		.thenThrow(ConstraintViolationException.class);
+		this.newsService.save(news, null);
 	}
 	
 	public News testingNews() {
+		News news = new News();
 		CulturalOffer offer = new CulturalOffer();
 		offer.setId(CulturalOfferConstants.ID_THREE);
-		News n = new News();
-		n.setCreatedAt(new Date());
-		n.setCulturalOffer(offer);
-		n.setText(NewsConstants.TEXT_ONE);
-		return n;
+		news.setCulturalOffer(offer);
+		news.setText(NewsConstants.TEXT_ONE);
+		return news;
 	}
 
 }

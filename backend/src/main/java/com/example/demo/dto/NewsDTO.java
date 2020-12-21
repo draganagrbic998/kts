@@ -31,10 +31,6 @@ public class NewsDTO {
 		return id;
 	}
 
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public long getCulturalOfferId() {
 		return culturalOfferId;
 	}
@@ -65,6 +61,10 @@ public class NewsDTO {
 
 	public void setImages(List<String> images) {
 		this.images = images;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 
 }
