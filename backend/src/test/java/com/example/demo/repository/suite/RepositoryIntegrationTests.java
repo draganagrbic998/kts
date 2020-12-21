@@ -21,5 +21,5 @@ import com.example.demo.repository.UserRepositoryTest;
 		NewsRepositoryTest.class, TypeRepositoryTest.class, UserFollowingRepositoryTest.class,
 		UserRepositoryTest.class })
 public class RepositoryIntegrationTests {
-	
+
 }

@@ -43,7 +43,7 @@ public class UserControllerTest {
 	public void guestLogin() {
 		LoginDTO login = new LoginDTO();
 		login.setEmail(UserConstants.LOGIN_EMAIL);
-		login.setPassword(UserConstants.LOGIN_EMAIL);
+		login.setPassword(UserConstants.LOGIN_PASSWORD);
 		ResponseEntity<ProfileDTO> response = this.restTemplate.postForEntity(AuthAPI.API_LOGIN, login, ProfileDTO.class);
 		this.accessToken = response.getBody().getAccessToken();
 	}
@@ -52,7 +52,12 @@ public class UserControllerTest {
 	public void testUpdateValid() {
 		long size = this.userRepository.count();
 		ProfileUploadDTO userDTO = this.testingUserDTO();
-		ResponseEntity<ProfileDTO> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ProfileDTO.class);
+		ResponseEntity<ProfileDTO> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ProfileDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		ProfileDTO user = response.getBody();
 		assertEquals(size, this.userRepository.count());
@@ -66,7 +71,12 @@ public class UserControllerTest {
 	public void testUpdateNullEmail() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
 		userDTO.setEmail(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -75,7 +85,12 @@ public class UserControllerTest {
 	public void testUpdateEmptyEmail() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
 		userDTO.setEmail("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -84,25 +99,54 @@ public class UserControllerTest {
 	public void testUpdateBlankEmail() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
 		userDTO.setEmail("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
+	}
+	
+	@Test
+	public void testUpdateInvalidEmail() {
+		ProfileUploadDTO userDTO = this.testingUserDTO();
+		userDTO.setEmail(UserConstants.NEW_PASSWORD);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(ExceptionConstants.INVALID_EMAIL, response.getBody().getMessage());
 	}
 	
 	@Test
 	public void testUpdateNonUniqueEmail() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
 		userDTO.setEmail(UserConstants.EMAIL_ONE);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertEquals(ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION, response.getBody().getMessage());
+		assertEquals(ExceptionConstants.UNIQUE_VIOLATION, response.getBody().getMessage());
 	}
 	
 	@Test
 	public void testUpdateNullFirstName() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
 		userDTO.setFirstName(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -111,7 +155,12 @@ public class UserControllerTest {
 	public void testUpdateEmptyFirstName() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
 		userDTO.setFirstName("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -120,7 +169,12 @@ public class UserControllerTest {
 	public void testUpdateBlankFirstName() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
 		userDTO.setFirstName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -129,7 +183,12 @@ public class UserControllerTest {
 	public void testUpdateNullLastName() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
 		userDTO.setLastName(null);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -138,7 +197,12 @@ public class UserControllerTest {
 	public void testUpdateEmptyLastName() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
 		userDTO.setLastName("");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -147,7 +211,12 @@ public class UserControllerTest {
 	public void testUpdateBlanklLastName() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
 		userDTO.setLastName("  ");
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
@@ -155,9 +224,14 @@ public class UserControllerTest {
 	@Test
 	public void testUpdatePasswordWrongOldPassword() {
 		ProfileUploadDTO userDTO = this.testingUserDTO();
-		userDTO.setNewPassword(UserConstants.NEW_PASSWORD);
 		userDTO.setOldPassword(UserConstants.NEW_PASSWORD);
-		ResponseEntity<ExceptionMessage> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ExceptionMessage.class);
+		userDTO.setNewPassword(UserConstants.NEW_PASSWORD);
+		ResponseEntity<ExceptionMessage> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ExceptionMessage.class);
 		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 		assertEquals(ExceptionConstants.BAD_CREDENTIALS, response.getBody().getMessage());
 	}
@@ -166,9 +240,14 @@ public class UserControllerTest {
 	public void testUpdatePasswordCorrectOldPassword() {
 		long size = this.userRepository.count();
 		ProfileUploadDTO userDTO = this.testingUserDTO();
-		userDTO.setNewPassword(UserConstants.NEW_PASSWORD);
 		userDTO.setOldPassword(UserConstants.LOGIN_PASSWORD);
-		ResponseEntity<ProfileDTO> response = this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ProfileDTO.class);
+		userDTO.setNewPassword(UserConstants.NEW_PASSWORD);
+		ResponseEntity<ProfileDTO> response = 
+				this.restTemplate.exchange(
+						UserAPI.API_BASE, 
+						HttpMethod.POST, 
+						this.httpEntity(userDTO), 
+						ProfileDTO.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		ProfileDTO user = response.getBody();
 		assertEquals(size, this.userRepository.count());
@@ -180,14 +259,29 @@ public class UserControllerTest {
 		LoginDTO login = new LoginDTO();
 		login.setEmail(UserConstants.LOGIN_EMAIL);
 		login.setPassword(UserConstants.NEW_PASSWORD);
-		response = this.restTemplate.postForEntity(AuthAPI.API_LOGIN, login, ProfileDTO.class);
+		response = 
+				this.restTemplate.postForEntity(
+						AuthAPI.API_LOGIN, 
+						login, 
+						ProfileDTO.class);
 		this.accessToken = response.getBody().getAccessToken();
-		userDTO.setNewPassword(UserConstants.LOGIN_PASSWORD);
 		userDTO.setOldPassword(UserConstants.NEW_PASSWORD);
-		this.restTemplate.exchange(UserAPI.API_BASE, HttpMethod.POST, this.httpEntity(userDTO), ProfileDTO.class);
-
+		userDTO.setNewPassword(UserConstants.LOGIN_PASSWORD);
+		this.restTemplate.exchange(
+				UserAPI.API_BASE, 
+				HttpMethod.POST, 
+				this.httpEntity(userDTO), 
+				ProfileDTO.class);
 	}
-		
+	
+	private ProfileUploadDTO testingUserDTO() {
+		ProfileUploadDTO user = new ProfileUploadDTO();
+		user.setEmail(UserConstants.LOGIN_EMAIL);
+		user.setFirstName(UserConstants.FIRST_NAME_ONE);
+		user.setLastName(UserConstants.LAST_NAME_ONE);
+		return user;
+	}
+	
 	private HttpEntity<Object> httpEntity(ProfileUploadDTO upload){
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", this.accessToken);			
@@ -199,14 +293,6 @@ public class UserControllerTest {
 		body.add("oldPassword", upload.getOldPassword());
 		body.add("newPassword", upload.getNewPassword());
 		return new HttpEntity<Object>(body, headers);
-	}
-	
-	private ProfileUploadDTO testingUserDTO() {
-		ProfileUploadDTO user = new ProfileUploadDTO();
-		user.setEmail(UserConstants.LOGIN_EMAIL);
-		user.setFirstName(UserConstants.FIRST_NAME_ONE);
-		user.setLastName(UserConstants.LAST_NAME_ONE);
-		return user;
 	}
 	
 }

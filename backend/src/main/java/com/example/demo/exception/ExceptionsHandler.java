@@ -21,7 +21,10 @@ public class ExceptionsHandler {
 			message = ExceptionConstants.NOT_EMPTY_VIOLATION;
 		}
 		else if (message.contains("ConstraintViolationException")) {
-			message = ExceptionConstants.UNIQUE_CONSTRAINT_VIOLATION;
+			message = ExceptionConstants.UNIQUE_VIOLATION;
+		}
+		else if (message.contains("must be a well-formed email address")) {
+			message = ExceptionConstants.INVALID_EMAIL;
 		}
 		return new ResponseEntity<>(new ExceptionMessage(message, HttpStatus.INTERNAL_SERVER_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
 	}

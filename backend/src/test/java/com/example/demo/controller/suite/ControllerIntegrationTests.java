@@ -14,8 +14,9 @@ import com.example.demo.controller.UserControllerTest;
 import com.example.demo.controller.UserFollowingControllerTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ AuthControllerTest.class, CategoryControllerTest.class, CommentControllerTest.class, CulturalOfferControllerTest.class,
-		NewsControllerTest.class, TypeControllerTest.class, UserControllerTest.class, UserFollowingControllerTest.class })
-public class ControllerTests {
+@SuiteClasses({ AuthControllerTest.class, CategoryControllerTest.class, CommentControllerTest.class,
+		CulturalOfferControllerTest.class, NewsControllerTest.class, TypeControllerTest.class, UserControllerTest.class,
+		UserFollowingControllerTest.class })
+public class ControllerIntegrationTests {
 
 }

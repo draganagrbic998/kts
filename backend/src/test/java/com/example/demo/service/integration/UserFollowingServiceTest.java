@@ -53,13 +53,12 @@ public class UserFollowingServiceTest {
 	
 	@Autowired
 	private Filters filters;
-
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	
 	@Before
-	public void setAuthentication() {
+	public void setUp() {
 		User user = this.userRepository.findById(UserConstants.ID_ONE).orElse(null);
 		String token = this.tokenUtils.generateToken(user.getUsername());
 		AuthToken authToken = new AuthToken(user, token);
@@ -71,7 +70,7 @@ public class UserFollowingServiceTest {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
 		List<CulturalOffer> offers = 
 				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -118,7 +117,7 @@ public class UserFollowingServiceTest {
 		FilterParamsDTO filters = this.filters.filtersAll();
 		List<CulturalOffer> offers = 
 				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -165,7 +164,7 @@ public class UserFollowingServiceTest {
 		FilterParamsDTO filters = this.filters.filtersOneName();
 		List<CulturalOffer> offers = 
 				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -178,7 +177,7 @@ public class UserFollowingServiceTest {
 		FilterParamsDTO filters = this.filters.filtersOneLocation();
 		List<CulturalOffer> offers = 
 				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -191,33 +190,20 @@ public class UserFollowingServiceTest {
 		FilterParamsDTO filters = this.filters.filtersOneType();
 		List<CulturalOffer> offers = 
 				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
 	}
-	
-	@Test
-	public void testFilterOneNameLocationType() {
-		FilterParamsDTO filters = this.filters.filtersOne();
-		List<CulturalOffer> offers = 
-				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
-		assertEquals(MainConstants.ONE_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-	}
-	
+
 	@Test
 	public void testFilterNone() {
 		FilterParamsDTO filters = this.filters.filtersNone();
 		List<CulturalOffer> offers = 
 				this.userFollowingService
-				.filter(filters, this.pageableAll).getContent();
+				.filter(filters, this.pageableTotal).getContent();
 		assertTrue(offers.isEmpty());
 	}
 	

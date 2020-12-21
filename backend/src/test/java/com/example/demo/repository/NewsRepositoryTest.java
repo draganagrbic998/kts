@@ -27,30 +27,117 @@ public class NewsRepositoryTest {
 	@Autowired
 	private NewsRepository newsRepository;
 
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
 
 	@Test
-	public void testListNonExisting() {
-		List<News> news = this.newsRepository.filter(MainConstants.NON_EXISTING_ID, null, null, this.pageableAll)
+	public void testFilterMore() {
+		List<News> news = 
+				this.newsRepository
+				.filter(CulturalOfferConstants.ID_THREE, null, null, this.pageableTotal)
 				.getContent();
+		assertEquals(MainConstants.TOTAL_SIZE, news.size());
+		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
+		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
+		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
+		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
+		assertEquals(NewsConstants.ID_THREE, news.get(2).getId());
+		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
+	}
+	
+	@Test
+	public void testFilterMorePaginated() {
+		List<News> news = 
+				this.newsRepository
+				.filter(CulturalOfferConstants.ID_THREE, null, null, this.pageablePart)
+				.getContent();
+		assertEquals(MainConstants.PART_SIZE, news.size());
+		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
+		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
+		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
+		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
+	}
+	
+	@Test
+	public void testFilterMoreNonExistingPage() {
+		List<News> news = 
+				this.newsRepository
+				.filter(CulturalOfferConstants.ID_ONE, null, null, this.pageableNonExisting).getContent();
 		assertTrue(news.isEmpty());
 	}
 
 	@Test
-	public void testListNoneDates() throws ParseException {
-		List<News> news = this.newsRepository
-				.filter(CulturalOfferConstants.ID_TWO, this.format.parse(NewsConstants.WRONG_START),
-						this.format.parse(NewsConstants.WRONG_END), this.pageableAll)
+	public void testFilterMoreDates() throws ParseException {
+		List<News> news = 
+				this.newsRepository
+				.filter(CulturalOfferConstants.ID_THREE, 
+						this.format.parse(NewsConstants.START_DATE_MORE),
+						this.format.parse(NewsConstants.END_DATE_MORE), 
+						this.pageableTotal)
+				.getContent();
+		assertEquals(MainConstants.TOTAL_SIZE, news.size());
+		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
+		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
+		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
+		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
+		assertEquals(NewsConstants.ID_THREE, news.get(2).getId());
+		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
+	}
+	
+	@Test
+	public void testFilterMoreDatesPaginated() throws ParseException {
+		List<News> news = 
+				this.newsRepository
+				.filter(CulturalOfferConstants.ID_THREE, 
+						this.format.parse(NewsConstants.START_DATE_MORE),
+						this.format.parse(NewsConstants.END_DATE_MORE), 
+						this.pageablePart)
+				.getContent();
+		assertEquals(MainConstants.PART_SIZE, news.size());
+		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
+		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
+		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
+		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
+		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
+		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
+	}
+	
+	@Test
+	public void testFilterMoreDatesNonExistingPage() throws ParseException {
+		List<News> news = 
+				this.newsRepository
+				.filter(CulturalOfferConstants.ID_THREE, 
+						this.format.parse(NewsConstants.START_DATE_MORE),
+						this.format.parse(NewsConstants.END_DATE_MORE), 
+						this.pageableNonExisting)
 				.getContent();
 		assertTrue(news.isEmpty());
 	}
-
+	
 	@Test
-	public void testListOne() {
-		List<News> news = this.newsRepository.filter(CulturalOfferConstants.ID_TWO, null, null, this.pageableAll)
+	public void testFilterOne() {
+		List<News> news = 
+				this.newsRepository.filter(CulturalOfferConstants.ID_TWO, null, null, this.pageableTotal)
 				.getContent();
 		assertEquals(MainConstants.ONE_SIZE, news.size());
 		assertEquals(NewsConstants.ID_ONE, news.get(0).getId());
@@ -58,53 +145,15 @@ public class NewsRepositoryTest {
 		assertEquals(NewsConstants.TEXT_ONE, news.get(0).getText());
 		assertEquals(CulturalOfferConstants.ID_TWO, news.get(0).getCulturalOffer().getId());
 	}
-
+	
 	@Test
-	public void testListMorePaginatedNonExisting() {
-		List<News> news = this.newsRepository
-				.filter(CulturalOfferConstants.ID_ONE, null, null, this.pageableNonExisting).getContent();
-		assertTrue(news.isEmpty());
-	}
-
-	@Test
-	public void testListMorePaginated() {
-		List<News> news = this.newsRepository.filter(CulturalOfferConstants.ID_THREE, null, null, this.pageablePart)
-				.getContent();
-		assertEquals(MainConstants.PART_SIZE, news.size());
-		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
-		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
-		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
-		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
-	}
-
-	@Test
-	public void testListMore() {
-		List<News> news = this.newsRepository.filter(CulturalOfferConstants.ID_THREE, null, null, this.pageableAll)
-				.getContent();
-		assertEquals(MainConstants.TOTAL_SIZE, news.size());
-		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
-		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
-		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
-		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
-		assertEquals(NewsConstants.ID_THREE, news.get(2).getId());
-		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
-	}
-
-	@Test
-	public void testListOneDates() throws ParseException {
-		List<News> news = this.newsRepository
-				.filter(CulturalOfferConstants.ID_THREE, this.format.parse(NewsConstants.START_DATE_ONE),
-						this.format.parse(NewsConstants.END_DATE_ONE), this.pageableAll)
+	public void testFilterOneDates() throws ParseException {
+		List<News> news = 
+				this.newsRepository
+				.filter(CulturalOfferConstants.ID_THREE, 
+						this.format.parse(NewsConstants.START_DATE_ONE),
+						this.format.parse(NewsConstants.END_DATE_ONE), 
+						this.pageableTotal)
 				.getContent();
 		assertEquals(MainConstants.ONE_SIZE, news.size());
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
@@ -112,42 +161,25 @@ public class NewsRepositoryTest {
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
 	}
-
+	
 	@Test
-	public void testListMoreDatesPaginated() throws ParseException {
-		List<News> news = this.newsRepository
-				.filter(CulturalOfferConstants.ID_THREE, this.format.parse(NewsConstants.START_DATE_MORE),
-						this.format.parse(NewsConstants.END_DATE_MORE), this.pageablePart)
+	public void testFilterNone() {
+		List<News> news = 
+				this.newsRepository.filter(MainConstants.NON_EXISTING_ID, null, null, this.pageableTotal)
 				.getContent();
-		assertEquals(MainConstants.PART_SIZE, news.size());
-		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
-		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
-		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
-		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
+		assertTrue(news.isEmpty());
 	}
 
 	@Test
-	public void testListMoreDates() throws ParseException {
-		List<News> news = this.newsRepository
-				.filter(CulturalOfferConstants.ID_THREE, this.format.parse(NewsConstants.START_DATE_MORE),
-						this.format.parse(NewsConstants.END_DATE_MORE), this.pageableAll)
+	public void testFilterNoneDates() throws ParseException {
+		List<News> news = 
+				this.newsRepository
+				.filter(CulturalOfferConstants.ID_TWO, 
+						this.format.parse(NewsConstants.WRONG_START),
+						this.format.parse(NewsConstants.WRONG_END), 
+						this.pageableTotal)
 				.getContent();
-		assertEquals(MainConstants.TOTAL_SIZE, news.size());
-		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
-		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
-		assertEquals(NewsConstants.ID_TWO, news.get(1).getId());
-		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
-		assertEquals(NewsConstants.ID_THREE, news.get(2).getId());
-		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
-		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
-		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
+		assertTrue(news.isEmpty());
 	}
+	
 }

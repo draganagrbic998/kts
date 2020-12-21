@@ -30,8 +30,8 @@ public class CulturalOfferMapper {
 	public List<CulturalOfferDTO> map(List<CulturalOffer> culturalOffers){
 		return culturalOffers.stream().map(culturalOffer -> {
 			CulturalOfferDTO culturalOfferDTO = new CulturalOfferDTO(culturalOffer);
-			culturalOfferDTO.setFollowed(this.userService.userIsFollowing(culturalOffer.getId()));
 			culturalOfferDTO.setTotalRate(this.commentRepository.totalRate(culturalOffer.getId()));
+			culturalOfferDTO.setFollowed(this.userService.userIsFollowing(culturalOffer.getId()));
 			return culturalOfferDTO;
 		}).collect(Collectors.toList());
 	}
@@ -42,10 +42,10 @@ public class CulturalOfferMapper {
 		culturalOffer.setId(culturalOfferDTO.getId());
 		culturalOffer.setType(this.typeRepository.findByName(culturalOfferDTO.getType()));
 		culturalOffer.setName(culturalOfferDTO.getName());
-		culturalOffer.setDescription(culturalOfferDTO.getName());
 		culturalOffer.setLocation(culturalOfferDTO.getLocation());
 		culturalOffer.setLat(culturalOfferDTO.getLat());
 		culturalOffer.setLng(culturalOfferDTO.getLng());
+		culturalOffer.setDescription(culturalOfferDTO.getName());
 		culturalOffer.setImage(culturalOfferDTO.getImagePath());
 		return culturalOffer;
 	}

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.constants.AccountActivationConstants;
 import com.example.demo.constants.UserConstants;
+import com.example.demo.model.AccountActivation;
 import com.example.demo.model.User;
 import com.example.demo.repository.AccountActivationRepository;
 import com.example.demo.repository.UserRepository;
@@ -38,7 +39,7 @@ public class AccountActivationServiceTest {
 	@Rollback(true)
 	public void testActivateExisting() {
 		this.accountActivationService.activate(AccountActivationConstants.CODE_ONE);
-		assertTrue(this.userRepository.findById(UserConstants.ID_ONE).orElse(null).isEnabled());
+		assertTrue(this.accountActivationService.activate(AccountActivationConstants.CODE_ONE).isEnabled());
 	}
 	
 	@Test(expected = NullPointerException.class)
@@ -53,9 +54,12 @@ public class AccountActivationServiceTest {
 	@Rollback(true)
 	public void testSaveValid() {
 		long size = this.accountActivationRepository.count();
-		User user = this.userRepository.findByEmail(UserConstants.EMAIL_ONE);
-		this.accountActivationService.save(user);
+		User user = this.userRepository.findById(UserConstants.ID_ONE).orElse(null);
+		AccountActivation accountActivation = this.accountActivationService.save(user);
 		assertEquals(size + 1,this.accountActivationRepository.count());
+		assertEquals(UserConstants.EMAIL_ONE, accountActivation.getUser().getEmail());
+		assertEquals(UserConstants.FIRST_NAME_ONE, accountActivation.getUser().getFirstName());
+		assertEquals(UserConstants.LAST_NAME_ONE, accountActivation.getUser().getLastName());
 	}
 	
 	@Test(expected = ConstraintViolationException.class)

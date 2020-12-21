@@ -36,13 +36,13 @@ public class UserMapper {
 	@Transactional(readOnly = true)
 	public User map(RegisterDTO userDTO) {
 		User user = new User();
-		user.setEmail(userDTO.getEmail());
-		user.setFirstName(userDTO.getFirstName());
-		user.setLastName(userDTO.getLastName());
-		user.setPassword(this.passwordEncoder.encode(userDTO.getPassword()));
 		Set<Authority> authorities = new HashSet<>();
 		authorities.add(this.authorityRepository.findByName(Constants.GUEST_AUTHORITY));
 		user.setAuthorities(authorities);
+		user.setEmail(userDTO.getEmail());
+		user.setPassword(this.passwordEncoder.encode(userDTO.getPassword()));
+		user.setFirstName(userDTO.getFirstName());
+		user.setLastName(userDTO.getLastName());
 		return user;
 	}
 	

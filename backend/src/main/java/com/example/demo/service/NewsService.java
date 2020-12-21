@@ -35,6 +35,11 @@ public class NewsService {
 	public Page<News> filter(long culturalOfferId, FilterParamsNewsDTO filters, Pageable pageable) {
 		return this.newsRepository.filter(culturalOfferId, filters.getStartDate(), filters.getEndDate(), pageable);
 	}
+	
+	@Transactional(readOnly = false)
+	public void delete(long id) {
+		this.newsRepository.deleteById(id);
+	}
 
 	@Transactional(readOnly = false)
 	public News save(News news, List<MultipartFile> uploads) {
@@ -45,17 +50,11 @@ public class NewsService {
 				this.imageService.save(image);
 			});
 		}
-		News n = this.newsRepository.save(news);
 		this.userFollowingRepository.subscribedEmails(news.getCulturalOffer().getId()).stream().forEach(emailAddress -> {
 			Email email = new Email(emailAddress, "News about '" + news.getCulturalOffer().getName() + "'", news.getText(), news.getImages());
 			this.emailService.sendEmailWithAttachments(email);
 		});
-		return n;
-	}
-
-	@Transactional(readOnly = false)
-	public void delete(long id) {
-		this.newsRepository.deleteById(id);
+		return this.newsRepository.save(news);
 	}
 	
 }

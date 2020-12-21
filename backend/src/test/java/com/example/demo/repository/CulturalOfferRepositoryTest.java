@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.constants.CulturalOfferConstants;
-import com.example.demo.constants.FilterConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.TypeConstants;
 import com.example.demo.model.CulturalOffer;
@@ -28,7 +27,7 @@ public class CulturalOfferRepositoryTest {
 	@Autowired
 	private CulturalOfferRepository culturalOfferRepository;
 	
-	private Pageable pageableAll = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
+	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 
@@ -76,7 +75,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterNamesEmpty() {
 		List<String> names = 
 				this.culturalOfferRepository
-				.filterNames(FilterConstants.FILTER_ALL);
+				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CulturalOfferConstants.NAME_ONE, names.get(0));
 		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(1));
@@ -87,7 +86,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterNamesAll() {
 		List<String> names = 
 				this.culturalOfferRepository
-				.filterNames(CulturalOfferConstants.FILTER_NAME_ALL);
+				.filterNames(CulturalOfferConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CulturalOfferConstants.NAME_ONE, names.get(0));
 		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(1));
@@ -98,7 +97,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterNamesOne() {
 		List<String> names = 
 				this.culturalOfferRepository
-				.filterNames(FilterConstants.FILTER_ONE);
+				.filterNames(MainConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, names.size());
 		assertEquals(CulturalOfferConstants.NAME_ONE, names.get(0));
 	}
@@ -107,7 +106,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterNamesNone() {
 		List<String> names = 
 				this.culturalOfferRepository
-				.filterNames(FilterConstants.FILTER_NONE);
+				.filterNames(MainConstants.FILTER_NONE);
 		assertTrue(names.isEmpty());
 	}
 	
@@ -115,7 +114,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterLocationsEmpty() {
 		List<String> locations = 
 				this.culturalOfferRepository
-				.filterLocations(FilterConstants.FILTER_ALL);
+				.filterLocations(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, locations.size());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, locations.get(0));
 		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(1));
@@ -126,7 +125,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterLocationsAll() {
 		List<String> locations = 
 				this.culturalOfferRepository
-				.filterLocations(CulturalOfferConstants.FILTER_LOCATION_ALL);
+				.filterLocations(CulturalOfferConstants.FILTER_LOCATIONS_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, locations.size());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, locations.get(0));
 		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(1));
@@ -137,7 +136,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterLocationsOne() {
 		List<String> locations = 
 				this.culturalOfferRepository
-				.filterLocations(FilterConstants.FILTER_ONE);
+				.filterLocations(MainConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, locations.size());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, locations.get(0));
 	}
@@ -146,7 +145,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterLocationsNone() {
 		List<String> locations = 
 				this.culturalOfferRepository
-				.filterLocations(FilterConstants.FILTER_NONE);
+				.filterLocations(MainConstants.FILTER_NONE);
 		assertTrue(locations.isEmpty());
 	}
 	
@@ -154,7 +153,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterTypesEmpty() {
 		List<String> types = 
 				this.culturalOfferRepository
-				.filterTypes(FilterConstants.FILTER_ALL);
+				.filterTypes(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0));
 		assertEquals(TypeConstants.NAME_THREE, types.get(1));
@@ -165,7 +164,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterTypesAll() {
 		List<String> types = 
 				this.culturalOfferRepository
-				.filterTypes(CulturalOfferConstants.FILTER_TYPE_ALL);
+				.filterTypes(CulturalOfferConstants.FILTER_TYPES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0));
 		assertEquals(TypeConstants.NAME_THREE, types.get(1));
@@ -176,7 +175,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterTypesOne() {
 		List<String> types = 
 				this.culturalOfferRepository
-				.filterTypes(FilterConstants.FILTER_ONE);
+				.filterTypes(MainConstants.FILTER_ONE);
 		assertEquals(MainConstants.ONE_SIZE, types.size());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0));
 	}
@@ -185,7 +184,7 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterTypesNone() {
 		List<String> types = 
 				this.culturalOfferRepository
-				.filterTypes(FilterConstants.FILTER_NONE);
+				.filterTypes(MainConstants.FILTER_NONE);
 		assertTrue(types.isEmpty());
 	}
 		
@@ -193,10 +192,10 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterEmpty() {
 		List<CulturalOffer> offers = 
 				this.culturalOfferRepository
-				.filter(FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
-						this.pageableAll).getContent();
+				.filter(MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -216,9 +215,9 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterEmptyPaginated() {
 		List<CulturalOffer> offers = 
 				this.culturalOfferRepository
-				.filter(FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
+				.filter(MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
 						this.pageablePart).getContent();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
@@ -232,12 +231,12 @@ public class CulturalOfferRepositoryTest {
 	}
 	
 	@Test
-	public void testFilterEmptyPaginatedNonExisting() {
+	public void testFilterEmptyNonExistingPage() {
 		List<CulturalOffer> offers = 
 				this.culturalOfferRepository
-				.filter(FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
+				.filter(MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
 						this.pageableNonExisting).getContent();
 		assertTrue(offers.isEmpty());
 	}
@@ -246,10 +245,10 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterAll() {
 		List<CulturalOffer> offers = 
 				this.culturalOfferRepository
-				.filter(CulturalOfferConstants.FILTER_NAME_ALL, 
-						CulturalOfferConstants.FILTER_LOCATION_ALL, 
-						CulturalOfferConstants.FILTER_TYPE_ALL, 
-						this.pageableAll).getContent();
+				.filter(CulturalOfferConstants.FILTER_NAMES_ALL, 
+						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
+						CulturalOfferConstants.FILTER_TYPES_ALL, 
+						this.pageableTotal).getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -269,9 +268,9 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterAllPaginated() {
 		List<CulturalOffer> offers = 
 				this.culturalOfferRepository
-				.filter(CulturalOfferConstants.FILTER_NAME_ALL, 
-						CulturalOfferConstants.FILTER_LOCATION_ALL, 
-						CulturalOfferConstants.FILTER_TYPE_ALL, 
+				.filter(CulturalOfferConstants.FILTER_NAMES_ALL, 
+						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
+						CulturalOfferConstants.FILTER_TYPES_ALL, 
 						this.pageablePart).getContent();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
@@ -285,12 +284,12 @@ public class CulturalOfferRepositoryTest {
 	}
 	
 	@Test
-	public void testFilterAllPaginatedNonExisting() {
+	public void testFilterAllNonExistingPage() {
 		List<CulturalOffer> offers = 
 				this.culturalOfferRepository
-				.filter(CulturalOfferConstants.FILTER_NAME_ALL, 
-						CulturalOfferConstants.FILTER_LOCATION_ALL, 
-						CulturalOfferConstants.FILTER_TYPE_ALL, 
+				.filter(CulturalOfferConstants.FILTER_NAMES_ALL, 
+						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
+						CulturalOfferConstants.FILTER_TYPES_ALL, 
 						this.pageableNonExisting).getContent();
 		assertTrue(offers.isEmpty());
 	}
@@ -299,10 +298,10 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterOneName() {
 		List<CulturalOffer> offers = 
 				this.culturalOfferRepository
-				.filter(FilterConstants.FILTER_ONE, 
-						CulturalOfferConstants.FILTER_LOCATION_ALL, 
-						CulturalOfferConstants.FILTER_TYPE_ALL, 
-						this.pageableAll).getContent();
+				.filter(MainConstants.FILTER_ONE, 
+						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
+						CulturalOfferConstants.FILTER_TYPES_ALL, 
+						this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -314,10 +313,10 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterOneLocation() {
 		List<CulturalOffer> offers = 
 				this.culturalOfferRepository
-				.filter(CulturalOfferConstants.FILTER_NAME_ALL, 
-						FilterConstants.FILTER_ONE, 
-						CulturalOfferConstants.FILTER_TYPE_ALL, 
-						this.pageableAll).getContent();
+				.filter(CulturalOfferConstants.FILTER_NAMES_ALL, 
+						MainConstants.FILTER_ONE, 
+						CulturalOfferConstants.FILTER_TYPES_ALL, 
+						this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -329,25 +328,10 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterOneType() {
 		List<CulturalOffer> offers = 
 				this.culturalOfferRepository
-				.filter(CulturalOfferConstants.FILTER_NAME_ALL, 
-						CulturalOfferConstants.FILTER_LOCATION_ALL, 
-						FilterConstants.FILTER_ONE, 
-						this.pageableAll).getContent();
-		assertEquals(MainConstants.ONE_SIZE, offers.size());
-		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
-		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-	}
-	
-	@Test
-	public void testFilterOneNameLocationType() {
-		List<CulturalOffer> offers = 
-				this.culturalOfferRepository
-				.filter(FilterConstants.FILTER_ONE, 
-						FilterConstants.FILTER_ONE, 
-						FilterConstants.FILTER_ONE, 
-						this.pageableAll).getContent();
+				.filter(CulturalOfferConstants.FILTER_NAMES_ALL, 
+						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
+						MainConstants.FILTER_ONE, 
+						this.pageableTotal).getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
@@ -359,10 +343,10 @@ public class CulturalOfferRepositoryTest {
 	public void testFilterNone() {
 		List<CulturalOffer> offers = 
 				this.culturalOfferRepository
-				.filter(FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_ALL, 
-						FilterConstants.FILTER_NONE, 
-						this.pageableAll).getContent();
+				.filter(MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_ALL, 
+						MainConstants.FILTER_NONE, 
+						this.pageableTotal).getContent();
 		assertTrue(offers.isEmpty());
 	}
 	
