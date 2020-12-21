@@ -1,30 +1,32 @@
-package com.example.demo.service.integration;
+package com.example.demo.service.unit;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.model.Image;
 import com.example.demo.service.Email;
 import com.example.demo.service.EmailService;
 import com.icegreen.greenmail.store.FolderException;
-import com.icegreen.greenmail.util.GreenMail;
-import com.icegreen.greenmail.util.GreenMailUtil;
-import com.icegreen.greenmail.util.ServerSetup;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -33,33 +35,23 @@ public class EmailServiceTest {
 	@Autowired
 	private EmailService emailService;
 
-	private static GreenMail testSmtp;
-
-	@BeforeClass
-	public static void testSmtpInit() {
-		ServerSetup setup = new ServerSetup(587, "localhost", "smtp");
-		testSmtp = new GreenMail(setup);
-		testSmtp.start();
-	}
-
+	@MockBean
+	private JavaMailSenderImpl sender;
+	
 	@Test
 	public void testValidMail() throws MessagingException, IOException, FolderException {
 		Email email = new Email();
 		email.setTo("recipient@example.org");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
 		email.setText("We show how to write Integration Tests using Spring and GreenMail.");
-
+		
+		MimeMessage mimeMessage = new MimeMessage((Session)null);
+        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email.getTo()));
+		mimeMessage.setSubject(email.getSubject());
+        mimeMessage.setText(email.getText());
+		Mockito.when(this.sender.createMimeMessage()).thenReturn(mimeMessage);
 		emailService.sendEmail(email);
-
-		assertTrue(testSmtp.waitForIncomingEmail(5000, 1));
-		MimeMessage[] receivedMessages = testSmtp.getReceivedMessages();
-
-		MimeMessage current = receivedMessages[0];
-		String body = GreenMailUtil.getBody(current).replaceAll("=\r?\n", "");
-
-		assertEquals(email.getSubject(), current.getSubject());
-		assertEquals(email.getTo(), current.getAllRecipients()[0].toString());
-		assertEquals(email.getText(), body);
+		assertEquals(email.getSubject(), mimeMessage.getSubject());
 	}
 
 	@Test
@@ -73,53 +65,62 @@ public class EmailServiceTest {
 		imgs.add(new Image("/image_fair.png"));
 		email.setImages(imgs);
 
-		emailService.sendEmailWithAttachments(email);
-
-		assertTrue(testSmtp.waitForIncomingEmail(5000, 1));
-		MimeMessage[] receivedMessages = testSmtp.getReceivedMessages();
-		MimeMessage current = receivedMessages[0];
-
-		String body = GreenMailUtil.getBody(current).replaceAll("=\r?\n", "");
-		assertEquals(email.getSubject(), current.getSubject());
-		assertEquals(email.getTo(), current.getAllRecipients()[0].toString());
-		assertEquals(email.getText(), body);
+		MimeMessage mimeMessage = new MimeMessage((Session)null);
+        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email.getTo()));
+		mimeMessage.setSubject(email.getSubject());
+        mimeMessage.setText(email.getText());
+        Mockito.when(this.sender.createMimeMessage()).thenReturn(mimeMessage);
+		emailService.sendEmail(email);
+		assertEquals(email.getSubject(), mimeMessage.getSubject());
 	}
 
-	@Test
+	@Test(expected = InstantiationError.class)
 	public void testMailNoTo() {
 		Email email = new Email();
 		email.setTo("");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
 		email.setText("We show how to write Integration Tests using Spring and GreenMail.");
 
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(email.getTo());
+		message.setSubject(email.getSubject());
+		message.setText(email.getText());
+		Mockito.doThrow(MailException.class).when(this.sender).send(message);
 		emailService.sendEmail(email);
-		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
-	@Test
+	@Test(expected = InstantiationError.class)
 	public void testMailNoSubject() {
 		Email email = new Email();
 		email.setTo("recipient@example.org");
 		email.setSubject("");
 		email.setText("We show how to write Integration Tests using Spring and GreenMail.");
 
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(email.getTo());
+		message.setSubject(email.getSubject());
+		message.setText(email.getText());
+		Mockito.doThrow(MailException.class).when(this.sender).send(message);
 		emailService.sendEmail(email);
-		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
-	@Test
+	@Test(expected = InstantiationError.class)
 	public void testMailNoText() {
 		Email email = new Email();
 		email.setTo("recipient@example.org");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
 		email.setText("");
 
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(email.getTo());
+		message.setSubject(email.getSubject());
+		message.setText(email.getText());
+		Mockito.doThrow(MailException.class).when(this.sender).send(message);
 		emailService.sendEmail(email);
-		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
-	@Test
-	public void testImageMailNoTo() {
+	@Test(expected = InstantiationError.class)
+	public void testImageMailNoTo() throws MessagingException {
 		Email email = new Email();
 		email.setTo("");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
@@ -129,12 +130,15 @@ public class EmailServiceTest {
 		imgs.add(new Image("/image_fair.png"));
 		email.setImages(imgs);
 
+		MimeMessage mimeMessage = new MimeMessage((Session)null);
+		mimeMessage.setSubject(email.getSubject());
+        mimeMessage.setText(email.getText());
+		Mockito.doThrow(MailException.class).when(this.sender).send(mimeMessage);
 		emailService.sendEmailWithAttachments(email);
-		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
-	@Test
-	public void testImageMailNoSubject() {
+	@Test(expected = InstantiationError.class)
+	public void testImageMailNoSubject() throws MessagingException {
 		Email email = new Email();
 		email.setTo("recipient@example.org");
 		email.setSubject("");
@@ -144,12 +148,16 @@ public class EmailServiceTest {
 		imgs.add(new Image("/image_fair.png"));
 		email.setImages(imgs);
 
+		MimeMessage mimeMessage = new MimeMessage((Session)null);
+        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email.getTo()));
+		mimeMessage.setSubject(email.getSubject());
+        mimeMessage.setText(email.getText());
+		Mockito.doThrow(MailException.class).when(this.sender).send(mimeMessage);
 		emailService.sendEmailWithAttachments(email);
-		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
-	@Test
-	public void testImageMailNoText() {
+	@Test(expected = InstantiationError.class)
+	public void testImageMailNoText() throws MessagingException {
 		Email email = new Email();
 		email.setTo("recipient@example.org");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
@@ -159,12 +167,16 @@ public class EmailServiceTest {
 		imgs.add(new Image("/image_fair.png"));
 		email.setImages(imgs);
 
+		MimeMessage mimeMessage = new MimeMessage((Session)null);
+        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email.getTo()));
+		mimeMessage.setSubject(email.getSubject());
+        mimeMessage.setText(email.getText());
+		Mockito.doThrow(MailException.class).when(this.sender).send(mimeMessage);
 		emailService.sendEmailWithAttachments(email);
-		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
 	}
 
-	@Test
-	public void testImageMailNoImages() {
+	@Test(expected = InstantiationError.class)
+	public void testImageMailInvalidImages() throws MessagingException {
 		Email email = new Email();
 		email.setTo("recipient@example.org");
 		email.setSubject("Spring Mail Integration Testing with JUnit and GreenMail Example");
@@ -174,13 +186,11 @@ public class EmailServiceTest {
 		imgs.add(new Image("/awdwadawdawdaw.png"));
 		email.setImages(imgs);
 
-		emailService.sendEmailWithAttachments(email);
-		assertTrue(testSmtp.waitForIncomingEmail(5000, 0));
-	}
-
-	@AfterClass
-	public static void testSmtpCleanup() {
-		testSmtp.stop();
+		MimeMessage mimeMessage = new MimeMessage((Session)null);
+        mimeMessage.setRecipient(Message.RecipientType.TO, new InternetAddress(email.getTo()));
+		mimeMessage.setSubject(email.getSubject());
+        mimeMessage.setText(email.getText());
+		Mockito.doThrow(MailException.class).when(this.sender).send(mimeMessage);
 	}
 
 }
