@@ -12,6 +12,24 @@
             </app-image-input>
         
             <div class="form-container">
+
+                <mat-form-field>
+                    <mat-label>Email</mat-label>
+                    <input 
+                    matInput 
+                    autocomplete="off"
+                    formControlName="email" 
+                    placeholder="Enter email">
+                    <mat-error *ngIf="!profileForm.get('email').hasError('emailError')">
+                        Valid email is required!
+                    </mat-error>
+                    <mat-error *ngIf="profileForm.get('email').hasError('emailError')">
+                        Email already exists!
+                    </mat-error>
+                    <mat-hint *ngIf="profileForm.pending">
+                        Checking uniqueness of the email...
+                      </mat-hint>          
+                </mat-form-field>
                 
                 <mat-form-field>
                     <mat-label>First name</mat-label>
@@ -36,25 +54,7 @@
                         Last name is required!
                     </mat-error>    
                 </mat-form-field>
-        
-                <mat-form-field>
-                    <mat-label>Email</mat-label>
-                    <input 
-                    matInput 
-                    autocomplete="off"
-                    formControlName="email" 
-                    placeholder="Enter email">
-                    <mat-error *ngIf="!profileForm.get('email').hasError('emailError')">
-                        Email is required!
-                    </mat-error>
-                    <mat-error *ngIf="profileForm.get('email').hasError('emailError')">
-                        Email already exists!
-                    </mat-error>
-                    <mat-hint *ngIf="profileForm.pending">
-                        Checking uniqueness of the email...
-                      </mat-hint>          
-                </mat-form-field>
-        
+                
                 <br>
 
                 <mat-form-field>
@@ -83,7 +83,7 @@
                     type="password"
                     matInput 
                     autocomplete="off"
-                    formControlName="newPasswordConfirmed" 
+                    formControlName="newPasswordConfirmation" 
                     placeholder="Confirm new password">
                 </mat-form-field>
 
@@ -108,6 +108,7 @@
                     *ngIf="!savePending"
                     mat-raised-button 
                     color="accent"
+                    [disabled]="profileForm.pending"
                     (click)="save()">Save</button>
                     <app-spinner-button *ngIf="savePending"></app-spinner-button>    
                 </span>

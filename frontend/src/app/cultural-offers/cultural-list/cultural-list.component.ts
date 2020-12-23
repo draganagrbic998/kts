@@ -26,6 +26,7 @@ export class CulturalListComponent implements OnInit {
   @Output() changePage: EventEmitter<number> = new EventEmitter();
   @Output() filterData: EventEmitter<null> = new EventEmitter();
   @Output() markOnMap: EventEmitter<CulturalOffer> = new EventEmitter();
+  @Output() refreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
 
   nameFilters: Subject<string> = new Subject<string>();
   locationFilters: Subject<string> = new Subject<string>();

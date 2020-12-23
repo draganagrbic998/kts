@@ -10,23 +10,22 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
-import com.example.demo.constants.Constants;
-
 public class LoginTest {
 	
 	private WebDriver browser;
 	
-	private LoginPage loginPage;
 	private HomePage homePage;
+	private LoginPage loginPage;
 	
 	@Before
 	public void setUp() {
-		System.setProperty("webdriver.chrome.driver", Constants.CHROME_DRIVER_PATH);
+		System.setProperty("webdriver.chrome.driver", TestConstants.CHROME_DRIVER_PATH);
 		this.browser = new ChromeDriver();
 		this.browser.manage().window().maximize();
-		this.browser.navigate().to(Constants.LOGIN_PATH);
-		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
+		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
+		this.browser.navigate().to(TestConstants.LOGIN_PATH);
+		this.loginPage.ensureLoginButtonIsDisplayed();
 	}
 	
 	@Test
@@ -34,9 +33,9 @@ public class LoginTest {
 		this.loginPage.loginButtonClick();
 		this.loginPage.ensureEmailErrorIsDisplayed();
 		this.loginPage.ensurePasswordErrorIsDisplayed();
-		assertTrue(this.loginPage.emailInvalidError());
-		assertTrue(this.loginPage.passwordEmptyError());
-		assertEquals(Constants.LOGIN_PATH, this.browser.getCurrentUrl());
+		assertTrue(this.loginPage.emailErrorDisplayed());
+		assertTrue(this.loginPage.passwordErrorDisplayed());
+		assertEquals(TestConstants.LOGIN_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@Test
@@ -45,9 +44,9 @@ public class LoginTest {
 		this.loginPage.loginButtonClick();
 		this.loginPage.ensureEmailErrorIsDisplayed();
 		this.loginPage.ensurePasswordErrorIsDisplayed();
-		assertTrue(this.loginPage.emailInvalidError());
-		assertTrue(this.loginPage.passwordEmptyError());
-		assertEquals(Constants.LOGIN_PATH, this.browser.getCurrentUrl());
+		assertTrue(this.loginPage.emailErrorDisplayed());
+		assertTrue(this.loginPage.passwordErrorDisplayed());
+		assertEquals(TestConstants.LOGIN_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@Test
@@ -56,26 +55,26 @@ public class LoginTest {
 		this.loginPage.passwordInputFill("dummy");
 		this.loginPage.loginButtonClick();
 		this.loginPage.ensureLoginErrorIsDisplayed();
-		assertEquals(Constants.LOGIN_PATH, this.browser.getCurrentUrl());
+		assertEquals(TestConstants.LOGIN_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@Test
 	public void testExistingUserAdmin() {
-		this.loginPage.emailInputFill(Constants.ADMIN_EMAIL);
-		this.loginPage.passwordInputFill(Constants.LOGIN_PASSWORD);
+		this.loginPage.emailInputFill(TestConstants.ADMIN_EMAIL);
+		this.loginPage.passwordInputFill(TestConstants.LOGIN_PASSWORD);
 		this.loginPage.loginButtonClick();
 		this.homePage.ensureMapIsDisplayed();
-		assertEquals(Constants.HOME_PATH, this.browser.getCurrentUrl());
+		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 		//nervira me sto je stavio / na kraj :(
 	}
 	
 	@Test
 	public void testExistingUserGuest() {
-		this.loginPage.emailInputFill(Constants.GUEST_EMAIL);
-		this.loginPage.passwordInputFill(Constants.LOGIN_PASSWORD);
+		this.loginPage.emailInputFill(TestConstants.GUEST_EMAIL);
+		this.loginPage.passwordInputFill(TestConstants.LOGIN_PASSWORD);
 		this.loginPage.loginButtonClick();
 		this.homePage.ensureMapIsDisplayed();
-		assertEquals(Constants.HOME_PATH, this.browser.getCurrentUrl());
+		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 		//nervira me sto je stavio / na kraj :(
 	}
 	

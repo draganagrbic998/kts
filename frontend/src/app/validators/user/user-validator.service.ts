@@ -24,10 +24,10 @@ export class UserValidatorService {
 
   newPasswordConfirmed(): ValidatorFn {
     return (control: AbstractControl): null | ValidationError => {
-      if ((control.get('newPassword').value || control.get('newPasswordConfirmed').value) && !control.get('oldPassword').value){
+      if ((control.get('newPassword').value || control.get('newPasswordConfirmation').value) && !control.get('oldPassword').value){
         return {oldPasswordError: true};
       }
-      if (control.get('newPassword').value !== control.get('newPasswordConfirmed').value){
+      if (control.get('newPassword').value !== control.get('newPasswordConfirmation').value){
         return {newPasswordError: true};
       }
       return null;

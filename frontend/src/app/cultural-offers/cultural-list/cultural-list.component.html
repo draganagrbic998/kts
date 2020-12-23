@@ -94,6 +94,7 @@
 *ngFor="let culturalOffer of culturalOffers"
 [culturalOffer]="culturalOffer"
 (markOnMap)="markOnMap.emit(culturalOffer)"
+(refreshData)="refreshData.emit($event)"
 ></app-cultural-details>
 
 <app-block></app-block>
