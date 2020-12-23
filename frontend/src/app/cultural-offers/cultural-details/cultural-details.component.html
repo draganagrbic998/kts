@@ -26,6 +26,16 @@
                         <app-bold-text>Total rate: </app-bold-text>{{ culturalOffer.totalRate | number:'1.2-2' }}/5
                     </div>
                 </div>
+
+                <div>
+                    <button 
+                    mat-icon-button 
+                    color="accent"
+                    (click)="showDetails()">
+                        <mat-icon>edit</mat-icon>
+                    </button>        
+                </div>
+
             </div>
             
         </mat-card-content>

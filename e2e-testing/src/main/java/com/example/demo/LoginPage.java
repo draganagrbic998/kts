@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -12,13 +13,13 @@ public class LoginPage {
 		
 	@FindBy(xpath = "/html/body/app-root/app-user/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[1]/div/div[1]/div/input")
 	private WebElement emailInput;
-	
-	@FindBy(xpath = "/html/body/app-root/app-user/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[1]/div/div[3]/div/mat-error")
-	private WebElement emailError;
-	
+		
 	@FindBy(xpath = "/html/body/app-root/app-user/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[2]/div/div[1]/div/input")
 	private WebElement passwordInput;
 	
+	@FindBy(xpath = "/html/body/app-root/app-user/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[1]/div/div[3]/div/mat-error")
+	private WebElement emailError;
+
 	@FindBy(xpath = "/html/body/app-root/app-user/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[2]/div/div[3]/div/mat-error")
 	private WebElement passwordError;
 	
@@ -33,38 +34,54 @@ public class LoginPage {
 		this.browser = browser;
 	}
 	
+	public void loginButtonClick() {
+		this.loginButton.click();
+	}
+	
 	public void emailInputFill(String value) {
 		this.emailInput.clear();
-		this.emailInput.sendKeys(value);
+		if (value.equals("")) {
+			this.emailInput.sendKeys("a");
+			this.emailInput.sendKeys(Keys.BACK_SPACE);
+		}
+		else {
+			this.emailInput.sendKeys(value);			
+		}
 	}
 	
 	public void passwordInputFill(String value) {
 		this.passwordInput.clear();
-		this.passwordInput.sendKeys(value);
+		if (value.equals("")) {
+			this.passwordInput.sendKeys("a");
+			this.passwordInput.sendKeys(Keys.BACK_SPACE);
+		}
+		else {
+			this.passwordInput.sendKeys(value);			
+		}
 	}
-	
-	public void loginButtonClick() {
-		this.loginButton.click();
-	}
-		
-	public boolean emailInvalidError() {
+			
+	public boolean emailErrorDisplayed() {
 		return this.emailError.isDisplayed() && this.emailError.getText().equals("You must provide valid email!");
 	}
 	
-	public boolean passwordEmptyError() {
+	public boolean passwordErrorDisplayed() {
 		return this.passwordError.isDisplayed() && this.passwordError.getText().equals("You must provide password!");
 	}
 	
 	public void ensureEmailErrorIsDisplayed() {
-		(new WebDriverWait(this.browser, Constants.SYNCHRON_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(this.emailError));
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.emailError));
 	}
 	
 	public void ensurePasswordErrorIsDisplayed() {
-		(new WebDriverWait(this.browser, Constants.SYNCHRON_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(this.passwordError));
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.passwordError));
+	}
+
+	public void ensureLoginButtonIsDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.loginButton));
 	}
 
 	public void ensureLoginErrorIsDisplayed() {
-		(new WebDriverWait(this.browser, Constants.SYNCHRON_TIMEOUT)).until(ExpectedConditions.elementToBeClickable(this.loginError));
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.loginError));
 	}
 
 }

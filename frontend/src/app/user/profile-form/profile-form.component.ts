@@ -29,13 +29,14 @@ export class ProfileFormComponent implements OnInit {
   image: Image = {path: this.profile.image, upload: null};
 
   profileForm: FormGroup = new FormGroup({
-    email: new FormControl(this.profile.email, [Validators.required, Validators.pattern(new RegExp('\\S'))],
+    email: new FormControl(this.profile.email,
+    [Validators.required, Validators.pattern(new RegExp('\\S')), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
     [this.userValidator.hasEmail(this.profile.id)]),
     firstName: new FormControl(this.profile.firstName, [Validators.required, Validators.pattern(new RegExp('\\S'))]),
     lastName: new FormControl(this.profile.lastName, [Validators.required, Validators.pattern(new RegExp('\\S'))]),
     oldPassword: new FormControl(''),
     newPassword: new FormControl(''),
-    newPasswordConfirmed: new FormControl('')
+    newPasswordConfirmation: new FormControl('')
   }, {
     validators: [this.userValidator.newPasswordConfirmed()]
   });
@@ -56,7 +57,7 @@ export class ProfileFormComponent implements OnInit {
   resetPassword(): void{
     this.profileForm.get('oldPassword').setValue('');
     this.profileForm.get('newPassword').setValue('');
-    this.profileForm.get('newPasswordConfirmed').setValue('');
+    this.profileForm.get('newPasswordConfirmation').setValue('');
   }
 
   save(): void{
@@ -74,7 +75,7 @@ export class ProfileFormComponent implements OnInit {
       if (key === 'newPassword' && !this.profileForm.value.newPassword){
         continue;
       }
-      if (key === 'newPasswordConfirmed'){
+      if (key === 'newPasswordConfirmation'){
         continue;
       }
       formData.append(key, this.profileForm.value[key]);
