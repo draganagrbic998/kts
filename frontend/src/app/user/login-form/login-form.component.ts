@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/constants/dialog';
+import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/constants/snackbar';
 import { User } from 'src/app/models/user';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { UserService } from 'src/app/user/services/user.service';
 
 @Component({
   selector: 'app-login-form',
@@ -23,8 +23,10 @@ export class LoginFormComponent implements OnInit {
 
   loginPending = false;
   loginForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),
-    password: new FormControl('', [Validators.required])
+    email: new FormControl('', [Validators.required,
+    Validators.pattern(new RegExp('\\S'))]),
+    password: new FormControl('', [Validators.required,
+    Validators.pattern(new RegExp('\\S'))])
   });
 
   login(): void{
@@ -40,7 +42,7 @@ export class LoginFormComponent implements OnInit {
       },
       () => {
         this.loginPending = false;
-        this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
+        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
       }
     );
   }

@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/constants/dialog';
+import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/constants/snackbar';
 import { Image } from 'src/app/models/image';
 import { News } from 'src/app/models/news';
-import { NewsService } from 'src/app/services/news/news.service';
+import { NewsService } from 'src/app/news/services/news.service';
 
 @Component({
   selector: 'app-news-form',
@@ -22,11 +22,11 @@ export class NewsFormComponent implements OnInit {
   ) { }
 
   savePending = false;
-  saved: EventEmitter<null> = new EventEmitter();
-  text: FormControl = new FormControl(this.news.text || '', [Validators.required, Validators.pattern(new RegExp('\\S'))]);
-  images: Image[] = this.news.images ? this.news.images.map(img => {
+  text: FormControl = new FormControl(this.news.text || '',
+  [Validators.required, Validators.pattern(new RegExp('\\S'))]);
+  images: Image[] = this.news.images.map(img => {
     return {path: img, upload: null};
-  }) : [];
+  });
 
   save(): void{
     const formData: FormData = new FormData();
@@ -49,11 +49,11 @@ export class NewsFormComponent implements OnInit {
     this.newsService.save(formData).subscribe(
       () => {
         this.dialogRef.close();
-        this.saved.emit();
+        this.newsService.announceRefreshData(this.news.culturalOfferId);
       },
       () => {
         this.savePending = false;
-        this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
+        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
       }
     );
   }

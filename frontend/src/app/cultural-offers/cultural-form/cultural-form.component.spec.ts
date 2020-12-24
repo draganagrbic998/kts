@@ -3,11 +3,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
-import { TypeService } from 'src/app/services/type/type.service';
-import { CulturalValidatorService } from 'src/app/validators/cultural-offer/cultural-validator.service';
-import { TypeValidatorService } from 'src/app/validators/type/type-validator.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
+import { TypeService } from 'src/app/cats-types/services/type.service';
+import { CulturalValidatorService } from 'src/app/cultural-offers/services/cultural-validator.service';
+import { TypeValidatorService } from 'src/app/cats-types/services/type-validator.service';
 import { CulturalFormComponent } from './cultural-form.component';
 
 describe('CulturalFormComponent', () => {
@@ -29,7 +29,7 @@ describe('CulturalFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CulturalFormComponent ],
       imports: [
-        LayoutModule,
+        SharedModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

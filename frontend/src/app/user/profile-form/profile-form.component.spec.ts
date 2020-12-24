@@ -3,10 +3,10 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProfileFormComponent } from './profile-form.component';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { UserValidatorService } from 'src/app/validators/user/user-validator.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { UserService } from 'src/app/user/services/user.service';
+import { UserValidatorService } from 'src/app/user/services/user-validator.service';
 
 describe('ProfileFormComponent', () => {
   let component: ProfileFormComponent;
@@ -24,7 +24,7 @@ describe('ProfileFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ProfileFormComponent ],
       imports: [
-        LayoutModule,
+        SharedModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

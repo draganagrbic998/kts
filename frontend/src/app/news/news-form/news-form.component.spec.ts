@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NewsFormComponent } from './news-form.component';
-import { LayoutModule } from 'src/app/layout/layout.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('NewsFormComponent', () => {
   let component: NewsFormComponent;
@@ -17,7 +17,7 @@ describe('NewsFormComponent', () => {
       declarations: [ NewsFormComponent ],
       imports: [
         HttpClientTestingModule,
-        LayoutModule,
+        SharedModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

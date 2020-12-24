@@ -2,8 +2,7 @@
 
 <app-paginator
 [fetchPending]="fetchPending"
-[hasPrevious]="!startOfPages"
-[hasNext]="!endOfPages"
+[pagination]="pagination"
 (changedPage)="changePage($event)"
 ></app-paginator>
 
@@ -13,7 +12,6 @@
 
 <app-cat-type-details 
 *ngFor="let catType of catTypes"
-[catType]="catType"
-(deleted)="fetchData()">
+[catType]="catType">
 </app-cat-type-details>
 

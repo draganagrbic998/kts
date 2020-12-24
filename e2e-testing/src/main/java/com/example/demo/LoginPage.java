@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,23 +12,23 @@ public class LoginPage {
 	
 	private WebDriver browser;
 		
-	@FindBy(xpath = "/html/body/app-root/app-user/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[1]/div/div[1]/div/input")
+	@FindBy(xpath = "//*/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[1]/div/div[1]/div/input")
 	private WebElement emailInput;
 		
-	@FindBy(xpath = "/html/body/app-root/app-user/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[2]/div/div[1]/div/input")
+	@FindBy(xpath = "//*/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[2]/div/div[1]/div/input")
 	private WebElement passwordInput;
 	
-	@FindBy(xpath = "/html/body/app-root/app-user/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[1]/div/div[3]/div/mat-error")
+	@FindBy(xpath = "//*/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[1]/div/div[3]/div/mat-error")
 	private WebElement emailError;
 
-	@FindBy(xpath = "/html/body/app-root/app-user/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[2]/div/div[3]/div/mat-error")
+	@FindBy(xpath = "//*/app-login-form/app-form-container/div/mat-card/mat-card-content/form/div/mat-form-field[2]/div/div[3]/div/mat-error")
 	private WebElement passwordError;
 	
-	@FindBy(xpath = "/html/body/app-root/app-user/app-login-form/app-form-container/div/mat-card/mat-card-content/form/app-center-container/div/button")
+	@FindBy(xpath = "//*/app-login-form/app-form-container/div/mat-card/mat-card-content/form/app-center-container/div/button")
 	private WebElement loginButton;
 	
-	@FindBy(xpath = "/html/body/div[2]/div/div/snack-bar-container/simple-snack-bar/span")
-	private WebElement loginError;
+	@FindBy(tagName = Constants.SNACKBAR)
+	private WebElement snackBar;
 	
 	public LoginPage(WebDriver browser) {
 		super();
@@ -40,48 +41,44 @@ public class LoginPage {
 	
 	public void emailInputFill(String value) {
 		this.emailInput.clear();
-		if (value.equals("")) {
-			this.emailInput.sendKeys("a");
-			this.emailInput.sendKeys(Keys.BACK_SPACE);
-		}
-		else {
-			this.emailInput.sendKeys(value);			
-		}
+		this.emailInput.sendKeys(value);			
+		this.emailInput.sendKeys(Keys.SPACE, Keys.BACK_SPACE);
 	}
 	
 	public void passwordInputFill(String value) {
 		this.passwordInput.clear();
-		if (value.equals("")) {
-			this.passwordInput.sendKeys("a");
-			this.passwordInput.sendKeys(Keys.BACK_SPACE);
-		}
-		else {
-			this.passwordInput.sendKeys(value);			
-		}
-	}
-			
-	public boolean emailErrorDisplayed() {
-		return this.emailError.isDisplayed() && this.emailError.getText().equals("You must provide valid email!");
+		this.passwordInput.sendKeys(value);			
+		this.passwordInput.sendKeys(Keys.SPACE, Keys.BACK_SPACE);
 	}
 	
-	public boolean passwordErrorDisplayed() {
-		return this.passwordError.isDisplayed() && this.passwordError.getText().equals("You must provide password!");
+	public void ensureFormDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.emailInput));
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.passwordInput));
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.loginButton));
 	}
 	
-	public void ensureEmailErrorIsDisplayed() {
+	public void ensureSnackBarDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.snackBar));
+	}
+	
+	public void ensureEmailErrorDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.emailError));
 	}
 	
-	public void ensurePasswordErrorIsDisplayed() {
+	public void ensurePasswordErrorDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.passwordError));
 	}
-
-	public void ensureLoginButtonIsDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.loginButton));
+	
+	public boolean emptyEmailError() {
+		return this.emailError.isDisplayed() && this.emailError.getText().equals("Email is required!");
 	}
-
-	public void ensureLoginErrorIsDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.loginError));
+	
+	public boolean emptyPasswordError() {
+		return this.passwordError.isDisplayed() && this.passwordError.getText().equals("Password is required!");
+	}
+	
+	public String snackBarText() {
+		return this.snackBar.findElement(By.tagName("span")).getText();
 	}
 
 }

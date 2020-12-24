@@ -25,11 +25,10 @@
         
     <br><br>
 
-    <app-save-cancel-container
+    <app-save-cancel
     [pending]="savePending"
-    [inputControl]="text"
     (cancelled)="dialogRef.close()"
     (saved)="save()"
-    ></app-save-cancel-container>
+    ></app-save-cancel>
     
 </div>

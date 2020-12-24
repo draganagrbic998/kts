@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
 
 import { UserRoutingModule } from './user-routing.module';
-import { LayoutModule } from '../layout/layout.module';
+import { SharedModule } from '../shared/shared.module';
 import { UserComponent } from './user.component';
 import { AccountActivationComponent } from './account-activation/account-activation.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { ProfileFormComponent } from './profile-form/profile-form.component';
+import { ProfileDetailsComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -14,11 +15,12 @@ import { ProfileFormComponent } from './profile-form/profile-form.component';
     LoginFormComponent,
     RegisterFormComponent,
     ProfileFormComponent,
-    AccountActivationComponent
+    AccountActivationComponent,
+    ProfileDetailsComponent
   ],
   imports: [
     UserRoutingModule,
-    LayoutModule
+    SharedModule
   ]
 })
 export class UserModule { }

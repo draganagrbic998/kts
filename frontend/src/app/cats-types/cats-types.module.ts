@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { LayoutModule } from '../layout/layout.module';
+import { SharedModule } from '../shared/shared.module';
 import { CatTypeDetailsComponent } from './cat-type-details/cat-type-details.component';
 import { CatTypeDialogComponent } from './cat-type-dialog/cat-type-dialog.component';
 import { CatFormComponent } from './cat-form/cat-form.component';
@@ -16,7 +16,7 @@ import { TypeFormComponent } from './type-form/type-form.component';
     CatTypeDialogComponent
   ],
   imports: [
-    LayoutModule
+    SharedModule
   ],
   exports: [
     CatTypeDialogComponent

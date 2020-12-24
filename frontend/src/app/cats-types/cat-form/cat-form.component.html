@@ -25,6 +25,7 @@
                     Checking uniqueness of the name...
                 </mat-hint>                  
             </mat-form-field>
+            
         </div>
 
         <br>
@@ -34,7 +35,7 @@
             *ngIf="!savePending"
             mat-raised-button 
             color="accent"
-            (click)="save()">Create</button>
+            (click)="save()">Save</button>
             <app-spinner-button *ngIf="savePending"></app-spinner-button>  
         </app-center-container>
 

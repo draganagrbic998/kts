@@ -8,8 +8,9 @@
         ></app-close-button>
 
         <div class="image-container mat-elevation-z8">
-            <img [src]="culturalOffer.image ? culturalOffer.image : '../../../assets/noimage.png'"
-            (error)="culturalOffer.image=null" >    
+            <img 
+            [src]="culturalOffer.image || '../../../assets/noimage.png'"
+            (error)="culturalOffer.image=null">    
         </div>
         
         <div class="details-container">
@@ -48,7 +49,7 @@
                     <mat-icon>delete</mat-icon>Delete
                 </button>
                 <button 
-                *ngIf="role!=='admin' && !toggleSubPending" 
+                *ngIf="role==='guest' && !toggleSubPending" 
                 mat-button 
                 [color]="culturalOffer.followed ? 'warn' : 'primary'"
                 (click)="toggleSubscription()">
@@ -75,31 +76,29 @@
     <mat-drawer class="mat-elevation-z24" #drawer position="end" mode="side">
 
         <mat-tab-group animationDuration="0ms">
-            <mat-tab #commentsTab [label]="'Reviews'">
-                <app-comment-list 
-                (updateTotalRate)="culturalOffer.totalRate=$event"
-                #comments [culturalOfferId]="culturalOffer.id">
+            <mat-tab #comments [label]="'Reviews'">
+                <app-comment-list [culturalOfferId]="culturalOffer.id">
                 </app-comment-list>
             </mat-tab>
-            <mat-tab #newsTab [label]="'News'">
-                <app-news-list #news [culturalOfferId]="culturalOffer.id">
+            <mat-tab #news [label]="'News'">
+                <app-news-list [culturalOfferId]="culturalOffer.id">
                 </app-news-list>
             </mat-tab>
         </mat-tab-group>
 
         <button 
-        *ngIf="commentsTab.isActive && role!=='admin'"
+        *ngIf="comments.isActive && role==='guest'"
         mat-icon-button
         class="fixed-button"
-        (click)="publishReview(comments)">
+        (click)="publishReview()">
             <mat-icon matTooltip="new comment">insert_comment</mat-icon>
         </button>
 
         <button 
-        *ngIf="newsTab.isActive && role==='admin'"
+        *ngIf="news.isActive && role==='admin'"
         mat-icon-button
         class="fixed-button"
-        (click)="publishNews(news)">
+        (click)="publishNews()">
             <mat-icon matTooltip="publish news">event_note</mat-icon>
         </button>
 

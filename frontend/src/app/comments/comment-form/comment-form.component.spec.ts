@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { CommentService } from 'src/app/services/comment/comment.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CommentService } from 'src/app/comments/services/comment.service';
 import { CommentFormComponent } from './comment-form.component';
 
 describe('CommentFormComponent', () => {
@@ -17,7 +17,7 @@ describe('CommentFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CommentFormComponent ],
       imports: [
-        LayoutModule,
+        SharedModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

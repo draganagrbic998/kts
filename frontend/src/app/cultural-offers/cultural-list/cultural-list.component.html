@@ -2,15 +2,14 @@
 [fixed]="true"
 [title]="title"
 [fetchPending]="fetchPending"
-[hasPrevious]="hasPrevious"
-[hasNext]="hasNext"
+[pagination]="pagination"
 (changedPage)="changePage.emit($event)"
 ></app-paginator>
 
 <app-preloader *ngIf="fetchPending && !panel.expanded"></app-preloader>
 
 <div class="filter-container">
-
+    <div class="block"></div>
     <mat-expansion-panel hideToggle #panel>
         <mat-expansion-panel-header>
             <mat-panel-title>
@@ -21,80 +20,13 @@
                 </app-center-container>
             </mat-panel-title>
         </mat-expansion-panel-header>
-        
-        <form [formGroup]="filterForm" [class.disabled]="fetchPending">
-            <mat-form-field appearance="outline"> 
-                <input 
-                matInput 
-                autocomplete="off" 
-                formControlName="name"
-                placeholder="Filter by name..."
-                [matAutocomplete]="names_auto"
-                (input)="nameFilters.next(filterForm.get('name').value.trim())">  
-                <mat-autocomplete #names_auto="matAutocomplete">
-                    <mat-option *ngFor="let name of names | async" [value]="name">
-                      {{name}}
-                    </mat-option>
-                </mat-autocomplete>      
-            </mat-form-field>
-
-            <br>
-
-            <mat-form-field appearance="outline"> 
-                <input 
-                matInput 
-                autocomplete="off" 
-                formControlName="location"
-                placeholder="Filter by location..."
-                [matAutocomplete]="location_auto"
-                (input)="locationFilters.next(filterForm.get('location').value.trim())">  
-                <mat-autocomplete #location_auto="matAutocomplete">
-                    <mat-option *ngFor="let location of locations | async" [value]="location">
-                      {{location}}
-                    </mat-option>
-                </mat-autocomplete>      
-            </mat-form-field>
-
-            <br>
-
-            <mat-form-field appearance="outline"> 
-                <input 
-                matInput 
-                autocomplete="off" 
-                formControlName="type"
-                placeholder="Filter by type..."
-                [matAutocomplete]="types_auto"
-                (input)="typeFilters.next(filterForm.get('type').value.trim())">  
-                <mat-autocomplete #types_auto="matAutocomplete">
-                    <mat-option *ngFor="let type of types | async" [value]="type">
-                      {{type}}
-                    </mat-option>
-                </mat-autocomplete>      
-            </mat-form-field>
-        </form>
-        
-        <br>
-
-        <app-spacer-container>
-            <span></span>
-            <span>
-                <button 
-                *ngIf="!fetchPending"
-                mat-raised-button 
-                color="accent"               
-                (click)="filterData.emit()">Filter</button>
-                <app-spinner-button *ngIf="fetchPending"></app-spinner-button>    
-            </span>
-        </app-spacer-container>
-
+        <app-filter-form></app-filter-form>
     </mat-expansion-panel>
 </div>
 
 <app-cultural-details 
 *ngFor="let culturalOffer of culturalOffers"
 [culturalOffer]="culturalOffer"
-(markOnMap)="markOnMap.emit(culturalOffer)"
-(refreshData)="refreshData.emit($event)"
 ></app-cultural-details>
 
-<app-block></app-block>
+<div class="block"></div>

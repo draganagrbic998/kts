@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { NewsService } from 'src/app/services/news/news.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { NewsService } from 'src/app/news/services/news.service';
 import { NewsDetailsComponent } from './news-details.component';
 
 describe('NewsDetailsComponent', () => {
@@ -13,7 +13,7 @@ describe('NewsDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ NewsDetailsComponent ],
       imports: [
-        LayoutModule
+        SharedModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
@@ -30,7 +30,8 @@ describe('NewsDetailsComponent', () => {
       id: null,
       createdAt: null,
       text: null,
-      images: []
+      images: [],
+      culturalOfferId: null
     };
     fixture.detectChanges();
   });

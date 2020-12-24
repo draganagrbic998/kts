@@ -1,0 +1,25 @@
+<div [class.fixed]="fixed" [class.mat-elevation-z8]="fixed">
+    <app-spacer-container>
+        <span class="arrow-left">
+            <button 
+            *ngIf="!fetchPending && !pagination.firstPage"
+            mat-icon-button 
+            (click)="changedPage.emit(-1)">
+                <mat-icon color="accent" class="big-icon" matTooltip="previous page">navigate_before</mat-icon>
+            </button>
+        </span>
+    
+        <span class="title">
+            {{title}}
+        </span>
+    
+        <span class="arrow-right">
+            <button 
+            *ngIf="!fetchPending && !pagination.lastPage"
+            mat-icon-button 
+            (click)="changedPage.emit(1)">
+                <mat-icon color="accent" class="big-icon" matTooltip="next page">navigate_next</mat-icon>
+            </button>
+        </span>
+    </app-spacer-container>    
+</div>

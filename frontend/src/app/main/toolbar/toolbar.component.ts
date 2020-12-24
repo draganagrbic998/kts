@@ -1,13 +1,13 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CatTypeDialogComponent } from 'src/app/cats-types/cat-type-dialog/cat-type-dialog.component';
 import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { LOGIN_PATH, USER_PATH } from 'src/app/constants/router';
 import { CulturalFormComponent } from 'src/app/cultural-offers/cultural-form/cultural-form.component';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { ProfileComponent } from '../profile/profile.component';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { ProfileDetailsComponent } from '../../user/profile/profile.component';
 
 @Component({
   selector: 'app-toolbar',
@@ -39,7 +39,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   profile(): void{
-    this.dialog.open(ProfileComponent, {
+    this.dialog.open(ProfileDetailsComponent, {
         panelClass: 'no-padding',
         backdropClass: 'cdk-overlay-transparent-backdrop',
         position: {
@@ -61,12 +61,7 @@ export class ToolbarComponent implements OnInit {
 
   addOffer(): void{
     const options = {...DIALOG_OPTIONS, ...{data: {}}};
-    const dialog: MatDialogRef<CulturalFormComponent> = this.dialog.open(CulturalFormComponent, options);
-    dialog.componentInstance.onSaved.subscribe(
-      (culturalOffer: CulturalOffer) => {
-        this.refreshData.emit(culturalOffer);
-      }
-    );
+    this.dialog.open(CulturalFormComponent, options);
   }
 
   ngOnInit(): void {

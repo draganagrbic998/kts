@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { UserService } from 'src/app/services/user/user.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { UserService } from 'src/app/user/services/user.service';
 import { LoginFormComponent } from './login-form.component';
 
 describe('LoginFormComponent', () => {
@@ -15,7 +15,7 @@ describe('LoginFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ LoginFormComponent ],
       imports: [
-        LayoutModule,
+        SharedModule,
         RouterTestingModule,
         BrowserAnimationsModule
       ],

@@ -1,10 +1,12 @@
-<div class="root-container mat-elevation-z24" (click)="markOnMap.emit()">
+<div class="root-container mat-elevation-z24" 
+(click)="culturalService.announceMarkOnMap(culturalOffer)">
     <mat-card>
         <mat-card-content>
 
             <div class="item-container">
                 <div class="image-container">
-                    <img [src]="culturalOffer.image ? culturalOffer.image : '../../../assets/noimage.png'"
+                    <img 
+                    [src]="culturalOffer.image ? culturalOffer.image : '../../../assets/noimage.png'"
                     (error)="culturalOffer.image=null">
                 </div>
     
@@ -14,16 +16,16 @@
                     </div>
                     <br>
                     <div>
-                        <app-bold-text>Type: </app-bold-text>{{culturalOffer.type + ', ' + culturalOffer.category}}
+                        <app-bold-text>Type: </app-bold-text><span>{{culturalOffer.type + ', ' + culturalOffer.category}}</span>
                     </div>
                     <div>
-                        <app-bold-text>Location: </app-bold-text>{{culturalOffer.location}}
+                        <app-bold-text>Location: </app-bold-text><span>{{culturalOffer.location}}</span>
                     </div>
                     <div *ngIf="culturalOffer.description">
-                        <app-bold-text>Description: </app-bold-text>{{culturalOffer.description}}
+                        <app-bold-text>Description: </app-bold-text><span>{{culturalOffer.description}}</span>
                     </div>
                     <div>
-                        <app-bold-text>Total rate: </app-bold-text>{{ culturalOffer.totalRate | number:'1.2-2' }}/5
+                        <app-bold-text>Total rate: </app-bold-text><span>{{ culturalOffer.totalRate | number:'1.2-2' }}/5</span>
                     </div>
                 </div>
 

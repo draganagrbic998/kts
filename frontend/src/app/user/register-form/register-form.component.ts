@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
-import { UserService } from 'src/app/services/user/user.service';
-import { UserValidatorService } from 'src/app/validators/user/user-validator.service';
+import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
+import { UserService } from 'src/app/user/services/user.service';
+import { UserValidatorService } from 'src/app/user/services/user-validator.service';
 
 @Component({
   selector: 'app-register-form',
@@ -20,11 +20,15 @@ export class RegisterFormComponent implements OnInit {
 
   registerPending = false;
   registerForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))],
-    [this.formValidator.hasEmail(null)]),
-    firstName: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))]),
-    lastName: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))]),
-    password: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))]),
+    email: new FormControl('', [Validators.required,
+      Validators.pattern(new RegExp('\\S'))],
+      [this.formValidator.hasEmail(null)]),
+    firstName: new FormControl('', [Validators.required,
+      Validators.pattern(new RegExp('\\S'))]),
+    lastName: new FormControl('', [Validators.required,
+      Validators.pattern(new RegExp('\\S'))]),
+    password: new FormControl('', [Validators.required,
+      Validators.pattern(new RegExp('\\S'))]),
     passwordConfirmation: new FormControl('', [this.formValidator.passwordConfirmed()])
   });
 
@@ -37,12 +41,12 @@ export class RegisterFormComponent implements OnInit {
       () => {
         this.registerPending = false;
         this.snackBar.open('Your request has been sent! Check your email.',
-        SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
+        SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
         this.registerForm.reset();
       },
       () => {
         this.registerPending = false;
-        this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
+        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
       }
     );
   }

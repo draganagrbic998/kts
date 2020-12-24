@@ -1,16 +1,15 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { AUTOCOMPLETE_DEBOUNCE, AUTOCOMPLETE_LENGTH } from 'src/app/constants/autocomplete';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
+import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { Image } from 'src/app/models/image';
-import { CategoryService } from 'src/app/services/category/category.service';
-import { ImageService } from 'src/app/services/image/image.service';
-import { TypeService } from 'src/app/services/type/type.service';
-import { CategoryValidatorService } from 'src/app/validators/category/category-validator.service';
-import { TypeValidatorService } from 'src/app/validators/type/type-validator.service';
+import { CategoryService } from 'src/app/cats-types/services/category.service';
+import { TypeService } from 'src/app/cats-types/services/type.service';
+import { CategoryValidatorService } from 'src/app/cats-types/services/category-validator.service';
+import { TypeValidatorService } from 'src/app/cats-types/services/type-validator.service';
 
 @Component({
   selector: 'app-type-form',
@@ -22,19 +21,21 @@ export class TypeFormComponent implements OnInit {
   constructor(
     private typeService: TypeService,
     private categoryService: CategoryService,
-    private imageService: ImageService,
     private typeValidator: TypeValidatorService,
     private categoryValidator: CategoryValidatorService,
     private snackBar: MatSnackBar
   ) { }
 
-  typeForm: FormGroup = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))], [this.typeValidator.hasName(true)]),
-    category: new FormControl('', [Validators.required, Validators.pattern(new RegExp('\\S'))], [this.categoryValidator.hasName(false)])
-  });
   savePending = false;
-  @Output() saved: EventEmitter<null> = new EventEmitter();
-  image: Image = {path: '', upload: null};
+  image: Image = {path: null, upload: null};
+  typeForm: FormGroup = new FormGroup({
+    name: new FormControl('', [Validators.required,
+      Validators.pattern(new RegExp('\\S'))],
+      [this.typeValidator.hasName(true)]),
+    category: new FormControl('', [Validators.required,
+      Validators.pattern(new RegExp('\\S'))],
+      [this.categoryValidator.hasName(false)])
+  });
 
   categoryFilters: Subject<string> = new Subject<string>();
   categories: Observable<string[]> = this.categoryFilters.pipe(
@@ -44,28 +45,13 @@ export class TypeFormComponent implements OnInit {
     this.categoryService.filterNames(filter) : of([]))
   );
 
-  changeImage(upload: Blob): void{
-    this.image.upload = upload;
-    this.imageService.getBase64(upload)
-    .then((image: string) => {
-      this.image.path = image;
-    });
-  }
-
-  removeImage(): void{
-    this.image.upload = null;
-    this.image.path = null;
-  }
-
   save(): void{
     if (this.typeForm.invalid){
       return;
     }
-
     const formData: FormData = new FormData();
-    Object.keys(this.typeForm.value).forEach(key => {
-      formData.append(key, this.typeForm.value[key]);
-    });
+    formData.append('name', this.typeForm.value.name);
+    formData.append('category', this.typeForm.value.category);
     if (this.image.upload){
       formData.append('placemarkIcon', this.image.upload);
     }
@@ -74,13 +60,13 @@ export class TypeFormComponent implements OnInit {
     this.typeService.save(formData).subscribe(
       () => {
         this.savePending = false;
-        this.saved.emit();
-        this.snackBar.open('Type successfully added!', SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
+        this.snackBar.open('Type successfully added!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
         this.typeForm.reset();
+        this.typeService.announceRefreshData();
       },
       () => {
         this.savePending = false;
-        this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
+        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
       }
     );
   }

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { MapComponent } from './map.component';
-import { LayoutModule } from 'src/app/layout/layout.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 describe('MapComponent', () => {
   let component: MapComponent;
@@ -11,7 +11,7 @@ describe('MapComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ MapComponent ],
       imports: [
-        LayoutModule
+        SharedModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

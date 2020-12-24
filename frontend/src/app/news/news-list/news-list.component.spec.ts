@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NewsListComponent } from './news-list.component';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { NewsService } from 'src/app/services/news/news.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { NewsService } from 'src/app/news/services/news.service';
 
 describe('NewsListComponent', () => {
   let component: NewsListComponent;
@@ -17,7 +17,7 @@ describe('NewsListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ NewsListComponent ],
       imports: [
-        LayoutModule,
+        SharedModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

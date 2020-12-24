@@ -2,9 +2,10 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/constants/pagination';
 import { Category } from 'src/app/models/category';
+import { Pagination } from 'src/app/models/pagination';
 import { Type } from 'src/app/models/type';
-import { CategoryService } from 'src/app/services/category/category.service';
-import { TypeService } from 'src/app/services/type/type.service';
+import { CategoryService } from 'src/app/cats-types/services/category.service';
+import { TypeService } from 'src/app/cats-types/services/type.service';
 
 @Component({
   selector: 'app-cat-type-list',
@@ -21,31 +22,33 @@ export class CatTypeListComponent implements OnInit {
   @Input() cats: boolean;
   catTypes: Category[] | Type[];
   fetchPending = true;
-  pageNumber = 0;
-  startOfPages = true;
-  endOfPages = true;
+  pagination: Pagination = {
+    pageNumber: 0,
+    firstPage: true,
+    lastPage: true
+  };
 
   changePage(value: number): void{
-    this.pageNumber += value;
+    this.pagination.pageNumber += value;
     this.fetchData();
   }
 
   fetchData(): void{
     const service = this.cats ? this.categoryService : this.typeService;
     this.fetchPending = true;
-    service.list(this.pageNumber).subscribe(
+    service.list(this.pagination.pageNumber).subscribe(
       (data: HttpResponse<Category[] | Type[]>) => {
         this.fetchPending = false;
         if (data){
           this.catTypes = data.body;
           const headers: HttpHeaders = data.headers;
-          this.endOfPages = headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
-          this.startOfPages = headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
+          this.pagination.firstPage = headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
+          this.pagination.lastPage = headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
         }
         else{
           this.catTypes = [];
-          this.endOfPages = true;
-          this.startOfPages = true;
+          this.pagination.firstPage = true;
+          this.pagination.lastPage = true;
         }
       }
     );
@@ -53,6 +56,12 @@ export class CatTypeListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchData();
+    if (this.cats){
+      this.categoryService.refreshData$.subscribe(() => this.fetchData()); // da preuzmem nultu stranicu?
+    }
+    else{
+      this.typeService.refreshData$.subscribe(() => this.fetchData());
+    }
   }
 
 }

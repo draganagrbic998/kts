@@ -2,9 +2,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { UserService } from 'src/app/services/user/user.service';
-import { UserValidatorService } from 'src/app/validators/user/user-validator.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { UserService } from 'src/app/user/services/user.service';
+import { UserValidatorService } from 'src/app/user/services/user-validator.service';
 import { RegisterFormComponent } from './register-form.component';
 
 describe('RegisterFormComponent', () => {
@@ -20,7 +20,7 @@ describe('RegisterFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ RegisterFormComponent ],
       imports: [
-        LayoutModule,
+        SharedModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

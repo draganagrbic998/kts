@@ -6,9 +6,8 @@
 
             <app-image-input
             [image]="image.path" 
-            [smallImage]="true"
-            (changed)="changeImage($event)" 
-            (removed)="removeImage()">
+            (changed)="image=$event" 
+            (removed)="image={path: null, upload: null}">
             </app-image-input>
 
             <mat-form-field>
@@ -37,7 +36,7 @@
                 formControlName="category" 
                 placeholder="Enter category"
                 [matAutocomplete]="auto"
-                (input)="categoryFilters.next(typeForm.get('category').value.trim())">
+                (input)="categoryFilters.next(typeForm.value.category.trim())">
                 <mat-error *ngIf="!typeForm.get('category').hasError('nameError')">
                     Category is required!
                 </mat-error>
@@ -61,7 +60,7 @@
             *ngIf="!savePending"
             mat-raised-button 
             color="accent"
-            (click)="save()">Create</button>
+            (click)="save()">Save</button>
             <app-spinner-button *ngIf="savePending"></app-spinner-button>  
         </app-center-container>
     

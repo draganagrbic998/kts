@@ -1,8 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { CommentService } from 'src/app/services/comment/comment.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CommentService } from 'src/app/comments/services/comment.service';
 import { CommentListComponent } from './comment-list.component';
 
 describe('CommentListComponent', () => {
@@ -16,7 +16,7 @@ describe('CommentListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CommentListComponent ],
       imports: [
-        LayoutModule
+        SharedModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
