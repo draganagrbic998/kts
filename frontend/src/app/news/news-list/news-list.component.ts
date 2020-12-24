@@ -3,7 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/constants/pagination';
 import { News } from 'src/app/models/news';
-import { NewsService } from 'src/app/services/news/news.service';
+import { Pagination } from 'src/app/models/pagination';
+import { NewsService } from 'src/app/news/services/news.service';
 
 @Component({
   selector: 'app-news-list',
@@ -20,39 +21,44 @@ export class NewsListComponent implements OnInit {
 
   news: News[];
   fetchPending = true;
-  pageNumber = 0;
-  startOfPages = true;
-  endOfPages = true;
+  pagination: Pagination = {
+    pageNumber: 0,
+    firstPage: true,
+    lastPage: true
+  };
+
   filterForm: FormGroup = new FormGroup({
     startDate: new FormControl(null),
     endDate: new FormControl(null)
   });
 
   changePage(value: number): void{
-    this.pageNumber += value;
+    this.pagination.pageNumber += value;
     this.fetchData();
   }
 
   filterData(): void{
-    this.pageNumber = 0;
+    this.pagination.pageNumber = 0;
     this.fetchData();
   }
 
   fetchData(): void{
     this.fetchPending = true;
-    this.newsService.filter(this.filterForm.value, this.culturalOfferId, this.pageNumber).subscribe(
+    this.newsService.filter(this.filterForm.value, this.culturalOfferId, this.pagination.pageNumber).subscribe(
       (data: HttpResponse<News[]>) => {
         this.fetchPending = false;
         if (data){
           this.news = data.body;
           const headers: HttpHeaders = data.headers;
-          this.endOfPages = headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
-          this.startOfPages = headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
+          this.pagination.firstPage =
+          headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
+          this.pagination.lastPage =
+          headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
         }
         else{
           this.news = [];
-          this.endOfPages = true;
-          this.startOfPages = true;
+          this.pagination.firstPage = true;
+          this.pagination.lastPage = true;
         }
       }
     );
@@ -60,6 +66,11 @@ export class NewsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchData();
+    this.newsService.refreshData$.subscribe((culturalOfferId: number) => {
+      if (this.culturalOfferId === culturalOfferId){
+        this.changePage(0);
+      }
+    });
   }
 
 }

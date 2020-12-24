@@ -2,9 +2,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
-import { UserFollowingService } from 'src/app/services/user-following/user-following.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
+import { UserFollowingService } from 'src/app/cultural-offers/services/user-following.service';
 import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
@@ -21,7 +21,7 @@ describe('HomeComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ HomeComponent ],
       imports: [
-        LayoutModule,
+        SharedModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

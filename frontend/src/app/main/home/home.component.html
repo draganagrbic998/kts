@@ -1,15 +1,10 @@
 <mat-drawer-container>
 
     <div>
-        <app-toolbar 
-        (toggle)="drawer.toggle()"
-        (refreshData)="refreshData($event); map.markOnMap($event)">
-        </app-toolbar>
+        <app-toolbar (toggle)="drawer.toggle()"></app-toolbar>
         <app-map 
-        #map
         [culturalOffers]="culturalOffers[selectedTab]"
         [fetchPending]="fetchPending[selectedTab]"
-        (refreshData)="refreshData($event)"
         ></app-map>
     </div>
 
@@ -18,16 +13,11 @@
     class="mat-elevation-z24" #drawer mode="side">
         
         <app-cultural-list
-        [title]="selectedTab ? 'Followed Offers' : 'All Cultural Offers'"
+        [title]="selectedTab ? 'Followed Cultural Offers' : 'All Cultural Offers'"
         [culturalOffers]="culturalOffers[selectedTab]"
         [fetchPending]="fetchPending[selectedTab]"
-        [hasPrevious]="!startOfPages[selectedTab]"
-        [hasNext]="!endOfPages[selectedTab]"
-        [filterForm]="filterForm[selectedTab]"
+        [pagination]="pagination[selectedTab]"
         (changePage)="changePage($event)"
-        (filterData)="filterData()"
-        (markOnMap)="map.markOnMap($event)"
-        (refreshData)="refreshData($event)"
         ></app-cultural-list>    
 
         <div *ngIf="guest" class="tabs">

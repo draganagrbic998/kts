@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { ADMIN_ROLE } from 'src/app/constants/roles';
-import { DeleteConfirmationComponent } from 'src/app/layout/delete-confirmation/delete-confirmation.component';
 import { News } from 'src/app/models/news';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { NewsService } from 'src/app/services/news/news.service';
+import { NewsService } from 'src/app/news/services/news.service';
+import { DeleteConfirmationComponent } from 'src/app/shared/controls/delete-confirmation/delete-confirmation.component';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { NewsFormComponent } from '../news-form/news-form.component';
 
 @Component({
@@ -22,7 +22,6 @@ export class NewsDetailsComponent implements OnInit {
   ) { }
 
   @Input() news: News;
-  @Output() refreshData: EventEmitter<null> = new EventEmitter();
 
   get admin(): boolean{
     return this.authService.getUser()?.role === ADMIN_ROLE;
@@ -30,22 +29,16 @@ export class NewsDetailsComponent implements OnInit {
 
   edit(): void {
     const options = {...DIALOG_OPTIONS, ...{data: this.news}};
-    const dialog: MatDialogRef<NewsFormComponent> = this.dialog.open(NewsFormComponent, options);
-    dialog.componentInstance.saved.subscribe(
-      () => {
-        this.refreshData.emit();
-      }
-    );
+    this.dialog.open(NewsFormComponent, options);
   }
 
   delete(): void {
     const options = {...DIALOG_OPTIONS, ...{data: () => this.newsService.delete(this.news.id)}};
-    const dialog: MatDialogRef<DeleteConfirmationComponent> = this.dialog.open(DeleteConfirmationComponent, options);
-    dialog.componentInstance.deleted.subscribe(
-      () => {
-        this.refreshData.emit();
+    this.dialog.open(DeleteConfirmationComponent, options).afterClosed().subscribe(result => {
+      if (result){
+        this.newsService.announceRefreshData(this.news.culturalOfferId);
       }
-    );
+    });
   }
 
   ngOnInit(): void {

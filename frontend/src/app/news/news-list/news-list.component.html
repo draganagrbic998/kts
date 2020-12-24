@@ -1,7 +1,6 @@
 <app-paginator
 [fetchPending]="fetchPending"
-[hasPrevious]="!startOfPages"
-[hasNext]="!endOfPages"
+[pagination]="pagination"
 (changedPage)="changePage($event)"
 ></app-paginator>    
 
@@ -54,5 +53,4 @@
 <app-news-details 
 *ngFor="let newsItem of news"
 [news]="newsItem"
-(refreshData)="fetchData()">
-</app-news-details>
+></app-news-details>

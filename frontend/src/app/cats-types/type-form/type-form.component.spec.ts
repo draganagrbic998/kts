@@ -2,10 +2,10 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { CategoryService } from 'src/app/services/category/category.service';
-import { TypeService } from 'src/app/services/type/type.service';
-import { TypeValidatorService } from 'src/app/validators/type/type-validator.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CategoryService } from 'src/app/cats-types/services/category.service';
+import { TypeService } from 'src/app/cats-types/services/type.service';
+import { TypeValidatorService } from 'src/app/cats-types/services/type-validator.service';
 import { TypeFormComponent } from './type-form.component';
 
 describe('TypeFormComponent', () => {
@@ -23,7 +23,7 @@ describe('TypeFormComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ TypeFormComponent ],
       imports: [
-        LayoutModule,
+        SharedModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

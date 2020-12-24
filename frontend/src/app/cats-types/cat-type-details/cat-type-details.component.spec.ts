@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { CategoryService } from 'src/app/services/category/category.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CategoryService } from 'src/app/cats-types/services/category.service';
 import { CatTypeDetailsComponent } from './cat-type-details.component';
 
 describe('CatTypeDetailsComponent', () => {
@@ -13,7 +13,7 @@ describe('CatTypeDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CatTypeDetailsComponent ],
       imports: [
-        LayoutModule
+        SharedModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [

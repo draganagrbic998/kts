@@ -1,7 +1,8 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/constants/pagination';
-import { CommentService } from 'src/app/services/comment/comment.service';
+import { Pagination } from 'src/app/models/pagination';
+import { CommentService } from 'src/app/comments/services/comment.service';
 
 @Component({
   selector: 'app-comment-list',
@@ -17,31 +18,32 @@ export class CommentListComponent implements OnInit {
   @Input() culturalOfferId: number;
   comments: Comment[];
   fetchPending = true;
-  pageNumber = 0;
-  endOfPages = true;
-  startOfPages = true;
-  @Output() updateTotalRate: EventEmitter<number> = new EventEmitter();
+  pagination: Pagination = {
+    pageNumber: 0,
+    firstPage: true,
+    lastPage: true
+  };
 
   changePage(value: number): void{
-    this.pageNumber += value;
+    this.pagination.pageNumber += value;
     this.fetchComments();
   }
 
   fetchComments(): void{
     this.fetchPending = true;
-    this.commentService.list(this.culturalOfferId, this.pageNumber).subscribe(
+    this.commentService.list(this.culturalOfferId, this.pagination.pageNumber).subscribe(
       (data: HttpResponse<Comment[]>) => {
         this.fetchPending = false;
         if (data){
           this.comments = data.body;
           const headers: HttpHeaders = data.headers;
-          this.endOfPages = headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
-          this.startOfPages = headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
+          this.pagination.firstPage = headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
+          this.pagination.lastPage = headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
         }
         else{
           this.comments = [];
-          this.endOfPages = true;
-          this.startOfPages = true;
+          this.pagination.firstPage = true;
+          this.pagination.lastPage = true;
         }
       }
     );
@@ -49,6 +51,11 @@ export class CommentListComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchComments();
+    this.commentService.refreshData$.subscribe((culturalOfferId: number) => {
+      if (culturalOfferId === this.culturalOfferId){
+        this.changePage(0);
+      }
+    });
   }
 
 }

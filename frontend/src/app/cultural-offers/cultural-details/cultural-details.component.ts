@@ -1,8 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
+import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
 import { CulturalDialogComponent } from '../cultural-dialog/cultural-dialog.component';
+import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
+import { RateUpdate } from 'src/app/models/rate-update';
 
 @Component({
   selector: 'app-cultural-details',
@@ -12,24 +14,23 @@ import { CulturalDialogComponent } from '../cultural-dialog/cultural-dialog.comp
 export class CulturalDetailsComponent implements OnInit {
 
   constructor(
+    public culturalService: CulturalService,
     private dialog: MatDialog
   ) { }
 
   @Input() culturalOffer: CulturalOffer;
-  @Output() markOnMap: EventEmitter<CulturalOffer> = new EventEmitter();
-  refreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
 
   showDetails(): void{
     const options = {...DIALOG_OPTIONS, ...{data: this.culturalOffer}};
-    const dialog: MatDialogRef<CulturalDialogComponent> = this.dialog.open(CulturalDialogComponent, options);
-    dialog.componentInstance.onRefreshData.subscribe(
-      (response: CulturalOffer | number) => {
-        this.refreshData.emit(response);
-      }
-    );
+    this.dialog.open(CulturalDialogComponent, options);
   }
 
   ngOnInit(): void {
+    this.culturalService.updateTotalRate$.subscribe((param: RateUpdate) => {
+      if (param.id === this.culturalOffer.id){
+        this.culturalOffer.totalRate = param.totalRate;
+      }
+    });
   }
 
 }

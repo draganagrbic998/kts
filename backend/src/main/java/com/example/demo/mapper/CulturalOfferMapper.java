@@ -45,9 +45,17 @@ public class CulturalOfferMapper {
 		culturalOffer.setLocation(culturalOfferDTO.getLocation());
 		culturalOffer.setLat(culturalOfferDTO.getLat());
 		culturalOffer.setLng(culturalOfferDTO.getLng());
-		culturalOffer.setDescription(culturalOfferDTO.getName());
+		culturalOffer.setDescription(culturalOfferDTO.getDescription());
 		culturalOffer.setImage(culturalOfferDTO.getImagePath());
 		return culturalOffer;
+	}
+	
+	@Transactional
+	public CulturalOfferDTO map(CulturalOffer culturalOffer) {
+		CulturalOfferDTO culturalOfferDTO = new CulturalOfferDTO(culturalOffer);
+		culturalOfferDTO.setTotalRate(this.commentRepository.totalRate(culturalOffer.getId()));
+		culturalOfferDTO.setFollowed(this.userService.userIsFollowing(culturalOffer.getId()));
+		return culturalOfferDTO;
 	}
 
 }

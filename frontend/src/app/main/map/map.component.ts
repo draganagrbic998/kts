@@ -1,8 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { CulturalDialogComponent } from 'src/app/cultural-offers/cultural-dialog/cultural-dialog.component';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
+import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
+import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 
 @Component({
   selector: 'app-map',
@@ -12,6 +13,7 @@ import { CulturalOffer } from 'src/app/models/cultural-offer';
 export class MapComponent implements OnInit {
 
   constructor(
+    private culturalService: CulturalService,
     private dialog: MatDialog
   ) { }
 
@@ -22,7 +24,6 @@ export class MapComponent implements OnInit {
 
   @Input() culturalOffers: CulturalOffer[];
   @Input() fetchPending: boolean;
-  @Output() refreshData: EventEmitter<CulturalOffer | number> = new EventEmitter();
 
   get mapCenter(): number[]{
     if (this.center){
@@ -39,15 +40,7 @@ export class MapComponent implements OnInit {
 
   showDetails(culturalOffer: CulturalOffer): void{
     const options = {...DIALOG_OPTIONS, ...{data: culturalOffer}};
-    const dialog: MatDialogRef<CulturalDialogComponent> = this.dialog.open(CulturalDialogComponent, options);
-    dialog.componentInstance.onRefreshData.subscribe(
-      (response: CulturalOffer | number) => {
-        this.refreshData.emit(response);
-        if (typeof response !== 'number'){
-          this.markOnMap(response);
-        }
-      }
-    );
+    this.dialog.open(CulturalDialogComponent, options);
   }
 
   placemarkOptions(culturalOffer: CulturalOffer): any{
@@ -77,6 +70,9 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.culturalService.markOnMap$.subscribe((culturalOffer: CulturalOffer) => {
+      this.markOnMap(culturalOffer);
+    });
   }
 
 }

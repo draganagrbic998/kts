@@ -25,27 +25,30 @@ public class LoginTest {
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
-		this.loginPage.ensureLoginButtonIsDisplayed();
+		this.loginPage.ensureFormDisplayed();
 	}
 	
 	@Test
 	public void testEmptyForm() throws InterruptedException {
+		this.loginPage.emailInputFill("");
+		this.loginPage.passwordInputFill("");
 		this.loginPage.loginButtonClick();
-		this.loginPage.ensureEmailErrorIsDisplayed();
-		this.loginPage.ensurePasswordErrorIsDisplayed();
-		assertTrue(this.loginPage.emailErrorDisplayed());
-		assertTrue(this.loginPage.passwordErrorDisplayed());
+		this.loginPage.ensureEmailErrorDisplayed();
+		this.loginPage.ensurePasswordErrorDisplayed();
+		assertTrue(this.loginPage.emptyEmailError());
+		assertTrue(this.loginPage.emptyPasswordError());
 		assertEquals(TestConstants.LOGIN_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@Test
-	public void testInvalidEmail() {
-		this.loginPage.emailInputFill("dummy");
+	public void testBlankForm() {
+		this.loginPage.emailInputFill("  ");
+		this.loginPage.passwordInputFill("  ");
 		this.loginPage.loginButtonClick();
-		this.loginPage.ensureEmailErrorIsDisplayed();
-		this.loginPage.ensurePasswordErrorIsDisplayed();
-		assertTrue(this.loginPage.emailErrorDisplayed());
-		assertTrue(this.loginPage.passwordErrorDisplayed());
+		this.loginPage.ensureEmailErrorDisplayed();
+		this.loginPage.ensurePasswordErrorDisplayed();
+		assertTrue(this.loginPage.emptyEmailError());
+		assertTrue(this.loginPage.emptyPasswordError());
 		assertEquals(TestConstants.LOGIN_PATH, this.browser.getCurrentUrl());
 	}
 	
@@ -54,26 +57,27 @@ public class LoginTest {
 		this.loginPage.emailInputFill("dummy@gmail.com");
 		this.loginPage.passwordInputFill("dummy");
 		this.loginPage.loginButtonClick();
-		this.loginPage.ensureLoginErrorIsDisplayed();
+		this.loginPage.ensureSnackBarDisplayed();
+		assertEquals(TestConstants.ERROR_MESSAGE, this.loginPage.snackBarText());
 		assertEquals(TestConstants.LOGIN_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@Test
-	public void testExistingUserAdmin() {
+	public void testAdmin() {
 		this.loginPage.emailInputFill(TestConstants.ADMIN_EMAIL);
 		this.loginPage.passwordInputFill(TestConstants.LOGIN_PASSWORD);
 		this.loginPage.loginButtonClick();
-		this.homePage.ensureMapIsDisplayed();
+		this.homePage.ensureMapDisplayed();
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 		//nervira me sto je stavio / na kraj :(
 	}
 	
 	@Test
-	public void testExistingUserGuest() {
+	public void testGuest() {
 		this.loginPage.emailInputFill(TestConstants.GUEST_EMAIL);
 		this.loginPage.passwordInputFill(TestConstants.LOGIN_PASSWORD);
 		this.loginPage.loginButtonClick();
-		this.homePage.ensureMapIsDisplayed();
+		this.homePage.ensureMapDisplayed();
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 		//nervira me sto je stavio / na kraj :(
 	}

@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
+import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { Image } from 'src/app/models/image';
 import { User } from 'src/app/models/user';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { ImageService } from 'src/app/services/image/image.service';
-import { UserService } from 'src/app/services/user/user.service';
-import { UserValidatorService } from 'src/app/validators/user/user-validator.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { UserService } from 'src/app/user/services/user.service';
+import { UserValidatorService } from 'src/app/user/services/user-validator.service';
 
 @Component({
   selector: 'app-profile-form',
@@ -19,40 +18,27 @@ export class ProfileFormComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private userService: UserService,
-    private imageService: ImageService,
     private userValidator: UserValidatorService,
     private snackBar: MatSnackBar
   ) { }
 
   savePending = false;
-  profile: User = this.authService.getUser();
-  image: Image = {path: this.profile.image, upload: null};
-
+  image: Image = {path: this.authService.getUser().image, upload: null};
   profileForm: FormGroup = new FormGroup({
-    email: new FormControl(this.profile.email,
-    [Validators.required, Validators.pattern(new RegExp('\\S')), Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')],
-    [this.userValidator.hasEmail(this.profile.id)]),
-    firstName: new FormControl(this.profile.firstName, [Validators.required, Validators.pattern(new RegExp('\\S'))]),
-    lastName: new FormControl(this.profile.lastName, [Validators.required, Validators.pattern(new RegExp('\\S'))]),
+    email: new FormControl(this.authService.getUser().email,
+      [Validators.required,
+      Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')],
+      [this.userValidator.hasEmail(this.authService.getUser().id)]),
+    firstName: new FormControl(this.authService.getUser().firstName,
+      [Validators.required, Validators.pattern(new RegExp('\\S'))]),
+    lastName: new FormControl(this.authService.getUser().lastName,
+      [Validators.required, Validators.pattern(new RegExp('\\S'))]),
     oldPassword: new FormControl(''),
     newPassword: new FormControl(''),
     newPasswordConfirmation: new FormControl('')
   }, {
     validators: [this.userValidator.newPasswordConfirmed()]
   });
-
-  changeImage(upload: Blob): void{
-    this.image.upload = upload;
-    this.imageService.getBase64(upload)
-    .then((image: string) => {
-      this.image.path = image;
-    });
-  }
-
-  removeImage(): void{
-    this.image.upload = null;
-    this.image.path = null;
-  }
 
   resetPassword(): void{
     this.profileForm.get('oldPassword').setValue('');
@@ -65,7 +51,6 @@ export class ProfileFormComponent implements OnInit {
     if (this.profileForm.invalid){
       return;
     }
-
     const formData: FormData = new FormData();
 
     for (const key in this.profileForm.value){
@@ -84,7 +69,6 @@ export class ProfileFormComponent implements OnInit {
     if (this.image.upload){
       formData.append('image', this.image.upload);
     }
-
     else if (this.image.path){
       formData.append('imagePath', this.image.path);
     }
@@ -95,13 +79,12 @@ export class ProfileFormComponent implements OnInit {
         this.savePending = false;
         this.resetPassword();
         this.authService.saveUser(user);
-        this.snackBar.open('Your profile has been updated!',
-        SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
+        this.snackBar.open('Your profile has been updated!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
       },
       () => {
         this.savePending = false;
         this.resetPassword();
-        this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
+        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
       }
     );
 

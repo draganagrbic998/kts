@@ -85,7 +85,7 @@ public class CulturalOfferController {
 	@PreAuthorize("hasAuthority('admin')")
 	@PostMapping
 	public ResponseEntity<CulturalOfferDTO> save(@Valid @ModelAttribute CulturalOfferUploadDTO culturalOfferDTO) {
-		return new ResponseEntity<>(new CulturalOfferDTO(this.culturalOfferService.save(this.culturalOfferMapper.map(culturalOfferDTO), culturalOfferDTO.getImage())), HttpStatus.CREATED);
+		return new ResponseEntity<>(this.culturalOfferMapper.map(this.culturalOfferService.save(this.culturalOfferMapper.map(culturalOfferDTO), culturalOfferDTO.getImage())), HttpStatus.CREATED);
 	}
 		
 }

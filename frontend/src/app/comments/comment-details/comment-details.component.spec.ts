@@ -2,8 +2,8 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CommentDetailsComponent } from './comment-details.component';
-import { LayoutModule } from 'src/app/layout/layout.module';
-import { CommentService } from 'src/app/services/comment/comment.service';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { CommentService } from 'src/app/comments/services/comment.service';
 
 describe('CommentDetailsComponent', () => {
   let component: CommentDetailsComponent;
@@ -14,7 +14,7 @@ describe('CommentDetailsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CommentDetailsComponent ],
       imports: [
-        LayoutModule,
+        SharedModule,
         HttpClientTestingModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
@@ -34,7 +34,8 @@ describe('CommentDetailsComponent', () => {
       rate: null,
       text: null,
       images: [],
-      user: null
+      user: null,
+      culturalOfferId: null
     };
     fixture.detectChanges();
   });

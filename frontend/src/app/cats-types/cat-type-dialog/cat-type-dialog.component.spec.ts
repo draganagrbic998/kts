@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LayoutModule } from 'src/app/layout/layout.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { CatTypeDialogComponent } from './cat-type-dialog.component';
 
 describe('CatTypeDialogComponent', () => {
@@ -14,7 +14,7 @@ describe('CatTypeDialogComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ CatTypeDialogComponent ],
       imports: [
-        LayoutModule,
+        SharedModule,
         BrowserAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],

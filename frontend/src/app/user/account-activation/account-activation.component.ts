@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
+import { SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { LOGIN_PATH, USER_PATH } from 'src/app/constants/router';
-import { UserService } from 'src/app/services/user/user.service';
+import { UserService } from 'src/app/user/services/user.service';
 
 @Component({
   selector: 'app-account-activation',
@@ -28,7 +28,7 @@ export class AccountActivationComponent implements OnInit {
         this.activatePending = false;
         this.router.navigate([`${USER_PATH}/${LOGIN_PATH}`]);
         this.snackBar.open('Your account has been activated! You can login now.',
-        SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
+        SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
       },
       () => {
         this.activatePending = false;

@@ -1,18 +1,17 @@
-import { Component, ElementRef, EventEmitter, Inject, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, AfterViewInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of, Subject } from 'rxjs';
 import places, { PlacesInstance } from 'places.js';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
-import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
-import { TypeService } from 'src/app/services/type/type.service';
-import { ImageService } from 'src/app/services/image/image.service';
-import { CulturalValidatorService } from 'src/app/validators/cultural-offer/cultural-validator.service';
-import { TypeValidatorService } from 'src/app/validators/type/type-validator.service';
+import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
+import { TypeService } from 'src/app/cats-types/services/type.service';
+import { CulturalValidatorService } from 'src/app/cultural-offers/services/cultural-validator.service';
+import { TypeValidatorService } from 'src/app/cats-types/services/type-validator.service';
 import { Geolocation } from 'src/app/models/geolocation';
 import { Image } from 'src/app/models/image';
-import { ERROR_MESSAGE, ERROR_SNACKBAR_OPTIONS, SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS } from 'src/app/constants/dialog';
+import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { ALGOLIA_API_ID, ALGOLIA_API_KEY } from 'src/app/constants/algolia';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { AUTOCOMPLETE_DEBOUNCE, AUTOCOMPLETE_LENGTH } from 'src/app/constants/autocomplete';
@@ -28,7 +27,6 @@ export class CulturalFormComponent implements AfterViewInit {
     @Inject(MAT_DIALOG_DATA) public culturalOffer: CulturalOffer,
     private culturalService: CulturalService,
     private typeService: TypeService,
-    private imageService: ImageService,
     private culturalValidator: CulturalValidatorService,
     private typeValidator: TypeValidatorService,
     public dialogRef: MatDialogRef<CulturalFormComponent>,
@@ -41,19 +39,20 @@ export class CulturalFormComponent implements AfterViewInit {
   };
 
   culturalForm: FormGroup = new FormGroup({
-    type: new FormControl(this.culturalOffer.type || '', [Validators.required, Validators.pattern(new RegExp('\\S'))],
+    type: new FormControl(this.culturalOffer.type || '',
+    [Validators.required, Validators.pattern(new RegExp('\\S'))],
     [this.typeValidator.hasName(false)]),
-    name: new FormControl(this.culturalOffer.name || '', [Validators.required, Validators.pattern(new RegExp('\\S'))],
+    name: new FormControl(this.culturalOffer.name || '',
+    [Validators.required, Validators.pattern(new RegExp('\\S'))],
     [this.culturalValidator.hasName(this.culturalOffer.id)]),
     location: new FormControl(this.culturalOffer.location || '',
-    [Validators.required, this.culturalValidator.locationFound(this.geolocation)]),
+    [Validators.required, Validators.pattern(new RegExp('\\S')),
+    this.culturalValidator.locationFound(this.geolocation)]),
     description: new FormControl(this.culturalOffer.description || '')
   });
 
   savePending = false;
-  onSaved: EventEmitter<CulturalOffer> = new EventEmitter();
   image: Image = {upload: null, path: this.culturalOffer.image};
-
   typeFilters: Subject<string> = new Subject<string>();
   types: Observable<string[]> = this.typeFilters.pipe(
     debounceTime(AUTOCOMPLETE_DEBOUNCE),
@@ -65,38 +64,22 @@ export class CulturalFormComponent implements AfterViewInit {
   @ViewChild('locationInput') locationInput: ElementRef<HTMLInputElement>;
   locationAutocomplete: PlacesInstance;
 
-  changeImage(upload: Blob): void{
-    this.image.upload = upload;
-    this.imageService.getBase64(upload)
-    .then((image: string) => {
-      this.image.path = image;
-    });
-  }
-
-  removeImage(): void{
-    this.image.upload = null;
-    this.image.path = null;
-  }
-
   save(): void{
 
     if (this.culturalForm.invalid){
       return;
     }
-
     const formData: FormData = new FormData();
-    const values: CulturalOffer = {...this.culturalOffer, ...this.geolocation, ...this.culturalForm.value};
-
-    for (const i in values){
-      if (i === 'id' || i === 'image'){
-        continue;
-      }
-      formData.append(i, values[i]);
-    }
-
     if (this.culturalOffer.id){
       formData.append('id', this.culturalOffer.id + '');
     }
+
+    formData.append('type', this.culturalForm.value.type);
+    formData.append('name', this.culturalForm.value.name);
+    formData.append('location', this.culturalForm.value.location);
+    formData.append('description', this.culturalForm.value.description);
+    formData.append('lat', this.geolocation.lat + '');
+    formData.append('lng', this.geolocation.lng + '');
     if (this.image.upload){
       formData.append('image', this.image.upload);
     }
@@ -107,20 +90,20 @@ export class CulturalFormComponent implements AfterViewInit {
     this.savePending = true;
     this.culturalService.save(formData).subscribe(
       (culturalOffer: CulturalOffer) => {
-        this.snackBar.open('Offer successfully saved!', SNACKBAR_CLOSE, SUCCESS_SNACKBAR_OPTIONS);
-        this.dialogRef.close();
-        this.onSaved.emit(culturalOffer);
+        this.snackBar.open('Offer successfully saved!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+        this.dialogRef.close(true);
+        this.culturalService.announceRefreshData(culturalOffer);
+        this.culturalService.announceMarkOnMap(culturalOffer);
       },
       () => {
         this.savePending = false;
-        this.snackBar.open(ERROR_MESSAGE, SNACKBAR_CLOSE, ERROR_SNACKBAR_OPTIONS);
+        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
       }
     );
 
   }
 
   ngAfterViewInit(): void{
-
     this.locationAutocomplete = places({
       container: this.locationInput.nativeElement,
       appId: ALGOLIA_API_ID,
@@ -133,7 +116,6 @@ export class CulturalFormComponent implements AfterViewInit {
       this.culturalForm.get('location').setValue(event.suggestion.value);
       this.culturalForm.get('location').updateValueAndValidity();
     });
-
   }
 
 }

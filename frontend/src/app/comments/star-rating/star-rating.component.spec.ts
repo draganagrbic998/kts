@@ -1,6 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { LayoutModule } from 'src/app/layout/layout.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { StarRatingComponent } from './star-rating.component';
 
 describe('StarRatingComponent', () => {
@@ -11,7 +11,7 @@ describe('StarRatingComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ StarRatingComponent ],
       imports: [
-        LayoutModule
+        SharedModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })

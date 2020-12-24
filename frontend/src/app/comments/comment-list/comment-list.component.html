@@ -2,8 +2,7 @@
 
 <app-paginator
 [fetchPending]="fetchPending"
-[hasPrevious]="!startOfPages"
-[hasNext]="!endOfPages"
+[pagination]="pagination"
 (changedPage)="changePage($event)"
 ></app-paginator>  
 
@@ -13,6 +12,5 @@
 
 <app-comment-details 
 *ngFor="let comment of comments"
-[comment]="comment"
-(refreshData)="fetchComments(); updateTotalRate.emit($event)">
+[comment]="comment">
 </app-comment-details>    

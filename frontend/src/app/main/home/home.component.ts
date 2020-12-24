@@ -1,12 +1,14 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/constants/pagination';
 import { GUEST_ROLE } from 'src/app/constants/roles';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { CulturalService } from 'src/app/services/cultural-offer/cultural.service';
-import { UserFollowingService } from 'src/app/services/user-following/user-following.service';
+import { FilterParams } from 'src/app/models/filter-params';
+import { Pagination } from 'src/app/models/pagination';
+import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
+import { UserFollowingService } from 'src/app/cultural-offers/services/user-following.service';
+import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { RateUpdate } from 'src/app/models/rate-update';
 
 @Component({
   selector: 'app-home',
@@ -24,20 +26,13 @@ export class HomeComponent implements OnInit {
   selectedTab = 0;
   culturalOffers: CulturalOffer[][] = [[], []];
   fetchPending: boolean[] = [true, true];
-  pageNumber: number[] = [0, 0];
-  startOfPages: boolean[] = [true, true];
-  endOfPages: boolean[] = [true, true];
-  filterForm: FormGroup[] = [
-    new FormGroup({
-      name: new FormControl(''),
-      location: new FormControl(''),
-      type: new FormControl('')
-    }),
-    new FormGroup({
-      name: new FormControl(''),
-      location: new FormControl(''),
-      type: new FormControl('')
-    })
+  pagination: Pagination[] = [
+    {pageNumber: 0, firstPage: true, lastPage: true},
+    {pageNumber: 0, firstPage: true, lastPage: true}
+  ];
+  filterParams: FilterParams[] = [
+    {name: '', location: '', type: ''},
+    {name: '', location: '', type: ''}
   ];
 
   get guest(): boolean{
@@ -52,12 +47,12 @@ export class HomeComponent implements OnInit {
   }
 
   changePage(value: number): void{
-    this.pageNumber[this.selectedTab] += value;
+    this.pagination[this.selectedTab].pageNumber += value;
     this.fetchData();
   }
 
   filterData(): void{
-    this.pageNumber[this.selectedTab] = 0;
+    this.pagination[this.selectedTab].pageNumber += 0;
     this.fetchData();
   }
 
@@ -66,19 +61,21 @@ export class HomeComponent implements OnInit {
     this.fetchPending[this.selectedTab] = true;
     this.culturalOffers[this.selectedTab] = [];
     const selectedService = this.selectedTab ? this.userFollowingService : this.culturalService;
-    selectedService.filter(this.filterForm[this.selectedTab].value, this.pageNumber[this.selectedTab]).subscribe(
+    selectedService.filter(this.filterParams[this.selectedTab], this.pagination[this.selectedTab].pageNumber).subscribe(
       (data: HttpResponse<CulturalOffer[]>) => {
         this.fetchPending[this.selectedTab] = false;
         if (data){
           this.culturalOffers[this.selectedTab] = data.body;
           const headers: HttpHeaders = data.headers;
-          this.endOfPages[this.selectedTab] = headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
-          this.startOfPages[this.selectedTab] = headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
+          this.pagination[this.selectedTab].firstPage =
+          headers.get(FIRST_PAGE_HEADER) === 'true' ? true : false;
+          this.pagination[this.selectedTab].lastPage =
+          headers.get(LAST_PAGE_HEADER) === 'true' ? true : false;
         }
         else{
           this.culturalOffers[this.selectedTab] = [];
-          this.endOfPages[this.selectedTab] = true;
-          this.startOfPages[this.selectedTab] = true;
+          this.pagination[this.selectedTab].firstPage = true;
+          this.pagination[this.selectedTab].lastPage = true;
         }
       }
     );
@@ -106,6 +103,13 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchData();
+    this.culturalService.refreshData$.subscribe((response: CulturalOffer | number) => {
+      this.refreshData(response);
+    });
+    this.culturalService.filterData$.subscribe((filterParams: FilterParams) => {
+      this.filterParams[this.selectedTab] = filterParams;
+      this.fetchData();
+    });
   }
 
 }

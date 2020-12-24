@@ -10,10 +10,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "user_following_table")
+@Table(name = "user_following_table", 
+uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "cultural_offer_id"})})
 public class UserFollowing {
 	
 	@Id

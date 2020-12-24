@@ -5,10 +5,10 @@
         <div class="root-container" [class.disabled]="savePending">
 
             <app-image-input
-            [image]="image.path" 
             [profile]="true"
-            (changed)="changeImage($event)" 
-            (removed)="removeImage()">
+            [image]="image.path" 
+            (changed)="image = $event" 
+            (removed)="image = {path: null, upload: null}">
             </app-image-input>
         
             <div class="form-container">
@@ -88,7 +88,7 @@
                 </mat-form-field>
 
                 <mat-error *ngIf="profileForm.hasError('oldPasswordError')">
-                    You must enter old password!
+                    Old password is required!
                 </mat-error>
         
                 <mat-error *ngIf="profileForm.hasError('newPasswordError')">
@@ -108,7 +108,6 @@
                     *ngIf="!savePending"
                     mat-raised-button 
                     color="accent"
-                    [disabled]="profileForm.pending"
                     (click)="save()">Save</button>
                     <app-spinner-button *ngIf="savePending"></app-spinner-button>    
                 </span>
