@@ -1,4 +1,4 @@
-<div class="root-container" cdkFocusInitial>
+<form class="root-container" cdkFocusInitial>
 
     <h3>Publish Review</h3>
     
@@ -15,6 +15,9 @@
             [formControl]="text"
             placeholder="Enter comment..." 
             rows="4"></textarea>
+            <mat-error>
+                Some text is required!
+            </mat-error>
         </mat-form-field>    
 
         <br>
@@ -31,4 +34,4 @@
     (saved)="save()"
     ></app-save-cancel>
     
-</div>
+</form>
