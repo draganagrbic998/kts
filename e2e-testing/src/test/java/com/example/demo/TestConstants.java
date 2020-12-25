@@ -21,9 +21,20 @@ public class TestConstants {
 	
 	
 	
-	public static final String NAME_FILTER_ONE = "bblewkq";
-	public static final String NAME_FILTER_MORE = "jl";
-	public static final String LOCATION_FILTER = "Kalianda";
-	public static final String TYPE_FILTER = "museum";
+	public static final String NAME_FILTER_ONE = "aburkertcc";
+	public static final String NAME_FILTER_MORE = "abu";
+	public static final String LOCATION_FILTER_ONE = "almaguer north";
+	public static final String LOCATION_FILTER_MORE = "alm";
+	public static final String TYPE_FILTER_MORE = "museum";
+	public static final String FILTER_NONE = "asd";
+	public static final int LARGE_PAGE_SIZE = 30;
+	
+	public static final String FOLLOWING_NAME_FILTER_MORE = "sb";
+	public static final String FOLLOWING_NAME_FILTER_ONE = "sbertolaccinibh";
+	public static final String FOLLOWING_LOCATION_FILTER_MORE = "am";
+	public static final String FOLLOWING_LOCATION_FILTER_ONE = "ambatolaona";
+	
+	public static final String TEST_IMAGE = "test.png";
+	
 	
 }

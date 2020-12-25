@@ -29,6 +29,9 @@ export class NewsFormComponent implements OnInit {
   });
 
   save(): void{
+    if (this.text.invalid){
+      return;
+    }
     const formData: FormData = new FormData();
     if (this.news.id){
       formData.append('id', this.news.id + '');

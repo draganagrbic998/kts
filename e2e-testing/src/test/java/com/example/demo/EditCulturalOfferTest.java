@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class AddCulturalOfferTest {
+public class EditCulturalOfferTest {
 	
 	private WebDriver browser;
 	
@@ -18,23 +18,31 @@ public class AddCulturalOfferTest {
 	private LoginPage loginPage;
 	private CulturalForm culturalForm;
 	private CulturalDetails culturalDetails;
+	private CulturalDialog culturalDialog;
 
 	@Before
 	public void setUp() {
-		System.setProperty("webdriver.chrome.driver", TestConstants.CHROME_DRIVER_PATH);
+	  	System.setProperty("webdriver.chrome.driver", TestConstants.CHROME_DRIVER_PATH);
 		this.browser = new ChromeDriver();
 		this.browser.manage().window().maximize();
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
 		this.culturalForm = PageFactory.initElements(this.browser, CulturalForm.class);
 		this.culturalDetails = PageFactory.initElements(this.browser, CulturalDetails.class);
+		this.culturalDialog = PageFactory.initElements(this.browser, CulturalDialog.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 		this.loginPage.emailInputFill(TestConstants.ADMIN_EMAIL);
 		this.loginPage.passwordInputFill(TestConstants.LOGIN_PASSWORD);
 		this.loginPage.loginButtonClick();
 		this.homePage.ensureMapDisplayed();
-		this.homePage.addOfferButtonClick();
+		
+		
+		this.homePage.toggleButtonClick();
+		this.culturalDetails.ensureDetailsDisplayed();
+		this.culturalDetails.moreButtonClick();
+		this.culturalDialog.ensureEditButtonDisplayed();
+		this.culturalDialog.editButtonClick();
 		this.culturalForm.ensureFormDisplayed();
 	}
 	
@@ -107,9 +115,9 @@ public class AddCulturalOfferTest {
 	
 	@Test
 	public void testValid() {
-		String type = "museum";
-		String name = "dummy";
-		String location = "new";
+		String type = "gallery";
+		String name = "gummy";
+		String location = "washington";
 		this.culturalForm.typeInputFill(type);
 		this.culturalForm.nameInputFill(name);
 		this.culturalForm.locationInputFill(location);
@@ -119,11 +127,8 @@ public class AddCulturalOfferTest {
 		this.culturalForm.ensureDialogClosed();
 		this.homePage.ensureSnackBarDisplayed();
 		assertEquals("Offer successfully saved!", this.homePage.snackBarText());
-		this.homePage.ensureBalloonDisplayed();
-		assertEquals("dummy is placed here!", this.homePage.balloonText());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-		
-		this.homePage.toggleButtonClick();
+
 		this.culturalDetails.ensureDetailsDisplayed();
 		assertEquals(this.culturalDetails.nameText(), name);
 		assertEquals(this.culturalDetails.typeText(), type);

@@ -17,7 +17,7 @@ public class DeleteCulturalOfferTest {
 	private HomePage homePage;
 	private LoginPage loginPage;
 	private CulturalDetails culturalOfferDetails;
-	private CulturalOfferDialog culturalOfferDialog;
+	private CulturalDialog culturalOfferDialog;
 	private DeleteConfirmation deleteConfirmation;
 
 	@Before
@@ -28,7 +28,7 @@ public class DeleteCulturalOfferTest {
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
 		this.culturalOfferDetails = PageFactory.initElements(this.browser, CulturalDetails.class);
-		this.culturalOfferDialog = PageFactory.initElements(this.browser, CulturalOfferDialog.class);
+		this.culturalOfferDialog = PageFactory.initElements(this.browser, CulturalDialog.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();

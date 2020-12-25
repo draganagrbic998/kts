@@ -32,6 +32,9 @@ export class CommentFormComponent implements OnInit {
   });
 
   save(): void{
+    if (this.text.invalid){
+      return;
+    }
     const formData: FormData = new FormData();
     if (this.comment.id){
       formData.append('id', this.comment.id + '');

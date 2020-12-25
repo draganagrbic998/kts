@@ -8,7 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class CulturalOfferForm {
+public class CulturalForm {
 
 	private WebDriver browser;
 
@@ -39,7 +39,7 @@ public class CulturalOfferForm {
 	@FindBy(xpath = "//*/app-cultural-form/form/div[1]/div/mat-form-field[3]/div/div[1]/div/span[1]/span/div/span/div[1]")
 	private WebElement autocompleteSuggestion;
 		
-	public CulturalOfferForm(WebDriver browser) {
+	public CulturalForm(WebDriver browser) {
 		super();
 		this.browser = browser;
 	}
