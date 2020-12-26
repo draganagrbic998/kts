@@ -17,6 +17,7 @@ public class TestConstants {
 	
 	public static final String TAKEN_OFFER_NAME = "aalstergz";	
 	public static final String TAKEN_CATEGORY_NAME = "institution";	
+	public static final String TAKEN_TYPE_NAME = "museum";	
 	public static final String ERROR_MESSAGE = "An error occured! Try again.";
 	public static final String ITEM_REMOVED = "Item successfully removed!";
 	

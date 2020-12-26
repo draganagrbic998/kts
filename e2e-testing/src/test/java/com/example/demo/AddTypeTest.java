@@ -10,14 +10,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class AddCategoryTest {
+public class AddTypeTest {
 	
 	private WebDriver browser;
 	
 	private HomePage homePage;
 	private LoginPage loginPage;
 	private CatTypeDialog catTypeDialog;
-	private CategoryForm categoryForm;
+	private TypeForm typeForm;
 	
 	@Before
 	public void setUp() {
@@ -27,7 +27,7 @@ public class AddCategoryTest {
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
 		this.catTypeDialog = PageFactory.initElements(this.browser, CatTypeDialog.class);
-		this.categoryForm = PageFactory.initElements(this.browser, CategoryForm.class);
+		this.typeForm = PageFactory.initElements(this.browser, TypeForm.class);
 
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
@@ -38,63 +38,83 @@ public class AddCategoryTest {
 		this.homePage.moreButtonClick();
 		this.homePage.ensureCatsTypesButtonDisplayed();
 		this.homePage.catsTypesButtonClick();
-		this.homePage.ensureCatsButtonDisplayed();
-		this.homePage.categoriesButtonClick();
+		this.homePage.ensureTypesButtonDisplayed();
+		this.homePage.typesButtonClick();
 		this.catTypeDialog.ensureCategoryTypeFormTabDisplayed();
 		this.catTypeDialog.newCatTypeTabClick();
-		this.categoryForm.ensureFormDisplayed();
+		this.typeForm.ensureFormDisplayed();
 	}
 	
 	@Test
 	public void testCancel() {
-		this.categoryForm.cancelButtonClick();
-		this.categoryForm.ensureDialogClosed();
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-	}
-
-	@Test
-	public void testEmptyName() {
-		this.categoryForm.nameInputFill("");
-		this.categoryForm.saveButtonClick();
-		assertTrue(this.categoryForm.emptyNameError());
+		this.typeForm.cancelButtonClick();
+		this.typeForm.ensureDialogClosed();
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@Test
-	public void testBlankName() {
-		this.categoryForm.nameInputFill("  ");
-		this.categoryForm.saveButtonClick();
-		assertTrue(this.categoryForm.emptyNameError());
+	public void testEmptyForm() {
+		this.typeForm.categoryInputFill("");
+		this.typeForm.nameInputFill("");
+		this.typeForm.saveButtonClick();
+		this.typeForm.ensureCategoryErrorDisplayed();
+		this.typeForm.ensureNameErrorDisplayed();
+		assertTrue(this.typeForm.emptyCategoryError());
+		assertTrue(this.typeForm.emptyNameError());
+		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
+	}
+	
+	@Test
+	public void testBlankForm() {
+		this.typeForm.categoryInputFill("  ");
+		this.typeForm.nameInputFill("  ");
+		this.typeForm.saveButtonClick();
+		this.typeForm.ensureCategoryErrorDisplayed();
+		this.typeForm.ensureNameErrorDisplayed();
+		assertTrue(this.typeForm.emptyCategoryError());
+		assertTrue(this.typeForm.emptyNameError());
+		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
+	}
+	
+	@Test
+	public void testNonExistingCategory() {
+		this.typeForm.categoryInputFill("dummy");
+		this.typeForm.nameInputFill("");
+		this.typeForm.saveButtonClick();
+		this.typeForm.ensureCategoryErrorDisplayed();
+		this.typeForm.ensureNameErrorDisplayed();
+		assertTrue(this.typeForm.nonExistingCategoryError());
+		assertTrue(this.typeForm.emptyNameError());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@Test
 	public void testTakenName() {
-		this.categoryForm.nameInputFill(TestConstants.TAKEN_CATEGORY_NAME);
-		this.categoryForm.saveButtonClick();
-		assertTrue(this.categoryForm.takenNameError());
+		this.typeForm.categoryInputFill("");
+		this.typeForm.nameInputFill(TestConstants.TAKEN_TYPE_NAME);
+		this.typeForm.saveButtonClick();
+		this.typeForm.ensureCategoryErrorDisplayed();
+		this.typeForm.ensureNameErrorDisplayed();
+		assertTrue(this.typeForm.emptyCategoryError());
+		assertTrue(this.typeForm.takenNameError());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@Test
 	public void testValid() {
-		String name = "new";
-		this.categoryForm.nameInputFill(name);
-		this.categoryForm.saveButtonClick();
+		String category = "institution";
+		String name = "dummy";
+		this.typeForm.categoryInputFill(category);
+		this.typeForm.nameInputFill(name);
+		this.typeForm.saveButtonClick();
 		this.homePage.ensureSnackBarDisplayed();
-		assertEquals("Category successfully added!", this.homePage.snackBarText());
+		assertEquals("Type successfully added!", this.homePage.snackBarText());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-		//this.catTypeDialog.catListTabClick();
-		//da li treba provera u listi??
 	}
 	
 	@After
 	public void cleanUp() {
 		this.browser.quit();
 	}
-	
-	
-	
-
 
 }

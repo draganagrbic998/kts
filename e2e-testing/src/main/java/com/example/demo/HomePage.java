@@ -87,4 +87,16 @@ public class HomePage {
 		return this.balloon.getText();
 	}
 
+	public void ensureCatsTypesButtonDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.catsTypesButton));
+	}
+
+	public void ensureCatsButtonDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.categoriesButton));
+	}
+	
+	public void ensureTypesButtonDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.typesButton));
+	}
+
 }
