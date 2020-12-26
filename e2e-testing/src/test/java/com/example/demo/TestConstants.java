@@ -43,5 +43,6 @@ public class TestConstants {
 	
 	public static final String TEST_IMAGE = "test.png";
 	
-	
+	public static final String SUB_BUTTON_TEXT = "email Subscribe";
+	public static final String UNSUB_BUTTON_TEXT = "unsubscribe Unsubscribe";
 }

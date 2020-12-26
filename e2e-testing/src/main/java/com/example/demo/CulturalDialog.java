@@ -27,7 +27,13 @@ public class CulturalDialog {
 
 	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer/div/button")
 	private WebElement addNewsButton;
+	
+	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/app-spacer-container/div/span[1]/button")
+	private WebElement subUnsubButton;
 
+	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/app-spacer-container/div/span[1]/button/span[1]")
+	private WebElement subUnsubButtonText;
+	
 	public CulturalDialog(WebDriver browser) {
 		super();
 		this.browser = browser;
@@ -57,6 +63,10 @@ public class CulturalDialog {
 		this.addNewsButton.click();
 	}
 	
+	public void subUnsubButtonClick() {
+		this.subUnsubButton.click();
+	}
+	
 	public void ensureEditButtonDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.editButton));		
 	}
@@ -81,4 +91,11 @@ public class CulturalDialog {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.addNewsButton));		
 	}
 
+	public void ensureSubUnsubButtonDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.subUnsubButton));		
+	}
+
+	public String getSubUnsubButtonText() {
+		return this.subUnsubButtonText.getText();	
+	}
 }
