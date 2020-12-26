@@ -20,7 +20,7 @@ public class TestConstants {
 	public static final String TAKEN_TYPE_NAME = "museum";	
 	public static final String ERROR_MESSAGE = "An error occured! Try again.";
 	public static final String ITEM_REMOVED = "Item successfully removed!";
-	
+	public static final String ITEM_REMOVED_ERROR = "Item cannot be removed!";
 	
 	
 	public static final String NAME_FILTER_ONE = "aburkertcc";
