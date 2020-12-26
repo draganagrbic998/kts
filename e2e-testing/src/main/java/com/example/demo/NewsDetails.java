@@ -50,6 +50,10 @@ public class NewsDetails {
 				.until(ExpectedConditions.elementToBeClickable(this.deleteButton));
 	}
 	
+	public void ensureHasImages() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.visibilityOfElementLocated(By.xpath(CAROUSEL_XPATH)));
+	}
+	
 	public void ensureHasNoImages() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(CAROUSEL_XPATH)));
 	}
