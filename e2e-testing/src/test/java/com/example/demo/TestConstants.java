@@ -29,6 +29,11 @@ public class TestConstants {
 	public static final String LOCATION_FILTER_MORE = "alm";
 	public static final String TYPE_FILTER_MORE = "museum";
 	public static final String FILTER_NONE = "asd";
+	public static final String FILTER_NONE_DATE = "10/1/1000";
+	public static final String FILTER_START_DATE = "11/1/2020";
+	public static final String FILTER_END_DATE = "11/9/2020";
+	public static final String NEWS_TEXT_MORE = "Disorders of bile acid and cholesterol metabolism";
+	public static final String NEWS_TEXT_ONE = "Displaced fracture of shaft of first metacarpal bone, left hand, initial encounter for closed fracture";
 	public static final int LARGE_PAGE_SIZE = 30;
 	
 	public static final String FOLLOWING_NAME_FILTER_MORE = "sb";
