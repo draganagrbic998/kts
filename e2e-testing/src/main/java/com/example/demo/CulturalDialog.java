@@ -19,8 +19,14 @@ public class CulturalDialog {
 	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/app-spacer-container/div/span[2]/button")
 	private WebElement toggleDrawer;
 	
+	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer/div/mat-tab-group/mat-tab-header/div[2]/div/div/div[2]")
+	private WebElement switchToNews;
+	
 	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer/div/button")
 	private WebElement addCommentButton;
+
+	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer/div/button")
+	private WebElement addNewsButton;
 
 	public CulturalDialog(WebDriver browser) {
 		super();
@@ -39,8 +45,16 @@ public class CulturalDialog {
 		this.toggleDrawer.click();
 	}
 	
+	public void switchToNewsList() {
+		this.switchToNews.click();
+	}
+	
 	public void addCommentButtonClick() {
 		this.addCommentButton.click();
+	}
+	
+	public void addNewsButtonClick() {
+		this.addNewsButton.click();
 	}
 	
 	public void ensureEditButtonDisplayed() {
@@ -55,8 +69,16 @@ public class CulturalDialog {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.toggleDrawer));		
 	}
 	
+	public void ensureSwitchToNewsDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.switchToNews));		
+	}
+	
 	public void ensureAddCommentButtonDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.addCommentButton));		
 	}
 	
+	public void ensureAddNewsButtonDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.addNewsButton));		
+	}
+
 }
