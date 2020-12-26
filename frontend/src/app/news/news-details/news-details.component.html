@@ -14,7 +14,7 @@
 
             <br>
 
-            <app-carousel [images]="news.images"></app-carousel>
+            <app-carousel *ngIf="news.images.length" [images]="news.images"></app-carousel>
             
             <br>
 
