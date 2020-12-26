@@ -9,13 +9,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class DeleteCategoryTest {
-	
-	private WebDriver browser;
+public class DeleteTypeTest {
+private WebDriver browser;
 	
 	private HomePage homePage;
 	private LoginPage loginPage;
-	private CategoryDetails categoryDetails;
+	private TypeDetails typeDetails;
 	private CatTypeDialog catTypeDialog;
 	private DeleteConfirmation deleteConfirmation;
 
@@ -26,7 +25,7 @@ public class DeleteCategoryTest {
 		this.browser.manage().window().maximize();
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
-		this.categoryDetails = PageFactory.initElements(this.browser, CategoryDetails.class);
+		this.typeDetails = PageFactory.initElements(this.browser, TypeDetails.class);
 		this.catTypeDialog = PageFactory.initElements(this.browser, CatTypeDialog.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
@@ -39,10 +38,10 @@ public class DeleteCategoryTest {
 		this.homePage.ensureCatsTypesButtonDisplayed();
 		this.homePage.catsTypesButtonClick();
 		this.homePage.ensureCatsButtonDisplayed();
-		this.homePage.categoriesButtonClick();
+		this.homePage.typesButtonClick();
 		this.catTypeDialog.ensureCategoryTypeListTabDisplayed();
-		this.categoryDetails.ensureDetailsDisplayed();
-		this.categoryDetails.deleteButtonClick();
+		this.typeDetails.ensureDetailsDisplayed();
+		this.typeDetails.deleteButtonClick();
 	}
 	
 	@Test
@@ -64,5 +63,4 @@ public class DeleteCategoryTest {
 	public void cleanUp() {
 		this.browser.quit();
 	}
-	
 }
