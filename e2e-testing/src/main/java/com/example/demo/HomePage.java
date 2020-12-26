@@ -19,6 +19,18 @@ public class HomePage {
 
 	@FindBy(xpath = "//*/app-toolbar/mat-toolbar/span[1]/button[2]")
 	private WebElement addOfferButton;
+	
+	@FindBy(xpath = "//*/app-toolbar/mat-toolbar/span[2]/button")
+	private WebElement moreButton;
+	
+	@FindBy(xpath = "//*[@id=\"mat-menu-panel-1\"]/div/button[2]")
+	private WebElement catsTypesButton;
+	
+	@FindBy(xpath = "//*[@id=\"mat-menu-panel-2\"]/div/button[1]")
+	private WebElement categoriesButton;
+	
+	@FindBy(xpath = "//*[@id=\"mat-menu-panel-2\"]/div/button[2]")
+	private WebElement typesButton;
 		
 	@FindBy(tagName = Constants.SNACKBAR)
 	private WebElement snackBar;
@@ -39,6 +51,22 @@ public class HomePage {
 		this.addOfferButton.click();
 	}
 	
+	public void moreButtonClick() {
+		this.moreButton.click();
+	}
+	
+	public void catsTypesButtonClick() {
+		this.catsTypesButton.click();
+	}
+	
+	public void categoriesButtonClick() {
+		this.categoriesButton.click();
+	}
+	
+	public void typesButtonClick() {
+		this.typesButton.click();
+	}
+	
 	public void ensureMapDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.map));
 	}
@@ -57,6 +85,18 @@ public class HomePage {
 	
 	public String balloonText() {
 		return this.balloon.getText();
+	}
+
+	public void ensureCatsTypesButtonDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.catsTypesButton));
+	}
+
+	public void ensureCatsButtonDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.categoriesButton));
+	}
+	
+	public void ensureTypesButtonDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.typesButton));
 	}
 
 }
