@@ -18,6 +18,7 @@ public class AddCategoryTest {
 	private LoginPage loginPage;
 	private CatTypeDialog catTypeDialog;
 	private CategoryForm categoryForm;
+	private CatTypeList catTypeList;
 	
 	@Before
 	public void setUp() {
@@ -28,7 +29,7 @@ public class AddCategoryTest {
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
 		this.catTypeDialog = PageFactory.initElements(this.browser, CatTypeDialog.class);
 		this.categoryForm = PageFactory.initElements(this.browser, CategoryForm.class);
-
+		this.catTypeList = PageFactory.initElements(this.browser, CatTypeList.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 		this.loginPage.emailInputFill(TestConstants.ADMIN_EMAIL);
@@ -40,6 +41,7 @@ public class AddCategoryTest {
 		this.homePage.catsTypesButtonClick();
 		this.homePage.ensureCatsButtonDisplayed();
 		this.homePage.categoriesButtonClick();
+		this.catTypeDialog.ensureCategoryTypeFormTabDisplayed();
 		this.catTypeDialog.ensureCategoryTypeFormTabDisplayed();
 		this.catTypeDialog.newCatTypeTabClick();
 		this.categoryForm.ensureFormDisplayed();
@@ -84,17 +86,18 @@ public class AddCategoryTest {
 		this.homePage.ensureSnackBarDisplayed();
 		assertEquals("Category successfully added!", this.homePage.snackBarText());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-		//this.catTypeDialog.catListTabClick();
-		//da li treba provera u listi??
+		this.catTypeDialog.ensureCategoryTypeListTabDisplayed();
+		this.catTypeDialog.catListTabClick();
+		this.catTypeList.ensureFirstPage();
+		this.catTypeList.ensureNextButtonDisplayed();
+		this.catTypeList.nextButtonClick();
+		this.catTypeList.ensureLastPage();
+		assertTrue(this.catTypeList.catsTypesNamesContainParam(name));
 	}
 	
 	@After
 	public void cleanUp() {
 		this.browser.quit();
 	}
-	
-	
-	
-
 
 }

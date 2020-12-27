@@ -30,6 +30,9 @@ public class TypeForm {
 	@FindBy(xpath = "//*/app-type-form/div/form/app-center-container/div/button")
 	private WebElement saveButton;
 	
+	@FindBy(tagName = Constants.SNACKBAR)
+	private WebElement snackBar;
+	
 	public TypeForm(WebDriver browser) {
 		super();
 		this.browser = browser;
@@ -90,5 +93,8 @@ public class TypeForm {
 		return this.nameError.isDisplayed() && this.nameError.getText().equals("Name already exists!");
 	}
 	
-
+	public void closeSnackBar() {
+		this.snackBar.findElement(By.tagName("button")).click();
+	}
+	
 }
