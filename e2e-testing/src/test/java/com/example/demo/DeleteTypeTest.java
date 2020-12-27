@@ -10,11 +10,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
 public class DeleteTypeTest {
-private WebDriver browser;
+	
+	private WebDriver browser;
 	
 	private HomePage homePage;
 	private LoginPage loginPage;
-	private TypeDetails typeDetails;
+	private CatTypeDetails catTypeDetails;
 	private CatTypeDialog catTypeDialog;
 	private DeleteConfirmation deleteConfirmation;
 
@@ -25,7 +26,7 @@ private WebDriver browser;
 		this.browser.manage().window().maximize();
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
-		this.typeDetails = PageFactory.initElements(this.browser, TypeDetails.class);
+		this.catTypeDetails = PageFactory.initElements(this.browser, CatTypeDetails.class);
 		this.catTypeDialog = PageFactory.initElements(this.browser, CatTypeDialog.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
@@ -40,12 +41,12 @@ private WebDriver browser;
 		this.homePage.ensureCatsButtonDisplayed();
 		this.homePage.typesButtonClick();
 		this.catTypeDialog.ensureCategoryTypeListTabDisplayed();
-		this.typeDetails.ensureDetailsDisplayed();
-		this.typeDetails.deleteButtonClick();
+		this.catTypeDetails.ensureDetailsDisplayed();
 	}
 	
 	@Test
 	public void testCancel() {
+		this.catTypeDetails.deleteButtonClick();
 		this.deleteConfirmation.cancelButtonClick();
 		this.deleteConfirmation.ensureDialogClosed();
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
@@ -53,9 +54,19 @@ private WebDriver browser;
 	
 	@Test
 	public void testConfirmWithCulturalOffer() {
+		this.catTypeDetails.deleteButtonClick();
 		this.deleteConfirmation.confirmButtonClick();
 		this.homePage.ensureSnackBarDisplayed();
 		assertEquals(TestConstants.ITEM_REMOVED_ERROR, this.homePage.snackBarText());
+		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
+	}
+
+	@Test
+	public void testConfirmWithoutCulturalOffer() {
+		this.catTypeDetails.deleteButtonWithoutCulturalOfferClick();
+		this.deleteConfirmation.confirmButtonClick();
+		this.homePage.ensureSnackBarDisplayed();
+		assertEquals(TestConstants.ITEM_REMOVED, this.homePage.snackBarText());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 	
@@ -63,4 +74,5 @@ private WebDriver browser;
 	public void cleanUp() {
 		this.browser.quit();
 	}
+	
 }

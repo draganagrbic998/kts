@@ -15,7 +15,7 @@ public class DeleteCategoryTest {
 	
 	private HomePage homePage;
 	private LoginPage loginPage;
-	private CategoryDetails categoryDetails;
+	private CatTypeDetails categoryDetails;
 	private CatTypeDialog catTypeDialog;
 	private DeleteConfirmation deleteConfirmation;
 
@@ -26,7 +26,7 @@ public class DeleteCategoryTest {
 		this.browser.manage().window().maximize();
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
-		this.categoryDetails = PageFactory.initElements(this.browser, CategoryDetails.class);
+		this.categoryDetails = PageFactory.initElements(this.browser, CatTypeDetails.class);
 		this.catTypeDialog = PageFactory.initElements(this.browser, CatTypeDialog.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
@@ -42,11 +42,12 @@ public class DeleteCategoryTest {
 		this.homePage.categoriesButtonClick();
 		this.catTypeDialog.ensureCategoryTypeListTabDisplayed();
 		this.categoryDetails.ensureDetailsDisplayed();
-		this.categoryDetails.deleteButtonClick();
+		
 	}
 	
 	@Test
 	public void testCancel() {
+		this.categoryDetails.deleteButtonClick();
 		this.deleteConfirmation.cancelButtonClick();
 		this.deleteConfirmation.ensureDialogClosed();
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
@@ -54,9 +55,19 @@ public class DeleteCategoryTest {
 	
 	@Test
 	public void testConfirmWithCulturalOffer() {
+		this.categoryDetails.deleteButtonClick();
 		this.deleteConfirmation.confirmButtonClick();
 		this.homePage.ensureSnackBarDisplayed();
 		assertEquals(TestConstants.ITEM_REMOVED_ERROR, this.homePage.snackBarText());
+		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
+	}
+	
+	@Test
+	public void testConfirmWithoutCulturalOffer() {
+		this.categoryDetails.deleteButtonWithoutCulturalOfferClick();
+		this.deleteConfirmation.confirmButtonClick();
+		this.homePage.ensureSnackBarDisplayed();
+		assertEquals(TestConstants.ITEM_REMOVED, this.homePage.snackBarText());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 	
