@@ -15,3 +15,6 @@ Kolicina podataka koje smo generisali:
 4. 10000 slika
 5. 10000 veza komentar-slika
 6. 10000 veza novost-slika
+7. 103 kategorija
+8. 106 tipova
+9. 1003 korisnika
