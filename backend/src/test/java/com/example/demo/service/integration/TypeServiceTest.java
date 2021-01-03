@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
@@ -70,8 +71,8 @@ public class TypeServiceTest {
 				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
-		assertEquals(TypeConstants.NAME_THREE, names.get(1));
-		assertEquals(TypeConstants.NAME_TWO, names.get(2));
+		assertEquals(TypeConstants.NAME_TWO, names.get(1));
+		assertEquals(TypeConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -81,8 +82,8 @@ public class TypeServiceTest {
 				.filterNames(TypeConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
-		assertEquals(TypeConstants.NAME_THREE, names.get(1));
-		assertEquals(TypeConstants.NAME_TWO, names.get(2));
+		assertEquals(TypeConstants.NAME_TWO, names.get(1));
+		assertEquals(TypeConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -104,9 +105,10 @@ public class TypeServiceTest {
 	
 	@Test
 	public void testListAll() {
-		List<Type> types = 
+		Page<Type> page = 
 				this.typeService
-				.list(this.pageableTotal).getContent();
+				.list(this.pageableTotal);
+		List<Type> types = page.getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.ID_ONE, types.get(0).getId());
 		assertEquals(CategoryConstants.ID_ONE, types.get(0).getCategory().getId());
@@ -117,13 +119,16 @@ public class TypeServiceTest {
 		assertEquals(TypeConstants.ID_THREE, types.get(2).getId());
 		assertEquals(CategoryConstants.ID_THREE, types.get(2).getCategory().getId());
 		assertEquals(TypeConstants.NAME_THREE, types.get(2).getName());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testListAllPaginated() {
-		List<Type> types = 
+		Page<Type> page = 
 				this.typeService
-				.list(this.pageablePart).getContent();
+				.list(this.pageablePart);
+		List<Type> types = page.getContent();
 		assertEquals(MainConstants.PART_SIZE, types.size());
 		assertEquals(TypeConstants.ID_ONE, types.get(0).getId());
 		assertEquals(CategoryConstants.ID_ONE, types.get(0).getCategory().getId());
@@ -131,14 +136,19 @@ public class TypeServiceTest {
 		assertEquals(TypeConstants.ID_TWO, types.get(1).getId());
 		assertEquals(CategoryConstants.ID_TWO, types.get(1).getCategory().getId());
 		assertEquals(TypeConstants.NAME_TWO, types.get(1).getName());
+		assertTrue(page.isFirst());
+		assertFalse(page.isLast());
 	}
 	
 	@Test
 	public void testListAllNonExistingPage() {
-		List<Type> types  = 
+		Page<Type> page = 
 				this.typeService
-				.list(this.pageableNonExisting).getContent();
+				.list(this.pageableNonExisting);
+		List<Type> types = page.getContent();
 		assertTrue(types.isEmpty());
+		assertFalse(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test

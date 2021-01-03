@@ -29,7 +29,12 @@ public class EmailService {
 		message.setTo(email.getTo());
 		message.setSubject(email.getSubject());
 		message.setText(email.getText());
-		this.sender.send(message);
+		try {
+			this.sender.send(message);
+		}
+		catch(Exception e) {
+			;
+		}
 	}
 	
 	@Async
@@ -57,7 +62,12 @@ public class EmailService {
 	            });
 	        }
 	    };
-    	this.sender.send(preparator);
+	    try {
+	    	this.sender.send(preparator);
+	    }
+	    catch(Exception e) {
+	    	;
+	    }
 	}
 
 }

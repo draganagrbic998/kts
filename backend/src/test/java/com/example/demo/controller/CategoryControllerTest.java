@@ -26,6 +26,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.example.demo.api.AuthAPI;
 import com.example.demo.api.CategoryAPI;
 import com.example.demo.constants.CategoryConstants;
+import com.example.demo.constants.Constants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.UserConstants;
 import com.example.demo.dto.BooleanDTO;
@@ -107,8 +108,8 @@ public class CategoryControllerTest {
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
-		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
-		assertEquals(CategoryConstants.NAME_TWO, names.get(2));
+		assertEquals(CategoryConstants.NAME_TWO, names.get(1));
+		assertEquals(CategoryConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -123,8 +124,7 @@ public class CategoryControllerTest {
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
-		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
-		assertEquals(CategoryConstants.NAME_TWO, names.get(2));
+		assertEquals(CategoryConstants.NAME_TWO, names.get(1));
 	}
 	
 	@Test
@@ -171,6 +171,8 @@ public class CategoryControllerTest {
 		assertEquals(CategoryConstants.NAME_TWO, categories.get(1).getName());
 		assertEquals(CategoryConstants.ID_THREE, categories.get(2).getId());
 		assertEquals(CategoryConstants.NAME_THREE, categories.get(2).getName());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -188,6 +190,8 @@ public class CategoryControllerTest {
 		assertEquals(CategoryConstants.NAME_ONE, categories.get(0).getName());
 		assertEquals(CategoryConstants.ID_TWO, categories.get(1).getId());
 		assertEquals(CategoryConstants.NAME_TWO, categories.get(1).getName());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("false", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -199,6 +203,8 @@ public class CategoryControllerTest {
 						new ParameterizedTypeReference<List<CategoryDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("false", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test

@@ -35,7 +35,7 @@ public class TypeService {
 	
 	@Transactional(readOnly = true)
 	public Page<Type> list(Pageable pageable) {
-		return this.typeRepository.findAll(pageable);
+		return this.typeRepository.findAllByOrderByName(pageable);
 	}
 
 	@Transactional(readOnly = false)

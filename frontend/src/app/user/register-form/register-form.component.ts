@@ -21,7 +21,7 @@ export class RegisterFormComponent implements OnInit {
   registerPending = false;
   registerForm: FormGroup = new FormGroup({
     email: new FormControl('', [Validators.required,
-      Validators.pattern(new RegExp('\\S'))],
+      Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$')],
       [this.formValidator.hasEmail(null)]),
     firstName: new FormControl('', [Validators.required,
       Validators.pattern(new RegExp('\\S'))]),

@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -11,6 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -53,174 +55,204 @@ public class UserFollowingRepositoryTest {
 	
 	@Test
 	public void testFilterEmpty() {
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
 						MainConstants.FILTER_ALL, 
 						MainConstants.FILTER_ALL, 
 						MainConstants.FILTER_ALL, 
-						this.pageableTotal).getContent();
+						this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
-		assertEquals(TypeConstants.ID_TWO, offers.get(2).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(2).getId());
+		assertEquals(TypeConstants.ID_THREE, offers.get(2).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(2).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(2).getLocation());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterEmptyPaginated() {
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
 						MainConstants.FILTER_ALL, 
 						MainConstants.FILTER_ALL, 
 						MainConstants.FILTER_ALL, 
-						this.pageablePart).getContent();
+						this.pageablePart);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertTrue(page.isFirst());
+		assertFalse(page.isLast());
 	}
 	
 	@Test
 	public void testFilterEmptyNonExistingPage() {
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
 						MainConstants.FILTER_ALL, 
 						MainConstants.FILTER_ALL, 
 						MainConstants.FILTER_ALL, 
-						this.pageableNonExisting).getContent();
+						this.pageableNonExisting);
+		List<CulturalOffer> offers = page.getContent();
 		assertTrue(offers.isEmpty());
+		assertFalse(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterAll() {
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
 						CulturalOfferConstants.FILTER_NAMES_ALL, 
 						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
 						CulturalOfferConstants.FILTER_TYPES_ALL, 
-						this.pageableTotal).getContent();
+						this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
-		assertEquals(TypeConstants.ID_TWO, offers.get(2).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(2).getId());
+		assertEquals(TypeConstants.ID_THREE, offers.get(2).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(2).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(2).getLocation());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterAllPaginated() {
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
 						CulturalOfferConstants.FILTER_NAMES_ALL, 
 						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
 						CulturalOfferConstants.FILTER_TYPES_ALL, 
-						this.pageablePart).getContent();
+						this.pageablePart);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertTrue(page.isFirst());
+		assertFalse(page.isLast());
 	}
 	
 	@Test
 	public void testFilterAllNonExistingPage() {
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
 						CulturalOfferConstants.FILTER_NAMES_ALL, 
 						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
 						CulturalOfferConstants.FILTER_TYPES_ALL, 
-						this.pageableNonExisting).getContent();
+						this.pageableNonExisting);
+		List<CulturalOffer> offers = page.getContent();
 		assertTrue(offers.isEmpty());
+		assertFalse(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterOneName() {
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
 						MainConstants.FILTER_ONE, 
 						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
 						CulturalOfferConstants.FILTER_TYPES_ALL, 
-						this.pageableTotal).getContent();
+						this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterOneLocation() {
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
 						CulturalOfferConstants.FILTER_NAMES_ALL, 
 						MainConstants.FILTER_ONE, 
 						CulturalOfferConstants.FILTER_TYPES_ALL, 
-						this.pageableTotal).getContent();
+						this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterOneType() {
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
 						CulturalOfferConstants.FILTER_NAMES_ALL, 
 						CulturalOfferConstants.FILTER_LOCATIONS_ALL, 
 						MainConstants.FILTER_ONE, 
-						this.pageableTotal).getContent();
+						this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterNone() {
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.userFollowingRepository
 				.filter(UserConstants.ID_ONE, 
 						MainConstants.FILTER_ALL, 
 						MainConstants.FILTER_ALL, 
 						MainConstants.FILTER_NONE, 
-						this.pageableTotal).getContent();
+						this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertTrue(offers.isEmpty());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
@@ -66,8 +67,8 @@ public class CategoryServiceTest {
 				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
-		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
-		assertEquals(CategoryConstants.NAME_TWO, names.get(2));
+		assertEquals(CategoryConstants.NAME_TWO, names.get(1));
+		assertEquals(CategoryConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -77,8 +78,8 @@ public class CategoryServiceTest {
 				.filterNames(CategoryConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
-		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
-		assertEquals(CategoryConstants.NAME_TWO, names.get(2));
+		assertEquals(CategoryConstants.NAME_TWO, names.get(1));
+		assertEquals(CategoryConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -100,9 +101,10 @@ public class CategoryServiceTest {
 	
 	@Test
 	public void testListAll() {
-		List<Category> categories = 
+		Page<Category> page = 
 				this.categoryService
-				.list(this.pageableTotal).getContent();
+				.list(this.pageableTotal);
+		List<Category> categories = page.getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, categories.size());
 		assertEquals(CategoryConstants.ID_ONE, categories.get(0).getId());
 		assertEquals(CategoryConstants.NAME_ONE, categories.get(0).getName());
@@ -110,26 +112,34 @@ public class CategoryServiceTest {
 		assertEquals(CategoryConstants.NAME_TWO, categories.get(1).getName());
 		assertEquals(CategoryConstants.ID_THREE, categories.get(2).getId());
 		assertEquals(CategoryConstants.NAME_THREE, categories.get(2).getName());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testListAllPaginated() {
-		List<Category> categories = 
+		Page<Category> page = 
 				this.categoryService
-				.list(this.pageablePart).getContent();
+				.list(this.pageablePart);
+		List<Category> categories = page.getContent();
 		assertEquals(MainConstants.PART_SIZE, categories.size());
 		assertEquals(CategoryConstants.ID_ONE, categories.get(0).getId());
 		assertEquals(CategoryConstants.NAME_ONE, categories.get(0).getName());
 		assertEquals(CategoryConstants.ID_TWO, categories.get(1).getId());
 		assertEquals(CategoryConstants.NAME_TWO, categories.get(1).getName());
+		assertTrue(page.isFirst());
+		assertFalse(page.isLast());
 	}
 	
 	@Test
 	public void testListAllNonExistingPage() {
-		List<Category> categories = 
+		Page<Category> page = 
 				this.categoryService
-				.list(this.pageableNonExisting).getContent();
+				.list(this.pageableNonExisting);
+		List<Category> categories = page.getContent();
 		assertEquals(MainConstants.NONE_SIZE, categories.size());
+		assertFalse(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test

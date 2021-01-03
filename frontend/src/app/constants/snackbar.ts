@@ -16,3 +16,7 @@ export const SNACKBAR_ERROR_OPTIONS: MatSnackBarConfig = {
     panelClass: 'snackbar-error',
     // duration: 2000
 };
+
+export const DELETE_SUCCESS = 'Item successfully removed!';
+export const DELETE_ERROR = 'Item cannot be removed!';
+

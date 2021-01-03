@@ -57,10 +57,10 @@ export class CatTypeListComponent implements OnInit {
   ngOnInit(): void {
     this.fetchData();
     if (this.cats){
-      this.categoryService.refreshData$.subscribe(() => this.fetchData()); // da preuzmem nultu stranicu?
+      this.categoryService.refreshData$.subscribe(() => this.changePage(0));
     }
     else{
-      this.typeService.refreshData$.subscribe(() => this.fetchData());
+      this.typeService.refreshData$.subscribe(() => this.changePage(0));
     }
   }
 

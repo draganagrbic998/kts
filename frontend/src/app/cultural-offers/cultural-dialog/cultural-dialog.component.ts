@@ -22,12 +22,12 @@ export class CulturalDialogComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public culturalOffer: CulturalOffer,
-    private authService: AuthService,
-    private culturalService: CulturalService,
-    private userFollowingService: UserFollowingService,
-    private dialog: MatDialog,
+    public authService: AuthService,
+    public culturalService: CulturalService,
+    public userFollowingService: UserFollowingService,
+    public dialog: MatDialog,
     public dialogRef: MatDialogRef<CulturalDialogComponent>,
-    private snackBar: MatSnackBar
+    public snackBar: MatSnackBar
   ) { }
 
   toggleSubPending = false;

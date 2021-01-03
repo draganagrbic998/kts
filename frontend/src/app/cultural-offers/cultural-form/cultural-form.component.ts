@@ -25,12 +25,12 @@ export class CulturalFormComponent implements AfterViewInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public culturalOffer: CulturalOffer,
-    private culturalService: CulturalService,
-    private typeService: TypeService,
-    private culturalValidator: CulturalValidatorService,
-    private typeValidator: TypeValidatorService,
+    public culturalService: CulturalService,
+    public typeService: TypeService,
+    public culturalValidator: CulturalValidatorService,
+    public typeValidator: TypeValidatorService,
     public dialogRef: MatDialogRef<CulturalFormComponent>,
-    private snackBar: MatSnackBar
+    public snackBar: MatSnackBar
   ) { }
 
   geolocation: Geolocation = {
@@ -40,14 +40,11 @@ export class CulturalFormComponent implements AfterViewInit {
 
   culturalForm: FormGroup = new FormGroup({
     type: new FormControl(this.culturalOffer.type || '',
-    [Validators.required, Validators.pattern(new RegExp('\\S'))],
-    [this.typeValidator.hasName(false)]),
+    [Validators.required, Validators.pattern(new RegExp('\\S'))], [this.typeValidator.hasName(false)]),
     name: new FormControl(this.culturalOffer.name || '',
-    [Validators.required, Validators.pattern(new RegExp('\\S'))],
-    [this.culturalValidator.hasName(this.culturalOffer.id)]),
+    [Validators.required, Validators.pattern(new RegExp('\\S'))], [this.culturalValidator.hasName(this.culturalOffer.id)]),
     location: new FormControl(this.culturalOffer.location || '',
-    [Validators.required, Validators.pattern(new RegExp('\\S')),
-    this.culturalValidator.locationFound(this.geolocation)]),
+    [Validators.required, Validators.pattern(new RegExp('\\S')), this.culturalValidator.locationFound(this.geolocation)]),
     description: new FormControl(this.culturalOffer.description || '')
   });
 
@@ -69,26 +66,10 @@ export class CulturalFormComponent implements AfterViewInit {
     if (this.culturalForm.invalid){
       return;
     }
-    const formData: FormData = new FormData();
-    if (this.culturalOffer.id){
-      formData.append('id', this.culturalOffer.id + '');
-    }
 
-    formData.append('type', this.culturalForm.value.type);
-    formData.append('name', this.culturalForm.value.name);
-    formData.append('location', this.culturalForm.value.location);
-    formData.append('description', this.culturalForm.value.description);
-    formData.append('lat', this.geolocation.lat + '');
-    formData.append('lng', this.geolocation.lng + '');
-    if (this.image.upload){
-      formData.append('image', this.image.upload);
-    }
-    else if (this.image.path){
-      formData.append('imagePath', this.image.path);
-    }
-
+    const offer: CulturalOffer = {...this.culturalOffer, ...this.geolocation, ...this.culturalForm.value};
     this.savePending = true;
-    this.culturalService.save(formData).subscribe(
+    this.culturalService.save(offer, this.image).subscribe(
       (culturalOffer: CulturalOffer) => {
         this.snackBar.open('Offer successfully saved!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
         this.dialogRef.close(true);

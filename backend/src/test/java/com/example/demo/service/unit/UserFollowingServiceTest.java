@@ -73,8 +73,8 @@ public class UserFollowingServiceTest {
 				this.pageableTotal))
 		.thenReturn(new PageImpl<>(List.of(
 				this.filterOffer(1), 
-				this.filterOffer(3), 
-				this.filterOffer(2))));
+				this.filterOffer(2), 
+				this.filterOffer(3))));
 		List<CulturalOffer> offers = 
 				this.userFollowingService
 				.filter(filters, this.pageableTotal).getContent();
@@ -83,14 +83,14 @@ public class UserFollowingServiceTest {
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
-		assertEquals(TypeConstants.ID_TWO, offers.get(2).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(2).getId());
+		assertEquals(TypeConstants.ID_THREE, offers.get(2).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(2).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(2).getLocation());
 	}
 	
 	@Test
@@ -104,7 +104,7 @@ public class UserFollowingServiceTest {
 				this.pageablePart))
 		.thenReturn(new PageImpl<>(List.of(
 				this.filterOffer(1), 
-				this.filterOffer(3))));
+				this.filterOffer(2))));
 		List<CulturalOffer> offers = 
 				this.userFollowingService
 				.filter(filters, this.pageablePart).getContent();
@@ -113,10 +113,10 @@ public class UserFollowingServiceTest {
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
 	}
 	
 	@Test
@@ -146,8 +146,8 @@ public class UserFollowingServiceTest {
 				this.pageableTotal))
 		.thenReturn(new PageImpl<>(List.of(
 				this.filterOffer(1), 
-				this.filterOffer(3), 
-				this.filterOffer(2))));
+				this.filterOffer(2), 
+				this.filterOffer(3))));
 		List<CulturalOffer> offers = 
 				this.userFollowingService
 				.filter(filters, this.pageableTotal).getContent();
@@ -156,14 +156,14 @@ public class UserFollowingServiceTest {
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
-		assertEquals(TypeConstants.ID_TWO, offers.get(2).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(2).getId());
+		assertEquals(TypeConstants.ID_THREE, offers.get(2).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(2).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(2).getLocation());
 	}
 	
 	@Test
@@ -177,7 +177,7 @@ public class UserFollowingServiceTest {
 				this.pageablePart))
 		.thenReturn(new PageImpl<>(List.of(
 				this.filterOffer(1), 
-				this.filterOffer(3))));
+				this.filterOffer(2))));
 		List<CulturalOffer> offers = 
 				this.userFollowingService
 				.filter(filters, this.pageablePart).getContent();
@@ -186,10 +186,10 @@ public class UserFollowingServiceTest {
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
 	}
 	
 	@Test

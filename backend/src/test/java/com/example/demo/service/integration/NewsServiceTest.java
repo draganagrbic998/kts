@@ -1,5 +1,6 @@
 package com.example.demo.service.integration;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -16,6 +17,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
@@ -52,8 +54,9 @@ public class NewsServiceTest {
 
 	@Test
 	public void testListMore() {
-		List<News> news = this.newsService
-				.filter(CulturalOfferConstants.ID_THREE, new FilterParamsNewsDTO(), this.pageableTotal).getContent();
+		Page<News> page = this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, new FilterParamsNewsDTO(), this.pageableTotal);
+		List<News> news = page.getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, news.size());
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
@@ -67,12 +70,15 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 
 	@Test
 	public void testListMorePaginated() {
-		List<News> news = this.newsService
-				.filter(CulturalOfferConstants.ID_THREE, new FilterParamsNewsDTO(), this.pageablePart).getContent();
+		Page<News> page = this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, new FilterParamsNewsDTO(), this.pageablePart);
+		List<News> news = page.getContent();
 		assertEquals(MainConstants.PART_SIZE, news.size());
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
@@ -82,32 +88,42 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
+		assertTrue(page.isFirst());
+		assertFalse(page.isLast());
 	}
 
 	@Test
 	public void testListMoreNonExistingPage() {
-		List<News> news = 
-				this.newsService
-				.filter(CulturalOfferConstants.ID_THREE, new FilterParamsNewsDTO(), this.pageableNonExisting).getContent();
+		Page<News> page = this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, new FilterParamsNewsDTO(), this.pageableNonExisting);
+		List<News> news = page.getContent();
 		assertTrue(news.isEmpty());
+		assertFalse(page.isFirst());
+		assertTrue(page.isLast());
 	}
 
 	@Test
 	public void testListOne() {
-		List<News> news = this.newsService
-				.filter(CulturalOfferConstants.ID_TWO, new FilterParamsNewsDTO(), this.pageableTotal).getContent();
+		Page<News> page = this.newsService
+				.filter(CulturalOfferConstants.ID_TWO, new FilterParamsNewsDTO(), this.pageableTotal);
+		List<News> news = page.getContent();
 		assertEquals(MainConstants.ONE_SIZE, news.size());
 		assertEquals(NewsConstants.ID_ONE, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_ONE, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_ONE, news.get(0).getText());
 		assertEquals(CulturalOfferConstants.ID_TWO, news.get(0).getCulturalOffer().getId());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 
 	@Test
 	public void testListNone() {
-		List<News> news = this.newsService
-				.filter(MainConstants.NON_EXISTING_ID, new FilterParamsNewsDTO(), this.pageableTotal).getContent();
+		Page<News> page = this.newsService
+				.filter(MainConstants.NON_EXISTING_ID, new FilterParamsNewsDTO(), this.pageableTotal);
+		List<News> news = page.getContent();
 		assertTrue(news.isEmpty());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 
 	@Test
@@ -115,10 +131,9 @@ public class NewsServiceTest {
 		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(
 				this.format.parse(NewsConstants.START_DATE_MORE),
 				this.format.parse(NewsConstants.END_DATE_MORE));
-		List<News> news = 
-				this.newsService
-				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableTotal)
-				.getContent();
+		Page<News> page = this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableTotal);
+		List<News> news = page.getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, news.size());
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
@@ -132,6 +147,8 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOffer().getId());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 
 	@Test
@@ -139,10 +156,9 @@ public class NewsServiceTest {
 		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(
 				this.format.parse(NewsConstants.START_DATE_MORE),
 				this.format.parse(NewsConstants.END_DATE_MORE));
-		List<News> news = 
-				this.newsService
-				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageablePart)
-				.getContent();
+		Page<News> page = this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageablePart);
+		List<News> news = page.getContent();
 		assertEquals(MainConstants.PART_SIZE, news.size());
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
@@ -152,6 +168,8 @@ public class NewsServiceTest {
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOffer().getId());
+		assertTrue(page.isFirst());
+		assertFalse(page.isLast());
 	}
 	
 	@Test
@@ -159,11 +177,12 @@ public class NewsServiceTest {
 		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(
 				this.format.parse(NewsConstants.START_DATE_MORE),
 				this.format.parse(NewsConstants.END_DATE_MORE));
-		List<News> news = 
-				this.newsService
-				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableNonExisting)
-				.getContent();
+		Page<News> page = this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableNonExisting);
+		List<News> news = page.getContent();
 		assertTrue(news.isEmpty());
+		assertFalse(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
@@ -171,15 +190,16 @@ public class NewsServiceTest {
 		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(
 				this.format.parse(NewsConstants.START_DATE_ONE),
 				this.format.parse(NewsConstants.END_DATE_ONE));
-		List<News> news = 
-				this.newsService
-				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableTotal)
-				.getContent();
+		Page<News> page = this.newsService
+				.filter(CulturalOfferConstants.ID_THREE, filters, this.pageableTotal);
+		List<News> news = page.getContent();
 		assertEquals(MainConstants.ONE_SIZE, news.size());
 		assertEquals(NewsConstants.ID_FOUR, news.get(0).getId());
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOffer().getId());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 
 	@Test
@@ -187,11 +207,12 @@ public class NewsServiceTest {
 		FilterParamsNewsDTO filters = new FilterParamsNewsDTO(
 				this.format.parse(NewsConstants.WRONG_START),
 				this.format.parse(NewsConstants.WRONG_END));
-		List<News> news = 
-				this.newsService
-				.filter(MainConstants.NON_EXISTING_ID, filters, this.pageableTotal)
-				.getContent();
+		Page<News> page = this.newsService
+				.filter(MainConstants.NON_EXISTING_ID, filters, this.pageableTotal);
+		List<News> news = page.getContent();
 		assertTrue(news.isEmpty());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test

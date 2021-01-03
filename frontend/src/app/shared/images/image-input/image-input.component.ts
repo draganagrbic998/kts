@@ -13,16 +13,17 @@ export class ImageInputComponent implements OnInit {
     private imageService: ImageService
   ) { }
 
-  @Input() image: string;
   @Input() profile: boolean;
+  @Input() image: string;
   @Output() changed: EventEmitter<Image> = new EventEmitter();
   @Output() removed: EventEmitter<null> = new EventEmitter();
 
   changeImage(upload: Blob): void{
-    this.imageService.getBase64(upload)
-    .then((path: string) => {
-      this.changed.emit({upload, path});
-    });
+    this.imageService.getBase64(upload).subscribe(
+      (path: string) => {
+        this.changed.emit({upload, path});
+      }
+    );
   }
 
   ngOnInit(): void {

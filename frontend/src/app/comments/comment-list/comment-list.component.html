@@ -1,7 +1,7 @@
 <app-preloader *ngIf="fetchPending"></app-preloader>
 
 <app-paginator
-[fetchPending]="fetchPending"
+[pending]="fetchPending"
 [pagination]="pagination"
 (changedPage)="changePage($event)"
 ></app-paginator>  

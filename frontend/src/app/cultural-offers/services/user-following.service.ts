@@ -16,7 +16,7 @@ export class UserFollowingService {
     private http: HttpClient
   ) { }
 
-  private readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
+  readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
 
   filter(filters: FilterParams, page: number): Observable<HttpResponse<CulturalOffer[]>>{
     const params = new HttpParams().set('page', page + '').set('size', LARGE_PAGE_SIZE + '');
@@ -25,8 +25,8 @@ export class UserFollowingService {
     );
   }
 
-  toggleSubscription(culturalOfferId: number): Observable<CulturalOffer>{
-    return this.http.get<CulturalOffer>(`${this.API_OFFERS}/${culturalOfferId}/toggle_subscription`);
+  toggleSubscription(culturalOfferId: number): Observable<null>{
+    return this.http.get<null>(`${this.API_OFFERS}/${culturalOfferId}/toggle_subscription`);
   }
 
 }

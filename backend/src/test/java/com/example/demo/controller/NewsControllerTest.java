@@ -32,6 +32,7 @@ import org.springframework.web.client.RestClientException;
 import com.example.demo.api.AuthAPI;
 import com.example.demo.api.CulturalOfferAPI;
 import com.example.demo.api.NewsAPI;
+import com.example.demo.constants.Constants;
 import com.example.demo.constants.CulturalOfferConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.NewsConstants;
@@ -103,6 +104,8 @@ public class NewsControllerTest {
 		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOfferId());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 
 	@Test
@@ -123,6 +126,8 @@ public class NewsControllerTest {
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOfferId());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("false", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 
 	@Test
@@ -135,6 +140,8 @@ public class NewsControllerTest {
 						new ParameterizedTypeReference<List<NewsDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("false", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -151,6 +158,8 @@ public class NewsControllerTest {
 		assertEquals(NewsConstants.DATE_ONE, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_ONE, news.get(0).getText());
 		assertEquals(CulturalOfferConstants.ID_TWO, news.get(0).getCulturalOfferId());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -162,6 +171,8 @@ public class NewsControllerTest {
 				new ParameterizedTypeReference<List<NewsDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -187,6 +198,8 @@ public class NewsControllerTest {
 		assertEquals(NewsConstants.DATE_THREE, this.format.format(news.get(2).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_THREE, news.get(2).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(2).getCulturalOfferId());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 
 	@Test
@@ -208,6 +221,8 @@ public class NewsControllerTest {
 		assertEquals(NewsConstants.DATE_TWO, this.format.format(news.get(1).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_TWO, news.get(1).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(1).getCulturalOfferId());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("false", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 
 	@Test
@@ -220,6 +235,8 @@ public class NewsControllerTest {
 						new ParameterizedTypeReference<List<NewsDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("false", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 
 	@Test
@@ -236,6 +253,8 @@ public class NewsControllerTest {
 		assertEquals(NewsConstants.DATE_FOUR, this.format.format(news.get(0).getCreatedAt()));
 		assertEquals(NewsConstants.TEXT_FOUR, news.get(0).getText());
 		assertEquals(CulturalOfferConstants.ID_THREE, news.get(0).getCulturalOfferId());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 
 	@Test
@@ -248,6 +267,8 @@ public class NewsControllerTest {
 						new ParameterizedTypeReference<List<NewsDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 
 	@Test

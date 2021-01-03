@@ -68,15 +68,15 @@ public class CategoryServiceTest {
 				.filterNames(MainConstants.FILTER_ALL))
 				.thenReturn(List.of(
 				CategoryConstants.NAME_ONE, 
-				CategoryConstants.NAME_THREE, 
-				CategoryConstants.NAME_TWO));
+				CategoryConstants.NAME_TWO, 
+				CategoryConstants.NAME_THREE));
 		List<String> names = 
 				this.categoryService
 				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
-		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
-		assertEquals(CategoryConstants.NAME_TWO, names.get(2));
+		assertEquals(CategoryConstants.NAME_TWO, names.get(1));
+		assertEquals(CategoryConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -85,15 +85,15 @@ public class CategoryServiceTest {
 				.filterNames(CategoryConstants.FILTER_NAMES_ALL))
 				.thenReturn(List.of(
 						CategoryConstants.NAME_ONE, 
-						CategoryConstants.NAME_THREE, 
-						CategoryConstants.NAME_TWO));
+						CategoryConstants.NAME_TWO, 
+						CategoryConstants.NAME_THREE));
 		List<String> names = 
 				this.categoryService
 				.filterNames(CategoryConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CategoryConstants.NAME_ONE, names.get(0));
-		assertEquals(CategoryConstants.NAME_THREE, names.get(1));
-		assertEquals(CategoryConstants.NAME_TWO, names.get(2));
+		assertEquals(CategoryConstants.NAME_TWO, names.get(1));
+		assertEquals(CategoryConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -123,7 +123,7 @@ public class CategoryServiceTest {
 	@Test
 	public void testListAll() {
 		Mockito.when(this.categoryRepository
-				.findAll(this.pageableTotal))
+				.findAllByOrderByName(this.pageableTotal))
 				.thenReturn(new PageImpl<>(List.of(
 						this.listCategory(1), 
 						this.listCategory(2), 
@@ -143,7 +143,7 @@ public class CategoryServiceTest {
 	@Test
 	public void testListAllPaginated() {
 		Mockito.when(this.categoryRepository
-				.findAll(this.pageablePart))
+				.findAllByOrderByName(this.pageablePart))
 				.thenReturn(new PageImpl<>(List.of(
 						this.listCategory(1), 
 						this.listCategory(2))));
@@ -160,7 +160,7 @@ public class CategoryServiceTest {
 	@Test
 	public void testListAllNonExistingPage() {
 		Mockito.when(this.categoryRepository
-				.findAll(this.pageableNonExisting))
+				.findAllByOrderByName(this.pageableNonExisting))
 				.thenReturn(new PageImpl<>(List.of()));
 		List<Category> categories = 
 				this.categoryService

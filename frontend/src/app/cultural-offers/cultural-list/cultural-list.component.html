@@ -1,9 +1,9 @@
 <app-paginator
 [fixed]="true"
 [title]="title"
-[fetchPending]="fetchPending"
+[pending]="fetchPending"
 [pagination]="pagination"
-(changedPage)="changePage.emit($event)"
+(changedPage)="changedPage.emit($event)"
 ></app-paginator>
 
 <app-preloader *ngIf="fetchPending && !panel.expanded"></app-preloader>

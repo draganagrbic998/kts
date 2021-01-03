@@ -31,6 +31,7 @@ import com.example.demo.api.AuthAPI;
 import com.example.demo.api.CommentAPI;
 import com.example.demo.api.CulturalOfferAPI;
 import com.example.demo.constants.CommentConstants;
+import com.example.demo.constants.Constants;
 import com.example.demo.constants.CulturalOfferConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.UserConstants;
@@ -107,6 +108,8 @@ public class CommentControllerTest {
 		assertEquals(CommentConstants.TEXT_THREE, comments.get(2).getText());
 		assertEquals(UserConstants.EMAIL_TWO, comments.get(2).getUser());
 		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(2).getCulturalOfferId());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	
@@ -131,6 +134,8 @@ public class CommentControllerTest {
 		assertEquals(CommentConstants.TEXT_ONE, comments.get(1).getText());
 		assertEquals(UserConstants.EMAIL_ONE, comments.get(1).getUser());
 		assertEquals(CulturalOfferConstants.ID_ONE, comments.get(1).getCulturalOfferId());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("false", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -143,6 +148,8 @@ public class CommentControllerTest {
 						new ParameterizedTypeReference<List<CommentDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("false", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -161,6 +168,8 @@ public class CommentControllerTest {
 		assertEquals(CommentConstants.TEXT_FOUR, comments.get(0).getText());
 		assertEquals(UserConstants.EMAIL_ONE, comments.get(0).getUser());
 		assertEquals(CulturalOfferConstants.ID_TWO, comments.get(0).getCulturalOfferId());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -173,6 +182,8 @@ public class CommentControllerTest {
 						new ParameterizedTypeReference<List<CommentDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test

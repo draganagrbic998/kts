@@ -28,6 +28,7 @@ import org.springframework.util.MultiValueMap;
 
 import com.example.demo.api.AuthAPI;
 import com.example.demo.api.CulturalOfferAPI;
+import com.example.demo.constants.Constants;
 import com.example.demo.constants.CulturalOfferConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.Filters;
@@ -167,8 +168,8 @@ public class CulturalOfferControllerTest {
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CulturalOfferConstants.NAME_ONE, names.get(0));
-		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(1));
-		assertEquals(CulturalOfferConstants.NAME_TWO, names.get(2));
+		assertEquals(CulturalOfferConstants.NAME_TWO, names.get(1));
+		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -183,8 +184,7 @@ public class CulturalOfferControllerTest {
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CulturalOfferConstants.NAME_ONE, names.get(0));
-		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(1));
-		assertEquals(CulturalOfferConstants.NAME_TWO, names.get(2));
+		assertEquals(CulturalOfferConstants.NAME_TWO, names.get(1));
 	}
 	
 	@Test
@@ -226,8 +226,8 @@ public class CulturalOfferControllerTest {
 		List<String> locations = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, locations.size());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, locations.get(0));
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(1));
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, locations.get(2));
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, locations.get(1));
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(2));
 	}
 	
 	@Test
@@ -242,8 +242,7 @@ public class CulturalOfferControllerTest {
 		List<String> locations = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, locations.size());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, locations.get(0));
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(1));
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, locations.get(2));
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, locations.get(1));
 	}
 	
 	@Test
@@ -285,8 +284,8 @@ public class CulturalOfferControllerTest {
 		List<String> types = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0));
-		assertEquals(TypeConstants.NAME_THREE, types.get(1));
-		assertEquals(TypeConstants.NAME_TWO, types.get(2));
+		assertEquals(TypeConstants.NAME_TWO, types.get(1));
+		assertEquals(TypeConstants.NAME_THREE, types.get(2));
 	}
 	
 	@Test
@@ -301,8 +300,8 @@ public class CulturalOfferControllerTest {
 		List<String> types = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0));
-		assertEquals(TypeConstants.NAME_THREE, types.get(1));
-		assertEquals(TypeConstants.NAME_TWO, types.get(2));
+		assertEquals(TypeConstants.NAME_TWO, types.get(1));
+		assertEquals(TypeConstants.NAME_THREE, types.get(2));
 	}
 	
 	@Test
@@ -348,14 +347,16 @@ public class CulturalOfferControllerTest {
 		assertEquals(TypeConstants.NAME_ONE, offers.get(0).getType());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.NAME_THREE, offers.get(1).getType());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
-		assertEquals(TypeConstants.NAME_TWO, offers.get(2).getType());
-		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.NAME_TWO, offers.get(1).getType());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(2).getId());
+		assertEquals(TypeConstants.NAME_THREE, offers.get(2).getType());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(2).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(2).getLocation());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -374,10 +375,12 @@ public class CulturalOfferControllerTest {
 		assertEquals(TypeConstants.NAME_ONE, offers.get(0).getType());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.NAME_THREE, offers.get(1).getType());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.NAME_TWO, offers.get(1).getType());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("false", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -391,6 +394,8 @@ public class CulturalOfferControllerTest {
 						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("false", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -409,14 +414,16 @@ public class CulturalOfferControllerTest {
 		assertEquals(TypeConstants.NAME_ONE, offers.get(0).getType());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.NAME_THREE, offers.get(1).getType());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
-		assertEquals(TypeConstants.NAME_TWO, offers.get(2).getType());
-		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.NAME_TWO, offers.get(1).getType());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(2).getId());
+		assertEquals(TypeConstants.NAME_THREE, offers.get(2).getType());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(2).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(2).getLocation());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -435,10 +442,12 @@ public class CulturalOfferControllerTest {
 		assertEquals(TypeConstants.NAME_ONE, offers.get(0).getType());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.NAME_THREE, offers.get(1).getType());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.NAME_TWO, offers.get(1).getType());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("false", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -447,6 +456,8 @@ public class CulturalOfferControllerTest {
 		ResponseEntity<List<CulturalOfferDTO>> response = this.restTemplate.exchange(CulturalOfferAPI.API_FILTER(this.pageableNonExisting), HttpMethod.POST, this.httpEntity(filters), new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("false", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -465,6 +476,8 @@ public class CulturalOfferControllerTest {
 		assertEquals(TypeConstants.NAME_ONE, offers.get(0).getType());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -483,6 +496,8 @@ public class CulturalOfferControllerTest {
 		assertEquals(TypeConstants.NAME_ONE, offers.get(0).getType());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -501,6 +516,8 @@ public class CulturalOfferControllerTest {
 		assertEquals(TypeConstants.NAME_ONE, offers.get(0).getType());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -514,6 +531,8 @@ public class CulturalOfferControllerTest {
 						new ParameterizedTypeReference<List<CulturalOfferDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test

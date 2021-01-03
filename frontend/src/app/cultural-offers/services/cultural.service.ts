@@ -5,6 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { LARGE_PAGE_SIZE } from 'src/app/constants/pagination';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
 import { FilterParams } from 'src/app/models/filter-params';
+import { Image } from 'src/app/models/image';
 import { UniqueCheck } from 'src/app/models/unique-check';
 import { environment } from 'src/environments/environment';
 import { RateUpdate } from '../../models/rate-update';
@@ -18,28 +19,56 @@ export class CulturalService {
     private http: HttpClient
   ) { }
 
-  private readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
+  readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
 
   private refreshData: Subject<CulturalOffer | number> = new Subject();
-  refreshData$ = this.refreshData.asObservable();
+  refreshData$: Observable<CulturalOffer | number> = this.refreshData.asObservable();
   private filterData: Subject<FilterParams> = new Subject();
-  filterData$ = this.filterData.asObservable();
-  private updateTotalRate: Subject<RateUpdate> = new Subject();
-  updateTotalRate$ = this.updateTotalRate.asObservable();
+  filterData$: Observable<FilterParams> = this.filterData.asObservable();
   private markOnMap: Subject<CulturalOffer> = new Subject();
-  markOnMap$ = this.markOnMap.asObservable();
+  markOnMap$: Observable<CulturalOffer> = this.markOnMap.asObservable();
+  private updateTotalRate: Subject<RateUpdate> = new Subject();
+  updateTotalRate$: Observable<RateUpdate> = this.updateTotalRate.asObservable();
 
-  announceMarkOnMap(culturalOffer: CulturalOffer): void{
-    this.markOnMap.next(culturalOffer);
-  }
   announceRefreshData(param: CulturalOffer | number): void{
     this.refreshData.next(param);
   }
   announceFilterData(filterParams: FilterParams): void{
     this.filterData.next(filterParams);
   }
+  announceMarkOnMap(culturalOffer: CulturalOffer): void{
+    this.markOnMap.next(culturalOffer);
+  }
   announceUpdateTotalRate(rateUpdate: RateUpdate): void{
     this.updateTotalRate.next(rateUpdate);
+  }
+
+  save(culturalOffer: CulturalOffer, image: Image): Observable<CulturalOffer>{
+    const formData: FormData = new FormData();
+    for (const key in culturalOffer){
+      if (key === 'id' && !culturalOffer[key]){
+        continue;
+      }
+      formData.append(key, culturalOffer[key]);
+      // da li je ok sto sam ovde dodala i category i placemark icon
+    }
+    if (image.upload){
+      formData.append('image', image.upload);
+    }
+    else if (image.path){
+      formData.append('imagePath', image.path);
+    }
+    return this.http.post<CulturalOffer>(this.API_OFFERS, formData);
+  }
+
+  delete(id: number): Observable<null>{
+    return this.http.delete<null>(`${this.API_OFFERS}/${id}`);
+  }
+
+  hasName(param: UniqueCheck): Observable<boolean>{
+    return this.http.post<{value: boolean}>(`${this.API_OFFERS}/has_name`, param).pipe(
+      map((response: {value: boolean}) => response.value)
+    );
   }
 
   filterNames(filter: string): Observable<string[]>{
@@ -64,20 +93,6 @@ export class CulturalService {
     const params = new HttpParams().set('page', page + '').set('size', LARGE_PAGE_SIZE + '');
     return this.http.post<CulturalOffer[]>(`${this.API_OFFERS}/filter`, filters, { observe: 'response', params }).pipe(
       catchError(() => of(null))
-    );
-  }
-
-  save(data: FormData): Observable<CulturalOffer>{
-    return this.http.post<CulturalOffer>(this.API_OFFERS, data);
-  }
-
-  delete(id: number): Observable<CulturalOffer>{
-    return this.http.delete<CulturalOffer>(`${this.API_OFFERS}/${id}`);
-  }
-
-  hasName(param: UniqueCheck): Observable<boolean>{
-    return this.http.post<{value: boolean}>(`${this.API_OFFERS}/has_name`, param).pipe(
-      map((response: {value: boolean}) => response.value)
     );
   }
 

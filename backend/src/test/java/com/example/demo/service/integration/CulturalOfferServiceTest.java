@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.annotation.Rollback;
@@ -106,8 +107,8 @@ public class CulturalOfferServiceTest {
 				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CulturalOfferConstants.NAME_ONE, names.get(0));
-		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(1));
-		assertEquals(CulturalOfferConstants.NAME_TWO, names.get(2));
+		assertEquals(CulturalOfferConstants.NAME_TWO, names.get(1));
+		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -117,8 +118,8 @@ public class CulturalOfferServiceTest {
 				.filterNames(CulturalOfferConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(CulturalOfferConstants.NAME_ONE, names.get(0));
-		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(1));
-		assertEquals(CulturalOfferConstants.NAME_TWO, names.get(2));
+		assertEquals(CulturalOfferConstants.NAME_TWO, names.get(1));
+		assertEquals(CulturalOfferConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -145,8 +146,8 @@ public class CulturalOfferServiceTest {
 				.filterLocations(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, locations.size());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, locations.get(0));
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(1));
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, locations.get(2));
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, locations.get(1));
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(2));
 	}
 	
 	@Test
@@ -156,8 +157,8 @@ public class CulturalOfferServiceTest {
 				.filterLocations(CulturalOfferConstants.FILTER_LOCATIONS_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, locations.size());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, locations.get(0));
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(1));
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, locations.get(2));
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, locations.get(1));
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, locations.get(2));
 	}
 	
 	@Test
@@ -184,8 +185,8 @@ public class CulturalOfferServiceTest {
 				.filterTypes(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0));
-		assertEquals(TypeConstants.NAME_THREE, types.get(1));
-		assertEquals(TypeConstants.NAME_TWO, types.get(2));
+		assertEquals(TypeConstants.NAME_TWO, types.get(1));
+		assertEquals(TypeConstants.NAME_THREE, types.get(2));
 	}
 	
 	@Test
@@ -195,8 +196,8 @@ public class CulturalOfferServiceTest {
 				.filterTypes(CulturalOfferConstants.FILTER_TYPES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, types.size());
 		assertEquals(TypeConstants.NAME_ONE, types.get(0));
-		assertEquals(TypeConstants.NAME_THREE, types.get(1));
-		assertEquals(TypeConstants.NAME_TWO, types.get(2));
+		assertEquals(TypeConstants.NAME_TWO, types.get(1));
+		assertEquals(TypeConstants.NAME_THREE, types.get(2));
 	}
 	
 	@Test
@@ -219,143 +220,173 @@ public class CulturalOfferServiceTest {
 	@Test
 	public void testFilterEmpty() {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.culturalOfferService
-				.filter(filters, this.pageableTotal).getContent();
+				.filter(filters, this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
-		assertEquals(TypeConstants.ID_TWO, offers.get(2).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(2).getId());
+		assertEquals(TypeConstants.ID_THREE, offers.get(2).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(2).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(2).getLocation());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterEmptyPaginated() {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.culturalOfferService
-				.filter(filters, this.pageablePart).getContent();
+				.filter(filters, this.pageablePart);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertTrue(page.isFirst());
+		assertFalse(page.isLast());
 	}
 	
 	@Test
 	public void testFilterEmptyNonExistingPage() {
 		FilterParamsDTO filters = this.filters.filtersEmpty();
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.culturalOfferService
-				.filter(filters, this.pageableNonExisting).getContent();
+				.filter(filters, this.pageableNonExisting);
+		List<CulturalOffer> offers = page.getContent();
 		assertTrue(offers.isEmpty());
+		assertFalse(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterAll() {
 		FilterParamsDTO filters = this.filters.filtersAll();
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.culturalOfferService
-				.filter(filters, this.pageableTotal).getContent();
+				.filter(filters, this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.TOTAL_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
-		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(2).getId());
-		assertEquals(TypeConstants.ID_TWO, offers.get(2).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(2).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(2).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(2).getId());
+		assertEquals(TypeConstants.ID_THREE, offers.get(2).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(2).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(2).getLocation());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterAllPaginated() {
 		FilterParamsDTO filters = this.filters.filtersAll();
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.culturalOfferService
-				.filter(filters, this.pageablePart).getContent();
+				.filter(filters, this.pageablePart);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.PART_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
-		assertEquals(CulturalOfferConstants.ID_THREE, offers.get(1).getId());
-		assertEquals(TypeConstants.ID_THREE, offers.get(1).getType().getId());
-		assertEquals(CulturalOfferConstants.NAME_THREE, offers.get(1).getName());
-		assertEquals(CulturalOfferConstants.LOCATION_THREE, offers.get(1).getLocation());
+		assertEquals(CulturalOfferConstants.ID_TWO, offers.get(1).getId());
+		assertEquals(TypeConstants.ID_TWO, offers.get(1).getType().getId());
+		assertEquals(CulturalOfferConstants.NAME_TWO, offers.get(1).getName());
+		assertEquals(CulturalOfferConstants.LOCATION_TWO, offers.get(1).getLocation());
+		assertTrue(page.isFirst());
+		assertFalse(page.isLast());
 	}
 	
 	@Test
 	public void testFilterAllNonExistingPage() {
 		FilterParamsDTO filters = this.filters.filtersAll();
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.culturalOfferService
-				.filter(filters, this.pageableNonExisting).getContent();
+				.filter(filters, this.pageableNonExisting);
+		List<CulturalOffer> offers = page.getContent();
 		assertTrue(offers.isEmpty());
+		assertFalse(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterOneName() {
 		FilterParamsDTO filters = this.filters.filtersOneName();
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.culturalOfferService
-				.filter(filters, this.pageableTotal).getContent();
+				.filter(filters, this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterOneLocation() {
 		FilterParamsDTO filters = this.filters.filtersOneLocation();
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.culturalOfferService
-				.filter(filters, this.pageableTotal).getContent();
+				.filter(filters, this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterOneType() {
 		FilterParamsDTO filters = this.filters.filtersOneType();
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.culturalOfferService
-				.filter(filters, this.pageableTotal).getContent();
+				.filter(filters, this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertEquals(MainConstants.ONE_SIZE, offers.size());
 		assertEquals(CulturalOfferConstants.ID_ONE, offers.get(0).getId());
 		assertEquals(TypeConstants.ID_ONE, offers.get(0).getType().getId());
 		assertEquals(CulturalOfferConstants.NAME_ONE, offers.get(0).getName());
 		assertEquals(CulturalOfferConstants.LOCATION_ONE, offers.get(0).getLocation());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test
 	public void testFilterNone() {
 		FilterParamsDTO filters = this.filters.filtersNone();
-		List<CulturalOffer> offers = 
+		Page<CulturalOffer> page = 
 				this.culturalOfferService
-				.filter(filters, this.pageableTotal).getContent();
+				.filter(filters, this.pageableTotal);
+		List<CulturalOffer> offers = page.getContent();
 		assertTrue(offers.isEmpty());
+		assertTrue(page.isFirst());
+		assertTrue(page.isLast());
 	}
 	
 	@Test

@@ -8,7 +8,6 @@ import { Pagination } from 'src/app/models/pagination';
 import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
 import { UserFollowingService } from 'src/app/cultural-offers/services/user-following.service';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
-import { RateUpdate } from 'src/app/models/rate-update';
 
 @Component({
   selector: 'app-home',

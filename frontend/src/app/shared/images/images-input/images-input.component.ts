@@ -13,13 +13,14 @@ export class ImagesInputComponent implements OnInit {
     private imageService: ImageService
   ) { }
 
-  @Input() images: Image[];
+  @Input() images: Image[] = [];
 
   addImage(upload: Blob): void{
-    this.imageService.getBase64(upload)
-    .then((path: string) => {
-      this.images.push({path, upload});
-    });
+    this.imageService.getBase64(upload).subscribe(
+      (path: string) => {
+        this.images.push({path, upload});
+      }
+    );
   }
 
   ngOnInit(): void {

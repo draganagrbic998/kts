@@ -7,19 +7,19 @@ import com.example.demo.dto.FilterParamsDTO;
 @Component
 public class Filters {
 
-	public FilterParamsDTO filtersAll() {
-		FilterParamsDTO filters = new FilterParamsDTO();
-		filters.setName(CulturalOfferConstants.FILTER_NAMES_ALL);
-		filters.setLocation(CulturalOfferConstants.FILTER_LOCATIONS_ALL);
-		filters.setType(CulturalOfferConstants.FILTER_TYPES_ALL);
-		return filters;
-	}
-
 	public FilterParamsDTO filtersEmpty() {
 		FilterParamsDTO filters = new FilterParamsDTO();
 		filters.setName(MainConstants.FILTER_ALL);
 		filters.setLocation(MainConstants.FILTER_ALL);
 		filters.setType(MainConstants.FILTER_ALL);
+		return filters;
+	}
+	
+	public FilterParamsDTO filtersAll() {
+		FilterParamsDTO filters = new FilterParamsDTO();
+		filters.setName(CulturalOfferConstants.FILTER_NAMES_ALL);
+		filters.setLocation(CulturalOfferConstants.FILTER_LOCATIONS_ALL);
+		filters.setType(CulturalOfferConstants.FILTER_TYPES_ALL);
 		return filters;
 	}
 		

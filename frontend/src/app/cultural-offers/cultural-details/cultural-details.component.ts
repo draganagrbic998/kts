@@ -15,7 +15,7 @@ export class CulturalDetailsComponent implements OnInit {
 
   constructor(
     public culturalService: CulturalService,
-    private dialog: MatDialog
+    public dialog: MatDialog
   ) { }
 
   @Input() culturalOffer: CulturalOffer;

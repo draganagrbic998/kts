@@ -32,7 +32,7 @@
                 formControlName="email" 
                 placeholder="Enter email">
                 <mat-error *ngIf="!registerForm.get('email').hasError('emailError')">
-                    Email is required!
+                    Valid email is required!
                 </mat-error>
                 <mat-error *ngIf="registerForm.get('email').hasError('emailError')">
                     Email already exists!

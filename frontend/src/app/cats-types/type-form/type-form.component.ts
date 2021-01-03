@@ -50,8 +50,8 @@ export class TypeFormComponent implements OnInit {
       return;
     }
     const formData: FormData = new FormData();
-    formData.append('name', this.typeForm.value.name);
     formData.append('category', this.typeForm.value.category);
+    formData.append('name', this.typeForm.value.name);
     if (this.image.upload){
       formData.append('placemarkIcon', this.image.upload);
     }

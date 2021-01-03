@@ -73,15 +73,15 @@ public class TypeServiceTest {
 		Mockito.when(this.typeRepository.filterNames(MainConstants.FILTER_ALL))
 		.thenReturn(List.of(
 				TypeConstants.NAME_ONE, 
-				TypeConstants.NAME_THREE, 
-				TypeConstants.NAME_TWO));
+				TypeConstants.NAME_TWO, 
+				TypeConstants.NAME_THREE));
 		List<String> names = 
 				this.typeService
 				.filterNames(MainConstants.FILTER_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
-		assertEquals(TypeConstants.NAME_THREE, names.get(1));
-		assertEquals(TypeConstants.NAME_TWO, names.get(2));
+		assertEquals(TypeConstants.NAME_TWO, names.get(1));
+		assertEquals(TypeConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -89,15 +89,15 @@ public class TypeServiceTest {
 		Mockito.when(this.typeRepository.filterNames(TypeConstants.FILTER_NAMES_ALL))
 		.thenReturn(List.of(
 				TypeConstants.NAME_ONE, 
-				TypeConstants.NAME_THREE, 
-				TypeConstants.NAME_TWO));
+				TypeConstants.NAME_TWO, 
+				TypeConstants.NAME_THREE));
 		List<String> names = 
 				this.typeService
 				.filterNames(TypeConstants.FILTER_NAMES_ALL);
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
-		assertEquals(TypeConstants.NAME_THREE, names.get(1));
-		assertEquals(TypeConstants.NAME_TWO, names.get(2));
+		assertEquals(TypeConstants.NAME_TWO, names.get(1));
+		assertEquals(TypeConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -123,7 +123,7 @@ public class TypeServiceTest {
 	
 	@Test
 	public void testListAll() {
-		Mockito.when(this.typeRepository.findAll(this.pageableTotal))
+		Mockito.when(this.typeRepository.findAllByOrderByName(this.pageableTotal))
 		.thenReturn(new PageImpl<>(List.of(
 				this.listType(1), 
 				this.listType(2), 
@@ -142,7 +142,7 @@ public class TypeServiceTest {
 	
 	@Test
 	public void testListAllPaginated() {
-		Mockito.when(this.typeRepository.findAll(this.pageablePart))
+		Mockito.when(this.typeRepository.findAllByOrderByName(this.pageablePart))
 		.thenReturn(new PageImpl<>(List.of(
 				this.listType(1), 
 				this.listType(2))));
@@ -158,7 +158,7 @@ public class TypeServiceTest {
 	
 	@Test
 	public void testListAllNonExistingPage() {
-		Mockito.when(this.typeRepository.findAll(this.pageableNonExisting))
+		Mockito.when(this.typeRepository.findAllByOrderByName(this.pageableNonExisting))
 		.thenReturn(new PageImpl<>(List.of()));
 		List<Type> types = 
 				this.typeService

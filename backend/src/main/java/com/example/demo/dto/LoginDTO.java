@@ -1,11 +1,9 @@
 package com.example.demo.dto;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class LoginDTO {
 	
-	@Email
 	@NotBlank
 	private String email;
 	

@@ -444,20 +444,6 @@ public class AuthControllerTest {
 	}
 	
 	@Test
-	public void testLoginInvalidEmail() {
-		LoginDTO login = this.testingLogin();
-		login.setEmail(UserConstants.NEW_PASSWORD);
-		ResponseEntity<ExceptionMessage> response = 
-				this.restTemplate.exchange(
-						AuthAPI.API_LOGIN, 
-						HttpMethod.POST, 
-						this.httpEntity(login), 
-						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-		assertEquals(ExceptionConstants.INVALID_EMAIL, response.getBody().getMessage());
-	}
-	
-	@Test
 	public void testLoginNullPassword() {
 		LoginDTO login = this.testingLogin();
 		login.setPassword(null);

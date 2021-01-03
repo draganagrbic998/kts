@@ -12,10 +12,10 @@ export class CulturalListComponent implements OnInit {
   constructor() { }
 
   @Input() title: string;
-  @Input() culturalOffers: CulturalOffer[];
   @Input() fetchPending: boolean;
-  @Input() pagination: Pagination;
-  @Output() changePage: EventEmitter<number> = new EventEmitter();
+  @Input() culturalOffers: CulturalOffer[] = [];
+  @Input() pagination: Pagination = {firstPage: true, lastPage: true, pageNumber: 0};
+  @Output() changedPage: EventEmitter<number> = new EventEmitter();
 
   ngOnInit(): void {
   }

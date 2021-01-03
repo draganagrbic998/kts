@@ -17,7 +17,7 @@
         [culturalOffers]="culturalOffers[selectedTab]"
         [fetchPending]="fetchPending[selectedTab]"
         [pagination]="pagination[selectedTab]"
-        (changePage)="changePage($event)"
+        (changedPage)="changePage($event)"
         ></app-cultural-list>    
 
         <div *ngIf="guest" class="tabs">

@@ -31,7 +31,7 @@ public class CategoryService {
 		
 	@Transactional(readOnly = true)
 	public Page<Category> list(Pageable pageable){
-		return this.categoryRepository.findAll(pageable);
+		return this.categoryRepository.findAllByOrderByName(pageable);
 	}
 	
 	@Transactional(readOnly = false)

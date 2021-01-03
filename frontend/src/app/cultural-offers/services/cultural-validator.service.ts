@@ -12,7 +12,7 @@ import { CulturalService } from 'src/app/cultural-offers/services/cultural.servi
 export class CulturalValidatorService {
 
   constructor(
-    private culturalService: CulturalService
+    public culturalService: CulturalService
   ) { }
 
   locationFound(geolocation: Geolocation): ValidatorFn{

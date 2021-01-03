@@ -29,6 +29,7 @@ import org.springframework.util.MultiValueMap;
 import com.example.demo.api.AuthAPI;
 import com.example.demo.api.TypeAPI;
 import com.example.demo.constants.CategoryConstants;
+import com.example.demo.constants.Constants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.TypeConstants;
 import com.example.demo.constants.UserConstants;
@@ -117,8 +118,8 @@ public class TypeControllerTest {
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
-		assertEquals(TypeConstants.NAME_THREE, names.get(1));
-		assertEquals(TypeConstants.NAME_TWO, names.get(2));
+		assertEquals(TypeConstants.NAME_TWO, names.get(1));
+		assertEquals(TypeConstants.NAME_THREE, names.get(2));
 	}
 	
 	@Test
@@ -133,8 +134,7 @@ public class TypeControllerTest {
 		List<String> names = response.getBody();
 		assertEquals(MainConstants.TOTAL_SIZE, names.size());
 		assertEquals(TypeConstants.NAME_ONE, names.get(0));
-		assertEquals(TypeConstants.NAME_THREE, names.get(1));
-		assertEquals(TypeConstants.NAME_TWO, names.get(2));
+		assertEquals(TypeConstants.NAME_TWO, names.get(1));
 	}
 	
 	@Test
@@ -184,6 +184,8 @@ public class TypeControllerTest {
 		assertEquals(TypeConstants.ID_THREE, types.get(2).getId());
 		assertEquals(CategoryConstants.NAME_THREE, types.get(2).getCategory());
 		assertEquals(TypeConstants.NAME_THREE, types.get(2).getName());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -203,6 +205,8 @@ public class TypeControllerTest {
 		assertEquals(TypeConstants.ID_TWO, types.get(1).getId());
 		assertEquals(CategoryConstants.NAME_TWO, types.get(1).getCategory());
 		assertEquals(TypeConstants.NAME_TWO, types.get(1).getName());
+		assertEquals("true", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("false", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test
@@ -215,6 +219,8 @@ public class TypeControllerTest {
 						new ParameterizedTypeReference<List<TypeDTO>>() {});
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 		assertTrue(response.getBody().isEmpty());
+		assertEquals("false", response.getHeaders().get(Constants.FIRST_PAGE_HEADER).get(0));
+		assertEquals("true", response.getHeaders().get(Constants.LAST_PAGE_HEADER).get(0));
 	}
 	
 	@Test

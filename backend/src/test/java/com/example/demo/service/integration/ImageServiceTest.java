@@ -1,6 +1,7 @@
 package com.example.demo.service.integration;
 
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
@@ -121,33 +122,27 @@ public class ImageServiceTest {
 	
 	@Test
 	public void testStoreValid() throws IOException {
-		MultipartFile mpf = this.testingMultipartValid();
-		String path = this.imageService.store(mpf);
+		String path = this.imageService.store(this.testingMultipartValid());
 		long size = this.imageRepository.count();
 		assertEquals(Constants.BACKEND_URL + "/image" + size + ".jpg", path);
 		File f = new File(Constants.STATIC_FOLDER + File.separatorChar + "image" + size + ".jpg");
+		assertTrue(f.exists());
 		f.delete();
 	}
 	
 	@Test
 	public void testStoreNullName() throws IOException {
-		MultipartFile mpf = this.testingMultipartNullName();
-		String path = this.imageService.store(mpf);
-		assertNull(path);
+		assertNull(this.imageService.store(this.testingMultipartNullName()));
 	}
 	
 	@Test
 	public void testStoreEmptyName() throws IOException {
-		MultipartFile mpf = this.testingMultipartEmptyName();
-		String path = this.imageService.store(mpf);
-		assertNull(path);
+		assertNull(this.imageService.store(this.testingMultipartEmptyName()));
 	}
 	
 	@Test
 	public void testStoreBlankName() throws IOException {
-		MultipartFile mpf = this.testingMultipartBlankName();
-		String path = this.imageService.store(mpf);
-		assertNull(path);
+		assertNull(this.imageService.store(this.testingMultipartBlankName()));
 	}
 	
 	private Image testingImage() {
