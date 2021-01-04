@@ -38,15 +38,16 @@ export class RegisterFormComponent implements OnInit {
     }
     this.registerPending = true;
     this.userService.register(this.registerForm.value).subscribe(
-      () => {
+      (response: boolean) => {
         this.registerPending = false;
-        this.snackBar.open('Your request has been sent! Check your email.',
-        SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
-        this.registerForm.reset();
-      },
-      () => {
-        this.registerPending = false;
-        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        if (response){
+          this.snackBar.open('Your request has been sent! Check your email.',
+          SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+          this.registerForm.reset();
+        }
+        else{
+          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        }
       }
     );
   }

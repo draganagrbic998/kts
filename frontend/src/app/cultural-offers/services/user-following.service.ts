@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { LARGE_PAGE_SIZE } from 'src/app/constants/pagination';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
 import { FilterParams } from 'src/app/models/filter-params';
@@ -25,8 +25,11 @@ export class UserFollowingService {
     );
   }
 
-  toggleSubscription(culturalOfferId: number): Observable<null>{
-    return this.http.get<null>(`${this.API_OFFERS}/${culturalOfferId}/toggle_subscription`);
+  toggleSubscription(culturalOfferId: number): Observable<boolean>{
+    return this.http.get<null>(`${this.API_OFFERS}/${culturalOfferId}/toggle_subscription`).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 
 }

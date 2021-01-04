@@ -1,12 +1,12 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CatTypeDialogComponent } from 'src/app/cats-types/cat-type-dialog/cat-type-dialog.component';
 import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { LOGIN_PATH, USER_PATH } from 'src/app/constants/router';
 import { CulturalFormComponent } from 'src/app/cultural-offers/cultural-form/cultural-form.component';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { ProfileDetailsComponent } from '../../user/profile/profile.component';
 
 @Component({
@@ -17,9 +17,9 @@ import { ProfileDetailsComponent } from '../../user/profile/profile.component';
 export class ToolbarComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private dialog: MatDialog
+    public authService: AuthService,
+    public router: Router,
+    public dialog: MatDialog
   ) { }
 
   @Output() toggle: EventEmitter<null> = new EventEmitter();
@@ -39,28 +39,29 @@ export class ToolbarComponent implements OnInit {
   }
 
   profile(): void{
-    this.dialog.open(ProfileDetailsComponent, {
-        panelClass: 'no-padding',
-        backdropClass: 'cdk-overlay-transparent-backdrop',
-        position: {
-            top: '30px',
-            right: '30px'
-        }
-    });
+    const options: MatDialogConfig = {
+      panelClass: 'no-padding',
+      backdropClass: 'cdk-overlay-transparent-backdrop',
+      position: {
+          top: '30px',
+          right: '30px'
+      }
+    };
+    this.dialog.open(ProfileDetailsComponent, options);
   }
 
   categories(): void{
-    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}, data: true};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}, data: true};
     this.dialog.open(CatTypeDialogComponent, options);
   }
 
   types(): void{
-    const options = {...DIALOG_OPTIONS, ...{width: '500px', height: '550px'}, data: false};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}, data: false};
     this.dialog.open(CatTypeDialogComponent, options);
   }
 
   addOffer(): void{
-    const options = {...DIALOG_OPTIONS, ...{data: {}}};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{data: {}}};
     this.dialog.open(CulturalFormComponent, options);
   }
 

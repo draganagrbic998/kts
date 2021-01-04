@@ -1,8 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LOGIN_PATH, PROFILE_PATH, USER_PATH } from '../constants/router';
-import { AuthService } from '../shared/services/auth/auth.service';
+import { LOGIN_PATH, PROFILE_PATH, REGISTER_PATH, USER_PATH } from '../constants/router';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-user',
@@ -12,8 +12,8 @@ import { AuthService } from '../shared/services/auth/auth.service';
 export class UserComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
-    private router: Router,
+    public authService: AuthService,
+    public router: Router,
     public location: Location
   ) { }
 
@@ -28,6 +28,11 @@ export class UserComponent implements OnInit {
   signOut(): void{
     this.authService.deleteUser();
     this.router.navigate([`${USER_PATH}/${LOGIN_PATH}`]);
+  }
+
+  toggleAuth(): void{
+    const path = this.login ? REGISTER_PATH : LOGIN_PATH;
+    this.router.navigate([`${USER_PATH}/${path}`]);
   }
 
   ngOnInit(): void {

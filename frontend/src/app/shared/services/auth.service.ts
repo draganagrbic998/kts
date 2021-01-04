@@ -8,18 +8,18 @@ export class AuthService {
 
   constructor() { }
 
-  private readonly USER_KEY = 'user';
+  readonly STORAGE_KEY = 'auth';
 
   saveUser(profile: User): void{
-    localStorage.setItem(this.USER_KEY, JSON.stringify(profile));
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(profile));
   }
 
   deleteUser(): void{
-    localStorage.removeItem(this.USER_KEY);
+    localStorage.removeItem(this.STORAGE_KEY);
   }
 
   getUser(): User{
-    return JSON.parse(localStorage.getItem(this.USER_KEY));
+    return JSON.parse(localStorage.getItem(this.STORAGE_KEY));
   }
 
 }

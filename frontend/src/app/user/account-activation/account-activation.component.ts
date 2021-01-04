@@ -24,14 +24,13 @@ export class AccountActivationComponent implements OnInit {
   ngOnInit(): void {
     const code: string = this.route.snapshot.params.code;
     this.userService.activate(code).subscribe(
-      () => {
+      (response: boolean) => {
         this.activatePending = false;
-        this.router.navigate([`${USER_PATH}/${LOGIN_PATH}`]);
-        this.snackBar.open('Your account has been activated! You can login now.',
-        SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
-      },
-      () => {
-        this.activatePending = false;
+        if (response){
+          this.router.navigate([`${USER_PATH}/${LOGIN_PATH}`]);
+          this.snackBar.open('Your account has been activated! You can login now.',
+          SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+        }
       }
     );
   }

@@ -9,7 +9,7 @@
     </div>
 
     <mat-drawer 
-    [class.crop]="fetchPending[selectedTab] || !culturalOffers[selectedTab]?.length" 
+    [class.crop]="fetchPending[selectedTab] || !culturalOffers[selectedTab].length" 
     class="mat-elevation-z24" #drawer mode="side">
         
         <app-cultural-list

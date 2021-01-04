@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
 import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
 import { CulturalDialogComponent } from '../cultural-dialog/cultural-dialog.component';
@@ -21,7 +21,7 @@ export class CulturalDetailsComponent implements OnInit {
   @Input() culturalOffer: CulturalOffer;
 
   showDetails(): void{
-    const options = {...DIALOG_OPTIONS, ...{data: this.culturalOffer}};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{data: this.culturalOffer}};
     this.dialog.open(CulturalDialogComponent, options);
   }
 

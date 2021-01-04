@@ -1,13 +1,9 @@
 <form class="root-container" cdkFocusInitial>
-
-    <h3>Publish Review</h3>
-    
-    <br><br>
+    <h3>Publish Comment</h3><br><br>
 
     <div [class.disabled]="savePending">
 
         <app-star-rating [editable]="true" [rate]="rate" (rated)="rate=$event"></app-star-rating>
-        
         <mat-form-field appearance="outline">
             <textarea 
             matInput 
@@ -19,15 +15,12 @@
                 Some text is required!
             </mat-error>
         </mat-form-field>    
-
         <br>
-        
         <app-images-input [images]="images"></app-images-input>
         
     </div>
         
     <br><br>
-
     <app-save-cancel
     [pending]="savePending"
     (cancelled)="dialogRef.close()"

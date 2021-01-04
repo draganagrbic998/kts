@@ -2,20 +2,20 @@
 
     <div class="image-container">
         <img 
-        [src]="image || '../../../assets/noprofile.png'" 
-        (error)="image=null">
+        [src]="profile.image || '../../../assets/noprofile.png'" 
+        (error)="profile.image=null">
     </div>
     
     <div class="details-container">
         <div>
             <div>
-                <app-bold-text>Email: </app-bold-text>{{profile.email}}
+                <app-bold-text>Email: </app-bold-text><span>{{profile.email}}</span>
             </div>
             <div>
-                <app-bold-text>First name: </app-bold-text>{{profile.firstName}}
+                <app-bold-text>First name: </app-bold-text><span>{{profile.firstName}}</span>
             </div>
             <div>
-                <app-bold-text>Last name: </app-bold-text>{{profile.lastName}}
+                <app-bold-text>Last name: </app-bold-text><span>{{profile.lastName}}</span>
             </div>   
         </div>
 

@@ -20,54 +20,33 @@ export class CulturalService {
   ) { }
 
   readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
-
   private refreshData: Subject<CulturalOffer | number> = new Subject();
-  refreshData$: Observable<CulturalOffer | number> = this.refreshData.asObservable();
   private filterData: Subject<FilterParams> = new Subject();
-  filterData$: Observable<FilterParams> = this.filterData.asObservable();
   private markOnMap: Subject<CulturalOffer> = new Subject();
-  markOnMap$: Observable<CulturalOffer> = this.markOnMap.asObservable();
   private updateTotalRate: Subject<RateUpdate> = new Subject();
+
+  refreshData$: Observable<CulturalOffer | number> = this.refreshData.asObservable();
+  filterData$: Observable<FilterParams> = this.filterData.asObservable();
+  markOnMap$: Observable<CulturalOffer> = this.markOnMap.asObservable();
   updateTotalRate$: Observable<RateUpdate> = this.updateTotalRate.asObservable();
 
-  announceRefreshData(param: CulturalOffer | number): void{
-    this.refreshData.next(param);
-  }
-  announceFilterData(filterParams: FilterParams): void{
-    this.filterData.next(filterParams);
-  }
-  announceMarkOnMap(culturalOffer: CulturalOffer): void{
-    this.markOnMap.next(culturalOffer);
-  }
-  announceUpdateTotalRate(rateUpdate: RateUpdate): void{
-    this.updateTotalRate.next(rateUpdate);
-  }
-
   save(culturalOffer: CulturalOffer, image: Image): Observable<CulturalOffer>{
-    const formData: FormData = new FormData();
-    for (const key in culturalOffer){
-      if (key === 'id' && !culturalOffer[key]){
-        continue;
-      }
-      formData.append(key, culturalOffer[key]);
-      // da li je ok sto sam ovde dodala i category i placemark icon
-    }
-    if (image.upload){
-      formData.append('image', image.upload);
-    }
-    else if (image.path){
-      formData.append('imagePath', image.path);
-    }
-    return this.http.post<CulturalOffer>(this.API_OFFERS, formData);
+    return this.http.post<CulturalOffer>(this.API_OFFERS, this.offerToFormData(culturalOffer, image)).pipe(
+      catchError(() => of(null))
+    );
   }
 
-  delete(id: number): Observable<null>{
-    return this.http.delete<null>(`${this.API_OFFERS}/${id}`);
+  delete(id: number): Observable<boolean>{
+    return this.http.delete<null>(`${this.API_OFFERS}/${id}`).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 
   hasName(param: UniqueCheck): Observable<boolean>{
     return this.http.post<{value: boolean}>(`${this.API_OFFERS}/has_name`, param).pipe(
-      map((response: {value: boolean}) => response.value)
+      map((response: {value: boolean}) => response.value),
+      catchError(() => of(false))
     );
   }
 
@@ -94,6 +73,36 @@ export class CulturalService {
     return this.http.post<CulturalOffer[]>(`${this.API_OFFERS}/filter`, filters, { observe: 'response', params }).pipe(
       catchError(() => of(null))
     );
+  }
+
+  announceRefreshData(param: CulturalOffer | number): void{
+    this.refreshData.next(param);
+  }
+  announceFilterData(filterParams: FilterParams): void{
+    this.filterData.next(filterParams);
+  }
+  announceMarkOnMap(culturalOffer: CulturalOffer): void{
+    this.markOnMap.next(culturalOffer);
+  }
+  announceUpdateTotalRate(rateUpdate: RateUpdate): void{
+    this.updateTotalRate.next(rateUpdate);
+  }
+
+  offerToFormData(culturalOffer: CulturalOffer, image: Image): FormData{
+    const formData: FormData = new FormData();
+    for (const key in culturalOffer){
+      if (culturalOffer[key] === undefined || culturalOffer[key] === null){
+        continue;
+      }
+      formData.append(key, culturalOffer[key]);
+    }
+    if (image.upload){
+      formData.append('image', image.upload);
+    }
+    else if (image.path){
+      formData.append('imagePath', image.path);
+    }
+    return formData;
   }
 
 }

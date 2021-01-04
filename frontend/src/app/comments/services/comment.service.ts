@@ -4,6 +4,8 @@ import { Observable, of, Subject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SMALL_PAGE_SIZE } from 'src/app/constants/pagination';
 import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
+import { Comment } from 'src/app/models/comment';
+import { Image } from 'src/app/models/image';
 import { RateUpdate } from 'src/app/models/rate-update';
 import { environment } from 'src/environments/environment';
 
@@ -14,17 +16,26 @@ export class CommentService {
 
   constructor(
     private http: HttpClient,
-    private culturalService: CulturalService
+    public culturalService: CulturalService
   ) { }
 
-  private readonly API_COMMENTS = `${environment.baseUrl}/${environment.apiComments}`;
-  private readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
-
+  readonly API_COMMENTS = `${environment.baseUrl}/${environment.apiComments}`;
+  readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
   private refreshData: Subject<number> = new Subject();
-  refreshData$ = this.refreshData.asObservable();
-  announceRefreshData(rateUpdate: RateUpdate): void{
-    this.refreshData.next(rateUpdate.id);
-    this.culturalService.announceUpdateTotalRate(rateUpdate);
+  refreshData$: Observable<number> = this.refreshData.asObservable();
+
+  save(comment: Comment, images: Image[]): Observable<number>{
+    return this.http.post<{value: number}>(this.API_COMMENTS, this.commentToFormData(comment, images)).pipe(
+      map((response: {value: number}) => response.value),
+      catchError(() => of(null))
+    );
+  }
+
+  delete(id: number): Observable<number>{
+    return this.http.delete<{value: number}>(`${this.API_COMMENTS}/${id}`).pipe(
+      map((response: {value: number}) => response.value),
+      catchError(() => of(null))
+    );
   }
 
   list(culturalOfferId: number, page: number): Observable<HttpResponse<Comment[]>>{
@@ -34,16 +45,28 @@ export class CommentService {
     );
   }
 
-  save(data: FormData): Observable<number>{
-    return this.http.post<{value: number}>(this.API_COMMENTS, data).pipe(
-      map((response: {value: number}) => response.value)
-    );
+  announceRefreshData(rateUpdate: RateUpdate): void{
+    this.refreshData.next(rateUpdate.id);
+    this.culturalService.announceUpdateTotalRate(rateUpdate);
   }
 
-  delete(id: number): Observable<number>{
-    return this.http.delete<{value: number}>(`${this.API_COMMENTS}/${id}`).pipe(
-      map((response: {value: number}) => response.value)
-    );
+  commentToFormData(comment: Comment, images: Image[]): FormData{
+    const formData: FormData = new FormData();
+    for (const key in comment){
+      if (comment[key] === undefined || comment[key] === null){
+        continue;
+      }
+      formData.append(key, comment[key]);
+    }
+    for (const image of images){
+      if (image.upload){
+        formData.append('images', image.upload);
+      }
+      else{
+        formData.append('imagePaths', image.path);
+      }
+    }
+    return formData;
   }
 
 }

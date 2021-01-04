@@ -12,7 +12,7 @@ import { SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS, DELET
 export class DeleteConfirmationComponent implements OnInit {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public deleteFunction: () => Observable<null | number>,
+    @Inject(MAT_DIALOG_DATA) public deleteFunction: () => Observable<boolean | number>,
     public dialogRef: MatDialogRef<DeleteConfirmationComponent>,
     public snackBar: MatSnackBar
   ) { }
@@ -22,13 +22,15 @@ export class DeleteConfirmationComponent implements OnInit {
   confirm(): void{
     this.deletePending = true;
     this.deleteFunction().subscribe(
-      (param: null | number) => {
-        this.dialogRef.close(typeof param === 'number' ? param : true);
-        this.snackBar.open(DELETE_SUCCESS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
-      },
-      () => {
+      (param: boolean | number) => {
         this.deletePending = false;
-        this.snackBar.open(DELETE_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        if (param || typeof param === 'number'){
+          this.dialogRef.close(param);
+          this.snackBar.open(DELETE_SUCCESS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+        }
+        else{
+          this.snackBar.open(DELETE_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        }
       }
     );
   }
