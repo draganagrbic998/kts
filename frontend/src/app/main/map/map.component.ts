@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { CulturalDialogComponent } from 'src/app/cultural-offers/cultural-dialog/cultural-dialog.component';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
 import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
@@ -13,16 +13,16 @@ import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 export class MapComponent implements OnInit {
 
   constructor(
-    private culturalService: CulturalService,
-    private dialog: MatDialog
+    public culturalService: CulturalService,
+    public dialog: MatDialog
   ) { }
 
-  private readonly DEFAULT_CENTER: number[] = [44.787197, 20.457273];
+  readonly DEFAULT_CENTER: number[] = [44.787197, 20.457273];
   mapPending = true;
   center: CulturalOffer;
-  ymaps;
+  ymaps: any;
 
-  @Input() culturalOffers: CulturalOffer[];
+  @Input() culturalOffers: CulturalOffer[] = [];
   @Input() fetchPending: boolean;
 
   get mapCenter(): number[]{
@@ -39,7 +39,7 @@ export class MapComponent implements OnInit {
   }
 
   showDetails(culturalOffer: CulturalOffer): void{
-    const options = {...DIALOG_OPTIONS, ...{data: culturalOffer}};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{data: culturalOffer}};
     this.dialog.open(CulturalDialogComponent, options);
   }
 

@@ -7,7 +7,7 @@ import { FilterParams } from 'src/app/models/filter-params';
 import { Pagination } from 'src/app/models/pagination';
 import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
 import { UserFollowingService } from 'src/app/cultural-offers/services/user-following.service';
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -17,9 +17,9 @@ import { AuthService } from 'src/app/shared/services/auth/auth.service';
 export class HomeComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
-    private culturalService: CulturalService,
-    private userFollowingService: UserFollowingService
+    public authService: AuthService,
+    public culturalService: CulturalService,
+    public userFollowingService: UserFollowingService
   ) { }
 
   selectedTab = 0;
@@ -50,11 +50,6 @@ export class HomeComponent implements OnInit {
     this.fetchData();
   }
 
-  filterData(): void{
-    this.pagination[this.selectedTab].pageNumber += 0;
-    this.fetchData();
-  }
-
   fetchData(): void{
 
     this.fetchPending[this.selectedTab] = true;
@@ -82,32 +77,38 @@ export class HomeComponent implements OnInit {
   }
 
   refreshData(response: CulturalOffer | number): void{
+    const temp: number[] = this.culturalOffers[0].map(co => co.id);
     if (typeof response === 'number'){
-      this.culturalOffers[0] = this.culturalOffers[0].filter(co => co.id !== response);
+      const index: number = temp.indexOf(response);
+      if (index !== -1){
+        this.culturalOffers[0].splice(index, 1);
+      }
     }
     else{
-      const temp: number[] = this.culturalOffers[0].map(co => co.id);
-      const index: number = temp.indexOf(response.id);
-      this.culturalOffers[0].splice(index !== -1 ? index : 0, index !== -1 ? 1 : 0, response);
+      let index: number = temp.indexOf(response.id);
+      if (index === -1){
+        index = 0;
+      }
+      this.culturalOffers[0].splice(index, index, response);
       if (this.guest){
         if (response.followed){
           this.culturalOffers[1].push(response);
         }
-        else{
-          this.culturalOffers[1] = this.culturalOffers[1].filter(co => co.id !== response.id);
+        else if (index !== -1){
+          this.culturalOffers[1].splice(index, 1);
         }
       }
     }
   }
 
   ngOnInit(): void {
-    this.fetchData();
+    this.changePage(0);
     this.culturalService.refreshData$.subscribe((response: CulturalOffer | number) => {
       this.refreshData(response);
     });
     this.culturalService.filterData$.subscribe((filterParams: FilterParams) => {
       this.filterParams[this.selectedTab] = filterParams;
-      this.fetchData();
+      this.changePage(0);
     });
   }
 

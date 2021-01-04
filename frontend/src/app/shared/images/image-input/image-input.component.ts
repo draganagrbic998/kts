@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Image } from 'src/app/models/image';
-import { ImageService } from '../../services/image/image.service';
+import { ImageService } from '../../services/image.service';
 
 @Component({
   selector: 'app-image-input',
@@ -10,7 +10,7 @@ import { ImageService } from '../../services/image/image.service';
 export class ImageInputComponent implements OnInit {
 
   constructor(
-    private imageService: ImageService
+    public imageService: ImageService
   ) { }
 
   @Input() profile: boolean;

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CommentFormComponent } from 'src/app/comments/comment-form/comment-form.component';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
@@ -8,7 +8,7 @@ import { CulturalService } from 'src/app/cultural-offers/services/cultural.servi
 import { RateUpdate } from 'src/app/models/rate-update';
 import { UserFollowingService } from 'src/app/cultural-offers/services/user-following.service';
 import { CulturalFormComponent } from '../cultural-form/cultural-form.component';
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/controls/delete-confirmation/delete-confirmation.component';
 import { SNACKBAR_CLOSE, SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS } from 'src/app/constants/snackbar';
@@ -37,7 +37,7 @@ export class CulturalDialogComponent implements OnInit {
   }
 
   edit(): void{
-    const options = {...DIALOG_OPTIONS, ...{data: this.culturalOffer}};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{data: this.culturalOffer}};
     this.dialog.open(CulturalFormComponent, options).afterClosed().subscribe(result => {
       if (result){
         this.dialogRef.close();
@@ -46,7 +46,7 @@ export class CulturalDialogComponent implements OnInit {
   }
 
   delete(): void{
-    const options = {...DIALOG_OPTIONS, ...{data: () => this.culturalService.delete(this.culturalOffer.id)}};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{data: () => this.culturalService.delete(this.culturalOffer.id)}};
     this.dialog.open(DeleteConfirmationComponent, options).afterClosed().subscribe(result => {
       if (result){
         this.culturalService.announceRefreshData(this.culturalOffer.id);
@@ -58,25 +58,26 @@ export class CulturalDialogComponent implements OnInit {
   toggleSubscription(): void{
     this.toggleSubPending = true;
     this.userFollowingService.toggleSubscription(this.culturalOffer.id).subscribe(
-      () => {
+      (response: boolean) => {
         this.toggleSubPending = false;
-        this.culturalOffer.followed = !this.culturalOffer.followed;
-        this.culturalService.announceRefreshData(this.culturalOffer);
-      },
-      () => {
-        this.toggleSubPending = false;
-        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        if (response){
+          this.culturalOffer.followed = !this.culturalOffer.followed;
+          this.culturalService.announceRefreshData(this.culturalOffer);
+        }
+        else{
+          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        }
       }
     );
   }
 
   publishReview(): void{
-    const options = {...DIALOG_OPTIONS, ...{data: {culturalOfferId: this.culturalOffer.id, images: []}}};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{data: {culturalOfferId: this.culturalOffer.id, images: []}}};
     this.dialog.open(CommentFormComponent, options);
   }
 
   publishNews(): void{
-    const options = {...DIALOG_OPTIONS, ...{data: {culturalOfferId: this.culturalOffer.id, images: []}}};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{data: {culturalOfferId: this.culturalOffer.id, images: []}}};
     this.dialog.open(NewsFormComponent, options);
   }
 

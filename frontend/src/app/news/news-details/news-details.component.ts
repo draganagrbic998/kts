@@ -5,7 +5,7 @@ import { ADMIN_ROLE } from 'src/app/constants/roles';
 import { News } from 'src/app/models/news';
 import { NewsService } from 'src/app/news/services/news.service';
 import { DeleteConfirmationComponent } from 'src/app/shared/controls/delete-confirmation/delete-confirmation.component';
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { NewsFormComponent } from '../news-form/news-form.component';
 
 @Component({

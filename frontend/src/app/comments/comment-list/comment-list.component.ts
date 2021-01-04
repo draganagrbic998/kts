@@ -3,6 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/constants/pagination';
 import { Pagination } from 'src/app/models/pagination';
 import { CommentService } from 'src/app/comments/services/comment.service';
+import { Comment } from 'src/app/models/comment';
 
 @Component({
   selector: 'app-comment-list',
@@ -12,11 +13,11 @@ import { CommentService } from 'src/app/comments/services/comment.service';
 export class CommentListComponent implements OnInit {
 
   constructor(
-    private commentService: CommentService
+    public commentService: CommentService
   ) { }
 
   @Input() culturalOfferId: number;
-  comments: Comment[];
+  comments: Comment[] = [];
   fetchPending = true;
   pagination: Pagination = {
     pageNumber: 0,
@@ -50,7 +51,7 @@ export class CommentListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchComments();
+    this.changePage(0);
     this.commentService.refreshData$.subscribe((culturalOfferId: number) => {
       if (culturalOfferId === this.culturalOfferId){
         this.changePage(0);

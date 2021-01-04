@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/constants/snackbar';
 import { User } from 'src/app/models/user';
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserService } from 'src/app/user/services/user.service';
 
 @Component({
@@ -15,10 +15,10 @@ import { UserService } from 'src/app/user/services/user.service';
 export class LoginFormComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
-    private userService: UserService,
-    private router: Router,
-    private snackBar: MatSnackBar
+    public authService: AuthService,
+    public userService: UserService,
+    public router: Router,
+    public snackBar: MatSnackBar
   ) { }
 
   loginPending = false;
@@ -37,12 +37,13 @@ export class LoginFormComponent implements OnInit {
     this.userService.login(this.loginForm.value).subscribe(
       (user: User) => {
         this.loginPending = false;
-        this.authService.saveUser(user);
-        this.router.navigate(['/']);
-      },
-      () => {
-        this.loginPending = false;
-        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        if (user){
+          this.authService.saveUser(user);
+          this.router.navigate(['/']);
+        }
+        else{
+          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        }
       }
     );
   }

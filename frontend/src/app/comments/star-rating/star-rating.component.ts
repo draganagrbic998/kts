@@ -9,9 +9,9 @@ export class StarRatingComponent implements OnInit {
 
   constructor() {}
 
+  @Input() editable;
   @Input() starCount = 5;
   @Input() rate = 0;
-  @Input() editable = false;
   @Output() rated: EventEmitter<number> = new EventEmitter();
   rateArray: number[] = [];
 

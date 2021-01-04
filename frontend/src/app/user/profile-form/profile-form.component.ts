@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { Image } from 'src/app/models/image';
 import { User } from 'src/app/models/user';
-import { AuthService } from 'src/app/shared/services/auth/auth.service';
+import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserService } from 'src/app/user/services/user.service';
 import { UserValidatorService } from 'src/app/user/services/user-validator.service';
 
@@ -16,10 +16,10 @@ import { UserValidatorService } from 'src/app/user/services/user-validator.servi
 export class ProfileFormComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
-    private userService: UserService,
-    private userValidator: UserValidatorService,
-    private snackBar: MatSnackBar
+    public authService: AuthService,
+    public userService: UserService,
+    public userValidator: UserValidatorService,
+    public snackBar: MatSnackBar
   ) { }
 
   savePending = false;
@@ -47,47 +47,23 @@ export class ProfileFormComponent implements OnInit {
   }
 
   save(): void{
-
     if (this.profileForm.invalid){
       return;
     }
-    const formData: FormData = new FormData();
-
-    for (const key in this.profileForm.value){
-      if (key === 'oldPassword' && !this.profileForm.value.newPassword){
-        continue;
-      }
-      if (key === 'newPassword' && !this.profileForm.value.newPassword){
-        continue;
-      }
-      if (key === 'newPasswordConfirmation'){
-        continue;
-      }
-      formData.append(key, this.profileForm.value[key]);
-    }
-
-    if (this.image.upload){
-      formData.append('image', this.image.upload);
-    }
-    else if (this.image.path){
-      formData.append('imagePath', this.image.path);
-    }
-
     this.savePending = true;
-    this.userService.update(formData).subscribe(
+    this.userService.update(this.profileForm.value, this.image).subscribe(
       (user: User) => {
         this.savePending = false;
         this.resetPassword();
-        this.authService.saveUser(user);
-        this.snackBar.open('Your profile has been updated!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
-      },
-      () => {
-        this.savePending = false;
-        this.resetPassword();
-        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        if (user){
+          this.authService.saveUser(user);
+          this.snackBar.open('Your profile has been updated!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+        }
+        else{
+          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        }
       }
     );
-
   }
 
   ngOnInit(): void {

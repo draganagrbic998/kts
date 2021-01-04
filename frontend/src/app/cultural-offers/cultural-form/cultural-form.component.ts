@@ -67,18 +67,29 @@ export class CulturalFormComponent implements AfterViewInit {
       return;
     }
 
-    const offer: CulturalOffer = {...this.culturalOffer, ...this.geolocation, ...this.culturalForm.value};
+    const offer: CulturalOffer = {
+      id: this.culturalOffer.id,
+      type: this.culturalForm.value.type,
+      name: this.culturalForm.value.name,
+      location: this.culturalForm.value.location,
+      lat: this.geolocation.lat,
+      lng: this.geolocation.lng,
+      description: this.culturalForm.value.description
+    } as CulturalOffer;
+
     this.savePending = true;
     this.culturalService.save(offer, this.image).subscribe(
       (culturalOffer: CulturalOffer) => {
-        this.snackBar.open('Offer successfully saved!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
-        this.dialogRef.close(true);
-        this.culturalService.announceRefreshData(culturalOffer);
-        this.culturalService.announceMarkOnMap(culturalOffer);
-      },
-      () => {
         this.savePending = false;
-        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        if (culturalOffer){
+          this.snackBar.open('Offer successfully saved!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+          this.dialogRef.close(true);
+          this.culturalService.announceRefreshData(culturalOffer);
+          this.culturalService.announceMarkOnMap(culturalOffer);
+        }
+        else{
+          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        }
       }
     );
 

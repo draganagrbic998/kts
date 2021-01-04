@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, ValidatorFn } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ValidationError } from 'src/app/models/validation-error';
 import { UserService } from 'src/app/user/services/user.service';
 
@@ -11,11 +11,11 @@ import { UserService } from 'src/app/user/services/user.service';
 export class UserValidatorService {
 
   constructor(
-    private userService: UserService
+    public userService: UserService
   ) { }
 
   passwordConfirmed(): ValidatorFn{
-    return (control: AbstractControl): null | ValidationError => {
+    return (control: AbstractControl): ValidationError => {
       const passwordConfirmed: boolean = control.parent ?
       control.value === control.parent.get('password').value : true;
       return passwordConfirmed ? null : {passwordError: true};
@@ -23,8 +23,8 @@ export class UserValidatorService {
   }
 
   newPasswordConfirmed(): ValidatorFn {
-    return (control: AbstractControl): null | ValidationError => {
-      if ((control.get('newPassword').value || control.get('newPasswordConfirmation').value) && !control.get('oldPassword').value){
+    return (control: AbstractControl): ValidationError => {
+      if (!control.get('oldPassword').value && (control.get('newPassword').value || control.get('newPasswordConfirmation').value)){
         return {oldPasswordError: true};
       }
       if (control.get('newPassword').value !== control.get('newPasswordConfirmation').value){
@@ -35,10 +35,9 @@ export class UserValidatorService {
   }
 
   hasEmail(id: number): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<null | ValidationError> => {
+    return (control: AbstractControl): Observable<ValidationError> => {
       return this.userService.hasEmail({id, name: control.value}).pipe(
-        map((response: boolean) => !response ? null : {emailError: true}),
-        catchError(() => of(null))
+        map((response: boolean) => !response ? null : {emailError: true})
       );
     };
   }
