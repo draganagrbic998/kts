@@ -5,7 +5,7 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
-  const mockUser: User = {
+  const userMock: User = {
     id: 1,
     accessToken: 'token1',
     role: 'role1',
@@ -25,16 +25,16 @@ describe('AuthService', () => {
   });
 
   it('should save user', () => {
-    service.saveUser(mockUser);
+    service.saveUser(userMock);
     const user: User = JSON.parse(localStorage.getItem(service.STORAGE_KEY));
     expect(user).toBeTruthy();
-    expect(user.id).toBe(mockUser.id);
-    expect(user.accessToken).toBe(mockUser.accessToken);
-    expect(user.role).toBe(mockUser.role);
-    expect(user.email).toBe(mockUser.email);
-    expect(user.firstName).toBe(mockUser.firstName);
-    expect(user.lastName).toBe(mockUser.lastName);
-    expect(user.image).toBe(mockUser.image);
+    expect(user.id).toBe(userMock.id);
+    expect(user.accessToken).toBe(userMock.accessToken);
+    expect(user.role).toBe(userMock.role);
+    expect(user.email).toBe(userMock.email);
+    expect(user.firstName).toBe(userMock.firstName);
+    expect(user.lastName).toBe(userMock.lastName);
+    expect(user.image).toBe(userMock.image);
   });
 
   it('should delete user', () => {
@@ -43,16 +43,16 @@ describe('AuthService', () => {
   });
 
   it('should get user', () => {
-    localStorage.setItem(service.STORAGE_KEY, JSON.stringify(mockUser));
+    localStorage.setItem(service.STORAGE_KEY, JSON.stringify(userMock));
     const user: User = service.getUser();
     expect(user).toBeTruthy();
-    expect(user.id).toBe(mockUser.id);
-    expect(user.accessToken).toBe(mockUser.accessToken);
-    expect(user.role).toBe(mockUser.role);
-    expect(user.email).toBe(mockUser.email);
-    expect(user.firstName).toBe(mockUser.firstName);
-    expect(user.lastName).toBe(mockUser.lastName);
-    expect(user.image).toBe(mockUser.image);
+    expect(user.id).toBe(userMock.id);
+    expect(user.accessToken).toBe(userMock.accessToken);
+    expect(user.role).toBe(userMock.role);
+    expect(user.email).toBe(userMock.email);
+    expect(user.firstName).toBe(userMock.firstName);
+    expect(user.lastName).toBe(userMock.lastName);
+    expect(user.image).toBe(userMock.image);
   });
 
 });
