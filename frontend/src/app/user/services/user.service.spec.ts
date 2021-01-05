@@ -36,6 +36,10 @@ describe('UserService', () => {
   });
 
   it('should login valid data', fakeAsync(() => {
+    const login: Login = {
+      email: 'email1',
+      password: 'password1'
+    };
     const mockUser: User = {
       id: 1,
       accessToken: 'token1',
@@ -44,10 +48,6 @@ describe('UserService', () => {
       firstName: 'firstName1',
       lastName: 'lastName1',
       image: 'http://localhost:8080/image1'
-    };
-    const login: Login = {
-      email: 'email1',
-      password: 'password1'
     };
     let user: User;
     service.login(login).subscribe((res: User) => user = res);
@@ -83,15 +83,6 @@ describe('UserService', () => {
   }));
 
   it('should update valid profile data', fakeAsync(() => {
-    const mockUser: User = {
-      id: 1,
-      accessToken: 'token1',
-      role: 'role1',
-      email: 'email1',
-      firstName: 'firstName1',
-      lastName: 'lastName1',
-      image: 'http://localhost:8080/image1'
-    };
     const profileUpdate: ProfileUpdate = {
       email: 'email1',
       firstName: 'firstName1',
@@ -102,6 +93,15 @@ describe('UserService', () => {
     };
     const image: Image = {
       path: 'http://localhost:8080/image'
+    };
+    const mockUser: User = {
+      id: 1,
+      accessToken: 'token1',
+      role: 'role1',
+      email: 'email1',
+      firstName: 'firstName1',
+      lastName: 'lastName1',
+      image: 'http://localhost:8080/image1'
     };
     let user: User;
     service.update(profileUpdate, image).subscribe((res: User) => user = res);

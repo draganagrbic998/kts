@@ -40,7 +40,6 @@ describe('UserFollowingService', () => {
       type: 'type1'
     };
     const page = 0;
-    let offers: CulturalOffer[];
     const offersMock: CulturalOffer[] = [
       {
         id: 1,
@@ -85,6 +84,7 @@ describe('UserFollowingService', () => {
         totalRate: 3
       },
     ];
+    let offers: CulturalOffer[];
 
     service.filter(filters, page).subscribe((res: HttpResponse<CulturalOffer[]>) => offers = res.body);
     const request: TestRequest = httpMock.expectOne(`${service.API_OFFERS}/filter_followings?page=${page}&size=${LARGE_PAGE_SIZE}`);
