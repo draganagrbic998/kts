@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { SMALL_PAGE_SIZE } from 'src/app/constants/pagination';
+import { Image } from 'src/app/models/image';
 import { News } from 'src/app/models/news';
 import { NewsFilterParams } from 'src/app/models/news-filter-params';
 import { environment } from 'src/environments/environment';
@@ -29,11 +30,11 @@ export class NewsService {
     );
   }
 
-  save(data: FormData): Observable<null>{
+  save(news: News, images: Image[]): Observable<null>{
     // dodaj da ti se sa backenda vraca news i onda u catchError dodaj
     // da se vrati null kao indikator neuspeha (pogledaj culturalservice)
     //  da vidis na koji je fazon, tako ces lepse testirati
-    return this.http.post<null>(this.API_NEWS, data);
+    return this.http.post<null>(this.API_NEWS, this.newsToFormData(news, images));
   }
 
   delete(id: number): Observable<boolean>{
@@ -45,6 +46,26 @@ export class NewsService {
 
   announceRefreshData(culturalOfferId: number): void{
     this.refreshData.next(culturalOfferId);
+  }
+
+  newsToFormData(news: News, images: Image[]): FormData{
+    const formData: FormData = new FormData();
+    if (news.id){
+      formData.append('id', news.id + '');
+    }
+    formData.append('culturalOfferId', news.culturalOfferId + '');
+    formData.append('text', news.text);
+
+    for (const image of images){
+      if (image.upload){
+        formData.append('images', image.upload);
+      }
+      else if (image.path){
+        formData.append('imagePaths', image.path);
+      }
+    }
+    return formData;
+
   }
 
 }

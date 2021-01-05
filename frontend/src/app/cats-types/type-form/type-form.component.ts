@@ -50,15 +50,9 @@ export class TypeFormComponent implements OnInit {
     if (this.typeForm.invalid){
       return;
     }
-    const formData: FormData = new FormData();
-    formData.append('category', this.typeForm.value.category);
-    formData.append('name', this.typeForm.value.name);
-    if (this.image.upload){
-      formData.append('placemarkIcon', this.image.upload);
-    }
 
     this.savePending = true;
-    this.typeService.save(formData).subscribe(
+    this.typeService.save(this.typeForm.value, this.image).subscribe(
       (response: Type) => {
         // dodaj u servicu da ti se vraca type
         this.savePending = false;

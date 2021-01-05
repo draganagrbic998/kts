@@ -32,24 +32,15 @@ export class NewsFormComponent implements OnInit {
     if (this.text.invalid){
       return;
     }
-    const formData: FormData = new FormData();
-    if (this.news.id){
-      formData.append('id', this.news.id + '');
-    }
-    formData.append('culturalOfferId', this.news.culturalOfferId + '');
-    formData.append('text', this.text.value);
 
-    for (const image of this.images){
-      if (image.upload){
-        formData.append('images', image.upload);
-      }
-      else{
-        formData.append('imagePaths', image.path);
-      }
-    }
+    const news: News = {
+      id: this.news.id,
+      culturalOfferId: this.news.culturalOfferId,
+      text: this.text.value
+    } as News;
 
     this.savePending = true;
-    this.newsService.save(formData).subscribe(
+    this.newsService.save(news, this.images).subscribe(
       (response: News) => {
         this.savePending = false;
         if (response){

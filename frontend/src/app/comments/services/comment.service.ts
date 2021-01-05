@@ -62,7 +62,7 @@ export class CommentService {
       if (image.upload){
         formData.append('images', image.upload);
       }
-      else{
+      else if (image.path) {
         formData.append('imagePaths', image.path);
       }
     }
