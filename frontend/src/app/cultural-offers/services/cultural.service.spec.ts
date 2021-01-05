@@ -35,30 +35,6 @@ describe('CulturalService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should not save invalid offer', fakeAsync(() => {
-    let offer: CulturalOffer = {
-      id: 1,
-      type: 'type1',
-      name: 'name1',
-      location: 'location1',
-      lat: 1,
-      lng: 1,
-      description: 'description1',
-    } as CulturalOffer;
-    const image: Image = {
-      path: 'image1'
-    };
-
-    service.save(offer, image).subscribe((res: CulturalOffer) => offer = res);
-    const request: TestRequest = httpMock.expectOne(service.API_OFFERS);
-    expect(request.request.method).toBe('POST');
-    request.error(null);
-    tick();
-
-    expect(offer).toBeDefined();
-    expect(offer).toBeNull();
-  }));
-
   it('should save valid offer', fakeAsync(() => {
     let offer: CulturalOffer = {
       id: 1,
@@ -106,6 +82,30 @@ describe('CulturalService', () => {
     expect(offer.image).toBe(offerMock.image);
     expect(offer.followed).toBe(offerMock.followed);
     expect(offer.totalRate).toBe(offerMock.totalRate);
+  }));
+
+  it('should not save invalid offer', fakeAsync(() => {
+    let offer: CulturalOffer = {
+      id: 1,
+      type: 'type1',
+      name: 'name1',
+      location: 'location1',
+      lat: 1,
+      lng: 1,
+      description: 'description1',
+    } as CulturalOffer;
+    const image: Image = {
+      path: 'image1'
+    };
+
+    service.save(offer, image).subscribe((res: CulturalOffer) => offer = res);
+    const request: TestRequest = httpMock.expectOne(service.API_OFFERS);
+    expect(request.request.method).toBe('POST');
+    request.error(null);
+    tick();
+
+    expect(offer).toBeDefined();
+    expect(offer).toBeNull();
   }));
 
   it('should delete valid offer', fakeAsync(() => {
@@ -167,8 +167,8 @@ describe('CulturalService', () => {
   }));
 
   it('should filter some names', fakeAsync(() => {
-    let names: string[];
     const namesMock: string[] = ['name1', 'name2', 'name3'];
+    let names: string[];
 
     service.filterNames('filter').subscribe((response: string[]) => names = response);
     const request: TestRequest = httpMock.expectOne(`${service.API_OFFERS}/filter_names`);
@@ -196,8 +196,8 @@ describe('CulturalService', () => {
   }));
 
   it('should filter some locations', fakeAsync(() => {
-    let locations: string[];
     const locationsMock: string[] = ['location1', 'location2', 'location3'];
+    let locations: string[];
 
     service.filterLocations('filter').subscribe((response: string[]) => locations = response);
     const request: TestRequest = httpMock.expectOne(`${service.API_OFFERS}/filter_locations`);
@@ -225,8 +225,8 @@ describe('CulturalService', () => {
   }));
 
   it('should filter some types', fakeAsync(() => {
-    let types: string[];
     const typesMock: string[] = ['type1', 'type2', 'type3'];
+    let types: string[];
 
     service.filterTypes('filter').subscribe((response: string[]) => types = response);
     const request: TestRequest = httpMock.expectOne(`${service.API_OFFERS}/filter_types`);
@@ -260,7 +260,6 @@ describe('CulturalService', () => {
       type: 'type1'
     };
     const page = 0;
-    let offers: CulturalOffer[];
     const offersMock: CulturalOffer[] = [
       {
         id: 1,
@@ -305,6 +304,7 @@ describe('CulturalService', () => {
         totalRate: 3
       },
     ];
+    let offers: CulturalOffer[];
 
     service.filter(filters, page).subscribe((res: HttpResponse<CulturalOffer[]>) => offers = res.body);
     const request: TestRequest = httpMock.expectOne(`${service.API_OFFERS}/filter?page=${page}&size=${LARGE_PAGE_SIZE}`);
