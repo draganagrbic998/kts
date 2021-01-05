@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { CategoryService } from 'src/app/cats-types/services/category.service';
 import { CategoryValidatorService } from 'src/app/cats-types/services/category-validator.service';
+import { Category } from 'src/app/models/category';
 
 @Component({
   selector: 'app-cat-form',
@@ -31,15 +32,17 @@ export class CatFormComponent implements OnInit {
     }
     this.savePending = true;
     this.categoryService.save(this.categoryForm.value).subscribe(
-      () => {
+      (response: Category) => {
+        // treba u servicu sa dodas da ti se vraca kategorija
         this.savePending = false;
-        this.snackBar.open('Category successfully added!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
-        this.categoryForm.reset();
-        this.categoryService.announceRefreshData();
-      },
-      () => {
-        this.savePending = false;
-        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        if (response){
+          this.snackBar.open('Category successfully added!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+          this.categoryForm.reset();
+          this.categoryService.announceRefreshData();
+        }
+        else{
+          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        }
       }
     );
   }

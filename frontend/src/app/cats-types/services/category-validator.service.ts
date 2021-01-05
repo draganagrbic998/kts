@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ValidationError } from 'src/app/models/validation-error';
 import { CategoryService } from 'src/app/cats-types/services/category.service';
 
@@ -22,8 +22,7 @@ export class CategoryValidatorService {
             return !response ? null : {nameError: true};
           }
           return response ? null : {nameError: true};
-        }),
-        catchError(() => of(null))
+        })
       );
     };
   }

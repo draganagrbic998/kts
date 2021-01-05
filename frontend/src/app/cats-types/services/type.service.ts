@@ -20,9 +20,6 @@ export class TypeService {
 
   private refreshData: Subject<void> = new Subject();
   refreshData$ = this.refreshData.asObservable();
-  announceRefreshData(): void{
-    this.refreshData.next();
-  }
 
   list(page: number): Observable<HttpResponse<Type[]>>{
     const params = new HttpParams().set('page', page + '').set('size', SMALL_PAGE_SIZE + '');
@@ -33,20 +30,31 @@ export class TypeService {
 
   save(data: FormData): Observable<null>{
     return this.http.post<null>(this.API_TYPES, data);
+    // isto dodaj da ti se vraca Type sa backenda, ko kod kategoriaj sto sam ti napisala...
   }
 
-  delete(id: number): Observable<null>{
-    return this.http.delete<null>(`${this.API_TYPES}/${id}`);
+  delete(id: number): Observable<boolean>{
+    return this.http.delete<null>(`${this.API_TYPES}/${id}`).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 
   hasName(param: UniqueCheck): Observable<boolean>{
     return this.http.post<{value: boolean}>(`${this.API_TYPES}/has_name`, param).pipe(
-      map((response: {value: boolean}) => response.value)
+      map((response: {value: boolean}) => response.value),
+      catchError(() => of(false))
     );
   }
 
   filterNames(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(`${this.API_TYPES}/filter_names`, {value: filter});
+    return this.http.post<string[]>(`${this.API_TYPES}/filter_names`, {value: filter}).pipe(
+      catchError(() => of([]))
+    );
+  }
+
+  announceRefreshData(): void{
+    this.refreshData.next();
   }
 
 }
