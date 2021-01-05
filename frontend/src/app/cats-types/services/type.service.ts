@@ -6,6 +6,7 @@ import { environment } from 'src/environments/environment';
 import { SMALL_PAGE_SIZE } from 'src/app/constants/pagination';
 import { UniqueCheck } from 'src/app/models/unique-check';
 import { Type } from 'src/app/models/type';
+import { Image } from 'src/app/models/image';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,8 @@ export class TypeService {
     );
   }
 
-  save(data: FormData): Observable<null>{
-    return this.http.post<null>(this.API_TYPES, data);
+  save(type: Type, image: Image): Observable<null>{
+    return this.http.post<null>(this.API_TYPES, this.typeToFormData(type, image));
     // isto dodaj da ti se vraca Type sa backenda, ko kod kategoriaj sto sam ti napisala...
   }
 
@@ -55,6 +56,16 @@ export class TypeService {
 
   announceRefreshData(): void{
     this.refreshData.next();
+  }
+
+  typeToFormData(type: Type, image: Image): FormData{
+    const formData: FormData = new FormData();
+    formData.append('category', type.category);
+    formData.append('name', type.name);
+    if (image.upload){
+      formData.append('placemarkIcon', image.upload);
+    }
+    return formData;
   }
 
 }
