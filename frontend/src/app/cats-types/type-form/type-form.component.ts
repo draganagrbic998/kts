@@ -10,6 +10,7 @@ import { CategoryService } from 'src/app/cats-types/services/category.service';
 import { TypeService } from 'src/app/cats-types/services/type.service';
 import { CategoryValidatorService } from 'src/app/cats-types/services/category-validator.service';
 import { TypeValidatorService } from 'src/app/cats-types/services/type-validator.service';
+import { Type } from 'src/app/models/type';
 
 @Component({
   selector: 'app-type-form',
@@ -58,15 +59,17 @@ export class TypeFormComponent implements OnInit {
 
     this.savePending = true;
     this.typeService.save(formData).subscribe(
-      () => {
+      (response: Type) => {
+        // dodaj u servicu da ti se vraca type
         this.savePending = false;
-        this.snackBar.open('Type successfully added!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
-        this.typeForm.reset();
-        this.typeService.announceRefreshData();
-      },
-      () => {
-        this.savePending = false;
-        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        if (response){
+          this.snackBar.open('Type successfully added!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+          this.typeForm.reset();
+          this.typeService.announceRefreshData();
+        }
+        else{
+          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        }
       }
     );
   }

@@ -50,13 +50,15 @@ export class NewsFormComponent implements OnInit {
 
     this.savePending = true;
     this.newsService.save(formData).subscribe(
-      () => {
-        this.dialogRef.close();
-        this.newsService.announceRefreshData(this.news.culturalOfferId);
-      },
-      () => {
+      (response: News) => {
         this.savePending = false;
-        this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        if (response){
+          this.dialogRef.close();
+          this.newsService.announceRefreshData(this.news.culturalOfferId);
+        }
+        else{
+          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+        }
       }
     );
   }

@@ -17,12 +17,8 @@ export class CategoryService {
   ) { }
 
   private readonly API_CATEGORIES: string = `${environment.baseUrl}/${environment.apiCategories}`;
-
   private refreshData: Subject<void> = new Subject();
   refreshData$ = this.refreshData.asObservable();
-  announceRefreshData(): void{
-    this.refreshData.next();
-  }
 
   list(page: number): Observable<HttpResponse<Category[]>>{
     const params = new HttpParams().set('page', page + '').set('size', SMALL_PAGE_SIZE + '');
@@ -33,20 +29,33 @@ export class CategoryService {
 
   save(category: Category): Observable<null>{
     return this.http.post<null>(this.API_CATEGORIES, category);
+    // dodaj da ti se sa backenda vraca ta dodata/izmenajna kulturna ponuda i
+    // odaj u catchError da se vrati null (pogledaj kod mene u commentService/culturalService)
+    //  na koji je fazon
   }
 
-  delete(id: number): Observable<null>{
-    return this.http.delete<null>(`${this.API_CATEGORIES}/${id}`);
+  delete(id: number): Observable<boolean>{
+    return this.http.delete<null>(`${this.API_CATEGORIES}/${id}`).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 
   hasName(param: UniqueCheck): Observable<boolean>{
     return this.http.post<{value: boolean}>(`${this.API_CATEGORIES}/has_name`, param).pipe(
-      map((response: {value: boolean}) => response.value)
+      map((response: {value: boolean}) => response.value),
+      catchError(() => of(false))
     );
   }
 
   filterNames(filter: string): Observable<string[]>{
-    return this.http.post<string[]>(`${this.API_CATEGORIES}/filter_names`, {value: filter});
+    return this.http.post<string[]>(`${this.API_CATEGORIES}/filter_names`, {value: filter}).pipe(
+      catchError(() => of([]))
+    );
+  }
+
+  announceRefreshData(): void{
+    this.refreshData.next();
   }
 
 }
