@@ -13,9 +13,9 @@ import { UserValidatorService } from 'src/app/user/services/user-validator.servi
 export class RegisterFormComponent implements OnInit {
 
   constructor(
-    private userService: UserService,
-    private formValidator: UserValidatorService,
-    private snackBar: MatSnackBar
+    public userService: UserService,
+    public formValidator: UserValidatorService,
+    public snackBar: MatSnackBar
     ) { }
 
   registerPending = false;
