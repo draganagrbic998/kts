@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE } from 'src/app/constants/snackbar';
+import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { Image } from 'src/app/models/image';
 import { News } from 'src/app/models/news';
 import { NewsService } from 'src/app/news/services/news.service';
@@ -16,9 +16,9 @@ export class NewsFormComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public news: News,
-    private newsService: NewsService,
+    public newsService: NewsService,
     public dialogRef: MatDialogRef<NewsFormComponent>,
-    private snackBar: MatSnackBar
+    public snackBar: MatSnackBar
   ) { }
 
   savePending = false;
@@ -41,9 +41,10 @@ export class NewsFormComponent implements OnInit {
 
     this.savePending = true;
     this.newsService.save(news, this.images).subscribe(
-      (response: News) => {
+      (result: News) => {
         this.savePending = false;
-        if (response){
+        if (result){
+          this.snackBar.open('News successfully published!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
           this.dialogRef.close();
           this.newsService.announceRefreshData(this.news.culturalOfferId);
         }

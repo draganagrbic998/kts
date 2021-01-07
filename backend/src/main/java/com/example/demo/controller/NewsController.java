@@ -60,9 +60,8 @@ public class NewsController {
 	
 	@PreAuthorize("hasAuthority('admin')")
 	@PostMapping(value = "/api/news")
-	public ResponseEntity<Void> save(@Valid @ModelAttribute NewsUploadDTO newsDTO) {
-		this.newsService.save(this.newsMapper.map(newsDTO), newsDTO.getImages());		
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public ResponseEntity<NewsDTO> save(@Valid @ModelAttribute NewsUploadDTO newsDTO) {
+		return new ResponseEntity<>(new NewsDTO(this.newsService.save(this.newsMapper.map(newsDTO), newsDTO.getImages())), HttpStatus.CREATED);
 	}
 
 }

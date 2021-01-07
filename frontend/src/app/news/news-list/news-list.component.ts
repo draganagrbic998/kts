@@ -14,7 +14,7 @@ import { NewsService } from 'src/app/news/services/news.service';
 export class NewsListComponent implements OnInit {
 
   constructor(
-    private newsService: NewsService
+    public newsService: NewsService
   ) { }
 
   @Input() culturalOfferId: number;
@@ -34,15 +34,15 @@ export class NewsListComponent implements OnInit {
 
   changePage(value: number): void{
     this.pagination.pageNumber += value;
-    this.fetchData();
+    this.fetchNews();
   }
 
   filterData(): void{
     this.pagination.pageNumber = 0;
-    this.fetchData();
+    this.fetchNews();
   }
 
-  fetchData(): void{
+  fetchNews(): void{
     this.fetchPending = true;
     this.newsService.filter(this.filterForm.value, this.culturalOfferId, this.pagination.pageNumber).subscribe(
       (data: HttpResponse<News[]>) => {
@@ -65,7 +65,7 @@ export class NewsListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.fetchData();
+    this.fetchNews();
     this.newsService.refreshData$.subscribe((culturalOfferId: number) => {
       if (this.culturalOfferId === culturalOfferId){
         this.changePage(0);

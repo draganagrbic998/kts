@@ -17,8 +17,8 @@ export class NewsService {
     private http: HttpClient
   ) { }
 
-  private readonly API_NEWS = `${environment.baseUrl}/${environment.apiNews}`;
-  private readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
+  readonly API_NEWS = `${environment.baseUrl}/${environment.apiNews}`;
+  readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
 
   private refreshData: Subject<number> = new Subject();
   refreshData$ = this.refreshData.asObservable();
@@ -30,11 +30,10 @@ export class NewsService {
     );
   }
 
-  save(news: News, images: Image[]): Observable<null>{
-    // dodaj da ti se sa backenda vraca news i onda u catchError dodaj
-    // da se vrati null kao indikator neuspeha (pogledaj culturalservice)
-    //  da vidis na koji je fazon, tako ces lepse testirati
-    return this.http.post<null>(this.API_NEWS, this.newsToFormData(news, images));
+  save(news: News, images: Image[]): Observable<News>{
+    return this.http.post<News>(this.API_NEWS, this.newsToFormData(news, images)).pipe(
+      catchError(() => of(null))
+    );
   }
 
   delete(id: number): Observable<boolean>{
