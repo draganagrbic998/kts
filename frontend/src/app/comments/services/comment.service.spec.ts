@@ -213,22 +213,6 @@ describe('CommentService', () => {
 
   }));
 
-  it('should list no comments', fakeAsync(() => {
-    const culturalOfferId = 1;
-    const page = 0;
-    let comments: Comment[];
-
-    service.list(culturalOfferId, page).subscribe((res: HttpResponse<Comment[]>) => comments = res as null);
-    const request: TestRequest = httpMock
-    .expectOne(`${service.API_OFFERS}/${culturalOfferId}/comments?page=${page}&size=${SMALL_PAGE_SIZE}`);
-    expect(request.request.method).toBe('GET');
-    request.error(null);
-    tick();
-
-    expect(comments).toBeDefined();
-    expect(comments).toBeNull();
-  }));
-
   it('should emit refreshData', fakeAsync(() => {
     let counter = 0;
     service.refreshData$.subscribe(() =>  ++counter);

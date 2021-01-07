@@ -16,9 +16,9 @@ import { NewsFormComponent } from '../news-form/news-form.component';
 export class NewsDetailsComponent implements OnInit {
 
   constructor(
-    private authService: AuthService,
-    private newsService: NewsService,
-    private dialog: MatDialog
+    public authService: AuthService,
+    public newsService: NewsService,
+    public dialog: MatDialog
   ) { }
 
   @Input() news: News;
@@ -35,7 +35,7 @@ export class NewsDetailsComponent implements OnInit {
   delete(): void {
     const options = {...DIALOG_OPTIONS, ...{data: () => this.newsService.delete(this.news.id)}};
     this.dialog.open(DeleteConfirmationComponent, options).afterClosed().subscribe(result => {
-      if (result){
+      if (result || typeof result === 'number'){
         this.newsService.announceRefreshData(this.news.culturalOfferId);
       }
     });
