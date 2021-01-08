@@ -18,6 +18,7 @@ public class TypeMapper {
 	@Autowired
 	private CategoryRepository categoryRepository;
 	
+	@Transactional(readOnly = true)
 	public List<TypeDTO> map(List<Type> types) {
 		return types.stream().map(TypeDTO::new).collect(Collectors.toList());
 	}
@@ -29,6 +30,12 @@ public class TypeMapper {
 		type.setCategory(this.categoryRepository.findByName(typeDTO.getCategory()));
 		type.setName(typeDTO.getName());
 		return type;
+	}
+	
+	@Transactional
+	public TypeDTO map(Type type) {
+		TypeDTO typeDTO = new TypeDTO(type);
+		return typeDTO;
 	}
 
 }
