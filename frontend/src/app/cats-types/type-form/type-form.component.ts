@@ -54,7 +54,6 @@ export class TypeFormComponent implements OnInit {
     this.savePending = true;
     this.typeService.save(this.typeForm.value, this.image).subscribe(
       (response: Type) => {
-        // dodaj u servicu da ti se vraca type
         this.savePending = false;
         if (response){
           this.snackBar.open('Type successfully added!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);

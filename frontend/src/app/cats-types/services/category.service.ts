@@ -27,11 +27,10 @@ export class CategoryService {
     );
   }
 
-  save(category: Category): Observable<null>{
-    return this.http.post<null>(this.API_CATEGORIES, category);
-    // dodaj da ti se sa backenda vraca ta dodata/izmenajna kulturna ponuda i
-    // odaj u catchError da se vrati null (pogledaj kod mene u commentService/culturalService)
-    //  na koji je fazon
+  save(category: Category): Observable<Category>{
+    return this.http.post<null>(this.API_CATEGORIES, category).pipe(
+      catchError(() => of(null))
+    );
   }
 
   delete(id: number): Observable<boolean>{
