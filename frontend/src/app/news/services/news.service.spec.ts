@@ -2,13 +2,9 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController, TestRequest } from '@angular/common/http/testing';
 import { fakeAsync, getTestBed, TestBed, tick } from '@angular/core/testing';
 import { SMALL_PAGE_SIZE } from 'src/app/constants/pagination';
-import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
 import { News } from 'src/app/models/news';
 import { Image } from 'src/app/models/image';
-import { RateUpdate } from 'src/app/models/rate-update';
-
 import { NewsService } from './news.service';
-import { CulturalOffer } from 'src/app/models/cultural-offer';
 
 describe('NewsService', () => {
   let injector;
@@ -19,14 +15,8 @@ describe('NewsService', () => {
   const dateEnd: Date = new Date(2021, 1, 2);
 
   beforeEach(() => {
-    const culturalServiceMock = {
-      announceUpdateTotalRate: jasmine.createSpy('announceUpdateTotalRate')
-    };
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        {provide: CulturalService, useValue: culturalServiceMock}
-      ]
+      imports: [HttpClientTestingModule]
     });
     injector = getTestBed();
     service = TestBed.inject(NewsService);

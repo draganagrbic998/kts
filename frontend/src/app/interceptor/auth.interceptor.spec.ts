@@ -1,16 +1,91 @@
-import { TestBed } from '@angular/core/testing';
-
+import { HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { fakeAsync, TestBed } from '@angular/core/testing';
+import { environment } from 'src/environments/environment';
 import { AuthInterceptor } from './auth.interceptor';
+import { of } from 'rxjs';
+import { AuthService } from '../shared/services/auth.service';
+import { User } from '../models/user';
 
 describe('AuthInterceptor', () => {
-  beforeEach(() => TestBed.configureTestingModule({
-    providers: [
-      AuthInterceptor
-    ]
-  }));
+  let authInterceptor: AuthInterceptor;
+
+  const user: User = {
+    id: 1,
+    accessToken: 'token1',
+    role: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    image: ''
+  };
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        AuthInterceptor
+      ]
+    });
+    authInterceptor = TestBed.inject(AuthInterceptor);
+  });
 
   it('should be created', () => {
-    const interceptor: AuthInterceptor = TestBed.inject(AuthInterceptor);
-    expect(interceptor).toBeTruthy();
+    expect(authInterceptor).toBeTruthy();
   });
+
+  it('should set header authorization', fakeAsync(() => {
+    spyOn(authInterceptor.authService, 'getUser').and.returnValue(user);
+
+    let response: HttpResponse<any>;
+
+    const next: any = {
+      handle: responseHandle => {
+        response = responseHandle;
+      }
+    };
+
+    const request: HttpRequest<any> = new HttpRequest<any>('GET', `${environment.baseUrl}/api`);
+
+    authInterceptor.intercept(request, next);
+    expect(authInterceptor.authService.getUser).toHaveBeenCalledTimes(1);
+    expect(response.headers.get('Authorization')).toEqual(user.accessToken);
+  }));
+
+  it('should not set header authorization - null user', fakeAsync(() => {
+    spyOn(authInterceptor.authService, 'getUser').and.returnValue(null);
+
+    let response: HttpResponse<any>;
+
+    const next: any = {
+      handle: responseHandle => {
+        response = responseHandle;
+      }
+    };
+
+    const request: HttpRequest<any> = new HttpRequest<any>('GET', `${environment.baseUrl}/api`);
+
+    authInterceptor.intercept(request, next);
+    expect(authInterceptor.authService.getUser).toHaveBeenCalledTimes(1);
+    expect(response.headers.get('Authorization')).toBeFalsy();
+  }));
+
+  it('should not set header authorization - undefined user', fakeAsync(() => {
+    spyOn(authInterceptor.authService, 'getUser').and.returnValue(undefined);
+
+    let response: HttpResponse<any>;
+
+    const next: any = {
+      handle: responseHandle => {
+        response = responseHandle;
+      }
+    };
+
+    const request: HttpRequest<any> = new HttpRequest<any>('GET', `${environment.baseUrl}/api`);
+
+    authInterceptor.intercept(request, next);
+    expect(authInterceptor.authService.getUser).toHaveBeenCalledTimes(1);
+    expect(response.headers.get('Authorization')).toBeFalsy();
+  }));
+
 });
