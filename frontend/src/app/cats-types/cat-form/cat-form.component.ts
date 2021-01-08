@@ -14,9 +14,9 @@ import { Category } from 'src/app/models/category';
 export class CatFormComponent implements OnInit {
 
   constructor(
-    private categoryService: CategoryService,
-    private categoryValidator: CategoryValidatorService,
-    private snackBar: MatSnackBar
+    public categoryService: CategoryService,
+    public categoryValidator: CategoryValidatorService,
+    public snackBar: MatSnackBar
   ) { }
 
   savePending = false;
@@ -33,7 +33,6 @@ export class CatFormComponent implements OnInit {
     this.savePending = true;
     this.categoryService.save(this.categoryForm.value).subscribe(
       (response: Category) => {
-        // treba u servicu sa dodas da ti se vraca kategorija
         this.savePending = false;
         if (response){
           this.snackBar.open('Category successfully added!', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);

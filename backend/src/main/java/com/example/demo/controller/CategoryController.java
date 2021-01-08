@@ -69,9 +69,8 @@ public class CategoryController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Void> save(@Valid @RequestBody CategoryDTO categoryDTO){
-		this.categoryService.save(this.categoryMapper.map(categoryDTO));
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public ResponseEntity<CategoryDTO> save(@Valid @RequestBody CategoryDTO categoryDTO){
+		return new ResponseEntity<>(this.categoryMapper.map(this.categoryService.save(this.categoryMapper.map(categoryDTO))),HttpStatus.CREATED);
 	}
 	
 }

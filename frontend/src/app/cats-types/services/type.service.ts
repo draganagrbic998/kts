@@ -29,9 +29,10 @@ export class TypeService {
     );
   }
 
-  save(type: Type, image: Image): Observable<null>{
-    return this.http.post<null>(this.API_TYPES, this.typeToFormData(type, image));
-    // isto dodaj da ti se vraca Type sa backenda, ko kod kategoriaj sto sam ti napisala...
+  save(type: Type, image: Image): Observable<Type>{
+    return this.http.post<null>(this.API_TYPES, this.typeToFormData(type, image)).pipe(
+      catchError(() => of(null))
+    );
   }
 
   delete(id: number): Observable<boolean>{
