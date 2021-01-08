@@ -7,18 +7,21 @@ import { AuthService } from '../shared/services/auth.service';
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private authService: AuthService
+    public authService: AuthService
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    if (!this.authService.getUser()){
+    const user = this.authService.getUser();
+
+    if (!user){
       return next.handle(request);
     }
     request = request.clone({
       setHeaders: {
-        Authorization: this.authService.getUser().accessToken
+        Authorization: user.accessToken
       }
     });
+
     return next.handle(request);
   }
 }
