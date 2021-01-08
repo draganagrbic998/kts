@@ -14,9 +14,9 @@ import { Category } from 'src/app/models/category';
 export class CatFormComponent implements OnInit {
 
   constructor(
-    private categoryService: CategoryService,
-    private categoryValidator: CategoryValidatorService,
-    private snackBar: MatSnackBar
+    public categoryService: CategoryService,
+    public categoryValidator: CategoryValidatorService,
+    public snackBar: MatSnackBar
   ) { }
 
   savePending = false;
