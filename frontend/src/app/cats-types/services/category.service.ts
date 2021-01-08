@@ -16,7 +16,7 @@ export class CategoryService {
     private http: HttpClient
   ) { }
 
-  private readonly API_CATEGORIES: string = `${environment.baseUrl}/${environment.apiCategories}`;
+  public readonly API_CATEGORIES: string = `${environment.baseUrl}/${environment.apiCategories}`;
   private refreshData: Subject<void> = new Subject();
   refreshData$ = this.refreshData.asObservable();
 
