@@ -16,7 +16,7 @@ describe('HomeComponent', () => {
   const userMock: User = {
     id: 1,
     accessToken: 'token1',
-    role: 'role1',
+    role: 'admin',
     email: 'email1',
     firstName: 'firstName1',
     lastName: 'lastName1',
@@ -66,16 +66,148 @@ describe('HomeComponent', () => {
       followed: true
     }
   ];
-
-  const fetchResponse = {
-    body: offersMock.filter(() => true),
-    headers: {
-      get: jasmine.createSpy('get').and.returnValue('false')
+  const offersMockFirstUnfollowed: CulturalOffer[] = [
+    {
+      id: 1,
+      category: 'category1',
+      type: 'type1',
+      placemarkIcon: 'placemark1',
+      name: 'name1',
+      location: 'location1',
+      lat: 1,
+      lng: 1,
+      description: 'description1',
+      image: 'http://localhost:8080/image1',
+      totalRate: 1,
+      followed: false
+    },
+    {
+      id: 2,
+      category: 'category2',
+      type: 'type2',
+      placemarkIcon: 'placemark2',
+      name: 'name2',
+      location: 'location2',
+      lat: 2,
+      lng: 2,
+      description: 'description2',
+      image: 'http://localhost:8080/image2',
+      totalRate: 2,
+      followed: true
+    },
+    {
+      id: 3,
+      category: 'category3',
+      type: 'type3',
+      placemarkIcon: 'placemark3',
+      name: 'name3',
+      location: 'location3',
+      lat: 3,
+      lng: 3,
+      description: 'description3',
+      image: 'http://localhost:8080/image3',
+      totalRate: 3,
+      followed: true
     }
-  };
+  ];
+
+  const offersMockFourthAdded: CulturalOffer[] = [
+    {
+      id: 4,
+      category: 'category4',
+      type: 'type4',
+      placemarkIcon: 'placemark4',
+      name: 'name4',
+      location: 'location4',
+      lat: 4,
+      lng: 4,
+      description: 'description4',
+      image: 'http://localhost:8080/image4',
+      totalRate: 4,
+      followed: true
+    },
+    {
+      id: 1,
+      category: 'category1',
+      type: 'type1',
+      placemarkIcon: 'placemark1',
+      name: 'name1',
+      location: 'location1',
+      lat: 1,
+      lng: 1,
+      description: 'description1',
+      image: 'http://localhost:8080/image1',
+      totalRate: 1,
+      followed: true
+    },
+    {
+      id: 2,
+      category: 'category2',
+      type: 'type2',
+      placemarkIcon: 'placemark2',
+      name: 'name2',
+      location: 'location2',
+      lat: 2,
+      lng: 2,
+      description: 'description2',
+      image: 'http://localhost:8080/image2',
+      totalRate: 2,
+      followed: true
+    },
+    {
+      id: 3,
+      category: 'category3',
+      type: 'type3',
+      placemarkIcon: 'placemark3',
+      name: 'name3',
+      location: 'location3',
+      lat: 3,
+      lng: 3,
+      description: 'description3',
+      image: 'http://localhost:8080/image3',
+      totalRate: 3,
+      followed: true
+    }
+  ];
+
+  const offersMockSecondDeleted: CulturalOffer[] = [
+    {
+      id: 1,
+      category: 'category1',
+      type: 'type1',
+      placemarkIcon: 'placemark1',
+      name: 'name1',
+      location: 'location1',
+      lat: 1,
+      lng: 1,
+      description: 'description1',
+      image: 'http://localhost:8080/image1',
+      totalRate: 1,
+      followed: true
+    },
+    {
+      id: 3,
+      category: 'category3',
+      type: 'type3',
+      placemarkIcon: 'placemark3',
+      name: 'name3',
+      location: 'location3',
+      lat: 3,
+      lng: 3,
+      description: 'description3',
+      image: 'http://localhost:8080/image3',
+      totalRate: 3,
+      followed: true
+    }
+  ];
 
   beforeEach(async () => {
-
+    const fetchResponse = {
+      body: offersMock.filter(() => true),
+      headers: {
+        get: jasmine.createSpy('get').and.returnValue('false')
+      }
+    };
     const authServiceMock = {
       getUser: jasmine.createSpy('getUser').and.returnValue(userMock)
     };
@@ -180,4 +312,146 @@ describe('HomeComponent', () => {
       component.filterParams[component.selectedTab], 0);
   }));
 
+  it('should refresh data by removing the second offer', fakeAsync(() => {
+    userMock.role = ADMIN_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(2);
+
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith(2);
+    expect(component.culturalOffers[0]).toEqual(offersMockSecondDeleted);
+  }));
+
+  it('should not refresh data by removing an offer with invalid id', fakeAsync(() => {
+    userMock.role = ADMIN_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(-1);
+
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith(-1);
+    expect(component.culturalOffers[0]).toEqual(offersMock);
+  }));
+
+  it('should not refresh data by removing an offer when guest', fakeAsync(() => {
+    userMock.role = GUEST_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(2);
+
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith(2);
+    expect(component.culturalOffers[0]).toEqual(offersMock);
+  }));
+
+  it('should not refresh data by removing an offer with invalid id when guest', fakeAsync(() => {
+    userMock.role = GUEST_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(-1);
+
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith(-1);
+    expect(component.culturalOffers[0]).toEqual(offersMock);
+  }));
+
+  it('should refresh data by adding an offer', fakeAsync(() => {
+    userMock.role = ADMIN_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(offersMockFourthAdded[0]);
+
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith(offersMockFourthAdded[0]);
+    expect(component.culturalOffers[0]).toEqual(offersMockFourthAdded);
+  }));
+
+  it('should not refresh data by adding an offer when guest', fakeAsync(() => {
+    userMock.role = GUEST_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(offersMockFourthAdded[0]);
+
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith(offersMockFourthAdded[0]);
+    expect(component.culturalOffers[0]).toEqual(offersMock);
+  }));
+
+  it('should not refresh data by adding an invalid offer', fakeAsync(() => {
+    userMock.role = ADMIN_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(offersMockFourthAdded[1]);
+
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith(offersMockFourthAdded[1]);
+    expect(component.culturalOffers[0]).toEqual(offersMock);
+  }));
+
+  it('should refresh data by adding an offer to the user following list', fakeAsync(() => {
+    userMock.role = GUEST_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(offersMock[0]);
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith(offersMock[0]);
+    expect(component.culturalOffers[0]).toEqual(offersMock);
+    expect(component.culturalOffers[1]).toEqual([offersMock[0]]);
+  }));
+
+  it('should not refresh data by altering the user following list when admin', fakeAsync(() => {
+    userMock.role = ADMIN_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(offersMock[0]);
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith(offersMock[0]);
+    expect(component.culturalOffers[0]).toEqual(offersMock);
+    expect(component.culturalOffers[1].length).toEqual(0);
+  }));
+
+  it('should not refresh data by altering the user following list when invalid offer id', fakeAsync(() => {
+    userMock.role = GUEST_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(offersMockFourthAdded[0]);
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith(offersMockFourthAdded[0]);
+    expect(component.culturalOffers[0]).toEqual(offersMock);
+    expect(component.culturalOffers[1].length).toEqual(0);
+  }));
+
+  it('should refresh data by removing an offer from the user following list', fakeAsync(() => {
+    userMock.role = GUEST_ROLE;
+    tick();
+    expect(component.refreshData).toHaveBeenCalledTimes(1);
+    expect(component.refreshData).toHaveBeenCalledWith(0);
+
+    component.refreshData(offersMockFirstUnfollowed[0]);
+    expect(component.refreshData).toHaveBeenCalledTimes(2);
+    expect(component.refreshData).toHaveBeenCalledWith((offersMockFirstUnfollowed[0]));
+    expect(component.culturalOffers[0]).toEqual(offersMockFirstUnfollowed);
+    expect(component.culturalOffers[1].length).toEqual(0);
+  }));
 });
