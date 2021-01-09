@@ -1,7 +1,7 @@
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FIRST_PAGE_HEADER, LAST_PAGE_HEADER } from 'src/app/constants/pagination';
-import { GUEST_ROLE } from 'src/app/constants/roles';
+import { ADMIN_ROLE, GUEST_ROLE } from 'src/app/constants/roles';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
 import { FilterParams } from 'src/app/models/filter-params';
 import { Pagination } from 'src/app/models/pagination';
@@ -38,6 +38,10 @@ export class HomeComponent implements OnInit {
     return this.authService.getUser()?.role === GUEST_ROLE;
   }
 
+  get admin(): boolean{
+    return this.authService.getUser()?.role === ADMIN_ROLE;
+  }
+
   changeTab(index: number): void{
     this.selectedTab = index;
     if (this.fetchPending[this.selectedTab]){
@@ -51,7 +55,6 @@ export class HomeComponent implements OnInit {
   }
 
   fetchData(): void{
-
     this.fetchPending[this.selectedTab] = true;
     this.culturalOffers[this.selectedTab] = [];
     const selectedService = this.selectedTab ? this.userFollowingService : this.culturalService;
@@ -73,28 +76,29 @@ export class HomeComponent implements OnInit {
         }
       }
     );
-
   }
 
   refreshData(response: CulturalOffer | number): void{
     const temp: number[] = this.culturalOffers[0].map(co => co.id);
     if (typeof response === 'number'){
       const index: number = temp.indexOf(response);
-      if (index !== -1){
+      if (index !== -1 && this.admin){
         this.culturalOffers[0].splice(index, 1);
       }
     }
     else{
       let index: number = temp.indexOf(response.id);
-      if (index === -1){
+      if (index === -1 && this.admin){
         index = 0;
+        this.culturalOffers[0].splice(index, 0, response);
       }
-      this.culturalOffers[0].splice(index, index, response);
-      if (this.guest){
+      else if (this.guest && index !== -1){
+        this.culturalOffers[0].splice(index, 1, response);
+
         if (response.followed){
           this.culturalOffers[1].push(response);
         }
-        else if (index !== -1){
+        else {
           this.culturalOffers[1].splice(index, 1);
         }
       }
