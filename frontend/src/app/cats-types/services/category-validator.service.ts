@@ -11,7 +11,7 @@ import { CategoryService } from 'src/app/cats-types/services/category.service';
 export class CategoryValidatorService {
 
   constructor(
-    private categoryService: CategoryService
+    public categoryService: CategoryService
   ) { }
 
   hasName(toBeUnique: boolean): AsyncValidatorFn{

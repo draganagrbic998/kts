@@ -11,7 +11,7 @@ import { TypeService } from 'src/app/cats-types/services/type.service';
 export class TypeValidatorService {
 
   constructor(
-    private typeService: TypeService
+    public typeService: TypeService
   ) { }
 
   hasName(toBeUnique: boolean): AsyncValidatorFn{
