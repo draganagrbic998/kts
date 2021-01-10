@@ -17,7 +17,7 @@ export class TypeService {
     private http: HttpClient
   ) { }
 
-  private readonly API_TYPES = `${environment.baseUrl}/${environment.apiTypes}`;
+  public readonly API_TYPES = `${environment.baseUrl}/${environment.apiTypes}`;
 
   private refreshData: Subject<void> = new Subject();
   refreshData$ = this.refreshData.asObservable();
