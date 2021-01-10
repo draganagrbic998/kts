@@ -1,24 +1,24 @@
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogRef } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SharedModule } from 'src/app/shared/shared.module';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { By } from '@angular/platform-browser';
 import { CatTypeDialogComponent } from './cat-type-dialog.component';
 
 describe('CatTypeDialogComponent', () => {
   let component: CatTypeDialogComponent;
   let fixture: ComponentFixture<CatTypeDialogComponent>;
+  const cats = true;
+
 
   beforeEach(async () => {
-    const dialogRefMock = {};
+    const dialogRefMock = {
+      close: jasmine.createSpy('close')
+    };
     await TestBed.configureTestingModule({
       declarations: [ CatTypeDialogComponent ],
-      imports: [
-        SharedModule,
-        BrowserAnimationsModule
-      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
+        {provide: MAT_DIALOG_DATA, useValue: cats},
         {provide: MatDialogRef, useValue: dialogRefMock}
       ]
     })
@@ -28,10 +28,26 @@ describe('CatTypeDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CatTypeDialogComponent);
     component = fixture.componentInstance;
+    component.cats = cats;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should render catType list', () => {
+    const de: DebugElement[] = fixture.debugElement.queryAll(By.css('app-cat-type-list'));
+    expect(de.length).toBe(1);
+  });
+
+  it('should render category form', () => {
+    const de: DebugElement[] = fixture.debugElement.queryAll(By.css('app-cat-form'));
+    expect(de.length).toBe(1);
+  });
+
+  it('should render tabs', () => {
+    const de: DebugElement[] = fixture.debugElement.queryAll(By.css('mat-tab'));
+    expect(de.length).toBe(2);
   });
 });
