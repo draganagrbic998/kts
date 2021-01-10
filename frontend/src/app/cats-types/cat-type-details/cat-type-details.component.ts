@@ -15,9 +15,9 @@ import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 export class CatTypeDetailsComponent implements OnInit {
 
   constructor(
-    private categoryService: CategoryService,
-    private typeService: TypeService,
-    private dialog: MatDialog
+    public categoryService: CategoryService,
+    public typeService: TypeService,
+    public dialog: MatDialog
   ) { }
 
   @Input() catType: Category | Type;
