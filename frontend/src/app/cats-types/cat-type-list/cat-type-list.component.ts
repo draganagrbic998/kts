@@ -15,8 +15,8 @@ import { TypeService } from 'src/app/cats-types/services/type.service';
 export class CatTypeListComponent implements OnInit {
 
   constructor(
-    private categoryService: CategoryService,
-    private typeService: TypeService
+    public categoryService: CategoryService,
+    public typeService: TypeService
   ) { }
 
   @Input() cats: boolean;
