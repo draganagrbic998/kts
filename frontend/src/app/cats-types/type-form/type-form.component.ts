@@ -20,11 +20,11 @@ import { Type } from 'src/app/models/type';
 export class TypeFormComponent implements OnInit {
 
   constructor(
-    private typeService: TypeService,
-    private categoryService: CategoryService,
+    public typeService: TypeService,
+    public categoryService: CategoryService,
     private typeValidator: TypeValidatorService,
     private categoryValidator: CategoryValidatorService,
-    private snackBar: MatSnackBar
+    public snackBar: MatSnackBar
   ) { }
 
   savePending = false;

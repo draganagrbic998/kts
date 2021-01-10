@@ -1,7 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController, TestRequest} from '@angular/common/http/testing';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { fakeAsync, getTestBed, TestBed, tick } from '@angular/core/testing';
-
 import { CategoryService } from './category.service';
 import { Category } from 'src/app/models/category';
 import { UniqueCheck } from 'src/app/models/unique-check';
@@ -38,7 +37,7 @@ describe('CategoryService', () => {
       id: 1,
       name: 'name1'
     } as Category;
-    let categoryMock: Category = {
+    const categoryMock: Category = {
       id: 1,
       name: 'name1'
     } as Category;
@@ -50,8 +49,8 @@ describe('CategoryService', () => {
     tick();
 
     expect(category).toBeDefined();
-    expect(category.id).toBe(category.id);
-    expect(category.name).toBe(category.name);
+    expect(category.id).toBe(categoryMock.id);
+    expect(category.name).toBe(categoryMock.name);
   }));
 
   it('should not save invalid category', fakeAsync(() => {
