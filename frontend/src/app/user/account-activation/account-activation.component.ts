@@ -13,10 +13,10 @@ import { UserService } from 'src/app/user/services/user.service';
 export class AccountActivationComponent implements OnInit {
 
   constructor(
-    private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    public userService: UserService,
+    public router: Router,
+    public route: ActivatedRoute,
+    public snackBar: MatSnackBar
   ) { }
 
   activatePending = true;

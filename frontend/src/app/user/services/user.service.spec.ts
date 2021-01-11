@@ -8,6 +8,7 @@ import { User } from 'src/app/models/user';
 import { ProfileUpdate } from 'src/app/models/profile-update';
 import { Image } from 'src/app/models/image';
 import { UniqueCheck } from 'src/app/models/unique-check';
+import { Registration } from 'src/app/models/registration';
 
 describe('UserService', () => {
   let injector;
@@ -81,6 +82,69 @@ describe('UserService', () => {
     expect(user).toBeDefined();
     expect(user).toBeNull();
   }));
+
+  it('should register valid data', fakeAsync(() => {
+    const registration: Registration = {
+      email: 'email1',
+      password: 'password1',
+      firstName: 'firstName1',
+      lastName: 'lastName1'
+    };
+    let response: boolean;
+    service.register(registration).subscribe((res: boolean) => response = res);
+    const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/register`);
+    expect(request.request.method).toBe('POST');
+    request.flush({ value: true });
+    tick();
+
+    expect(response).toBeDefined();
+    expect(response).toBeTrue();
+  }));
+
+  it('should not register invalid data', fakeAsync(() => {
+    const registration: Registration = {
+      email: 'email1',
+      password: 'password1',
+      firstName: 'firstName1',
+      lastName: 'lastName1'
+    };
+    let response: boolean;
+    service.register(registration).subscribe((res: boolean) => response = res);
+    const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/register`);
+    expect(request.request.method).toBe('POST');
+    request.error(null);
+    tick();
+
+    expect(response).toBeDefined();
+    expect(response).toBeFalse();
+  }));
+
+  it('should activate valid data', fakeAsync(() => {
+    const code: string = '1';
+    let response: boolean;
+    service.activate(code).subscribe((res: boolean) => response = res);
+    const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/activate/${code}`);
+    expect(request.request.method).toBe('GET');
+    request.flush({ value: true });
+    tick();
+
+    expect(response).toBeDefined();
+    expect(response).toBeTrue();
+  }));
+
+  it('should not activate invalid data', fakeAsync(() => {
+    const code: string = '1';
+    let response: boolean;
+    service.activate(code).subscribe((res: boolean) => response = res);
+    const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/activate/${code}`);
+    expect(request.request.method).toBe('GET');
+    request.error(null);
+    tick();
+
+    expect(response).toBeDefined();
+    expect(response).toBeFalse();
+  }));
+
 
   it('should update valid profile data', fakeAsync(() => {
     const profileUpdate: ProfileUpdate = {
