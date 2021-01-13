@@ -17,15 +17,15 @@ public class NewsForm {
 	@FindBy(xpath = "//*/app-news-form/form/div/mat-form-field/div/div[1]/div[3]/textarea")
 	private WebElement textInput;
 
+	@FindBy(xpath = "//*/app-news-form/form/div/mat-form-field/div/div[2]/div/mat-error")
+	private WebElement textError;
+
 	@FindBy(xpath = "//*/app-news-form/form/app-save-cancel/app-spacer-container/div/span[1]/button")
 	private WebElement cancelButton;
 	
 	@FindBy(xpath = "//*/app-news-form/form/app-save-cancel/app-spacer-container/div/span[2]/button")
 	private WebElement saveButton;
-	
-	@FindBy(xpath = "//*/app-news-form/form/div/mat-form-field/div/div[2]/div/mat-error")
-	private WebElement textError;
-		
+			
 	public NewsForm(WebDriver browser) {
 		super();
 		this.browser = browser;

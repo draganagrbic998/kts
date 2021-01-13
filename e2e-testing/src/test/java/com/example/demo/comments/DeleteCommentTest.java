@@ -26,7 +26,6 @@ public class DeleteCommentTest {
 	private CulturalDialog culturalDialog;
 	private CommentDetails commentDetails;
 	private DeleteConfirmation deleteConfirmation;
-	private CommentForm commentForm;
 	
 	@Before
 	public void setUp() {
@@ -39,7 +38,6 @@ public class DeleteCommentTest {
 		this.culturalDialog = PageFactory.initElements(this.browser, CulturalDialog.class);
 		this.commentDetails = PageFactory.initElements(this.browser, CommentDetails.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
-		this.commentForm = PageFactory.initElements(this.browser, CommentForm.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 		this.loginPage.emailInputFill(TestConstants.GUEST_EMAIL);
@@ -52,16 +50,7 @@ public class DeleteCommentTest {
 		this.culturalDialog.ensureToggleDrawerDisplayed();
 		this.culturalDialog.toggleDrawerClick();
 		
-		this.culturalDialog.ensureAddCommentButtonDisplayed();
-		this.culturalDialog.addCommentButtonClick();
-		this.commentForm.ensureFormDisplayed();
-		this.commentForm.textInputFill("delete comment");
-		this.commentForm.saveButtonClick();
-		this.commentForm.ensureDialogClosed();
-		this.commentDetails.ensureNoStarsDisplayed();
 		this.commentDetails.ensureButtonsDisplayed();
-		this.commentDetails.ensureTextDisplayed();
-		this.commentDetails.ensureHasNoImages();
 		this.commentDetails.deleteButtonClick();
 		this.deleteConfirmation.ensureDialogDisplayed();
 	}
@@ -71,16 +60,6 @@ public class DeleteCommentTest {
 		this.deleteConfirmation.cancelButtonClick();
 		this.deleteConfirmation.ensureDialogClosed();
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-	}
-	
-	@Test
-	public void testConfirm() {
-		this.deleteConfirmation.confirmButtonClick();
-		this.deleteConfirmation.ensureDialogClosed();
-		this.homePage.ensureSnackBarDisplayed();
-		assertEquals(TestConstants.ITEM_REMOVED_SUCCESS, this.homePage.snackBarText());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-		this.homePage.closeSnackBar();
 	}
 	
 	@After

@@ -1,6 +1,5 @@
-package com.example.demo.culturals;
+package com.example.demo.cats;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.After;
@@ -15,15 +14,18 @@ import com.example.demo.common.DeleteConfirmation;
 import com.example.demo.common.HomePage;
 import com.example.demo.user.LoginPage;
 
-public class DeleteCulturalOfferTest {
+public class ValidCategoryTest {
 
-private WebDriver browser;
-	
+	private WebDriver browser;
+
 	private HomePage homePage;
 	private LoginPage loginPage;
-	private CulturalDetails culturalOfferDetails;
-	private CulturalDialog culturalOfferDialog;
+	private CatTypeDialog catTypeDialog;
+	private CategoryForm categoryForm;
+	private CatTypeDetails categoryDetails;
 	private DeleteConfirmation deleteConfirmation;
+
+	private static final String SUCCESS = "Category successfully added!";
 
 	@Before
 	public void setUp() {
@@ -32,8 +34,9 @@ private WebDriver browser;
 		this.browser.manage().window().maximize();
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
-		this.culturalOfferDetails = PageFactory.initElements(this.browser, CulturalDetails.class);
-		this.culturalOfferDialog = PageFactory.initElements(this.browser, CulturalDialog.class);
+		this.catTypeDialog = PageFactory.initElements(this.browser, CatTypeDialog.class);
+		this.categoryForm = PageFactory.initElements(this.browser, CategoryForm.class);
+		this.categoryDetails = PageFactory.initElements(this.browser, CatTypeDetails.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
@@ -41,32 +44,38 @@ private WebDriver browser;
 		this.loginPage.passwordInputFill(TestConstants.LOGIN_PASSWORD);
 		this.loginPage.loginButtonClick();
 		this.homePage.ensureMapDisplayed();
-		this.homePage.toggleButtonClick();
-		this.culturalOfferDetails.ensureDetailsDisplayed();
-		this.culturalOfferDetails.moreButtonClick();
-		this.culturalOfferDialog.ensureDeleteButtonDisplayed();
-		this.culturalOfferDialog.deleteButtonClick();
+		this.homePage.moreButtonClick();
+		this.homePage.ensureCatsTypesButtonDisplayed();
+		this.homePage.catsTypesButtonClick();
+		this.homePage.ensureCatsButtonDisplayed();
+		this.homePage.catsButtonClick();
+		this.catTypeDialog.ensureCreateTabDisplayed();
+		this.catTypeDialog.createTabClick();
+		this.categoryForm.ensureFormDisplayed();
+	}
+	
+	@Test
+	public void test() {
+		//kreiranje
+		String name = "aaaaaaaaaa";
+		this.categoryForm.nameInputFill(name);
+		this.categoryForm.saveButtonClick();
+		this.homePage.ensureSnackBarDisplayed();
+		assertEquals(SUCCESS, this.homePage.snackBarText());
+		this.homePage.closeSnackBar();
+		this.catTypeDialog.ensureListTabDisplayed();
+		this.catTypeDialog.listTabClick();
+		assertEquals(name, this.categoryDetails.nameText());
+		
+		//brisanje
+		this.categoryDetails.deleteButtonClick();
 		this.deleteConfirmation.ensureDialogDisplayed();
-	}
-	
-	@Test
-	public void testCancel() {
-		this.deleteConfirmation.cancelButtonClick();
-		this.deleteConfirmation.ensureDialogClosed();
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-	}
-	
-	@Test
-	public void testConfirm() {
-		String name = this.culturalOfferDetails.nameText();
 		this.deleteConfirmation.confirmButtonClick();
 		this.deleteConfirmation.ensureDialogClosed();
-		this.culturalOfferDialog.ensureDialogClosed();
 		this.homePage.ensureSnackBarDisplayed();
 		assertEquals(TestConstants.ITEM_REMOVED_SUCCESS, this.homePage.snackBarText());
-		assertFalse(name == this.culturalOfferDetails.nameText());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 		this.homePage.closeSnackBar();
+		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@After

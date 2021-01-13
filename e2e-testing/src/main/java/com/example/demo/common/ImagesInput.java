@@ -13,6 +13,7 @@ import com.example.demo.Constants;
 
 public class ImagesInput {
 	
+	private static final String FIRST_IMAGE_XPATH = "//*/app-images-input/div/app-image[1]/div/app-spacer-container/div/button";
 	private static final String SECOND_IMAGE_XPATH = "//*/app-images-input/div/app-image[2]/div/app-spacer-container/div/button";
 	
 	private WebDriver browser;
@@ -26,7 +27,7 @@ public class ImagesInput {
 	@FindBy(xpath = "//*/app-images-input/div/app-image[2]")
 	private WebElement secondImage;
 	
-	@FindBy(xpath = "//*/app-images-input/div/app-image[1]/div/app-spacer-container/div/button")
+	@FindBy(xpath = FIRST_IMAGE_XPATH)
 	private WebElement firstImageDelete;
 	
 	@FindBy(xpath = SECOND_IMAGE_XPATH)
@@ -47,6 +48,11 @@ public class ImagesInput {
 	
 	public void deleteSecondImage() {
 		this.secondImageDelete.click();
+	}
+	
+	public void ensureNoImagesDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(FIRST_IMAGE_XPATH)));
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(SECOND_IMAGE_XPATH)));
 	}
 	
 	public void ensureOneImageDisplayed() {

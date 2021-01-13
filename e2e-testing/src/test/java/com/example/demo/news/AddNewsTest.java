@@ -12,7 +12,6 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.example.demo.TestConstants;
 import com.example.demo.common.HomePage;
-import com.example.demo.common.ImagesInput;
 import com.example.demo.culturals.CulturalDetails;
 import com.example.demo.culturals.CulturalDialog;
 import com.example.demo.user.LoginPage;
@@ -26,8 +25,6 @@ public class AddNewsTest {
 	private CulturalDetails culturalDetails;
 	private CulturalDialog culturalDialog;
 	private NewsForm newsForm;
-	private NewsDetails newsDetails;
-	private ImagesInput imagesInput;
 
 	@Before
 	public void setUp() {
@@ -39,8 +36,6 @@ public class AddNewsTest {
 		this.culturalDetails = PageFactory.initElements(this.browser, CulturalDetails.class);
 		this.culturalDialog = PageFactory.initElements(this.browser, CulturalDialog.class);
 		this.newsForm = PageFactory.initElements(this.browser, NewsForm.class);
-		this.newsDetails = PageFactory.initElements(this.browser, NewsDetails.class);
-		this.imagesInput = PageFactory.initElements(this.browser, ImagesInput.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 		this.loginPage.emailInputFill(TestConstants.ADMIN_EMAIL);
@@ -81,90 +76,6 @@ public class AddNewsTest {
 		this.newsForm.saveButtonClick();
 		this.newsForm.ensureTextErrorDisplayed();
 		assertTrue(this.newsForm.emptyTextError());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-	}
-
-	@Test
-	public void testOnlyText() {
-		String text = "new news text 1";
-		this.newsForm.textInputFill(text);
-		this.newsForm.saveButtonClick();
-		this.newsForm.ensureDialogClosed();
-		this.newsDetails.ensureButtonsDisplayed();
-		this.newsDetails.ensureTextDisplayed();
-		this.newsDetails.ensureHasNoImages();
-		assertEquals(text, this.newsDetails.getText());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-	}
-
-	@Test
-	public void testOneImage() {
-		String text = "new news text 2";
-		this.newsForm.textInputFill(text);
-		this.imagesInput.uploadFile(TestConstants.TEST_IMAGE);
-		this.imagesInput.ensureOneImageDisplayed();
-		assertEquals(1, this.imagesInput.imagesCount());
-
-		this.newsForm.saveButtonClick();
-		this.newsForm.ensureDialogClosed();
-		this.newsDetails.ensureButtonsDisplayed();
-		this.newsDetails.ensureTextDisplayed();
-		this.newsDetails.ensureHasImages();
-		this.newsDetails.ensureImageDisplayed();
-
-		assertEquals(text, this.newsDetails.getText());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-	}
-
-	@Test
-	public void testMoreImages() {
-		String text = "new news text 3";
-		this.newsForm.textInputFill(text);
-		this.imagesInput.uploadFile(TestConstants.TEST_IMAGE);
-		this.imagesInput.ensureOneImageDisplayed();
-		this.imagesInput.uploadFile(TestConstants.TEST_IMAGE);
-		this.imagesInput.ensureTwoImagesDisplayed();
-		assertEquals(2, this.imagesInput.imagesCount());
-
-		this.newsForm.saveButtonClick();
-		this.newsForm.ensureDialogClosed();
-		this.newsDetails.ensureButtonsDisplayed();
-		this.newsDetails.ensureTextDisplayed();
-		this.newsDetails.ensureHasImages();
-		this.newsDetails.ensureImageDisplayed();
-
-		assertEquals(text, this.newsDetails.getText());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-	}
-
-	@Test
-	public void testDeleteImage() {
-		String text = "new news text 4";
-		this.newsForm.textInputFill(text);
-		this.imagesInput.uploadFile(TestConstants.TEST_IMAGE);
-		this.imagesInput.ensureOneImageDisplayed();
-		this.imagesInput.uploadFile(TestConstants.TEST_IMAGE);
-		this.imagesInput.ensureTwoImagesDisplayed();
-		assertEquals(2, this.imagesInput.imagesCount());
-
-		this.imagesInput.deleteFirstImage();
-		this.imagesInput.ensureOneImageDisplayed();
-		assertEquals(1, this.imagesInput.imagesCount());
-		this.imagesInput.uploadFile(TestConstants.TEST_IMAGE);
-		this.imagesInput.ensureTwoImagesDisplayed();
-		assertEquals(2, this.imagesInput.imagesCount());
-		this.imagesInput.deleteFirstImage();
-		this.imagesInput.ensureOneImageDisplayed();
-		assertEquals(1, this.imagesInput.imagesCount());
-
-		this.newsForm.saveButtonClick();
-		this.newsForm.ensureDialogClosed();
-		this.newsDetails.ensureButtonsDisplayed();
-		this.newsDetails.ensureTextDisplayed();
-		this.newsDetails.ensureHasImages();
-		this.newsDetails.ensureImageDisplayed();
-
-		assertEquals(text, this.newsDetails.getText());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 

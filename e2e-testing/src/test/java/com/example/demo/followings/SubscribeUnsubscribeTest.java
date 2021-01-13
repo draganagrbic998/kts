@@ -59,7 +59,6 @@ public class SubscribeUnsubscribeTest {
 		this.culturalOfferDialog.subUnsubButtonClick();
 		this.culturalOfferDialog.ensureSubUnsubButtonDisplayed();
 		assertEquals(UNSUB_BUTTON_TEXT, this.culturalOfferDialog.getSubUnsubButtonText());
-
 		this.culturalOfferDialog.ensureSubUnsubButtonDisplayed();
 
 		this.browser.navigate().to(TestConstants.HOME_PATH);
@@ -69,13 +68,11 @@ public class SubscribeUnsubscribeTest {
 		this.culturalOfferList.followingsTabClick();
 
 		this.culturalOfferList.ensureFirstPage();
-
 		this.culturalOfferDetails.ensureDetailsDisplayed();
-		assertEquals(30, this.culturalOfferList.offersCount());
+		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalOfferList.offersCount());
 
 		this.culturalOfferList.ensureNextButtonDisplayed();
 		this.culturalOfferList.nextButtonClick();
-
 		this.culturalOfferDetails.ensureDetailsDisplayed();
 		this.culturalOfferList.ensureLastPage();
 		assertEquals(3, this.culturalOfferList.offersCount());
@@ -86,7 +83,6 @@ public class SubscribeUnsubscribeTest {
 		this.culturalOfferDialog.subUnsubButtonClick();
 		this.culturalOfferDialog.ensureSubUnsubButtonDisplayed();
 		assertEquals(SUB_BUTTON_TEXT, this.culturalOfferDialog.getSubUnsubButtonText());
-
 		this.culturalOfferDialog.ensureSubUnsubButtonDisplayed();
 
 		this.browser.navigate().to(TestConstants.HOME_PATH);
@@ -96,13 +92,11 @@ public class SubscribeUnsubscribeTest {
 		this.culturalOfferList.followingsTabClick();
 
 		this.culturalOfferList.ensureFirstPage();
-
 		this.culturalOfferDetails.ensureDetailsDisplayed();
-		assertEquals(30, this.culturalOfferList.offersCount());
+		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalOfferList.offersCount());
 
 		this.culturalOfferList.ensureNextButtonDisplayed();
 		this.culturalOfferList.nextButtonClick();
-
 		this.culturalOfferDetails.ensureDetailsDisplayed();
 		this.culturalOfferList.ensureLastPage();
 		assertEquals(2, this.culturalOfferList.offersCount());

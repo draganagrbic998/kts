@@ -52,7 +52,7 @@ describe('AuthInterceptor', () => {
     expect(response.headers.get('Authorization')).toEqual(user.accessToken);
   }));
 
-  it('should not set header authorization - null user', fakeAsync(() => {
+  it('should not set header authorization when user is null', fakeAsync(() => {
     spyOn(authInterceptor.authService, 'getUser').and.returnValue(null);
 
     let response: HttpResponse<any>;
@@ -70,7 +70,7 @@ describe('AuthInterceptor', () => {
     expect(response.headers.get('Authorization')).toBeFalsy();
   }));
 
-  it('should not set header authorization - undefined user', fakeAsync(() => {
+  it('should not set header authorization when user is undefined', fakeAsync(() => {
     spyOn(authInterceptor.authService, 'getUser').and.returnValue(undefined);
 
     let response: HttpResponse<any>;

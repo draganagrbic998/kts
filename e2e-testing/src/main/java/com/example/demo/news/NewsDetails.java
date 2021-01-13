@@ -1,5 +1,7 @@
 package com.example.demo.news;
 
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -46,6 +48,7 @@ public class NewsDetails {
 	}
 
 	public void ensureButtonsDisplayed() {
+		this.browser.manage().timeouts().implicitlyWait(Constants.TIMEOUT_WAIT, TimeUnit.MILLISECONDS) ;
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT))
 				.until(ExpectedConditions.elementToBeClickable(this.editButton));
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT))

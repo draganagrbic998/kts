@@ -24,7 +24,6 @@ public class DeleteNewsTest {
 	private LoginPage loginPage;
 	private CulturalDetails culturalDetails;
 	private CulturalDialog culturalDialog;
-	private NewsForm newsForm;
 	private NewsDetails newsDetails;
 	private DeleteConfirmation deleteConfirmation;
 
@@ -37,7 +36,6 @@ public class DeleteNewsTest {
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
 		this.culturalDetails = PageFactory.initElements(this.browser, CulturalDetails.class);
 		this.culturalDialog = PageFactory.initElements(this.browser, CulturalDialog.class);
-		this.newsForm = PageFactory.initElements(this.browser, NewsForm.class);
 		this.newsDetails = PageFactory.initElements(this.browser, NewsDetails.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
@@ -53,17 +51,8 @@ public class DeleteNewsTest {
 		this.culturalDialog.toggleDrawerClick();
 		this.culturalDialog.ensureSwitchToNewsDisplayed();
 		this.culturalDialog.switchToNewsList();
-		this.culturalDialog.ensureAddNewsButtonDisplayed();
-		this.culturalDialog.addNewsButtonClick();
-		this.newsForm.ensureFormDisplayed();
 
-		this.newsForm.textInputFill("delete news");
-		this.newsForm.saveButtonClick();
-		this.newsForm.ensureDialogClosed();
 		this.newsDetails.ensureButtonsDisplayed();
-		this.newsDetails.ensureTextDisplayed();
-		this.newsDetails.ensureHasNoImages();
-
 		this.newsDetails.deleteButtonClick();
 		this.deleteConfirmation.ensureDialogDisplayed();
 	}
@@ -73,16 +62,6 @@ public class DeleteNewsTest {
 		this.deleteConfirmation.cancelButtonClick();
 		this.deleteConfirmation.ensureDialogClosed();
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-	}
-
-	@Test
-	public void testConfirm() {
-		this.deleteConfirmation.confirmButtonClick();
-		this.deleteConfirmation.ensureDialogClosed();
-		this.homePage.ensureSnackBarDisplayed();
-		assertEquals(TestConstants.ITEM_REMOVED_SUCCESS, this.homePage.snackBarText());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-		this.homePage.closeSnackBar();
 	}
 
 	@After

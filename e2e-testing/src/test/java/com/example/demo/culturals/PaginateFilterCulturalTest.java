@@ -1,8 +1,8 @@
 package com.example.demo.culturals;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.After;
 import org.junit.Before;
@@ -14,7 +14,7 @@ import org.openqa.selenium.support.PageFactory;
 import com.example.demo.TestConstants;
 import com.example.demo.common.HomePage;
 
-public class PaginateFilterCulturalOffersTest {
+public class PaginateFilterCulturalTest {
 	
 	private WebDriver browser;
 	
@@ -47,70 +47,70 @@ public class PaginateFilterCulturalOffersTest {
 		this.culturalList.ensureNextButtonDisplayed();
 		this.culturalList.nextButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
 		this.culturalList.ensureNextButtonDisplayed();
 		this.culturalList.nextButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
 		this.culturalList.ensureNextButtonDisplayed();
 		this.culturalList.nextButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
 		this.culturalList.ensureNextButtonDisplayed();
 		this.culturalList.nextButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
 		this.culturalList.ensureNextButtonDisplayed();
 		this.culturalList.nextButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
 		this.culturalList.ensurePreviousButtonDisplayed();
 		this.culturalList.previousButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
 		this.culturalList.ensurePreviousButtonDisplayed();
 		this.culturalList.previousButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
 		this.culturalList.ensurePreviousButtonDisplayed();
 		this.culturalList.previousButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
 		this.culturalList.ensurePreviousButtonDisplayed();
 		this.culturalList.previousButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
 		this.culturalList.ensurePreviousButtonDisplayed();
 		this.culturalList.previousButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		this.culturalList.ensureFirstPage();

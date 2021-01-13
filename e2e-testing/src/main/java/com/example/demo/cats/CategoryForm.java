@@ -26,16 +26,16 @@ public class CategoryForm {
 		super();
 		this.browser = browser;
 	}
-		
+			
+	public void ensureFormDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.nameInput));		
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.saveButton));		
+	}
+	
 	public void nameInputFill(String value) {
 		this.nameInput.clear();
 		this.nameInput.sendKeys(value);
 		this.nameInput.sendKeys(Keys.SPACE, Keys.BACK_SPACE);
-	}
-	
-	public void ensureFormDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.nameInput));		
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.saveButton));		
 	}
 		
 	public void saveButtonClick() {

@@ -114,6 +114,10 @@ public class CulturalDialog {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.switchToNews));		
 	}
 	
+	public void ensureCloseButtonDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.closeButton));		
+	}
+
 	public void ensureDialogClosed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.tagName("app-cultural-dialog")));
 	}
@@ -124,10 +128,6 @@ public class CulturalDialog {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.locationField));		
 	}
 	
-	public void ensureCloseButtonDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.closeButton));		
-	}
-
 	public String getSubUnsubButtonText() {
 		return this.subUnsubButtonText.getText();	
 	}

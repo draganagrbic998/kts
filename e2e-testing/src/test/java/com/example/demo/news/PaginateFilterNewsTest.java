@@ -1,7 +1,7 @@
 package com.example.demo.news;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.After;
 import org.junit.Before;
@@ -58,13 +58,13 @@ public class PaginateFilterNewsTest {
 		this.newsList.ensureNextButtonDisplayed();
 		this.newsList.nextButtonClick();
 		this.newsDetails.ensureTextDisplayed();
-		assertFalse(text == this.newsDetails.getText());
+		assertNotEquals(this.newsDetails.getText(), text);
 
 		text = this.newsDetails.getText();
 		this.newsList.ensurePreviousButtonDisplayed();
 		this.newsList.previousButtonClick();
 		this.newsDetails.ensureTextDisplayed();
-		assertFalse(text == this.newsDetails.getText());
+		assertNotEquals(this.newsDetails.getText(), text);
 		
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.newsList.newsCount());
 		this.newsList.ensureFirstPage();

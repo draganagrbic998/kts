@@ -62,20 +62,8 @@ public class DeleteTypeTest {
 		this.deleteConfirmation.confirmButtonClick();
 		this.homePage.ensureSnackBarDisplayed();
 		assertEquals(TestConstants.ITEM_REMOVED_ERROR, this.homePage.snackBarText());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 		this.homePage.closeSnackBar();
-	}
-
-	@Test
-	public void testConfirmWithoutCulturalOffer() {
-		this.typeDetails.deleteButtonWithoutTypeClick();
-		this.deleteConfirmation.ensureDialogDisplayed();
-		this.deleteConfirmation.confirmButtonClick();
-		this.deleteConfirmation.ensureDialogClosed();
-		this.homePage.ensureSnackBarDisplayed();
-		assertEquals(TestConstants.ITEM_REMOVED_SUCCESS, this.homePage.snackBarText());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-		this.homePage.closeSnackBar();
 	}
 	
 	@After

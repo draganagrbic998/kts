@@ -5,6 +5,9 @@ import { of } from 'rxjs';
 import { NewsService } from 'src/app/news/services/news.service';
 import { News } from 'src/app/models/news';
 import { NewsListComponent } from './news-list.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 describe('NewsListComponent', () => {
   let component: NewsListComponent;
@@ -83,6 +86,7 @@ describe('NewsListComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ NewsListComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      imports: [ReactiveFormsModule, FormsModule, MatDatepickerModule, MatNativeDateModule],
       providers: [
         {provide: NewsService, useValue: newsServiceMock}
       ]
@@ -146,7 +150,7 @@ describe('NewsListComponent', () => {
     expect(component.newsService.filter).toHaveBeenCalledWith(component.filterForm.value, component.culturalOfferId, page);
   }));
 
-  it('filter - should render the first two news', fakeAsync(() => {
+  it('should filter the first two news', fakeAsync(() => {
     component.filterForm.setValue({startDate: dateStart, endDate: dateEnd});
     component.fetchNews();
     fixture.detectChanges();

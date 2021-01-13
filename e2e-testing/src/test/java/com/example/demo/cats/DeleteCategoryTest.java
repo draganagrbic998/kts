@@ -62,20 +62,8 @@ public class DeleteCategoryTest {
 		this.deleteConfirmation.confirmButtonClick();
 		this.homePage.ensureSnackBarDisplayed();
 		assertEquals(TestConstants.ITEM_REMOVED_ERROR, this.homePage.snackBarText());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 		this.homePage.closeSnackBar();
-	}
-	
-	@Test
-	public void testConfirmWithoutType() {
-		this.categoryDetails.deleteButtonWithoutTypeClick();
-		this.deleteConfirmation.ensureDialogDisplayed();
-		this.deleteConfirmation.confirmButtonClick();
-		this.deleteConfirmation.ensureDialogClosed();
-		this.homePage.ensureSnackBarDisplayed();
-		assertEquals(TestConstants.ITEM_REMOVED_SUCCESS, this.homePage.snackBarText());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-		this.homePage.closeSnackBar();
 	}
 	
 	@After

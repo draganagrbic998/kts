@@ -32,6 +32,12 @@ public class TypeForm {
 		super();
 		this.browser = browser;
 	}
+	
+	public void ensureFormDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.nameInput));		
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.categoryInput));		
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.saveButton));		
+	}
 			
 	public void nameInputFill(String value) {
 		this.nameInput.clear();
@@ -48,19 +54,13 @@ public class TypeForm {
 	public void saveButtonClick() {
 		this.saveButton.click();
 	}
-	
-	public void ensureFormDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.nameInput));		
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.categoryInput));		
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.saveButton));		
+		
+	public void ensureCategoryErrorDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.categoryError));
 	}
 	
 	public void ensureNameErrorDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.nameError));
-	}
-
-	public void ensureCategoryErrorDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.categoryError));
 	}
 	
 	public boolean emptyCategoryError() {

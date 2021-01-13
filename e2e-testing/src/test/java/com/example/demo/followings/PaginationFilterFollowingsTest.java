@@ -1,8 +1,8 @@
 package com.example.demo.followings;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,9 +18,9 @@ import com.example.demo.culturals.CulturalList;
 import com.example.demo.culturals.FilterForm;
 import com.example.demo.user.LoginPage;
 
-public class PaginationFilterUserFollowingsTest {
+public class PaginationFilterFollowingsTest {
 
-private WebDriver browser;
+	private WebDriver browser;
 	
 	private HomePage homePage;
 	private LoginPage loginPage;
@@ -60,7 +60,7 @@ private WebDriver browser;
 		this.culturalList.nextButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
 		this.culturalList.ensureLastPage();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(2, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
@@ -68,7 +68,7 @@ private WebDriver browser;
 		this.culturalList.previousButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
 		this.culturalList.ensureFirstPage();
-		assertFalse(name == this.culturalDetails.nameText());
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());	
 	}
 	

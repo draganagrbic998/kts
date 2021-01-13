@@ -51,12 +51,12 @@ export class ToolbarComponent implements OnInit {
   }
 
   categories(): void{
-    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}, data: true};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{width: '600px', height: '600px'}, data: true};
     this.dialog.open(CatTypeDialogComponent, options);
   }
 
   types(): void{
-    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}, data: false};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{width: '600px', height: '600px'}, data: false};
     this.dialog.open(CatTypeDialogComponent, options);
   }
 

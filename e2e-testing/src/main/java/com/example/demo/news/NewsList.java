@@ -46,11 +46,7 @@ public class NewsList {
 	public void ensureNextButtonDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.nextButton));
 	}
-	
-	public void ensureToggleFilterDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.toggleFilter));
-	}
-	
+		
 	public void ensureFirstPage() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*/app-news-list/app-paginator/div/app-spacer-container/div/span[1]/button")));
 	}
@@ -59,6 +55,10 @@ public class NewsList {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*/app-news-list/app-paginator/div/app-spacer-container/div/span[3]/button")));
 	}
 	
+	public void ensureToggleFilterDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.toggleFilter));
+	}
+
 	public int newsCount() {
 		return this.browser.findElements(By.tagName("app-news-details")).size();
 	}

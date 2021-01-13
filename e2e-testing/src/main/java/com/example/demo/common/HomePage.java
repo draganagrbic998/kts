@@ -49,7 +49,7 @@ public class HomePage {
 	@FindBy(xpath = "//*/app-map/ya-map/div/ymaps/ymaps/ymaps/ymaps[6]/ymaps/ymaps/ymaps/ymaps[1]/ymaps[2]/ymaps/ymaps/div")
 	private WebElement balloon;
 	
-	@FindBy(xpath = "//*/app-map/ya-map/div/ymaps/ymaps/ymaps[1]/ymaps[6]/ymaps/ymaps/ymaps/ymaps[1]/ymaps[1]/ymaps")
+	@FindBy(xpath = "//*/app-map/ya-map/div/ymaps/ymaps/ymaps/ymaps[6]/ymaps/ymaps/ymaps/ymaps[1]/ymaps[1]/ymaps")
 	private WebElement balloonClose;
 				
 	public HomePage(WebDriver browser) {
@@ -107,6 +107,10 @@ public class HomePage {
 	
 	public void ensureBalloonDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.balloon));
+	}
+	
+	public void ensureBalloonCloseDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.balloonClose));
 	}
 	
 	public void ensureLogoutButtonDisplayed() {

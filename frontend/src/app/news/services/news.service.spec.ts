@@ -258,7 +258,7 @@ describe('NewsService', () => {
     expect(counter).toBeGreaterThanOrEqual(2);
   }));
 
-  it('should map comment to formData', () => {
+  it('should map news to formData', () => {
     const news: News = {
       id: 1,
       culturalOfferId: 1,

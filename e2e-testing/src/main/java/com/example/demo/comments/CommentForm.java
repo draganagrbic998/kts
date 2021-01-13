@@ -32,15 +32,15 @@ public class CommentForm {
 	@FindBy(xpath = "//*/app-comment-form/form/div/mat-form-field/div/div[1]/div[3]/textarea")
 	private WebElement textInput;
 
+	@FindBy(xpath = "//*/app-comment-form/form/div/mat-form-field/div/div[2]/div/mat-error")
+	private WebElement textError;
+
 	@FindBy(xpath = "//*/app-comment-form/form/app-save-cancel/app-spacer-container/div/span[1]/button")
 	private WebElement cancelButton;
 	
 	@FindBy(xpath = "//*/app-comment-form/form/app-save-cancel/app-spacer-container/div/span[2]/button")
 	private WebElement saveButton;
-	
-	@FindBy(xpath = "//*/app-comment-form/form/div/mat-form-field/div/div[2]/div/mat-error")
-	private WebElement textError;
-		
+			
 	public CommentForm(WebDriver browser) {
 		super();
 		this.browser = browser;
@@ -65,13 +65,7 @@ public class CommentForm {
 	public void fifthStarClick() {
 		this.fifthStar.click();
 	}
-	
-	public void textInputFill(String value) {
-		this.textInput.clear();
-		this.textInput.sendKeys(value);
-		this.textInput.sendKeys(Keys.SPACE, Keys.BACK_SPACE);
-	}
-	
+		
 	public void cancelButtonClick() {
 		this.cancelButton.click();
 	}
@@ -80,6 +74,12 @@ public class CommentForm {
 		this.saveButton.click();
 	}
 	
+	public void textInputFill(String value) {
+		this.textInput.clear();
+		this.textInput.sendKeys(value);
+		this.textInput.sendKeys(Keys.SPACE, Keys.BACK_SPACE);
+	}
+
 	public void ensureFormDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.firstStar));		
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.secondStar));		

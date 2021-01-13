@@ -1,7 +1,7 @@
 package com.example.demo.cats;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.After;
 import org.junit.Before;
@@ -56,42 +56,42 @@ public class PaginateCatsTypesTest {
 		this.catTypeList.ensureNextButtonDisplayed();
 		this.catTypeList.nextButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 		
 		name = this.catTypeDetails.nameText();
 		this.catTypeList.ensureNextButtonDisplayed();
 		this.catTypeList.nextButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 		
 		name = this.catTypeDetails.nameText();
 		this.catTypeList.ensureNextButtonDisplayed();
 		this.catTypeList.nextButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 		
 		name = this.catTypeDetails.nameText();
 		this.catTypeList.ensurePreviousButtonDisplayed();
 		this.catTypeList.previousButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 		
 		name = this.catTypeDetails.nameText();
 		this.catTypeList.ensurePreviousButtonDisplayed();
 		this.catTypeList.previousButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 
 		name = this.catTypeDetails.nameText();
 		this.catTypeList.ensurePreviousButtonDisplayed();
 		this.catTypeList.previousButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 
 		this.catTypeList.ensureFirstPage();
@@ -110,42 +110,42 @@ public class PaginateCatsTypesTest {
 		this.catTypeList.ensureNextButtonDisplayed();
 		this.catTypeList.nextButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 		
 		name = this.catTypeDetails.nameText();
 		this.catTypeList.ensureNextButtonDisplayed();
 		this.catTypeList.nextButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 		
 		name = this.catTypeDetails.nameText();
 		this.catTypeList.ensureNextButtonDisplayed();
 		this.catTypeList.nextButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 		
 		name = this.catTypeDetails.nameText();
 		this.catTypeList.ensurePreviousButtonDisplayed();
 		this.catTypeList.previousButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 		
 		name = this.catTypeDetails.nameText();
 		this.catTypeList.ensurePreviousButtonDisplayed();
 		this.catTypeList.previousButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 
 		name = this.catTypeDetails.nameText();
 		this.catTypeList.ensurePreviousButtonDisplayed();
 		this.catTypeList.previousButtonClick();
 		this.catTypeDetails.ensureDetailsDisplayed();
-		assertFalse(name == this.catTypeDetails.nameText());
+		assertNotEquals(this.catTypeDetails.nameText(), name);
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.catTypeList.catsTypesCount());
 
 		this.catTypeList.ensureFirstPage();

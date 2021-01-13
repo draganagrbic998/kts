@@ -22,9 +22,6 @@ public class AddCategoryTest {
 	private LoginPage loginPage;
 	private CatTypeDialog catTypeDialog;
 	private CategoryForm categoryForm;
-	private CatTypeDetails categoryDetails;
-	
-	private static final String SUCCESS = "Category successfully added!";
 	
 	@Before
 	public void setUp() {
@@ -35,7 +32,6 @@ public class AddCategoryTest {
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
 		this.catTypeDialog = PageFactory.initElements(this.browser, CatTypeDialog.class);
 		this.categoryForm = PageFactory.initElements(this.browser, CategoryForm.class);
-		this.categoryDetails = PageFactory.initElements(this.browser, CatTypeDetails.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 		this.loginPage.emailInputFill(TestConstants.ADMIN_EMAIL);
@@ -84,20 +80,6 @@ public class AddCategoryTest {
 		this.categoryForm.saveButtonClick();
 		this.categoryForm.ensureNameErrorDisplayed();
 		assertTrue(this.categoryForm.takenNameError());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-	}
-	
-	@Test
-	public void testValid() {
-		String name = "aaaaaaaaaa";
-		this.categoryForm.nameInputFill(name);
-		this.categoryForm.saveButtonClick();
-		this.homePage.ensureSnackBarDisplayed();
-		assertEquals(SUCCESS, this.homePage.snackBarText());
-		this.homePage.closeSnackBar();
-		this.catTypeDialog.ensureListTabDisplayed();
-		this.catTypeDialog.listTabClick();
-		assertEquals(name, this.categoryDetails.nameText());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 	

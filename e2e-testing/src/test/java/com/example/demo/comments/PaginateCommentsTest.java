@@ -1,7 +1,7 @@
 package com.example.demo.comments;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.After;
 import org.junit.Before;
@@ -54,13 +54,13 @@ public class PaginateCommentsTest {
 		this.commentList.ensureNextButtonDisplayed();
 		this.commentList.nextButtonClick();
 		this.commentDetails.ensureTextDisplayed();
-		assertFalse(text == this.commentDetails.getText());
+		assertNotEquals(this.commentDetails.getText(), text);
 
 		text = this.commentDetails.getText();
 		this.commentList.ensurePreviousButtonDisplayed();
 		this.commentList.previousButtonClick();
 		this.commentDetails.ensureTextDisplayed();
-		assertFalse(text == this.commentDetails.getText());
+		assertNotEquals(this.commentDetails.getText(), text);
 		
 		assertEquals(TestConstants.SMALL_PAGE_SIZE, this.commentList.commentsCount());
 		this.commentList.ensureFirstPage();

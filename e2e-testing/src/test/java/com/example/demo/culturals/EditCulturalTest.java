@@ -12,10 +12,9 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.example.demo.TestConstants;
 import com.example.demo.common.HomePage;
-import com.example.demo.common.ImageInput;
 import com.example.demo.user.LoginPage;
 
-public class EditCulturalOfferTest {
+public class EditCulturalTest {
 	
 	private WebDriver browser;
 	
@@ -24,9 +23,6 @@ public class EditCulturalOfferTest {
 	private CulturalForm culturalForm;
 	private CulturalDetails culturalDetails;
 	private CulturalDialog culturalDialog;
-	private ImageInput imageInput;
-
-	private static final String SUCCESS = "Offer successfully saved!";
 
 	@Before
 	public void setUp() {
@@ -38,7 +34,6 @@ public class EditCulturalOfferTest {
 		this.culturalForm = PageFactory.initElements(this.browser, CulturalForm.class);
 		this.culturalDetails = PageFactory.initElements(this.browser, CulturalDetails.class);
 		this.culturalDialog = PageFactory.initElements(this.browser, CulturalDialog.class);
-		this.imageInput = PageFactory.initElements(this.browser, ImageInput.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 		this.loginPage.emailInputFill(TestConstants.ADMIN_EMAIL);
@@ -118,31 +113,6 @@ public class EditCulturalOfferTest {
 		assertTrue(this.culturalForm.takenNameError());
 		assertTrue(this.culturalForm.invalidLocationError());
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
-	}
-	
-	@Test
-	public void testValid() {
-		String type = "gallery";
-		String name = "gummy";
-		String location = "washington";
-		this.culturalForm.typeInputFill(type);
-		this.culturalForm.nameInputFill(name);
-		this.culturalForm.locationInputFill(location);
-		this.culturalForm.ensureAutocompleteSuggestionDisplayed();
-		this.culturalForm.autocompleteSuggestionClick();
-		this.imageInput.uploadFile(TestConstants.TEST_IMAGE);
-		this.culturalForm.saveButtonClick();
-		
-		this.culturalForm.ensureDialogClosed();
-		this.homePage.ensureSnackBarDisplayed();
-		assertEquals(SUCCESS, this.homePage.snackBarText());
-		this.homePage.closeSnackBar();
-		
-		this.culturalDetails.ensureDetailsDisplayed();
-		assertEquals(this.culturalDetails.nameText(), name);
-		assertEquals(this.culturalDetails.typeText(), type);
-		assertTrue(this.culturalDetails.locationText().toLowerCase().contains(location.toLowerCase()));
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());	
 	}
 	
 	@After

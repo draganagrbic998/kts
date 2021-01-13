@@ -88,13 +88,14 @@ export class HomeComponent implements OnInit {
     }
     else{
       let index: number = temp.indexOf(response.id);
-      if (index === -1 && this.admin){
-        index = 0;
+      if (this.admin){
+        if (index === -1){
+          index = 0;
+        }
         this.culturalOffers[0].splice(index, 0, response);
       }
       else if (this.guest && index !== -1){
         this.culturalOffers[0].splice(index, 1, response);
-
         if (response.followed){
           this.culturalOffers[1].push(response);
         }

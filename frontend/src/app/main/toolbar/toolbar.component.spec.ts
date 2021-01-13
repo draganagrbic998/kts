@@ -132,14 +132,14 @@ describe('ToolbarComponent', () => {
     component.categories();
     expect(component.dialog.open).toHaveBeenCalledTimes(1);
     expect(component.dialog.open).toHaveBeenCalledWith(CatTypeDialogComponent,
-      {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}, data: true});
+      {...DIALOG_OPTIONS, ...{width: '600px', height: '600px'}, data: true});
   });
 
   it('should open types', () => {
     component.types();
     expect(component.dialog.open).toHaveBeenCalledTimes(1);
     expect(component.dialog.open).toHaveBeenCalledWith(CatTypeDialogComponent,
-      {...DIALOG_OPTIONS, ...{width: '500px', height: '500px'}, data: false});
+      {...DIALOG_OPTIONS, ...{width: '600px', height: '600px'}, data: false});
   });
 
   it('should open cultural form', () => {

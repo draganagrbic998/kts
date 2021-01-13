@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
-import org.sikuli.script.Screen;
 
 import com.example.demo.TestConstants;
 import com.example.demo.common.HomePage;
@@ -30,18 +29,17 @@ public class MapTest {
 		this.culturalDetails = PageFactory.initElements(this.browser, CulturalDetails.class);
 		this.browser.navigate().to(TestConstants.HOME_PATH);
 		this.homePage.ensureMapDisplayed();
+	}
+
+	@Test
+	public void testMap()  {
 		this.homePage.toggleButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
 		this.culturalDetails.click();
 		this.homePage.ensureBalloonDisplayed();
 		this.homePage.toggleButtonClick();
+		this.homePage.ensureBalloonCloseDisplayed();
 		this.homePage.balloonCloseClick();
-	}
-
-	@Test
-	public void testMap()  {
-		Screen screen = new Screen();
-		screen.click();
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 	

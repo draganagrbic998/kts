@@ -11,7 +11,7 @@ public class ExceptionsHandler {
 	@ExceptionHandler
 	public ResponseEntity<ExceptionMessage> handleException(Exception exception){
 		String message = exception.getMessage();
-		if (message == null) {
+		if (message == null || message.contains("is null")) {
 			message = ExceptionConstants.NOT_FOUND;
 		}
 		else if (message.contains("entity with id")) {
