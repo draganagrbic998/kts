@@ -91,8 +91,11 @@ export class HomeComponent implements OnInit {
       if (this.admin){
         if (index === -1){
           index = 0;
+          this.culturalOffers[0].splice(index, 0, response);
         }
-        this.culturalOffers[0].splice(index, 0, response);
+        else {
+          this.culturalOffers[0].splice(index, 1, response);
+        }
       }
       else if (this.guest && index !== -1){
         this.culturalOffers[0].splice(index, 1, response);

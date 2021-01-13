@@ -390,16 +390,16 @@ describe('HomeComponent', () => {
     expect(component.culturalOffers[0]).toEqual(offersMock);
   }));
 
-  it('should not refresh data by adding an invalid offer', fakeAsync(() => {
+  it('should refresh data by updating an offer', fakeAsync(() => {
     userMock.role = ADMIN_ROLE;
     tick();
     expect(component.refreshData).toHaveBeenCalledTimes(1);
     expect(component.refreshData).toHaveBeenCalledWith(0);
 
-    component.refreshData(offersMockFourthAdded[1]);
+    component.refreshData(offersMock[1]);
 
     expect(component.refreshData).toHaveBeenCalledTimes(2);
-    expect(component.refreshData).toHaveBeenCalledWith(offersMockFourthAdded[1]);
+    expect(component.refreshData).toHaveBeenCalledWith(offersMock[1]);
     expect(component.culturalOffers[0]).toEqual(offersMock);
   }));
 
