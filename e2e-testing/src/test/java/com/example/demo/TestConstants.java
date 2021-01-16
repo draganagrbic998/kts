@@ -3,7 +3,7 @@ package com.example.demo;
 public class TestConstants {
 	
 	public static final String CHROME_DRIVER_PATH = "chromedriver.exe";
-	public static final String FRONTEND_URL = "http://localhost:4200";
+	public static final String FRONTEND_URL = "https://localhost:4200";
 	public static final String HOME_PATH = FRONTEND_URL + "/";
 	public static final String LOGIN_PATH = FRONTEND_URL + "/user/login";
 	public static final String REGISTER_PATH = FRONTEND_URL + "/user/register";

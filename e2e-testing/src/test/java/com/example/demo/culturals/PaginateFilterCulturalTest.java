@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import com.example.demo.TestConstants;
+import com.example.demo.Utilities;
 import com.example.demo.common.HomePage;
 
 public class PaginateFilterCulturalTest {
@@ -23,10 +24,11 @@ public class PaginateFilterCulturalTest {
 	private CulturalDetails culturalDetails;
 	private FilterForm filterForm;
 	
+	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
-	  	System.setProperty("webdriver.chrome.driver", TestConstants.CHROME_DRIVER_PATH);
-		this.browser = new ChromeDriver();
+		System.setProperty("webdriver.chrome.driver", TestConstants.CHROME_DRIVER_PATH);
+		this.browser = new ChromeDriver(Utilities.SSLIgnore());
 		this.browser.manage().window().maximize();
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.culturalList = PageFactory.initElements(this.browser, CulturalList.class);

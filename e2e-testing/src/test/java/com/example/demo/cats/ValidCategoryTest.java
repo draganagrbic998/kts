@@ -10,6 +10,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import com.example.demo.TestConstants;
+import com.example.demo.Utilities;
 import com.example.demo.common.DeleteConfirmation;
 import com.example.demo.common.HomePage;
 import com.example.demo.user.LoginPage;
@@ -27,10 +28,11 @@ public class ValidCategoryTest {
 
 	private static final String SUCCESS = "Category successfully added!";
 
+	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
-	  	System.setProperty("webdriver.chrome.driver", TestConstants.CHROME_DRIVER_PATH);
-		this.browser = new ChromeDriver();
+		System.setProperty("webdriver.chrome.driver", TestConstants.CHROME_DRIVER_PATH);
+		this.browser = new ChromeDriver(Utilities.SSLIgnore());
 		this.browser.manage().window().maximize();
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);

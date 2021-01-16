@@ -12,6 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import com.example.demo.TestConstants;
+import com.example.demo.Utilities;
 import com.example.demo.common.HomePage;
 import com.example.demo.culturals.CulturalDetails;
 import com.example.demo.culturals.CulturalList;
@@ -28,10 +29,11 @@ public class PaginationFilterFollowingsTest {
 	private CulturalDetails culturalDetails;
 	private FilterForm filterForm;
 	
+	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
 	  	System.setProperty("webdriver.chrome.driver", TestConstants.CHROME_DRIVER_PATH);
-		this.browser = new ChromeDriver();
+		this.browser = new ChromeDriver(Utilities.SSLIgnore());
 		this.browser.manage().window().maximize();
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
@@ -109,7 +111,7 @@ public class PaginationFilterFollowingsTest {
 		this.culturalList.ensureToggleFilterDisplayed();
 		this.culturalList.toggleFilterClick();
 		this.filterForm.ensureFormDisplayed();
-		this.filterForm.nameFilterFill(TestConstants.NAME_FILTER_MORE);
+		this.filterForm.nameFilterFill(TestConstants.FILTER_NONE);
 		this.filterForm.locationFilterFill("");
 		this.filterForm.typeFilterFill("");
 		this.culturalList.ensureTitleDisplayed();
@@ -136,7 +138,7 @@ public class PaginationFilterFollowingsTest {
 	}
 	
 	@Test
-	public void testLoocationFilterOne() {
+	public void testLocationFilterOne() {
 		this.culturalList.ensureToggleFilterDisplayed();
 		this.culturalList.toggleFilterClick();
 		this.filterForm.ensureFormDisplayed();
@@ -157,7 +159,7 @@ public class PaginationFilterFollowingsTest {
 		this.culturalList.toggleFilterClick();
 		this.filterForm.ensureFormDisplayed();
 		this.filterForm.nameFilterFill("");
-		this.filterForm.locationFilterFill(TestConstants.LOCATION_FILTER_MORE);
+		this.filterForm.locationFilterFill(TestConstants.FILTER_NONE);
 		this.filterForm.typeFilterFill("");
 		this.culturalList.ensureTitleDisplayed();
 		this.culturalList.titleClick();
