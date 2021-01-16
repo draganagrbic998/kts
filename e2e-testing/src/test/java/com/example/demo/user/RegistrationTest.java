@@ -11,6 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
 import com.example.demo.TestConstants;
+import com.example.demo.Utilities;
 
 public class RegistrationTest {
 	
@@ -19,10 +20,11 @@ public class RegistrationTest {
 	
 	private static final String SUCCESS = "Your request has been sent! Check your email.";
 	
+	@SuppressWarnings("deprecation")
 	@Before
 	public void setUp() {
 		System.setProperty("webdriver.chrome.driver", TestConstants.CHROME_DRIVER_PATH);
-		this.browser = new ChromeDriver();
+		this.browser = new ChromeDriver(Utilities.SSLIgnore());
 		this.browser.manage().window().maximize();
 		this.registrationPage = PageFactory.initElements(this.browser, RegistrationPage.class);
 		this.browser.navigate().to(TestConstants.REGISTER_PATH);

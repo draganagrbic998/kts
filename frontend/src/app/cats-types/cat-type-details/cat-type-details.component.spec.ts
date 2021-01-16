@@ -4,7 +4,6 @@ import { CategoryService } from 'src/app/cats-types/services/category.service';
 import { CatTypeDetailsComponent } from './cat-type-details.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Category } from 'src/app/models/category';
-import { Type } from 'src/app/models/type';
 import { By } from '@angular/platform-browser';
 import { TypeService } from '../services/type.service';
 import { of } from 'rxjs';
@@ -12,7 +11,7 @@ import { of } from 'rxjs';
 describe('CatTypeDetailsComponent', () => {
   let component: CatTypeDetailsComponent;
   let fixture: ComponentFixture<CatTypeDetailsComponent>;
-  const catTypeMock : Category = {
+  const catTypeMock: Category = {
     id: 1,
     name: 'name1'
   };

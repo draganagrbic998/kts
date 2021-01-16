@@ -1,9 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { UserService } from 'src/app/user/services/user.service';
 import { UserValidatorService } from 'src/app/user/services/user-validator.service';
 import { RegisterFormComponent } from './register-form.component';
@@ -179,7 +177,7 @@ describe('RegisterFormComponent', () => {
     expect(de[2].nativeElement.textContent.trim()).toEqual('Valid email is required!');
     expect(de[4].nativeElement.textContent.trim()).toEqual('Passwords do not match!');
   });
-  
+
   it('should recognize valid form', () => {
     component.registerForm.reset({
       email: 'dummy@gmail.com',
@@ -217,7 +215,8 @@ describe('RegisterFormComponent', () => {
     expect(component.userService.register).toHaveBeenCalledTimes(1);
     expect(component.userService.register).toHaveBeenCalledWith(value);
     expect(component.snackBar.open).toHaveBeenCalledTimes(1);
-    expect(component.snackBar.open).toHaveBeenCalledWith('Your request has been sent! Check your email.', SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
+    expect(component.snackBar.open).toHaveBeenCalledWith('Your request has been sent! Check your email.',
+    SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
   });
 
 
