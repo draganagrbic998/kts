@@ -51,6 +51,8 @@ public class ValidCategoryTest {
 		this.homePage.catsTypesButtonClick();
 		this.homePage.ensureCatsButtonDisplayed();
 		this.homePage.catsButtonClick();
+		this.catTypeDialog.ensureListTabDisplayed();
+		this.catTypeDialog.listTabClick();
 		this.catTypeDialog.ensureCreateTabDisplayed();
 		this.catTypeDialog.createTabClick();
 		this.categoryForm.ensureFormDisplayed();
@@ -58,7 +60,6 @@ public class ValidCategoryTest {
 	
 	@Test
 	public void test() {
-		//kreiranje
 		String name = "aaaaaaaaaa";
 		this.categoryForm.nameInputFill(name);
 		this.categoryForm.saveButtonClick();
@@ -69,7 +70,6 @@ public class ValidCategoryTest {
 		this.catTypeDialog.listTabClick();
 		assertEquals(name, this.categoryDetails.nameText());
 		
-		//brisanje
 		this.categoryDetails.deleteButtonClick();
 		this.deleteConfirmation.ensureDialogDisplayed();
 		this.deleteConfirmation.confirmButtonClick();

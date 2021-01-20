@@ -12,7 +12,7 @@ import { LOGIN_PATH, USER_PATH } from 'src/app/constants/router';
 import { CulturalFormComponent } from 'src/app/cultural-offers/cultural-form/cultural-form.component';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { ProfileDetailsComponent } from 'src/app/user/profile/profile.component';
+import { ProfileDetailsComponent } from 'src/app/user/profile-details/profile-details.component';
 import { ToolbarComponent } from './toolbar.component';
 
 describe('ToolbarComponent', () => {

@@ -7,7 +7,7 @@ import { LOGIN_PATH, USER_PATH } from 'src/app/constants/router';
 import { CulturalFormComponent } from 'src/app/cultural-offers/cultural-form/cultural-form.component';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { ProfileDetailsComponent } from '../../user/profile/profile.component';
+import { ProfileDetailsComponent } from '../../user/profile-details/profile-details.component';
 
 @Component({
   selector: 'app-toolbar',

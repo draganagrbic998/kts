@@ -36,11 +36,11 @@ describe('CategoryService', () => {
     let category: Category = {
       id: 1,
       name: 'name1'
-    } as Category;
+    };
     const categoryMock: Category = {
       id: 1,
       name: 'name1'
-    } as Category;
+    };
 
     service.save(category).subscribe((res: Category) => category = res);
     const request: TestRequest = httpMock.expectOne(service.API_CATEGORIES);
@@ -57,7 +57,7 @@ describe('CategoryService', () => {
     let category: Category = {
       id: 1,
       name: 'name1'
-    } as Category;
+    };
 
     service.save(category).subscribe((res: Category) => category = res);
     const request: TestRequest = httpMock.expectOne(service.API_CATEGORIES);
@@ -101,6 +101,7 @@ describe('CategoryService', () => {
       name: 'name1'
     };
     let response: boolean;
+
     service.hasName(param).subscribe((res: boolean) => response = res);
     const request: TestRequest = httpMock.expectOne(`${service.API_CATEGORIES}/has_name`);
     expect(request.request.method).toBe('POST');
@@ -117,6 +118,7 @@ describe('CategoryService', () => {
       name: 'name1'
     };
     let response: boolean;
+
     service.hasName(param).subscribe((res: boolean) => response = res);
     const request: TestRequest = httpMock.expectOne(`${service.API_CATEGORIES}/has_name`);
     expect(request.request.method).toBe('POST');
@@ -185,7 +187,7 @@ describe('CategoryService', () => {
 
     expect(categories[0].id).toBe(categoriesMock[0].id);
     expect(categories[0].name).toBe(categoriesMock[0].name);
-    
+
     expect(categories[1].id).toBe(categoriesMock[1].id);
     expect(categories[1].name).toBe(categoriesMock[1].name);
 

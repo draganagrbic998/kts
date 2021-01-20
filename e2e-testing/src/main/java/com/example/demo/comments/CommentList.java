@@ -27,14 +27,6 @@ public class CommentList {
 		this.browser = browser;
 	}
 
-	public void nextButtonClick() {
-		this.nextButton.click();
-	}
-
-	public void previousButtonClick() {
-		this.previousButton.click();
-	}
-
 	public void ensurePreviousButtonDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.previousButton));
 	}
@@ -49,6 +41,14 @@ public class CommentList {
 	
 	public void ensureLastPage() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(NEXT_BUTTON_XPATH)));
+	}
+	
+	public void nextButtonClick() {
+		this.nextButton.click();
+	}
+
+	public void previousButtonClick() {
+		this.previousButton.click();
 	}
 	
 	public int commentsCount() {

@@ -28,6 +28,9 @@ public class CulturalList {
 	@FindBy(xpath = "//*/app-cultural-list/div[1]/mat-expansion-panel/mat-expansion-panel-header")
 	private WebElement toggleFilter;
 		
+	@FindBy(xpath = "//*/app-home/mat-drawer-container/mat-drawer/div/div/mat-tab-group/mat-tab-header/div[2]/div/div/div[1]")
+	private WebElement culturalsTab;
+	
 	@FindBy(xpath = "//*/app-home/mat-drawer-container/mat-drawer/div/div/mat-tab-group/mat-tab-header/div[2]/div/div/div[2]")
 	private WebElement followingsTab;
 	
@@ -50,6 +53,10 @@ public class CulturalList {
 	
 	public void toggleFilterClick() {
 		this.toggleFilter.click();
+	}
+
+	public void culturalsTabClick() {
+		this.culturalsTab.click();
 	}
 
 	public void followingsTabClick() {
@@ -80,6 +87,10 @@ public class CulturalList {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.toggleFilter));
 	}
 	
+	public void ensureCulturalsTabDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.culturalsTab));
+	}
+
 	public void ensureFollowingsTabDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.followingsTab));
 	}

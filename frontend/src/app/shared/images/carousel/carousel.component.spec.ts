@@ -34,16 +34,16 @@ describe('CarouselComponent', () => {
 
   it('should render some images', () => {
     component.images = [
-      {path: 'http://localhost:8080/image1'},
-      {path: 'http://localhost:8080/image2'},
-      {path: 'http://localhost:8080/image3'}
+      'http://localhost:8080/image1',
+      'http://localhost:8080/image2',
+      'http://localhost:8080/image3'
     ];
     fixture.detectChanges();
     const de: DebugElement[] = fixture.debugElement.queryAll(By.css('img'));
     expect(de.length).toBe(3);
-    expect(de[0].nativeElement.src).toEqual(component.images[0].path);
-    expect(de[1].nativeElement.src).toEqual(component.images[1].path);
-    expect(de[2].nativeElement.src).toEqual(component.images[2].path);
+    expect(de[0].nativeElement.src).toEqual(component.images[0]);
+    expect(de[1].nativeElement.src).toEqual(component.images[1]);
+    expect(de[2].nativeElement.src).toEqual(component.images[2]);
   });
 
 });

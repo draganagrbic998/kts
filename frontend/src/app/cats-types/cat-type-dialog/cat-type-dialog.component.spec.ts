@@ -7,8 +7,6 @@ import { CatTypeDialogComponent } from './cat-type-dialog.component';
 describe('CatTypeDialogComponent', () => {
   let component: CatTypeDialogComponent;
   let fixture: ComponentFixture<CatTypeDialogComponent>;
-  const cats = true;
-
 
   beforeEach(async () => {
     const dialogRefMock = {
@@ -18,7 +16,7 @@ describe('CatTypeDialogComponent', () => {
       declarations: [ CatTypeDialogComponent ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
-        {provide: MAT_DIALOG_DATA, useValue: cats},
+        {provide: MAT_DIALOG_DATA, useValue: true},
         {provide: MatDialogRef, useValue: dialogRefMock}
       ]
     })
@@ -28,7 +26,6 @@ describe('CatTypeDialogComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CatTypeDialogComponent);
     component = fixture.componentInstance;
-    component.cats = cats;
     fixture.detectChanges();
   });
 
@@ -36,12 +33,14 @@ describe('CatTypeDialogComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render catType list', () => {
+  it('should render list', () => {
     const de: DebugElement[] = fixture.debugElement.queryAll(By.css('app-cat-type-list'));
     expect(de.length).toBe(1);
   });
 
-  it('should render category form', () => {
+  it('should render form', () => {
+    component.cats = true;
+    fixture.detectChanges();
     const de: DebugElement[] = fixture.debugElement.queryAll(By.css('app-cat-form'));
     expect(de.length).toBe(1);
   });

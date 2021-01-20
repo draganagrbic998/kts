@@ -51,7 +51,6 @@ public class DeleteCommentTest {
 		this.culturalDetails.moreButtonClick();
 		this.culturalDialog.ensureToggleDrawerDisplayed();
 		this.culturalDialog.toggleDrawerClick();
-		
 		this.commentDetails.ensureButtonsDisplayed();
 		this.commentDetails.deleteButtonClick();
 		this.deleteConfirmation.ensureDialogDisplayed();

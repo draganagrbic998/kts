@@ -10,6 +10,7 @@ import { AccountActivationComponent } from './account-activation.component';
 describe('AccountActivationComponent', () => {
   let component: AccountActivationComponent;
   let fixture: ComponentFixture<AccountActivationComponent>;
+  const code = '1';
 
   beforeEach(async () => {
     const userServiceMock = {
@@ -24,7 +25,7 @@ describe('AccountActivationComponent', () => {
     const routeMock = {
       snapshot: {
         params: {
-          code: '1'
+          code
         }
       }
     };
@@ -51,7 +52,7 @@ describe('AccountActivationComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
     expect(component.userService.activate).toHaveBeenCalledTimes(1);
-    expect(component.userService.activate).toHaveBeenCalledWith('1');
+    expect(component.userService.activate).toHaveBeenCalledWith(code);
     expect(component.snackBar.open).toHaveBeenCalledTimes(1);
     expect(component.snackBar.open).toHaveBeenCalledWith('Your account has been activated! You can login now.',
     SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);

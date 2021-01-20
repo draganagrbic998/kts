@@ -61,11 +61,12 @@ public class SubscribeUnsubscribeTest {
 		this.culturalOfferDialog.subUnsubButtonClick();
 		this.culturalOfferDialog.ensureSubUnsubButtonDisplayed();
 		assertEquals(UNSUB_BUTTON_TEXT, this.culturalOfferDialog.getSubUnsubButtonText());
-		this.culturalOfferDialog.ensureSubUnsubButtonDisplayed();
 
 		this.browser.navigate().to(TestConstants.HOME_PATH);
 		this.homePage.ensureMapDisplayed();
 		this.homePage.toggleButtonClick();
+		this.culturalOfferList.ensureCulturalsTabDisplayed();
+		this.culturalOfferList.culturalsTabClick();
 		this.culturalOfferList.ensureFollowingsTabDisplayed();
 		this.culturalOfferList.followingsTabClick();
 
@@ -75,8 +76,8 @@ public class SubscribeUnsubscribeTest {
 
 		this.culturalOfferList.ensureNextButtonDisplayed();
 		this.culturalOfferList.nextButtonClick();
-		this.culturalOfferDetails.ensureDetailsDisplayed();
 		this.culturalOfferList.ensureLastPage();
+		this.culturalOfferDetails.ensureDetailsDisplayed();
 		assertEquals(3, this.culturalOfferList.offersCount());
 	}
 
@@ -85,11 +86,12 @@ public class SubscribeUnsubscribeTest {
 		this.culturalOfferDialog.subUnsubButtonClick();
 		this.culturalOfferDialog.ensureSubUnsubButtonDisplayed();
 		assertEquals(SUB_BUTTON_TEXT, this.culturalOfferDialog.getSubUnsubButtonText());
-		this.culturalOfferDialog.ensureSubUnsubButtonDisplayed();
 
 		this.browser.navigate().to(TestConstants.HOME_PATH);
 		this.homePage.ensureMapDisplayed();
 		this.homePage.toggleButtonClick();
+		this.culturalOfferList.ensureCulturalsTabDisplayed();
+		this.culturalOfferList.culturalsTabClick();
 		this.culturalOfferList.ensureFollowingsTabDisplayed();
 		this.culturalOfferList.followingsTabClick();
 
@@ -99,8 +101,8 @@ public class SubscribeUnsubscribeTest {
 
 		this.culturalOfferList.ensureNextButtonDisplayed();
 		this.culturalOfferList.nextButtonClick();
-		this.culturalOfferDetails.ensureDetailsDisplayed();
 		this.culturalOfferList.ensureLastPage();
+		this.culturalOfferDetails.ensureDetailsDisplayed();
 		assertEquals(2, this.culturalOfferList.offersCount());
 	}
 

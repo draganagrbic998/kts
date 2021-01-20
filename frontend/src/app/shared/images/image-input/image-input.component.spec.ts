@@ -38,12 +38,16 @@ describe('ImageInputComponent', () => {
 
   it('should render default profile image', () => {
     component.profile = true;
+    component.image = null;
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('img')).nativeElement.getAttribute('src'))
     .toEqual('../../../assets/noprofile.png');
   });
 
   it('should render default non profile image', () => {
+    component.profile = false;
+    component.image = null;
+    fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('img')).nativeElement.getAttribute('src'))
     .toEqual('../../../assets/noimage.png');
   });
@@ -56,6 +60,8 @@ describe('ImageInputComponent', () => {
   });
 
   it('should render add button', () => {
+    component.image = null;
+    fixture.detectChanges();
     expect(fixture.debugElement.queryAll(By.css('button'))[0].nativeElement.textContent.trim())
     .toEqual('Add image');
   });
@@ -68,13 +74,15 @@ describe('ImageInputComponent', () => {
   });
 
   it('should not render remove button', () => {
+    component.image = null;
+    fixture.detectChanges();
     const de: DebugElement[] = fixture.debugElement.queryAll(By.css('button'));
     expect(de.length).toBe(1);
     expect(de[0].nativeElement.textContent.trim()).not.toEqual('Remove image');
   });
 
   it('should render remove button', () => {
-    component.image = 'some image';
+    component.image = 'http://localhost:8080/image1';
     fixture.detectChanges();
     const de: DebugElement[] = fixture.debugElement.queryAll(By.css('button'));
     expect(de.length).toBe(2);
@@ -82,7 +90,7 @@ describe('ImageInputComponent', () => {
   });
 
   it('should emit removed event when remove clicked', () => {
-    component.image = 'some image';
+    component.image = 'http://localhost:8080/image1';
     fixture.detectChanges();
     fixture.debugElement.queryAll(By.css('button'))[1].triggerEventHandler('click', null);
     expect(component.removed.emit).toHaveBeenCalledTimes(1);

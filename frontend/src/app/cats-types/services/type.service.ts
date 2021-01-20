@@ -18,16 +18,8 @@ export class TypeService {
   ) { }
 
   public readonly API_TYPES = `${environment.baseUrl}/${environment.apiTypes}`;
-
   private refreshData: Subject<void> = new Subject();
   refreshData$ = this.refreshData.asObservable();
-
-  list(page: number): Observable<HttpResponse<Type[]>>{
-    const params = new HttpParams().set('page', page + '').set('size', SMALL_PAGE_SIZE + '');
-    return this.http.get<Type[]>(`${this.API_TYPES}`, { observe: 'response', params }).pipe(
-      catchError(() => of(null))
-    );
-  }
 
   save(type: Type, image: Image): Observable<Type>{
     return this.http.post<null>(this.API_TYPES, this.typeToFormData(type, image)).pipe(
@@ -52,6 +44,13 @@ export class TypeService {
   filterNames(filter: string): Observable<string[]>{
     return this.http.post<string[]>(`${this.API_TYPES}/filter_names`, {value: filter}).pipe(
       catchError(() => of([]))
+    );
+  }
+
+  list(page: number): Observable<HttpResponse<Type[]>>{
+    const params = new HttpParams().set('page', page + '').set('size', SMALL_PAGE_SIZE + '');
+    return this.http.get<Type[]>(`${this.API_TYPES}`, { observe: 'response', params }).pipe(
+      catchError(() => of(null))
     );
   }
 

@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { SharedModule } from '../shared/shared.module';
 import { CatTypeDetailsComponent } from './cat-type-details/cat-type-details.component';
 import { CatTypeDialogComponent } from './cat-type-dialog/cat-type-dialog.component';

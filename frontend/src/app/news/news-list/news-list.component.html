@@ -21,13 +21,13 @@
         
         <form [formGroup]="filterForm" [class.disabled]="fetchPending">
             <mat-form-field appearance="outline"> 
-                <input matInput formControlName="startDate" [matDatepicker]="startPicker" placeholder="Start date...">
+                <input matInput placeholder="Start date..." formControlName="startDate" [matDatepicker]="startPicker">
                 <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
                 <mat-datepicker #startPicker></mat-datepicker>
             </mat-form-field>
             <br>
             <mat-form-field appearance="outline"> 
-                <input matInput formControlName="endDate" [matDatepicker]="endPicker" placeholder="End date...">
+                <input matInput placeholder="End date..." formControlName="endDate" [matDatepicker]="endPicker">
                 <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
                 <mat-datepicker #endPicker></mat-datepicker>
             </mat-form-field>

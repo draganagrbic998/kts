@@ -93,26 +93,26 @@ public class HomePage {
 		this.editProfileButton.click();
 	}
 	
-	public void balloonCloseClick() {
+	public void closeSnackBar() {
+		this.snackBar.findElement(By.tagName("button")).click();
+	}
+
+	public void closeBalloon() {
 		this.balloonClose.click();
+	}
+	
+	public String snackBarText() {
+		return this.snackBar.findElement(By.tagName("span")).getText();
+	}
+		
+	public String balloonText() {
+		return this.balloon.getText();
 	}
 	
 	public void ensureMapDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.map));
 	}
-	
-	public void ensureSnackBarDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.snackBar));
-	}
-	
-	public void ensureBalloonDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.balloon));
-	}
-	
-	public void ensureBalloonCloseDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.balloonClose));
-	}
-	
+		
 	public void ensureLogoutButtonDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.logoutButton));
 	}
@@ -137,16 +137,16 @@ public class HomePage {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.editProfileButton));
 	}
 	
-	public String snackBarText() {
-		return this.snackBar.findElement(By.tagName("span")).getText();
+	public void ensureSnackBarDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.snackBar));
 	}
 	
-	public void closeSnackBar() {
-		this.snackBar.findElement(By.tagName("button")).click();
+	public void ensureBalloonDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.balloon));
 	}
 	
-	public String balloonText() {
-		return this.balloon.getText();
+	public void ensureBalloonCloseDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.balloonClose));
 	}
 	
 }

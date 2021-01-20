@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { ADMIN_ROLE } from 'src/app/constants/roles';
 import { News } from 'src/app/models/news';
@@ -28,12 +28,12 @@ export class NewsDetailsComponent implements OnInit {
   }
 
   edit(): void {
-    const options = {...DIALOG_OPTIONS, ...{data: this.news}};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{data: this.news}};
     this.dialog.open(NewsFormComponent, options);
   }
 
   delete(): void {
-    const options = {...DIALOG_OPTIONS, ...{data: () => this.newsService.delete(this.news.id)}};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{data: () => this.newsService.delete(this.news.id)}};
     this.dialog.open(DeleteConfirmationComponent, options).afterClosed().subscribe(result => {
       if (result || typeof result === 'number'){
         this.newsService.announceRefreshData(this.news.culturalOfferId);

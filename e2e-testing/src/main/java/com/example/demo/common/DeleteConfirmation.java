@@ -23,15 +23,7 @@ public class DeleteConfirmation {
 		super();
 		this.browser = browser;
 	}
-	
-	public void cancelButtonClick() {
-		this.cancelButton.click();
-	}
-	
-	public void confirmButtonClick() {
-		this.confirmButton.click();
-	}
-	
+		
 	public void ensureDialogDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.cancelButton));		
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.confirmButton));		
@@ -39,6 +31,14 @@ public class DeleteConfirmation {
 	
 	public void ensureDialogClosed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.tagName("app-delete-confirmation")));		
+	}
+	
+	public void cancelButtonClick() {
+		this.cancelButton.click();
+	}
+	
+	public void confirmButtonClick() {
+		this.confirmButton.click();
 	}
 	
 }

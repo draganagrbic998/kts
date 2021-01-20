@@ -8,9 +8,8 @@
         ></app-map>
     </div>
 
-    <mat-drawer 
-    [class.crop]="fetchPending[selectedTab] || !culturalOffers[selectedTab].length" 
-    class="mat-elevation-z24" #drawer mode="side">
+    <mat-drawer class="mat-elevation-z24" #drawer mode="side"
+    [class.crop]="fetchPending[selectedTab] || !culturalOffers[selectedTab].length">
         
         <app-cultural-list
         [title]="selectedTab ? 'Followed Cultural Offers' : 'All Cultural Offers'"

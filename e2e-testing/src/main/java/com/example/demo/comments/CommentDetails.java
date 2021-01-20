@@ -50,19 +50,7 @@ public class CommentDetails {
 		super();
 		this.browser = browser;
 	}
-	
-	public void editButtonClick() {
-		this.editButton.click();
-	}
-	
-	public void deleteButtonClick() {
-		this.deleteButton.click();
-	}
-	
-	public void carouselToggleClick() {
-		this.carouselToggle.click();
-	}
-	
+		
 	public void ensureTextDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.text));		
 	}
@@ -130,6 +118,18 @@ public class CommentDetails {
 	
 	public void ensureImageDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.visibilityOf(this.image));
+	}
+	
+	public void editButtonClick() {
+		this.editButton.click();
+	}
+	
+	public void deleteButtonClick() {
+		this.deleteButton.click();
+	}
+	
+	public void carouselToggleClick() {
+		this.carouselToggle.click();
 	}
 	
 	public String getText() {

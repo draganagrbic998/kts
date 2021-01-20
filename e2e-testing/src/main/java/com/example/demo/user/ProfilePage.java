@@ -104,11 +104,7 @@ public class ProfilePage {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.newPasswordConfirmationInput));
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.saveButton));
 	}
-	
-	public void ensureSnackBarDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.snackBar));
-	}
-	
+		
 	public void ensureEmailErrorDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.emailError));
 	}
@@ -123,6 +119,10 @@ public class ProfilePage {
 	
 	public void ensurePasswordErrorDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.passwordError));
+	}
+	
+	public void ensureSnackBarDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.snackBar));
 	}
 	
 	public boolean invalidEmailError() {

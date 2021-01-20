@@ -11,7 +11,7 @@ import { CulturalValidatorService } from 'src/app/cultural-offers/services/cultu
 import { TypeValidatorService } from 'src/app/cats-types/services/type-validator.service';
 import { Geolocation } from 'src/app/models/geolocation';
 import { Image } from 'src/app/models/image';
-import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
+import { SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { ALGOLIA_API_ID, ALGOLIA_API_KEY } from 'src/app/constants/algolia';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { AUTOCOMPLETE_DEBOUNCE, AUTOCOMPLETE_LENGTH } from 'src/app/constants/autocomplete';
@@ -88,7 +88,7 @@ export class CulturalFormComponent implements AfterViewInit {
           this.culturalService.announceMarkOnMap(culturalOffer);
         }
         else{
-          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+          this.snackBar.open(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
         }
       }
     );

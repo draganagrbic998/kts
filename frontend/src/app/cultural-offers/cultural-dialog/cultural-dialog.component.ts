@@ -11,7 +11,7 @@ import { CulturalFormComponent } from '../cultural-form/cultural-form.component'
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/controls/delete-confirmation/delete-confirmation.component';
-import { SNACKBAR_CLOSE, SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS } from 'src/app/constants/snackbar';
+import { SNACKBAR_CLOSE, SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS } from 'src/app/constants/snackbar';
 
 @Component({
   selector: 'app-cultural-dialog',
@@ -65,7 +65,7 @@ export class CulturalDialogComponent implements OnInit {
           this.culturalService.announceRefreshData(this.culturalOffer);
         }
         else{
-          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+          this.snackBar.open(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
         }
       }
     );

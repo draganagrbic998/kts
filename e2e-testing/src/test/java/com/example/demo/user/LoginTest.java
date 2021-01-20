@@ -20,6 +20,7 @@ public class LoginTest {
 	
 	private HomePage homePage;
 	private LoginPage loginPage;
+	private ProfilePage profilePage;
 	
 	@SuppressWarnings("deprecation")
 	@Before
@@ -29,6 +30,7 @@ public class LoginTest {
 		this.browser.manage().window().maximize();
 		this.homePage = PageFactory.initElements(this.browser, HomePage.class);
 		this.loginPage = PageFactory.initElements(this.browser, LoginPage.class);
+		this.profilePage = PageFactory.initElements(this.browser, ProfilePage.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 	}
@@ -64,8 +66,8 @@ public class LoginTest {
 		this.loginPage.loginButtonClick();
 		this.loginPage.ensureSnackBarDisplayed();
 		assertEquals(TestConstants.ERROR_MESSAGE, this.loginPage.snackBarText());
-		assertEquals(TestConstants.LOGIN_PATH, this.browser.getCurrentUrl());
 		this.loginPage.closeSnackBar();
+		assertEquals(TestConstants.LOGIN_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@Test
@@ -90,10 +92,12 @@ public class LoginTest {
 		this.homePage.ensureMapDisplayed();
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 		this.homePage.moreButtonClick();
-		this.homePage.ensureLogoutButtonDisplayed();
-		this.homePage.logoutButtonClick();
-		this.loginPage.ensureFormDisplayed();
-		assertEquals(TestConstants.LOGIN_PATH, this.browser.getCurrentUrl());
+		this.homePage.ensureProfileButtonDisplayed();
+		this.homePage.profileButtonClick();
+		this.homePage.ensureEditProfileButtonDiplayed();
+		this.homePage.editProfileButtonClick();
+		this.profilePage.ensureFormDisplayed();
+		assertEquals(TestConstants.PROFILE_PATH, this.browser.getCurrentUrl());
 	}
 	
 	@After

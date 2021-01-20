@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/controls/delete-confirmation/delete-confirmation.component';
 import { Category } from 'src/app/models/category';
 import { Type } from 'src/app/models/type';
@@ -24,7 +24,7 @@ export class CatTypeDetailsComponent implements OnInit {
 
   delete(): void {
     const service = (this.catType as Type).category ? this.typeService : this.categoryService;
-    const options = {...DIALOG_OPTIONS, ...{data: () => service.delete(this.catType.id)}};
+    const options: MatDialogConfig = {...DIALOG_OPTIONS, ...{data: () => service.delete(this.catType.id)}};
     this.dialog.open(DeleteConfirmationComponent, options).afterClosed().subscribe(result => {
       if (result){
         service.announceRefreshData();

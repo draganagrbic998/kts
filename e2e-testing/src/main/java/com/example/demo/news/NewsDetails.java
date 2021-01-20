@@ -1,7 +1,5 @@
 package com.example.demo.news;
 
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,10 +11,10 @@ import com.example.demo.Constants;
 
 public class NewsDetails {
 
-	private WebDriver browser;
-	
 	private static final String CAROUSEL_XPATH = "//*/app-news-list/app-news-details[1]/div/mat-card/mat-card-content/app-carousel";	
 
+	private WebDriver browser;
+	
 	@FindBy(xpath = "//*/app-news-list/app-news-details[1]/div/mat-card/mat-card-content/app-spacer-container/div/button[1]")
 	private WebElement editButton;
 	
@@ -34,21 +32,12 @@ public class NewsDetails {
 		this.browser = browser;
 	}
 
-	public void editButtonClick() {
-		this.editButton.click();
-	}
-
-	public void deleteButtonClick() {
-		this.deleteButton.click();
-	}
-
 	public void ensureTextDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT))
 				.until(ExpectedConditions.elementToBeClickable(this.text));
 	}
 
 	public void ensureButtonsDisplayed() {
-		this.browser.manage().timeouts().implicitlyWait(Constants.TIMEOUT_WAIT, TimeUnit.MILLISECONDS) ;
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT))
 				.until(ExpectedConditions.elementToBeClickable(this.editButton));
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT))
@@ -66,7 +55,15 @@ public class NewsDetails {
 	public void ensureImageDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.visibilityOf(this.image));
 	}
+	
+	public void editButtonClick() {
+		this.editButton.click();
+	}
 
+	public void deleteButtonClick() {
+		this.deleteButton.click();
+	}
+	
 	public String getText() {
 		return this.text.getText();
 	}

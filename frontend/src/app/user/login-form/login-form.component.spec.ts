@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
-import { SNACKBAR_CLOSE, SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS } from 'src/app/constants/snackbar';
+import { SNACKBAR_CLOSE, SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS } from 'src/app/constants/snackbar';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { UserService } from 'src/app/user/services/user.service';
@@ -121,7 +121,7 @@ describe('LoginFormComponent', () => {
     expect(component.userService.login).toHaveBeenCalledTimes(1);
     expect(component.userService.login).toHaveBeenCalledWith(component.loginForm.value);
     expect(component.snackBar.open).toHaveBeenCalledTimes(1);
-    expect(component.snackBar.open).toHaveBeenCalledWith(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+    expect(component.snackBar.open).toHaveBeenCalledWith(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
   });
 
   it('should notify valid login', () => {

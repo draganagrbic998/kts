@@ -1,5 +1,6 @@
 package com.example.demo.news;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
@@ -46,8 +47,10 @@ public class PaginateFilterNewsTest {
 		this.culturalDetails.moreButtonClick();
 		this.culturalDialog.ensureToggleDrawerDisplayed();
 		this.culturalDialog.toggleDrawerClick();
-		this.culturalDialog.ensureSwitchToNewsDisplayed();
-		this.culturalDialog.switchToNewsList();
+		this.culturalDialog.ensureCommentsTabDisplayed();
+		this.culturalDialog.commentsTabClick();
+		this.culturalDialog.ensureNewsTabDisplayed();
+		this.culturalDialog.newsTabClick();
 		this.newsDetails.ensureTextDisplayed();
 	}
 
@@ -93,7 +96,7 @@ public class PaginateFilterNewsTest {
 		this.filterForm.endFilterFill("");
 		this.filterForm.filterButtonClick();
 		this.filterForm.ensureFormDisplayed();
-		assertEquals(2, this.newsList.newsCount());
+		assertTrue(this.newsList.newsCount() > 1);
 	}
 
 	@Test

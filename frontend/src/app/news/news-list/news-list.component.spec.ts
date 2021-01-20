@@ -12,9 +12,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 describe('NewsListComponent', () => {
   let component: NewsListComponent;
   let fixture: ComponentFixture<NewsListComponent>;
-  const culturalOfferId = 1;
   const dateStart = '1/1/2021';
   const dateEnd = '1/2/2021';
+  const culturalOfferId = 1;
   const newsMock: News[] = [
     {
       id: 1,

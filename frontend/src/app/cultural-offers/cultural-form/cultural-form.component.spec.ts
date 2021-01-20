@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
-import { SNACKBAR_CLOSE, SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
+import { SNACKBAR_CLOSE, SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
 
 describe('CulturalFormComponent', () => {
@@ -240,7 +240,7 @@ describe('CulturalFormComponent', () => {
       description: component.culturalForm.value.description
     } as CulturalOffer, component.image);
     expect(component.snackBar.open).toHaveBeenCalledTimes(1);
-    expect(component.snackBar.open).toHaveBeenCalledWith(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+    expect(component.snackBar.open).toHaveBeenCalledWith(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
   });
 
   it('should notify valid save', () => {

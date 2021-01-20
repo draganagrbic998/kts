@@ -222,7 +222,6 @@ describe('NewsService', () => {
 
     service.filter({startDate: dateStart, endDate: dateEnd}, culturalOfferId, page)
     .subscribe((res: HttpResponse<News[]>) => news = res.body);
-
     const request: TestRequest = httpMock
     .expectOne(`${service.API_OFFERS}/${culturalOfferId}/filter_news?page=${page}&size=${SMALL_PAGE_SIZE}`);
     expect(request.request.method).toBe('POST');

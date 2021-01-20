@@ -97,11 +97,7 @@ public class RegistrationPage {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.passwordConfirmationInput));
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.registerButton));
 	}
-	
-	public void ensureSnackBarDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.snackBar));
-	}
-		
+			
 	public void ensureFirstNameErrorDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.firstNameError));
 	}
@@ -120,6 +116,10 @@ public class RegistrationPage {
 	
 	public void ensurePasswordConfirmationErrorDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.passwordConfirmationError));
+	}
+	
+	public void ensureSnackBarDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.snackBar));
 	}
 	
 	public boolean invalidEmailError() {

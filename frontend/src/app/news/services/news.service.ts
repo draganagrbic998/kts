@@ -19,16 +19,8 @@ export class NewsService {
 
   readonly API_NEWS = `${environment.baseUrl}/${environment.apiNews}`;
   readonly API_OFFERS = `${environment.baseUrl}/${environment.apiCulturalOffers}`;
-
   private refreshData: Subject<number> = new Subject();
   refreshData$ = this.refreshData.asObservable();
-
-  filter(filters: NewsFilterParams, culturalOfferId: number, page: number): Observable<HttpResponse<News[]>>{
-    const params = new HttpParams().set('page', page + '').set('size', SMALL_PAGE_SIZE + '');
-    return this.http.post<News[]>(`${this.API_OFFERS}/${culturalOfferId}/filter_news`, filters, {observe: 'response', params}).pipe(
-      catchError(() => of(null))
-    );
-  }
 
   save(news: News, images: Image[]): Observable<News>{
     return this.http.post<News>(this.API_NEWS, this.newsToFormData(news, images)).pipe(
@@ -45,6 +37,13 @@ export class NewsService {
 
   announceRefreshData(culturalOfferId: number): void{
     this.refreshData.next(culturalOfferId);
+  }
+
+  filter(filters: NewsFilterParams, culturalOfferId: number, page: number): Observable<HttpResponse<News[]>>{
+    const params = new HttpParams().set('page', page + '').set('size', SMALL_PAGE_SIZE + '');
+    return this.http.post<News[]>(`${this.API_OFFERS}/${culturalOfferId}/filter_news`, filters, {observe: 'response', params}).pipe(
+      catchError(() => of(null))
+    );
   }
 
   newsToFormData(news: News, images: Image[]): FormData{

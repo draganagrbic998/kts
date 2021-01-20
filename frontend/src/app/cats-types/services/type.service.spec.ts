@@ -43,9 +43,9 @@ describe('TypeService', () => {
       name: 'name1',
       category: 'category1',
       placemarkIcon: 'image1'
-    } as Type;
+    };
 
-    service.save(type,image).subscribe((res: Type) => type = res);
+    service.save(type, image).subscribe((res: Type) => type = res);
     const request: TestRequest = httpMock.expectOne(service.API_TYPES);
     expect(request.request.method).toBe('POST');
     request.flush(typeMock);
@@ -201,7 +201,7 @@ describe('TypeService', () => {
     expect(types[0].name).toBe(typesMock[0].name);
     expect(types[0].category).toBe(typesMock[0].category);
     expect(types[0].placemarkIcon).toBe(typesMock[0].placemarkIcon);
-    
+
     expect(types[1].id).toBe(typesMock[1].id);
     expect(types[1].name).toBe(typesMock[1].name);
     expect(types[1].category).toBe(typesMock[1].category);

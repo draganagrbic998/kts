@@ -16,6 +16,7 @@ import com.example.demo.Utilities;
 public class RegistrationTest {
 	
 	private WebDriver browser;
+	
 	private RegistrationPage registrationPage;
 	
 	private static final String SUCCESS = "Your request has been sent! Check your email.";

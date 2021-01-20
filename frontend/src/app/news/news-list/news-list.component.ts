@@ -18,7 +18,6 @@ export class NewsListComponent implements OnInit {
   ) { }
 
   @Input() culturalOfferId: number;
-
   news: News[];
   fetchPending = true;
   pagination: Pagination = {

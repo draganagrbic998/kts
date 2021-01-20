@@ -26,14 +26,6 @@ public class CatTypeList {
 		super();
 		this.browser = browser;
 	}
-
-	public void nextButtonClick() {
-		this.nextButton.click();
-	}
-
-	public void previousButtonClick() {
-		this.previousButton.click();
-	}
 	
 	public void ensurePreviousButtonDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.previousButton));
@@ -51,6 +43,14 @@ public class CatTypeList {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(NEXT_BUTTON_XPATH)));
 	}
 	
+	public void nextButtonClick() {
+		this.nextButton.click();
+	}
+
+	public void previousButtonClick() {
+		this.previousButton.click();
+	}
+
 	public int catsTypesCount() {
 		return this.browser.findElements(By.tagName("app-cat-type-details")).size();
 	}

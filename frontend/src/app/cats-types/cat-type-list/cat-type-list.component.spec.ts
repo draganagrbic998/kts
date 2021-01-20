@@ -11,7 +11,6 @@ import { By } from '@angular/platform-browser';
 describe('CatTypeListComponent', () => {
   let component: CatTypeListComponent;
   let fixture: ComponentFixture<CatTypeListComponent>;
-  const cats = true;
   const catsMock: Category[] = [
     {
       id: 1,
@@ -81,8 +80,8 @@ describe('CatTypeListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CatTypeListComponent);
     component = fixture.componentInstance;
+    component.cats = true;
     component.fetchPending = false;
-    component.cats = cats;
     component.categoryService.refreshData$ = of();
     component.typeService.refreshData$ = of();
     spyOn(component, 'fetchData').and.callThrough();
@@ -101,7 +100,7 @@ describe('CatTypeListComponent', () => {
   });
 
   it('should render no cat-types', () => {
-    component.catTypes = []; 
+    component.catTypes = [];
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('app-empty-container'))).toBeTruthy();
     expect(fixture.debugElement.query(By.css('app-cat-type-details'))).toBeFalsy();
@@ -127,8 +126,8 @@ describe('CatTypeListComponent', () => {
   it('should render some types', fakeAsync(() => {
     fixture = TestBed.createComponent(CatTypeListComponent);
     component = fixture.componentInstance;
-    component.fetchPending = false;
     component.cats = false;
+    component.fetchPending = false;
     component.categoryService.refreshData$ = of();
     component.typeService.refreshData$ = of();
     spyOn(component, 'fetchData').and.callThrough();

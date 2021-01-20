@@ -27,8 +27,8 @@ public class ValidCulturalTest {
 	private CulturalForm culturalForm;
 	private CulturalDetails culturalDetails;
 	private CulturalDialog culturalDialog;
-	private ImageInput imageInput;
 	private DeleteConfirmation deleteConfirmation;
+	private ImageInput imageInput;
 
 	private static final String SUCCESS = "Offer successfully saved!";
 	
@@ -43,8 +43,8 @@ public class ValidCulturalTest {
 		this.culturalForm = PageFactory.initElements(this.browser, CulturalForm.class);
 		this.culturalDetails = PageFactory.initElements(this.browser, CulturalDetails.class);
 		this.culturalDialog = PageFactory.initElements(this.browser, CulturalDialog.class);
-		this.imageInput = PageFactory.initElements(this.browser, ImageInput.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
+		this.imageInput = PageFactory.initElements(this.browser, ImageInput.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 		this.loginPage.emailInputFill(TestConstants.ADMIN_EMAIL);
@@ -57,7 +57,6 @@ public class ValidCulturalTest {
 
 	@Test
 	public void test() {
-		//kreiranje
 		String type = "museum";
 		String name = "dummy";
 		String location = "new";
@@ -75,20 +74,20 @@ public class ValidCulturalTest {
 		this.homePage.closeSnackBar();
 		this.homePage.ensureBalloonDisplayed();
 		assertEquals("dummy is placed here!", this.homePage.balloonText());
+		this.homePage.closeBalloon();
 		this.homePage.toggleButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
 		assertEquals(this.culturalDetails.nameText(), name);
 		assertEquals(this.culturalDetails.typeText(), type);
 		assertTrue(this.culturalDetails.locationText().toLowerCase().contains(location.toLowerCase()));
-		
-		//izmena
+
+		type = "gallery";
+		name = "gummy";
+		location = "washington";
 		this.culturalDetails.moreButtonClick();
 		this.culturalDialog.ensureEditButtonDisplayed();
 		this.culturalDialog.editButtonClick();
 		this.culturalForm.ensureFormDisplayed();
-		type = "gallery";
-		name = "gummy";
-		location = "washington";
 		this.culturalForm.typeInputFill(type);
 		this.culturalForm.nameInputFill(name);
 		this.culturalForm.locationInputFill(location);
@@ -105,20 +104,19 @@ public class ValidCulturalTest {
 		assertEquals(this.culturalDetails.nameText(), name);
 		assertEquals(this.culturalDetails.typeText(), type);
 		assertTrue(this.culturalDetails.locationText().toLowerCase().contains(location.toLowerCase()));
-		
-		//brisanje
+
+		name = this.culturalDetails.nameText();
 		this.culturalDetails.moreButtonClick();
 		this.culturalDialog.ensureDeleteButtonDisplayed();
 		this.culturalDialog.deleteButtonClick();
 		this.deleteConfirmation.ensureDialogDisplayed();
-		name = this.culturalDetails.nameText();
 		this.deleteConfirmation.confirmButtonClick();
 		this.deleteConfirmation.ensureDialogClosed();
 		this.culturalDialog.ensureDialogClosed();
 		this.homePage.ensureSnackBarDisplayed();
 		assertEquals(TestConstants.ITEM_REMOVED_SUCCESS, this.homePage.snackBarText());
-		assertNotEquals(this.culturalDetails.nameText(), name);
 		this.homePage.closeSnackBar();
+		assertNotEquals(this.culturalDetails.nameText(), name);
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 	

@@ -6,8 +6,7 @@
             <div class="item-container">
                 <div class="image-container">
                     <img 
-                    [src]="culturalOffer.image ? culturalOffer.image : '../../../assets/noimage.png'"
-                    (error)="culturalOffer.image=null">
+                    [src]="culturalOffer.image || '../../../assets/noimage.png'">
                 </div>
     
                 <div class="details-container">

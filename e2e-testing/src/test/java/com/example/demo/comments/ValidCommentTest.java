@@ -28,8 +28,8 @@ public class ValidCommentTest {
 	private CulturalDialog culturalDialog;
 	private CommentForm commentForm;
 	private CommentDetails commentDetails;
-	private ImagesInput imagesInput;
 	private DeleteConfirmation deleteConfirmation;
+	private ImagesInput imagesInput;
 
 	@SuppressWarnings("deprecation")
 	@Before
@@ -43,8 +43,8 @@ public class ValidCommentTest {
 		this.culturalDialog = PageFactory.initElements(this.browser, CulturalDialog.class);
 		this.commentForm = PageFactory.initElements(this.browser, CommentForm.class);
 		this.commentDetails = PageFactory.initElements(this.browser, CommentDetails.class);
-		this.imagesInput = PageFactory.initElements(this.browser, ImagesInput.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
+		this.imagesInput = PageFactory.initElements(this.browser, ImagesInput.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 		this.loginPage.emailInputFill(TestConstants.GUEST_EMAIL);
@@ -73,9 +73,9 @@ public class ValidCommentTest {
 		this.commentDetails.ensureHasNoImages();
 		assertEquals(text, this.commentDetails.getText());
 
+		text = "dummy";
 		this.commentDetails.editButtonClick();
 		this.commentForm.ensureFormDisplayed();
-		text = "dummy";
 		this.commentForm.textInputFill(text);
 		this.commentForm.saveButtonClick();
 		this.commentForm.ensureDialogClosed();
@@ -98,8 +98,8 @@ public class ValidCommentTest {
 	@Test
 	public void testStars() {
 		String text = "gummy3";
-		this.commentForm.thirdStarClick();
 		this.commentForm.textInputFill(text);
+		this.commentForm.thirdStarClick();
 		this.commentForm.saveButtonClick();
 		this.commentForm.ensureDialogClosed();
 		this.commentDetails.ensureThreeStarsDisplayed();
@@ -111,8 +111,8 @@ public class ValidCommentTest {
 		text = "gummy3";
 		this.commentDetails.editButtonClick();
 		this.commentForm.ensureFormDisplayed();
-		this.commentForm.secondStarClick();
 		this.commentForm.textInputFill(text);
+		this.commentForm.secondStarClick();
 		this.commentForm.saveButtonClick();
 		this.commentForm.ensureDialogClosed();
 		this.commentDetails.ensureTwoStarsDisplayed();

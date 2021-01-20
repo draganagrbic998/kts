@@ -47,31 +47,32 @@ public class PaginationFilterFollowingsTest {
 		this.loginPage.loginButtonClick();
 		this.homePage.ensureMapDisplayed();
 		this.homePage.toggleButtonClick();
+		this.culturalList.ensureCulturalsTabDisplayed();
+		this.culturalList.culturalsTabClick();
 		this.culturalList.ensureFollowingsTabDisplayed();
 		this.culturalList.followingsTabClick();
+		this.culturalDetails.ensureDetailsDisplayed();
 	}
 	
 	@Test
 	public void testPagination() {
 		this.culturalList.ensureFirstPage();
-		this.culturalDetails.ensureDetailsDisplayed();
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());
 		
 		String name = this.culturalDetails.nameText();
 		this.culturalList.ensureNextButtonDisplayed();
 		this.culturalList.nextButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		this.culturalList.ensureLastPage();
 		assertNotEquals(this.culturalDetails.nameText(), name);
-		assertEquals(2, this.culturalList.offersCount());
 		
 		name = this.culturalDetails.nameText();
 		this.culturalList.ensurePreviousButtonDisplayed();
 		this.culturalList.previousButtonClick();
 		this.culturalDetails.ensureDetailsDisplayed();
-		this.culturalList.ensureFirstPage();
-		assertNotEquals(this.culturalDetails.nameText(), name);
+		assertNotEquals(this.culturalDetails.nameText(), name);		
+
 		assertEquals(TestConstants.LARGE_PAGE_SIZE, this.culturalList.offersCount());	
+		this.culturalList.ensureFirstPage();
 	}
 	
 	@Test

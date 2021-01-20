@@ -8,7 +8,7 @@ import { of } from 'rxjs';
 import { CommentFormComponent } from 'src/app/comments/comment-form/comment-form.component';
 import { DIALOG_OPTIONS } from 'src/app/constants/dialog';
 import { ADMIN_ROLE, GUEST_ROLE } from 'src/app/constants/roles';
-import { SNACKBAR_CLOSE, SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS } from 'src/app/constants/snackbar';
+import { SNACKBAR_CLOSE, SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS } from 'src/app/constants/snackbar';
 import { CulturalService } from 'src/app/cultural-offers/services/cultural.service';
 import { UserFollowingService } from 'src/app/cultural-offers/services/user-following.service';
 import { CulturalOffer } from 'src/app/models/cultural-offer';
@@ -230,7 +230,7 @@ describe('CulturalDialogComponent', () => {
     expect(component.userFollowingService.toggleSubscription).toHaveBeenCalledTimes(1);
     expect(component.userFollowingService.toggleSubscription).toHaveBeenCalledWith(component.culturalOffer.id);
     expect(component.snackBar.open).toHaveBeenCalledTimes(1);
-    expect(component.snackBar.open).toHaveBeenCalledWith(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+    expect(component.snackBar.open).toHaveBeenCalledWith(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
     expect(offerMock.followed).toBeTrue();
   }));
 

@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
+import { SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { Image } from 'src/app/models/image';
 import { News } from 'src/app/models/news';
 import { NewsService } from 'src/app/news/services/news.service';
@@ -24,6 +24,7 @@ export class NewsFormComponent implements OnInit {
   savePending = false;
   text: FormControl = new FormControl(this.news.text || '',
   [Validators.required, Validators.pattern(new RegExp('\\S'))]);
+
   images: Image[] = this.news.images.map(img => {
     return {path: img, upload: null};
   });
@@ -49,7 +50,7 @@ export class NewsFormComponent implements OnInit {
           this.newsService.announceRefreshData(this.news.culturalOfferId);
         }
         else{
-          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+          this.snackBar.open(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
         }
       }
     );

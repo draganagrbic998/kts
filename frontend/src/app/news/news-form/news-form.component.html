@@ -8,9 +8,9 @@
         
         <mat-form-field appearance="outline">
             <textarea 
+            [formControl]="text"
             matInput 
             autocomplete="off"
-            [formControl]="text"
             placeholder="Enter news..." 
             rows="4"></textarea>
             <mat-error>

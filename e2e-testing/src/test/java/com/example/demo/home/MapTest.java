@@ -41,7 +41,7 @@ public class MapTest {
 		this.homePage.ensureBalloonDisplayed();
 		this.homePage.toggleButtonClick();
 		this.homePage.ensureBalloonCloseDisplayed();
-		this.homePage.balloonCloseClick();
+		this.homePage.closeBalloon();
 		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 	}
 	

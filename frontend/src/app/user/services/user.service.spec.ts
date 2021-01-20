@@ -51,6 +51,7 @@ describe('UserService', () => {
       image: 'http://localhost:8080/image1'
     };
     let user: User;
+
     service.login(login).subscribe((res: User) => user = res);
     const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/login`);
     expect(request.request.method).toBe('POST');
@@ -73,6 +74,7 @@ describe('UserService', () => {
       password: 'password1'
     };
     let user: User;
+
     service.login(login).subscribe((res: User) => user = res);
     const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/login`);
     expect(request.request.method).toBe('POST');
@@ -91,6 +93,7 @@ describe('UserService', () => {
       lastName: 'lastName1'
     };
     let response: boolean;
+
     service.register(registration).subscribe((res: boolean) => response = res);
     const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/register`);
     expect(request.request.method).toBe('POST');
@@ -109,6 +112,7 @@ describe('UserService', () => {
       lastName: 'lastName1'
     };
     let response: boolean;
+
     service.register(registration).subscribe((res: boolean) => response = res);
     const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/register`);
     expect(request.request.method).toBe('POST');
@@ -120,8 +124,9 @@ describe('UserService', () => {
   }));
 
   it('should activate valid data', fakeAsync(() => {
-    const code: string = '1';
+    const code = '1';
     let response: boolean;
+
     service.activate(code).subscribe((res: boolean) => response = res);
     const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/activate/${code}`);
     expect(request.request.method).toBe('GET');
@@ -133,8 +138,9 @@ describe('UserService', () => {
   }));
 
   it('should not activate invalid data', fakeAsync(() => {
-    const code: string = '1';
+    const code = '1';
     let response: boolean;
+
     service.activate(code).subscribe((res: boolean) => response = res);
     const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/activate/${code}`);
     expect(request.request.method).toBe('GET');
@@ -168,6 +174,7 @@ describe('UserService', () => {
       image: 'http://localhost:8080/image1'
     };
     let user: User;
+
     service.update(profileUpdate, image).subscribe((res: User) => user = res);
     const request: TestRequest = httpMock.expectOne(service.API_USER);
     expect(request.request.method).toBe('POST');
@@ -197,6 +204,7 @@ describe('UserService', () => {
       path: 'http://localhost:8080/image'
     };
     let user: User;
+
     service.update(profileUpdate, image).subscribe((res: User) => user = res);
     const request: TestRequest = httpMock.expectOne(service.API_USER);
     expect(request.request.method).toBe('POST');
@@ -213,6 +221,7 @@ describe('UserService', () => {
       name: 'name1'
     };
     let response: boolean;
+
     service.hasEmail(param).subscribe((res: boolean) => response = res);
     const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/has_email`);
     expect(request.request.method).toBe('POST');
@@ -229,6 +238,7 @@ describe('UserService', () => {
       name: 'name1'
     };
     let response: boolean;
+
     service.hasEmail(param).subscribe((res: boolean) => response = res);
     const request: TestRequest = httpMock.expectOne(`${service.API_AUTH}/has_email`);
     expect(request.request.method).toBe('POST');

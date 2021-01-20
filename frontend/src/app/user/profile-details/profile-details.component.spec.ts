@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { PROFILE_PATH, USER_PATH } from 'src/app/constants/router';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/shared/services/auth.service';
-import { ProfileDetailsComponent } from './profile.component';
+import { ProfileDetailsComponent } from './profile-details.component';
 
 describe('ProfileDetailsComponent', () => {
   let component: ProfileDetailsComponent;
@@ -53,7 +53,7 @@ describe('ProfileDetailsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render profile data', () => {
+  it('should render profile details', () => {
     const de: DebugElement[] = fixture.debugElement.queryAll(By.css('span'));
     expect(de[0].nativeElement.textContent.trim()).toEqual(userMock.email);
     expect(de[1].nativeElement.textContent.trim()).toEqual(userMock.firstName);

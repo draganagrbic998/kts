@@ -28,14 +28,17 @@ public class CulturalDialog {
 	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/app-spacer-container/div/span[1]/button")
 	private WebElement subUnsubButton;
 
-	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/app-spacer-container/div/span[1]/button/span[1]")
-	private WebElement subUnsubButtonText;
+	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/app-close-button/app-spacer-container/div/button")
+	private WebElement closeButton;
 
 	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/app-spacer-container/div/span[2]/button")
 	private WebElement toggleDrawer;
 	
+	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer/div/mat-tab-group/mat-tab-header/div[2]/div/div/div[1]")
+	private WebElement commentsTab;
+	
 	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer/div/mat-tab-group/mat-tab-header/div[2]/div/div/div[2]")
-	private WebElement switchToNews;
+	private WebElement newsTab;
 	
 	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/div[2]/div[1]/app-bold-text/span")
 	private WebElement nameField;
@@ -45,10 +48,10 @@ public class CulturalDialog {
 	
 	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/div[2]/div[3]/span")
 	private WebElement locationField;
-	
-	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/app-close-button/app-spacer-container/div/button")
-	private WebElement closeButton;
-			
+				
+	@FindBy(xpath = "//*/app-cultural-dialog/mat-drawer-container/mat-drawer-content/div/app-spacer-container/div/span[1]/button/span[1]")
+	private WebElement subUnsubButtonText;
+
 	public CulturalDialog(WebDriver browser) {
 		super();
 		this.browser = browser;
@@ -74,16 +77,36 @@ public class CulturalDialog {
 		this.subUnsubButton.click();
 	}
 	
+	public void closeButtonClick() {
+		this.closeButton.click();
+	}
+
 	public void toggleDrawerClick() {
 		this.toggleDrawer.click();
 	}
 	
-	public void switchToNewsList() {
-		this.switchToNews.click();
+	public void commentsTabClick() {
+		this.commentsTab.click();
+	}
+
+	public void newsTabClick() {
+		this.newsTab.click();
+	}
+		
+	public String nameText() {
+		return this.nameField.getText();
 	}
 	
-	public void closeButtonClick() {
-		this.closeButton.click();
+	public String typeText() {
+		return this.typeField.getText().split(",")[0];
+	}
+
+	public String locationText() {
+		return this.locationField.getText();
+	}
+		
+	public String getSubUnsubButtonText() {
+		return this.subUnsubButtonText.getText();	
 	}
 	
 	public void ensureEditButtonDisplayed() {
@@ -106,18 +129,22 @@ public class CulturalDialog {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.subUnsubButton));		
 	}
 	
-	public void ensureToggleDrawerDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.toggleDrawer));		
-	}
-	
-	public void ensureSwitchToNewsDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.switchToNews));		
-	}
-	
 	public void ensureCloseButtonDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.closeButton));		
 	}
 
+	public void ensureToggleDrawerDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.toggleDrawer));		
+	}
+	
+	public void ensureCommentsTabDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.commentsTab));		
+	}
+	
+	public void ensureNewsTabDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.newsTab));		
+	}
+	
 	public void ensureDialogClosed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.tagName("app-cultural-dialog")));
 	}
@@ -127,21 +154,5 @@ public class CulturalDialog {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.typeField));		
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.locationField));		
 	}
-	
-	public String getSubUnsubButtonText() {
-		return this.subUnsubButtonText.getText();	
-	}
-	
-	public String nameText() {
-		return this.nameField.getText();
-	}
-	
-	public String typeText() {
-		return this.typeField.getText().split(",")[0];
-	}
 
-	public String locationText() {
-		return this.locationField.getText();
-	}
-		
 }

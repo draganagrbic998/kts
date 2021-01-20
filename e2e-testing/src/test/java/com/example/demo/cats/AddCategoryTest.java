@@ -45,6 +45,8 @@ public class AddCategoryTest {
 		this.homePage.catsTypesButtonClick();
 		this.homePage.ensureCatsButtonDisplayed();
 		this.homePage.catsButtonClick();
+		this.catTypeDialog.ensureListTabDisplayed();
+		this.catTypeDialog.listTabClick();
 		this.catTypeDialog.ensureCreateTabDisplayed();
 		this.catTypeDialog.createTabClick();
 		this.categoryForm.ensureFormDisplayed();

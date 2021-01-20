@@ -1,4 +1,5 @@
 <form class="root-container" cdkFocusInitial>
+
     <h3>Publish Comment</h3><br><br>
 
     <div [class.disabled]="savePending">
@@ -6,9 +7,9 @@
         <app-star-rating [editable]="true" [rate]="rate" (rated)="rate=$event"></app-star-rating>
         <mat-form-field appearance="outline">
             <textarea 
+            [formControl]="text"
             matInput 
             autocomplete="off"
-            [formControl]="text"
             placeholder="Enter comment..." 
             rows="4"></textarea>
             <mat-error>

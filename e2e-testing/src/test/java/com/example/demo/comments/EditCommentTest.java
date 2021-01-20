@@ -51,7 +51,6 @@ public class EditCommentTest {
 		this.culturalDetails.moreButtonClick();
 		this.culturalDialog.ensureToggleDrawerDisplayed();
 		this.culturalDialog.toggleDrawerClick();
-
 		this.commentDetails.ensureButtonsDisplayed();
 		this.commentDetails.editButtonClick();
 		this.commentForm.ensureFormDisplayed();

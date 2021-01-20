@@ -73,7 +73,7 @@ public class TypeController {
 	@PostMapping
 	public ResponseEntity<TypeDTO> save(@Valid @ModelAttribute TypeUploadDTO typeDTO) {
 		Type type = this.typeMapper.map(typeDTO);
-		return new ResponseEntity<>(this.typeMapper.map(this.typeService.save(type,typeDTO.getPlacemarkIcon())), HttpStatus.CREATED);
+		return new ResponseEntity<>(new TypeDTO(this.typeService.save(type,typeDTO.getPlacemarkIcon())), HttpStatus.CREATED);
 	}
 	
 }

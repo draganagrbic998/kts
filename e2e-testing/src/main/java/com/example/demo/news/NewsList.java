@@ -39,6 +39,10 @@ public class NewsList {
 		this.toggleFilter.click();
 	}
 	
+	public int newsCount() {
+		return this.browser.findElements(By.tagName("app-news-details")).size();
+	}
+		
 	public void ensurePreviousButtonDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.previousButton));
 	}
@@ -59,8 +63,4 @@ public class NewsList {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.toggleFilter));
 	}
 
-	public int newsCount() {
-		return this.browser.findElements(By.tagName("app-news-details")).size();
-	}
-		
 }

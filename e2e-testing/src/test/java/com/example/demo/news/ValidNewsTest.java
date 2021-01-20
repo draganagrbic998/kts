@@ -2,6 +2,8 @@ package com.example.demo.news;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.concurrent.TimeUnit;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.PageFactory;
 
+import com.example.demo.Constants;
 import com.example.demo.TestConstants;
 import com.example.demo.Utilities;
 import com.example.demo.common.DeleteConfirmation;
@@ -28,8 +31,8 @@ public class ValidNewsTest {
 	private CulturalDialog culturalDialog;
 	private NewsForm newsForm;
 	private NewsDetails newsDetails;
-	private ImagesInput imagesInput;
 	private DeleteConfirmation deleteConfirmation;
+	private ImagesInput imagesInput;
 
 	@SuppressWarnings("deprecation")
 	@Before
@@ -43,8 +46,8 @@ public class ValidNewsTest {
 		this.culturalDialog = PageFactory.initElements(this.browser, CulturalDialog.class);
 		this.newsForm = PageFactory.initElements(this.browser, NewsForm.class);
 		this.newsDetails = PageFactory.initElements(this.browser, NewsDetails.class);
-		this.imagesInput = PageFactory.initElements(this.browser, ImagesInput.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
+		this.imagesInput = PageFactory.initElements(this.browser, ImagesInput.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 		this.loginPage.emailInputFill(TestConstants.ADMIN_EMAIL);
@@ -56,8 +59,10 @@ public class ValidNewsTest {
 		this.culturalDetails.moreButtonClick();
 		this.culturalDialog.ensureToggleDrawerDisplayed();
 		this.culturalDialog.toggleDrawerClick();
-		this.culturalDialog.ensureSwitchToNewsDisplayed();
-		this.culturalDialog.switchToNewsList();
+		this.culturalDialog.ensureCommentsTabDisplayed();
+		this.culturalDialog.commentsTabClick();
+		this.culturalDialog.ensureNewsTabDisplayed();
+		this.culturalDialog.newsTabClick();
 		this.culturalDialog.ensureAddNewsButtonDisplayed();
 		this.culturalDialog.addNewsButtonClick();
 		this.newsForm.ensureFormDisplayed();
@@ -79,7 +84,8 @@ public class ValidNewsTest {
 		this.newsForm.ensureFormDisplayed();
 		this.newsForm.textInputFill(text);
 		this.newsForm.saveButtonClick();
-		this.newsForm.ensureDialogClosed();
+		this.browser.manage().timeouts().implicitlyWait(Constants.TIMEOUT_WAIT, TimeUnit.MILLISECONDS);
+		this.newsForm.ensureDialogClosed();		
 		this.newsDetails.ensureButtonsDisplayed();
 		this.newsDetails.ensureTextDisplayed();
 		this.newsDetails.ensureHasNoImages();
@@ -119,8 +125,8 @@ public class ValidNewsTest {
 		assertEquals(text, this.newsDetails.getText());
 
 		text = "jummy1";
-		this.newsDetails.ensureButtonsDisplayed();
 		this.newsDetails.editButtonClick();
+		this.newsForm.ensureFormDisplayed();
 		this.newsForm.textInputFill(text);
 		this.imagesInput.uploadFile(TestConstants.TEST_IMAGE);
 		this.imagesInput.ensureOneImageDisplayed();
@@ -135,6 +141,7 @@ public class ValidNewsTest {
 		assertEquals(0, this.imagesInput.imagesCount());
 		
 		this.newsForm.saveButtonClick();
+		this.browser.manage().timeouts().implicitlyWait(Constants.TIMEOUT_WAIT, TimeUnit.MILLISECONDS);
 		this.newsForm.ensureDialogClosed();
 		this.newsDetails.ensureButtonsDisplayed();
 		this.newsDetails.ensureTextDisplayed();

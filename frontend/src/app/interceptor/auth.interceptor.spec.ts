@@ -3,8 +3,6 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { fakeAsync, TestBed } from '@angular/core/testing';
 import { environment } from 'src/environments/environment';
 import { AuthInterceptor } from './auth.interceptor';
-import { of } from 'rxjs';
-import { AuthService } from '../shared/services/auth.service';
 import { User } from '../models/user';
 
 describe('AuthInterceptor', () => {
@@ -13,11 +11,11 @@ describe('AuthInterceptor', () => {
   const user: User = {
     id: 1,
     accessToken: 'token1',
-    role: '',
-    email: '',
-    firstName: '',
-    lastName: '',
-    image: ''
+    role: 'role1',
+    email: 'email1',
+    firstName: 'firstName1',
+    lastName: 'lastName1',
+    image: 'http://localhost:8080/image1',
   };
 
   beforeEach(() => {

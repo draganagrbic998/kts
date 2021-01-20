@@ -55,7 +55,7 @@ describe('DeleteConfirmationComponent', () => {
     expect(component.dialogRef.close).toHaveBeenCalledWith();
   });
 
-  it('should notify valid delete when boolean', () => {
+  it('should notify valid delete when true boolean', () => {
     component.deleteFunction = jasmine.createSpy().and.returnValue(of(true));
     component.confirm();
     expect(component.deleteFunction).toHaveBeenCalledTimes(1);
@@ -77,7 +77,7 @@ describe('DeleteConfirmationComponent', () => {
     expect(component.snackBar.open).toHaveBeenCalledWith(DELETE_SUCCESS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS);
   });
 
-  it('should notify invalid delete when boolean', () => {
+  it('should notify invalid delete when false boolean', () => {
     component.deleteFunction = jasmine.createSpy().and.returnValue(of(false));
     component.confirm();
     expect(component.deleteFunction).toHaveBeenCalledTimes(1);

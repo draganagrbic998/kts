@@ -49,8 +49,10 @@ public class AddNewsTest {
 		this.culturalDetails.moreButtonClick();
 		this.culturalDialog.ensureToggleDrawerDisplayed();
 		this.culturalDialog.toggleDrawerClick();
-		this.culturalDialog.ensureSwitchToNewsDisplayed();
-		this.culturalDialog.switchToNewsList();
+		this.culturalDialog.ensureCommentsTabDisplayed();
+		this.culturalDialog.commentsTabClick();
+		this.culturalDialog.ensureNewsTabDisplayed();
+		this.culturalDialog.newsTabClick();
 		this.culturalDialog.ensureAddNewsButtonDisplayed();
 		this.culturalDialog.addNewsButtonClick();
 		this.newsForm.ensureFormDisplayed();

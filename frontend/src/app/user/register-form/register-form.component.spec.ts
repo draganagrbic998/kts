@@ -201,7 +201,7 @@ describe('RegisterFormComponent', () => {
     expect(component.userService.register).not.toHaveBeenCalled();
   });
 
-  it('should notify valid profile update', () => {
+  it('should notify valid form submit', () => {
     (component.userService.register as any).and.returnValue(of({}));
     component.registerForm.reset({
       email: 'dummy@gmail.com',

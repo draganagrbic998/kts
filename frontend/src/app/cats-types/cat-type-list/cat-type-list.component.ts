@@ -20,7 +20,7 @@ export class CatTypeListComponent implements OnInit {
   ) { }
 
   @Input() cats: boolean;
-  catTypes: Category[] | Type[];
+  catTypes: Category[] | Type[] = [];
   fetchPending = true;
   pagination: Pagination = {
     pageNumber: 0,

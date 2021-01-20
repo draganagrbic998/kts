@@ -37,6 +37,24 @@ public class LoginPage {
 		this.browser = browser;
 	}
 		
+	public void ensureFormDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.emailInput));
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.passwordInput));
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.loginButton));
+	}
+		
+	public void ensureEmailErrorDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.emailError));
+	}
+	
+	public void ensurePasswordErrorDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.passwordError));
+	}
+	
+	public void ensureSnackBarDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.snackBar));
+	}
+
 	public void emailInputFill(String value) {
 		this.emailInput.clear();
 		this.emailInput.sendKeys(value);			
@@ -52,25 +70,7 @@ public class LoginPage {
 	public void loginButtonClick() {
 		this.loginButton.click();
 	}
-	
-	public void ensureFormDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.emailInput));
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.passwordInput));
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.loginButton));
-	}
-	
-	public void ensureSnackBarDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.snackBar));
-	}
-	
-	public void ensureEmailErrorDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.emailError));
-	}
-	
-	public void ensurePasswordErrorDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.passwordError));
-	}
-	
+		
 	public boolean emptyEmailError() {
 		return this.emailError.isDisplayed() && this.emailError.getText().equals("Email is required!");
 	}

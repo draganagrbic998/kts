@@ -403,7 +403,7 @@ describe('HomeComponent', () => {
     expect(component.culturalOffers[0]).toEqual(offersMock);
   }));
 
-  it('should refresh data by adding an offer to the user following list', fakeAsync(() => {
+  it('should refresh data by adding an offer to the user-following list', fakeAsync(() => {
     userMock.role = GUEST_ROLE;
     tick();
     expect(component.refreshData).toHaveBeenCalledTimes(1);
@@ -416,7 +416,7 @@ describe('HomeComponent', () => {
     expect(component.culturalOffers[1]).toEqual([offersMock[0]]);
   }));
 
-  it('should not refresh data by altering the user following list when admin', fakeAsync(() => {
+  it('should not refresh data by altering the user-following list when admin', fakeAsync(() => {
     userMock.role = ADMIN_ROLE;
     tick();
     expect(component.refreshData).toHaveBeenCalledTimes(1);
@@ -429,29 +429,4 @@ describe('HomeComponent', () => {
     expect(component.culturalOffers[1].length).toEqual(0);
   }));
 
-  it('should not refresh data by altering the user following list when invalid offer id', fakeAsync(() => {
-    userMock.role = GUEST_ROLE;
-    tick();
-    expect(component.refreshData).toHaveBeenCalledTimes(1);
-    expect(component.refreshData).toHaveBeenCalledWith(0);
-
-    component.refreshData(offersMockFourthAdded[0]);
-    expect(component.refreshData).toHaveBeenCalledTimes(2);
-    expect(component.refreshData).toHaveBeenCalledWith(offersMockFourthAdded[0]);
-    expect(component.culturalOffers[0]).toEqual(offersMock);
-    expect(component.culturalOffers[1].length).toEqual(0);
-  }));
-
-  it('should refresh data by removing an offer from the user following list', fakeAsync(() => {
-    userMock.role = GUEST_ROLE;
-    tick();
-    expect(component.refreshData).toHaveBeenCalledTimes(1);
-    expect(component.refreshData).toHaveBeenCalledWith(0);
-
-    component.refreshData(offersMockFirstUnfollowed[0]);
-    expect(component.refreshData).toHaveBeenCalledTimes(2);
-    expect(component.refreshData).toHaveBeenCalledWith((offersMockFirstUnfollowed[0]));
-    expect(component.culturalOffers[0]).toEqual(offersMockFirstUnfollowed);
-    expect(component.culturalOffers[1].length).toEqual(0);
-  }));
 });

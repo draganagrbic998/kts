@@ -25,8 +25,8 @@ public class ValidTypeTest {
 	private CatTypeDialog catTypeDialog;
 	private TypeForm typeForm;
 	private CatTypeDetails typeDetails;
-	private ImageInput imageInput;
 	private DeleteConfirmation deleteConfirmation;
+	private ImageInput imageInput;
 
 	private static final String SUCCESS = "Type successfully added!";
 
@@ -41,8 +41,8 @@ public class ValidTypeTest {
 		this.catTypeDialog = PageFactory.initElements(this.browser, CatTypeDialog.class);
 		this.typeForm = PageFactory.initElements(this.browser, TypeForm.class);
 		this.typeDetails = PageFactory.initElements(this.browser, CatTypeDetails.class);
-		this.imageInput = PageFactory.initElements(this.browser, ImageInput.class);
 		this.deleteConfirmation = PageFactory.initElements(this.browser, DeleteConfirmation.class);
+		this.imageInput = PageFactory.initElements(this.browser, ImageInput.class);
 		this.browser.navigate().to(TestConstants.LOGIN_PATH);
 		this.loginPage.ensureFormDisplayed();
 		this.loginPage.emailInputFill(TestConstants.ADMIN_EMAIL);
@@ -54,6 +54,8 @@ public class ValidTypeTest {
 		this.homePage.catsTypesButtonClick();
 		this.homePage.ensureTypesButtonDisplayed();
 		this.homePage.typesButtonClick();
+		this.catTypeDialog.ensureListTabDisplayed();
+		this.catTypeDialog.listTabClick();
 		this.catTypeDialog.ensureCreateTabDisplayed();
 		this.catTypeDialog.createTabClick();
 		this.typeForm.ensureFormDisplayed();
@@ -61,7 +63,6 @@ public class ValidTypeTest {
 
 	@Test
 	public void test() {
-		//kreiranje
 		String category = "institution";
 		String name = "aaaaaaaaaa";
 		this.typeForm.categoryInputFill(category);
@@ -75,9 +76,7 @@ public class ValidTypeTest {
 		this.catTypeDialog.ensureListTabDisplayed();
 		this.catTypeDialog.listTabClick();
 		assertEquals(name, this.typeDetails.nameText());
-		assertEquals(TestConstants.HOME_PATH, this.browser.getCurrentUrl());
 
-		//brisanje
 		this.typeDetails.deleteButtonClick();
 		this.deleteConfirmation.ensureDialogDisplayed();
 		this.deleteConfirmation.confirmButtonClick();

@@ -18,6 +18,7 @@ describe('ImageComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ImageComponent);
     component = fixture.componentInstance;
+    component.image = null;
     spyOn(component.deleted, 'emit');
     fixture.detectChanges();
   });

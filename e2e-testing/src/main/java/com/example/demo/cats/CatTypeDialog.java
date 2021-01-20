@@ -27,18 +27,6 @@ public class CatTypeDialog {
 		this.browser = browser;
 	}
 	
-	public void listTabClick() {
-		this.listTab.click();
-	}
-			
-	public void createTabClick() {
-		this.createTab.click();
-	}
-	
-	public void cancelButtonClick() {
-		this.cancelButton.click();
-	}
-
 	public void ensureListTabDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.listTab));
 	}
@@ -53,6 +41,18 @@ public class CatTypeDialog {
 		
 	public void ensureDialogClosed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.tagName("app-cat-type-dialog")));
+	}
+	
+	public void listTabClick() {
+		this.listTab.click();
+	}
+			
+	public void createTabClick() {
+		this.createTab.click();
+	}
+	
+	public void cancelButtonClick() {
+		this.cancelButton.click();
 	}
 	
 }

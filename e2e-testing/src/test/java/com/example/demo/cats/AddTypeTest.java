@@ -45,6 +45,8 @@ public class AddTypeTest {
 		this.homePage.catsTypesButtonClick();
 		this.homePage.ensureTypesButtonDisplayed();
 		this.homePage.typesButtonClick();
+		this.catTypeDialog.ensureListTabDisplayed();
+		this.catTypeDialog.listTabClick();
 		this.catTypeDialog.ensureCreateTabDisplayed();
 		this.catTypeDialog.createTabClick();
 		this.typeForm.ensureFormDisplayed();

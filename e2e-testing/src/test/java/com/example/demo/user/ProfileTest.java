@@ -152,14 +152,15 @@ public class ProfileTest {
 		this.profilePage.saveButtonClick();
 		this.profilePage.ensureSnackBarDisplayed();
 		assertEquals(SUCCESS, this.profilePage.snackBarText());
-		assertEquals(TestConstants.PROFILE_PATH, this.browser.getCurrentUrl());
 		this.profilePage.closeSnackBar();
+		assertEquals(TestConstants.PROFILE_PATH, this.browser.getCurrentUrl());
 		this.profilePage.emailInputFill(TestConstants.GUEST_EMAIL);
 		this.profilePage.firstNameInputFill(TestConstants.GUEST_FIRST_NAME);
 		this.profilePage.lastNameInputFill(TestConstants.GUEST_LAST_NAME);
 		this.profilePage.saveButtonClick();
 		this.profilePage.ensureSnackBarDisplayed();
 		assertEquals(SUCCESS, this.profilePage.snackBarText());
+		this.profilePage.closeSnackBar();
 		assertEquals(TestConstants.PROFILE_PATH, this.browser.getCurrentUrl());
 	}
 	
@@ -171,14 +172,15 @@ public class ProfileTest {
 		this.profilePage.saveButtonClick();
 		this.profilePage.ensureSnackBarDisplayed();
 		assertEquals(SUCCESS, this.profilePage.snackBarText());
-		assertEquals(TestConstants.PROFILE_PATH, this.browser.getCurrentUrl());
 		this.profilePage.closeSnackBar();
+		assertEquals(TestConstants.PROFILE_PATH, this.browser.getCurrentUrl());
 		this.profilePage.oldPasswordInputFill(TestConstants.NEW_PASSWORD);
 		this.profilePage.newPasswordInputFill(TestConstants.LOGIN_PASSWORD);
 		this.profilePage.newPasswordConfirmationInputFill(TestConstants.LOGIN_PASSWORD);
 		this.profilePage.saveButtonClick();
 		this.profilePage.ensureSnackBarDisplayed();
 		assertEquals(SUCCESS, this.profilePage.snackBarText());
+		this.profilePage.closeSnackBar();
 		assertEquals(TestConstants.PROFILE_PATH, this.browser.getCurrentUrl());		
 	}
 	
@@ -190,6 +192,7 @@ public class ProfileTest {
 		this.profilePage.saveButtonClick();
 		this.profilePage.ensureSnackBarDisplayed();
 		assertEquals(TestConstants.ERROR_MESSAGE, this.profilePage.snackBarText());
+		this.profilePage.closeSnackBar();
 		assertEquals(TestConstants.PROFILE_PATH, this.browser.getCurrentUrl());
 	}
 	

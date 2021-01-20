@@ -8,7 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { of } from 'rxjs';
 import { News } from 'src/app/models/news';
-import { SNACKBAR_CLOSE, SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
+import { SNACKBAR_CLOSE, SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 
 describe('NewsFormComponent', () => {
   let component: NewsFormComponent;
@@ -111,7 +111,7 @@ describe('NewsFormComponent', () => {
       text: component.text.value
     } as News, component.images);
     expect(component.snackBar.open).toHaveBeenCalledTimes(1);
-    expect(component.snackBar.open).toHaveBeenCalledWith(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+    expect(component.snackBar.open).toHaveBeenCalledWith(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
   }));
 
   it('should notify valid save', fakeAsync(() => {

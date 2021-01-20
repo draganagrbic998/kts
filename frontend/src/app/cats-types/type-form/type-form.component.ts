@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, of, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { AUTOCOMPLETE_DEBOUNCE, AUTOCOMPLETE_LENGTH } from 'src/app/constants/autocomplete';
-import { SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
+import { SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS, SNACKBAR_CLOSE, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 import { Image } from 'src/app/models/image';
 import { CategoryService } from 'src/app/cats-types/services/category.service';
 import { TypeService } from 'src/app/cats-types/services/type.service';
@@ -22,8 +22,8 @@ export class TypeFormComponent implements OnInit {
   constructor(
     public typeService: TypeService,
     public categoryService: CategoryService,
-    private typeValidator: TypeValidatorService,
-    private categoryValidator: CategoryValidatorService,
+    public typeValidator: TypeValidatorService,
+    public categoryValidator: CategoryValidatorService,
     public snackBar: MatSnackBar
   ) { }
 
@@ -61,7 +61,7 @@ export class TypeFormComponent implements OnInit {
           this.typeService.announceRefreshData();
         }
         else{
-          this.snackBar.open(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+          this.snackBar.open(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
         }
       }
     );

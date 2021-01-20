@@ -16,7 +16,6 @@ describe('CatTypeDetailsComponent', () => {
     name: 'name1'
   };
 
-
   beforeEach(async () => {
     const categoryServiceMock = {
       announceRefreshData: jasmine.createSpy('announceRefreshData')

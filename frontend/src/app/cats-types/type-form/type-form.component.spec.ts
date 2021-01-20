@@ -9,18 +9,16 @@ import { CategoryValidatorService } from '../services/category-validator.service
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { By } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Type } from 'src/app/models/type';
-import { SNACKBAR_CLOSE, SNACKBAR_ERROR_MESSAGE, SNACKBAR_ERROR_OPTIONS, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
+import { SNACKBAR_CLOSE, SNACKBAR_ERROR, SNACKBAR_ERROR_OPTIONS, SNACKBAR_SUCCESS_OPTIONS } from 'src/app/constants/snackbar';
 
 describe('TypeFormComponent', () => {
   let component: TypeFormComponent;
   let fixture: ComponentFixture<TypeFormComponent>;
   const categoryFilters: string[] = ['category1', 'category2', 'category3'];
-
   const typeValidator: any = {};
   const categoryValidator: any = {};
-
 
   beforeEach(async () => {
     const typeServiceMock = {
@@ -41,8 +39,7 @@ describe('TypeFormComponent', () => {
     };
     await TestBed.configureTestingModule({
       declarations: [ TypeFormComponent ],
-      imports: [[MatAutocompleteModule, ReactiveFormsModule],
-      ],
+      imports: [MatAutocompleteModule, ReactiveFormsModule, FormsModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         {provide: TypeService, useValue: typeServiceMock},
@@ -112,14 +109,18 @@ describe('TypeFormComponent', () => {
   it('should recognize taken name', () => {
     typeValidator.nameError = true;
     component.typeForm.reset({
-      name: 'asd'
+      name: 'asd',
+      category: ''
     });
     expect(component.typeForm.valid).toBeFalse();
     expect(component.typeForm.controls.name.valid).toBeFalse();
     expect(component.typeForm.controls.name.errors.nameError).toBeTruthy();
+    expect(component.typeForm.controls.category.valid).toBeFalse();
+    expect(component.typeForm.controls.category.errors.required).toBeTruthy();
     fixture.detectChanges();
     const de: DebugElement[] = fixture.debugElement.queryAll(By.css('mat-error'));
     expect(de[0].nativeElement.textContent.trim()).toBe('Name already exists!');
+    expect(de[1].nativeElement.textContent.trim()).toBe('Category is required!');
   });
 
   it('should recognize non existing category', () => {
@@ -169,7 +170,7 @@ describe('TypeFormComponent', () => {
       category: component.typeForm.value.category
     } as Type, component.image);
     expect(component.snackBar.open).toHaveBeenCalledTimes(1);
-    expect(component.snackBar.open).toHaveBeenCalledWith(SNACKBAR_ERROR_MESSAGE, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
+    expect(component.snackBar.open).toHaveBeenCalledWith(SNACKBAR_ERROR, SNACKBAR_CLOSE, SNACKBAR_ERROR_OPTIONS);
   });
 
   it('should notify valid save', () => {

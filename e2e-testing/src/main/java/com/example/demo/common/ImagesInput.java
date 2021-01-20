@@ -37,18 +37,6 @@ public class ImagesInput {
 		super();
 		this.browser = browser;
 	}
-
-	public void uploadFile(String filePath) {
-		this.fileInput.sendKeys(new File(filePath).getAbsolutePath());
-	}
-	
-	public void deleteFirstImage() {
-		this.firstImageDelete.click();
-	}
-	
-	public void deleteSecondImage() {
-		this.secondImageDelete.click();
-	}
 	
 	public void ensureNoImagesDisplayed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(FIRST_IMAGE_XPATH)));
@@ -65,6 +53,18 @@ public class ImagesInput {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.secondImage));
 	}
 	
+	public void uploadFile(String filePath) {
+		this.fileInput.sendKeys(new File(filePath).getAbsolutePath());
+	}
+	
+	public void deleteFirstImage() {
+		this.firstImageDelete.click();
+	}
+	
+	public void deleteSecondImage() {
+		this.secondImageDelete.click();
+	}
+
 	public int imagesCount() {
 		return this.browser.findElements(By.tagName("app-image")).size();
 	}

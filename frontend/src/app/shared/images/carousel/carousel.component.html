@@ -1,7 +1,5 @@
 <mdb-carousel class="carousel-fade" [animation]="'fade'">
-    <mdb-carousel-item *ngFor="let image of images; let i = index">
-        <img 
-        [src]="image.path || '../../../assets/noimage.png'" 
-        (error)="images[i]=null" >
+    <mdb-carousel-item *ngFor="let image of images">
+        <img [src]="image">
     </mdb-carousel-item>
 </mdb-carousel>        

@@ -46,18 +46,14 @@ public class CulturalForm {
 		this.browser = browser;
 	}
 	
-	public void cancelButtonClick() {
-		this.cancelButton.click();
+	public void ensureFormDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.typeInput));		
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.nameInput));		
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.locationInput));		
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.cancelButton));
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.saveButton));		
 	}
-	
-	public void saveButtonClick() {
-		this.saveButton.click();
-	}
-
-	public void autocompleteSuggestionClick() {
-		this.autocompleteSuggestion.click();
-	}
-	
+		
 	public void typeInputFill(String value) {
 		this.typeInput.clear();
 		this.typeInput.sendKeys(value);
@@ -80,16 +76,16 @@ public class CulturalForm {
 		this.locationInput.sendKeys(Keys.SPACE, Keys.BACK_SPACE);
 	}
 	
-	public void ensureFormDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.typeInput));		
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.nameInput));		
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.locationInput));		
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.cancelButton));
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.saveButton));		
+	public void cancelButtonClick() {
+		this.cancelButton.click();
 	}
 	
-	public void ensureAutocompleteSuggestionDisplayed() {
-		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.autocompleteSuggestion));
+	public void saveButtonClick() {
+		this.saveButton.click();
+	}
+
+	public void autocompleteSuggestionClick() {
+		this.autocompleteSuggestion.click();
 	}
 		
 	public void ensureTypeErrorDisplayed() {
@@ -104,6 +100,10 @@ public class CulturalForm {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.locationError));
 	}
 	
+	public void ensureAutocompleteSuggestionDisplayed() {
+		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.elementToBeClickable(this.autocompleteSuggestion));
+	}
+
 	public void ensureDialogClosed() {
 		(new WebDriverWait(this.browser, Constants.TIMEOUT_WAIT)).until(ExpectedConditions.invisibilityOfElementLocated(By.tagName("app-cultural-form")));
 	}

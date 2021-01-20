@@ -20,13 +20,6 @@ export class CategoryService {
   private refreshData: Subject<void> = new Subject();
   refreshData$ = this.refreshData.asObservable();
 
-  list(page: number): Observable<HttpResponse<Category[]>>{
-    const params = new HttpParams().set('page', page + '').set('size', SMALL_PAGE_SIZE + '');
-    return this.http.get<Category[]>(this.API_CATEGORIES, { observe: 'response', params}).pipe(
-      catchError(() => of(null))
-    );
-  }
-
   save(category: Category): Observable<Category>{
     return this.http.post<null>(this.API_CATEGORIES, category).pipe(
       catchError(() => of(null))
@@ -50,6 +43,13 @@ export class CategoryService {
   filterNames(filter: string): Observable<string[]>{
     return this.http.post<string[]>(`${this.API_CATEGORIES}/filter_names`, {value: filter}).pipe(
       catchError(() => of([]))
+    );
+  }
+
+  list(page: number): Observable<HttpResponse<Category[]>>{
+    const params = new HttpParams().set('page', page + '').set('size', SMALL_PAGE_SIZE + '');
+    return this.http.get<Category[]>(this.API_CATEGORIES, { observe: 'response', params}).pipe(
+      catchError(() => of(null))
     );
   }
 

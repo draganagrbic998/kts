@@ -79,28 +79,34 @@ export class HomeComponent implements OnInit {
   }
 
   refreshData(response: CulturalOffer | number): void{
-    const temp: number[] = this.culturalOffers[0].map(co => co.id);
+    const temp1: number[] = this.culturalOffers[0].map(co => co.id);
+    const temp2: number[] = this.culturalOffers[1].map(co => co.id);
     if (typeof response === 'number'){
-      const index: number = temp.indexOf(response);
-      if (index !== -1 && this.admin){
-        this.culturalOffers[0].splice(index, 1);
+      if (this.admin){
+        const index: number = temp1.indexOf(response);
+        if (index !== -1){
+          this.culturalOffers[0].splice(index, 1);
+        }
       }
     }
     else{
-      let index: number = temp.indexOf(response.id);
       if (this.admin){
+        const index: number = temp1.indexOf(response.id);
         if (index === -1){
-          index = 0;
-          this.culturalOffers[0].splice(index, 0, response);
+          this.culturalOffers[0].splice(0, 0, response);
         }
         else {
           this.culturalOffers[0].splice(index, 1, response);
         }
       }
-      else if (this.guest && index !== -1){
-        this.culturalOffers[0].splice(index, 1, response);
-        if (response.followed){
-          this.culturalOffers[1].push(response);
+      else if (this.guest){
+        let index: number = temp1.indexOf(response.id);
+        if (index !== -1){
+          this.culturalOffers[0].splice(index, 1, response);
+        }
+        index = temp2.indexOf(response.id);
+        if (index === -1){
+          this.culturalOffers[1].splice(0, 0, response);
         }
         else {
           this.culturalOffers[1].splice(index, 1);
