@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.dto.FilterParamsDTO;
 import com.example.demo.dto.UniqueCheckDTO;
 import com.example.demo.model.CulturalOffer;
+import com.example.demo.model.Image;
 import com.example.demo.repository.CulturalOfferRepository;
 
 @Service
@@ -57,7 +58,9 @@ public class CulturalOfferService {
 	@Transactional(readOnly = false)
 	public CulturalOffer save(CulturalOffer culturalOffer, MultipartFile upload) {
 		if (upload != null) {
-			culturalOffer.setImage(this.imageService.store(upload));
+			Image image = new Image(this.imageService.store(upload));
+			culturalOffer.setImage(image.getPath());
+			this.imageService.save(image);
 		}
 		return this.culturalOfferRepository.save(culturalOffer);
 	}

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.dto.UniqueCheckDTO;
+import com.example.demo.model.Image;
 import com.example.demo.model.Type;
 import com.example.demo.repository.TypeRepository;
 
@@ -46,7 +47,9 @@ public class TypeService {
 	@Transactional(readOnly = false)
 	public Type save(Type type, MultipartFile upload) {
 		if(upload != null) {
-			type.setPlacemarkIcon(this.imageService.store(upload));
+			Image image = new Image(this.imageService.store(upload));
+			type.setPlacemarkIcon(image.getPath());
+			this.imageService.save(image);
 		}
 		return this.typeRepository.save(type);
 	}

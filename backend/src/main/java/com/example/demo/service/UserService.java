@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.constants.Constants;
 import com.example.demo.dto.UniqueCheckDTO;
+import com.example.demo.model.Image;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserFollowingRepository;
 import com.example.demo.repository.UserRepository;
@@ -41,7 +42,9 @@ public class UserService implements UserDetailsService {
 	@Transactional(readOnly = false)
 	public User save(User user, MultipartFile upload) {
 		if (upload != null) {
-			user.setImage(this.imageService.store(upload));
+			Image image = new Image(this.imageService.store(upload));
+			user.setImage(image.getPath());
+			this.imageService.save(image);
 		}
 		return this.userRepository.save(user);
 	}
