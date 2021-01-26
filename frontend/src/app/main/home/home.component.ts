@@ -122,6 +122,7 @@ export class HomeComponent implements OnInit {
     });
     this.culturalService.filterData$.subscribe((filterParams: FilterParams) => {
       this.filterParams[this.selectedTab] = filterParams;
+      this.pagination[this.selectedTab].pageNumber = 0;
       this.changePage(0);
     });
   }
