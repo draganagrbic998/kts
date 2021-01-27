@@ -11,14 +11,15 @@ import java.util.List;
 
 import javax.validation.ConstraintViolationException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,9 +29,12 @@ import com.example.demo.constants.CulturalOfferConstants;
 import com.example.demo.constants.MainConstants;
 import com.example.demo.constants.UserConstants;
 import com.example.demo.model.Comment;
+import com.example.demo.model.User;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.repository.CulturalOfferRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.security.AuthToken;
+import com.example.demo.security.TokenUtils;
 import com.example.demo.service.CommentService;
 
 @RunWith(SpringRunner.class)
@@ -48,12 +52,23 @@ public class CommentServiceTest {
 	
 	@Autowired
 	private CulturalOfferRepository culturalOfferRepository;
+	
+	@Autowired
+	private TokenUtils tokenUtils;
 
 	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
 	
+	@Before
+	public void setUp() {
+		User user = this.userRepository.findById(UserConstants.ID_ONE).orElse(null);
+		String token = this.tokenUtils.generateToken(user.getUsername());
+		AuthToken authToken = new AuthToken(user, token);
+		SecurityContextHolder.getContext().setAuthentication(authToken);
+	}
+
 	@Test
 	public void testTotalRateMore() {
 		double totalRate = 
@@ -173,7 +188,7 @@ public class CommentServiceTest {
 		assertNull(this.commentRepository.findById(CommentConstants.ID_ONE).orElse(null));
 	}
 	
-	@Test(expected = EmptyResultDataAccessException.class)
+	@Test(expected = NullPointerException.class)
 	@Transactional
 	@Rollback(true)
 	public void testDeleteNonExisting() {
@@ -264,7 +279,7 @@ public class CommentServiceTest {
 		assertEquals(CommentConstants.TEXT_ONE, comment.getText());
 	}
 	
-	@Test(expected = ConstraintViolationException.class)
+	@Test(expected = NullPointerException.class)
 	@Transactional
 	@Rollback(true)
 	public void testUpdateNullUser() {

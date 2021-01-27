@@ -36,7 +36,7 @@ public class LoginTest {
 	}
 	
 	@Test
-	public void testEmptyForm() throws InterruptedException {
+	public void testEmptyForm() {
 		this.loginPage.emailInputFill("");
 		this.loginPage.passwordInputFill("");
 		this.loginPage.loginButtonClick();

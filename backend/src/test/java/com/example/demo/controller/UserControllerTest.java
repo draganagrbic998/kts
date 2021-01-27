@@ -77,7 +77,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -91,7 +91,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -105,7 +105,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -119,7 +119,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.INVALID_EMAIL, response.getBody().getMessage());
 	}
 	
@@ -133,7 +133,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.UNIQUE_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -147,7 +147,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -161,7 +161,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -175,7 +175,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -189,7 +189,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -203,7 +203,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -217,7 +217,7 @@ public class UserControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(userDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	

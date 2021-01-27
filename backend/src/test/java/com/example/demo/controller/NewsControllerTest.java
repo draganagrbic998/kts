@@ -294,7 +294,7 @@ public class NewsControllerTest {
 				HttpMethod.DELETE, 
 				this.httpEntity(null),
 				ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 		assertEquals(ExceptionConstants.INVALID_ID, response.getBody().getMessage());
 	}
 
@@ -327,7 +327,7 @@ public class NewsControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(newsDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
 
@@ -341,7 +341,7 @@ public class NewsControllerTest {
 						HttpMethod.POST,
 						this.httpEntity(newsDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 
@@ -355,7 +355,7 @@ public class NewsControllerTest {
 						HttpMethod.POST,
 						this.httpEntity(newsDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 
@@ -369,7 +369,7 @@ public class NewsControllerTest {
 						HttpMethod.POST,
 						this.httpEntity(newsDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 
@@ -406,7 +406,7 @@ public class NewsControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(newsDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
 
@@ -421,7 +421,7 @@ public class NewsControllerTest {
 						HttpMethod.POST,
 						this.httpEntity(newsDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 
@@ -436,7 +436,7 @@ public class NewsControllerTest {
 						HttpMethod.POST,
 						this.httpEntity(newsDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 
@@ -451,7 +451,7 @@ public class NewsControllerTest {
 						HttpMethod.POST,
 						this.httpEntity(newsDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 

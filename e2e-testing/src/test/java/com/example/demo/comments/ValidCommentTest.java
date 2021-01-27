@@ -73,7 +73,7 @@ public class ValidCommentTest {
 		this.commentDetails.ensureHasNoImages();
 		assertEquals(text, this.commentDetails.getText());
 
-		text = "dummy";
+		text = "jummy";
 		this.commentDetails.editButtonClick();
 		this.commentForm.ensureFormDisplayed();
 		this.commentForm.textInputFill(text);
@@ -97,7 +97,7 @@ public class ValidCommentTest {
 	
 	@Test
 	public void testStars() {
-		String text = "gummy3";
+		String text = "dummy";
 		this.commentForm.textInputFill(text);
 		this.commentForm.thirdStarClick();
 		this.commentForm.saveButtonClick();
@@ -108,7 +108,7 @@ public class ValidCommentTest {
 		this.commentDetails.ensureHasNoImages();
 		assertEquals(text, this.commentDetails.getText());
 
-		text = "gummy3";
+		text = "jummy";
 		this.commentDetails.editButtonClick();
 		this.commentForm.ensureFormDisplayed();
 		this.commentForm.textInputFill(text);
@@ -133,7 +133,7 @@ public class ValidCommentTest {
 	
 	@Test
 	public void testImages() {
-		String text = "jummy1";
+		String text = "dummy";
 		this.commentForm.textInputFill(text);
 		this.imagesInput.uploadFile(TestConstants.TEST_IMAGE);
 		this.imagesInput.ensureOneImageDisplayed();
@@ -151,7 +151,7 @@ public class ValidCommentTest {
 		this.commentDetails.ensureImageDisplayed();
 		assertEquals(text, this.commentDetails.getText());
 
-		text = "jummy1";
+		text = "jummy";
 		this.commentDetails.editButtonClick();
 		this.commentForm.ensureFormDisplayed();
 		this.commentForm.textInputFill(text);

@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -32,6 +33,7 @@ import com.example.demo.model.CulturalOffer;
 import com.example.demo.model.User;
 import com.example.demo.repository.CommentRepository;
 import com.example.demo.service.CommentService;
+import com.example.demo.service.UserService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -42,12 +44,23 @@ public class CommentServiceTest {
 	
 	@MockBean
 	private CommentRepository commentRepository;
+	
+	@MockBean
+	private UserService userService;
 
 	private Pageable pageableTotal = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.TOTAL_SIZE);
 	private Pageable pageablePart = PageRequest.of(MainConstants.NONE_SIZE, MainConstants.PART_SIZE);
 	private Pageable pageableNonExisting = PageRequest.of(MainConstants.ONE_SIZE, MainConstants.TOTAL_SIZE);
 	private SimpleDateFormat format = new SimpleDateFormat(MainConstants.DATE_FORMAT);
 	
+	@Before
+	public void setUp() {
+		User user = new User();
+		user.setId(UserConstants.ID_ONE);
+		Mockito.when(this.userService.currentUser())
+		.thenReturn(user);
+	}
+
 	@Test
 	public void testTotalRateMore() {
 		Mockito.when(this.commentRepository.totalRate(CulturalOfferConstants.ID_ONE))
@@ -171,8 +184,11 @@ public class CommentServiceTest {
 	@Test
 	public void testDeleteExisting() {
 		Comment comment = new Comment();
+		User user = new User();
+		user.setId(UserConstants.ID_ONE);
 		CulturalOffer offer = new CulturalOffer();
 		offer.setId(MainConstants.NON_EXISTING_ID);
+		comment.setUser(user);
 		comment.setCulturalOffer(offer);
 		Mockito.when(this.commentRepository.findById(CommentConstants.ID_ONE))
 		.thenReturn(Optional.of(comment));
@@ -188,7 +204,7 @@ public class CommentServiceTest {
 		assertNull(this.commentRepository.findById(CommentConstants.ID_ONE).orElse(null));
 	}
 	
-	@Test(expected = EmptyResultDataAccessException.class)
+	@Test(expected = NullPointerException.class)
 	public void testDeleteNonExisting() {
 		Comment comment = new Comment();
 		CulturalOffer offer = new CulturalOffer();
@@ -290,7 +306,7 @@ public class CommentServiceTest {
 		assertEquals(CommentConstants.TEXT_ONE, comment.getText());
 	}
 	
-	@Test(expected = ConstraintViolationException.class)
+	@Test(expected = NullPointerException.class)
 	public void testUpdateNullUser() {
 		Comment comment = this.testingComment();
 		comment.setId(CommentConstants.ID_ONE);

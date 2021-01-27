@@ -144,7 +144,7 @@ public class AuthControllerTest {
 						HttpMethod.GET, 
 						this.httpEntity(null), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_FOUND, response.getBody().getMessage());
 	}
 	
@@ -183,7 +183,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -197,7 +197,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -211,7 +211,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -225,7 +225,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.INVALID_EMAIL, response.getBody().getMessage());
 	}
 	
@@ -239,7 +239,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.UNIQUE_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -253,7 +253,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -267,7 +267,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -281,7 +281,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -295,7 +295,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -309,7 +309,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -323,7 +323,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -337,7 +337,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -351,7 +351,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -365,7 +365,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(registration), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -411,7 +411,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(login), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -425,7 +425,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(login), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -439,7 +439,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(login), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -453,7 +453,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(login), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -467,7 +467,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(login), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -481,7 +481,7 @@ public class AuthControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(login), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 	

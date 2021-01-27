@@ -79,7 +79,7 @@ public class ValidNewsTest {
 		this.newsDetails.ensureHasNoImages();
 		assertEquals(text, this.newsDetails.getText());
 
-		text = "dummy";
+		text = "jummy";
 		this.newsDetails.editButtonClick();
 		this.newsForm.ensureFormDisplayed();
 		this.newsForm.textInputFill(text);
@@ -103,7 +103,7 @@ public class ValidNewsTest {
 	
 	@Test
 	public void testImages() {
-		String text = "jummy1";
+		String text = "dummy";
 		this.newsForm.textInputFill(text);
 		this.imagesInput.uploadFile(TestConstants.TEST_IMAGE);
 		this.imagesInput.ensureOneImageDisplayed();
@@ -124,7 +124,7 @@ public class ValidNewsTest {
 		this.newsDetails.ensureHasNoImages();
 		assertEquals(text, this.newsDetails.getText());
 
-		text = "jummy1";
+		text = "jummy";
 		this.newsDetails.editButtonClick();
 		this.newsForm.ensureFormDisplayed();
 		this.newsForm.textInputFill(text);

@@ -301,7 +301,7 @@ public class UserFollowingControllerTest {
 						HttpMethod.GET, 
 						this.httpEntity(null), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.NOT_EMPTY_VIOLATION, response.getBody().getMessage());
 	}
 

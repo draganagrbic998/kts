@@ -230,7 +230,7 @@ public class CategoryControllerTest {
 						HttpMethod.DELETE, 
 						this.httpEntity(null), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertEquals(ExceptionConstants.UNIQUE_VIOLATION, response.getBody().getMessage());
 	}
 	
@@ -242,7 +242,7 @@ public class CategoryControllerTest {
 						HttpMethod.DELETE, 
 						this.httpEntity(null), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 		assertEquals(ExceptionConstants.INVALID_ID, response.getBody().getMessage());
 	}
 	
@@ -273,7 +273,7 @@ public class CategoryControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(categoryDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
 	
@@ -287,7 +287,7 @@ public class CategoryControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(categoryDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
 	
@@ -301,7 +301,7 @@ public class CategoryControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(categoryDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
 	
@@ -315,7 +315,7 @@ public class CategoryControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(categoryDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_VIOLATION));
 	}
 	
@@ -350,7 +350,7 @@ public class CategoryControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(categoryDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
 	
@@ -365,7 +365,7 @@ public class CategoryControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(categoryDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
 	
@@ -380,7 +380,7 @@ public class CategoryControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(categoryDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.NOT_EMPTY_VIOLATION));
 	}
 	
@@ -395,7 +395,7 @@ public class CategoryControllerTest {
 						HttpMethod.POST, 
 						this.httpEntity(categoryDTO), 
 						ExceptionMessage.class);
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+		assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
 		assertTrue(response.getBody().getMessage().contains(ExceptionConstants.UNIQUE_VIOLATION));
 	}
 	
